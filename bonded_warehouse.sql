@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 03, 2017 at 04:45 PM
+-- Generation Time: Jul 03, 2017 at 08:19 PM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.1
 
@@ -70,7 +70,8 @@ INSERT INTO `document_verification` (`do_ver_id`, `sac_par_table`, `sac_par_id`,
 (6, 'par', 4, '34', '44', '788', '0000-00-00', '344', '2017-06-23', '9900', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'yes'),
 (7, 'par', 4, '1', '1', '1', '2017-06-27', '1', '2017-06-20', 's', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'no'),
 (8, 'par', 44, 'qq', 'qq', '44422', '2017-06-29', '1344', '2017-06-26', 'rr', 'no', 'no', 'yes', 'no', 'no', 'yes', 'yes', 'yes'),
-(9, 'par', 11, 'eer', 'qwwe', '334', '2017-07-11', 'qr445', '2017-07-17', '45t', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'yes');
+(9, 'par', 11, 'eer', 'qwwe', '334', '2017-07-11', 'qr445', '2017-07-17', '45t', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'yes'),
+(10, 'par', 44, '1', '1', '2233', '2017-07-27', '1', '2017-07-24', 'eerrttyy', 'no', 'no', 'yes', 'yes', 'yes', 'no', 'no', 'yes');
 
 -- --------------------------------------------------------
 
@@ -84,6 +85,7 @@ CREATE TABLE `dv_items` (
   `sac_par_table` varchar(10) NOT NULL,
   `sac_par_id` int(11) NOT NULL,
   `item_name` varchar(100) NOT NULL,
+  `item_qty` int(11) NOT NULL,
   `assessable_value` varchar(50) NOT NULL,
   `duty_value` varchar(50) NOT NULL,
   `insurance_value` varchar(50) NOT NULL
@@ -93,16 +95,18 @@ CREATE TABLE `dv_items` (
 -- Dumping data for table `dv_items`
 --
 
-INSERT INTO `dv_items` (`dv_item_id`, `container_number`, `sac_par_table`, `sac_par_id`, `item_name`, `assessable_value`, `duty_value`, `insurance_value`) VALUES
-(1, NULL, 'par', 1, 'a', '1', '1', '2'),
-(2, NULL, 'par', 1, 'b', '2', '2', '4'),
-(3, NULL, 'par', 1, 'c', '3', '3', '6'),
-(4, NULL, 'par', 2, '', '', '', ''),
-(5, NULL, 'par', 4, '', '', '', ''),
-(6, NULL, 'par', 4, '', '', '', ''),
-(7, 6644556, 'par', 44, 'dummy', '1', '1', '2'),
-(8, 937789, 'par', 44, 'dummy 2', '2', '2', '4'),
-(9, 0, 'par', 11, '', '', '', '');
+INSERT INTO `dv_items` (`dv_item_id`, `container_number`, `sac_par_table`, `sac_par_id`, `item_name`, `item_qty`, `assessable_value`, `duty_value`, `insurance_value`) VALUES
+(1, NULL, 'par', 1, 'a', 0, '1', '1', '2'),
+(2, NULL, 'par', 1, 'b', 0, '2', '2', '4'),
+(3, NULL, 'par', 1, 'c', 0, '3', '3', '6'),
+(4, NULL, 'par', 2, '', 0, '', '', ''),
+(5, NULL, 'par', 4, '', 0, '', '', ''),
+(6, NULL, 'par', 4, '', 0, '', '', ''),
+(7, 6644556, 'par', 44, 'dummy', 0, '1', '1', '2'),
+(8, 937789, 'par', 44, 'dummy 2', 0, '2', '2', '4'),
+(9, 0, 'par', 11, '', 0, '', '', ''),
+(10, 4355, 'par', 44, 'rrqq', 23, '1', '1', '2'),
+(11, 937789, 'par', 44, '334', 34, '2', '2', '4');
 
 -- --------------------------------------------------------
 
@@ -151,7 +155,14 @@ CREATE TABLE `good_receipt_note` (
 --
 
 INSERT INTO `good_receipt_note` (`grn_id`, `ju_id`, `sac_par_table`, `sac_par_id`, `space_occupied`, `location`, `validity`, `created_date`, `status`) VALUES
-(1, 1, 'sac', 1, '1', '1', '1', '2017-05-09 02:41:47', 'created');
+(1, 1, 'sac', 1, '1', '1', '1', '2017-05-09 02:41:47', 'created'),
+(2, 2, 'sac', 1, '1', '2221', '11', '2017-07-03 17:38:41', 'created'),
+(3, 2, 'sac', 1, '1', '2221', '11', '2017-07-03 17:39:12', 'created'),
+(4, 2, 'sac', 1, '1', '2221', '11', '2017-07-03 17:40:00', 'created'),
+(5, 2, 'sac', 1, '1', '2221', '11', '2017-07-03 17:40:45', 'created'),
+(6, 3, 'sac', 1, '1', '2221', '11', '2017-07-03 17:58:10', 'created'),
+(7, 6, 'par', 2, '1', '2221', '11', '2017-07-03 17:58:17', 'created'),
+(8, 6, 'par', 2, '1', '2221', '11', '2017-07-03 17:59:17', 'created');
 
 -- --------------------------------------------------------
 
@@ -345,7 +356,7 @@ CREATE TABLE `pre_arrival_request` (
 
 INSERT INTO `pre_arrival_request` (`par_id`, `importing_firm_name`, `bol_awb_number`, `material_name`, `packing_nature`, `assessable_value`, `material_nature`, `required_period`, `licence_code`, `boe_number`, `qty_units`, `space_requirement`, `duty_amount`, `expected_date`, `cargo_life`, `shelf_life`, `insurance_by`, `client_insurance_copy`, `insurance_declaration`, `insurance_declaration_copy`, `status`, `document_verified`) VALUES
 (1, 'xyz', 'AWB_2345', 'Jasmine', 'Wooden Crate Bags Cartons', '75000', 'Non Hazardous', '34', 'LN_2345', 'BOE_2345', '5', '5', '7500', '2017-05-06', '2017-05-17', '2017-05-31', 'Client', 'client-insurance-copy/xyz_client_insurance_copy_CCA-ramu Ramasamy.pdf', 'No', '', 'approved', 'yes'),
-(2, 'xyz123', 'AWB_2345', 'ram', 'Metal Drum', '100000', 'Hazardous', '5', 'LN_1234', 'BOE_23459', '5', '5', '10000', '2017-05-19', '2017-05-27', '2017-05-26', 'TRLPL', '', 'Yes', 'insurance_declaration_copy/', 'approved', 'yes'),
+(2, 'xyz123', 'AWB_2345', 'ram', 'Metal Drum', '100000', 'Hazardous', '5', 'LN_1234', 'BOE_23459', '5', '5', '10000', '2017-05-19', '2017-05-27', '2017-05-26', 'TRLPL', '', 'Yes', 'insurance_declaration_copy/', 'grn_created', 'yes'),
 (4, 'abc123', 'AWB_123', 'cotton material', 'Fibre Drum', '200000', 'Non Hazardous', '56', 'LN_2345', 'BOE_123', '12', '12', '20000', '2017-04-30', '2017-04-30', '2017-04-30', 'TRLPL', '', 'No', '', 'rejected', 'yes'),
 (5, 'abcd', 'AWB_2345', 'steel', 'Metal Drum', '200000', 'Non Hazardous', '123', 'LN_1234', 'BOE_234501', '4', '4', '20000', '2017-04-30', '2017-04-30', '2017-04-30', 'Client', 'client-insurance-copy/abc_client_insurance_copy_CCA-ramu Ramasamy.pdf', 'Yes', 'insurance_declaration_copy/abc_client_insurance_copy_CCA-ramu Ramasamy.pdf', 'approved', 'no'),
 (6, 'q', '122', 'ee', 'Metal Drum', '12231', 'Non Hazardous', '3', '123', '1223', '1', '12', '121', '2017-06-30', '2017-06-30', '2017-06-26', 'TRLPL', '', 'No', '', 'submitted', 'no'),
@@ -492,7 +503,7 @@ CREATE TABLE `sac_request` (
 --
 
 INSERT INTO `sac_request` (`sac_id`, `importing_firm_name`, `licence_code`, `bol_awb_number`, `boe_number`, `material_name`, `qty_units`, `packing_nature`, `space_requirement`, `assessable_value`, `duty_amount`, `material_nature`, `expected_date`, `required_period`, `insurance_by`, `status`, `document_verified`) VALUES
-(1, 'ABC123', 'LN_1234', 'AWB_123', 'BOE_12378', 'Lilly', 4, 'Wooden Crate Bags Cartons', '4', '50000', '5000', 'Non Hazardous', '2017-04-30', '2017-04-30', 'TRLPL', 'rejected', 'yes'),
+(1, 'ABC123', 'LN_1234', 'AWB_123', 'BOE_12378', 'Lilly', 4, 'Wooden Crate Bags Cartons', '4', '50000', '5000', 'Non Hazardous', '2017-04-30', '2017-04-30', 'TRLPL', 'grn_created', 'yes'),
 (2, '1', '1', '1', '1', '1', 1, 'Metal Drum', '1', '1', '1', 'Non Hazardous', '2017-06-27', '1', 'TRLPL', 'submitted', 'no'),
 (3, '1', '1', '1', '1', '1', 1, 'Metal Drum', '1', '1', '1', 'Non Hazardous', '2017-06-27', '1', 'TRLPL', 'approved', 'yes'),
 (4, 'q', 'q', 'q', 'q', 'q', 0, 'Metal Drum', 'q', 'q', 'q', 'Non Hazardous', '2017-06-28', 'q', 'TRLPL', 'approved', 'yes'),
@@ -593,12 +604,12 @@ ALTER TABLE `client_login`
 -- AUTO_INCREMENT for table `document_verification`
 --
 ALTER TABLE `document_verification`
-  MODIFY `do_ver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `do_ver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `dv_items`
 --
 ALTER TABLE `dv_items`
-  MODIFY `dv_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `dv_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `exception`
 --
@@ -608,7 +619,7 @@ ALTER TABLE `exception`
 -- AUTO_INCREMENT for table `good_receipt_note`
 --
 ALTER TABLE `good_receipt_note`
-  MODIFY `grn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `grn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `igp_unloading`
 --
