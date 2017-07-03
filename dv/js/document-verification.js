@@ -3,6 +3,7 @@ var g_snocount=2;
 var g_itemslist = new Array;
 var additem_template = '<tr id="[trid]"><td><span class="td_sno">[sno]</span></td>\
 							<td><input type="text" name="item_name[]" placeholder="" class="form-control" value=""></td>\
+							<td><input type="text" name="item_qty[]" placeholder="" class="form-control" value=""></td>\
 							<td><input type="text" name="assessabe_value[]" placeholder="" class="form-control" value=""></td>\
 							<td><input type="text" name="duty_value[]" placeholder="" class="form-control" value=""></td>\
 							<td><input type="text" name="insurance_value[]" placeholder="" class="form-control" value=""></td>\
@@ -137,6 +138,7 @@ function displayContainerNumbersInItemModal(containers){
 	//change add_item template for adding select input for container numbers
 	additem_template = '<tr id="[trid]"><td><span class="td_sno">[sno]</span></td>\
 							<td><input type="text" name="item_name[]" placeholder="" class="form-control" value=""></td>\
+							<td><input type="text" name="item_qty[]" placeholder="" class="form-control" value=""></td>\
 							<td><input type="text" name="assessabe_value[]" placeholder="" class="form-control" value=""></td>\
 							<td><input type="text" name="duty_value[]" placeholder="" class="form-control" value=""></td>\
 							<td><input type="text" name="insurance_value[]" placeholder="" class="form-control" value=""></td>\

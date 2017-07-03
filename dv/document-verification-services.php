@@ -54,6 +54,7 @@
 		$dutyValues = $_POST['duty_value'];
 		$insuranceValues = $_POST['insurance_value'];
 		$containerNumbers = $_POST['container_number'];
+		$itemQuantities = $_POST['item_qty'];
 
 		for($i = 0; $i < count($itemNames); $i++){
 			$tempItemName = mysqli_real_escape_string($dbc, trim($itemNames[$i]));
@@ -61,7 +62,9 @@
 			$tempDutyValue = mysqli_real_escape_string($dbc, trim($dutyValues[$i]));
 			$tempInsuranceValue = mysqli_real_escape_string($dbc, trim($insuranceValues[$i]));
 			$containerNumber = mysqli_real_escape_string($dbc, trim($containerNumbers[$i]));
-			$query = "INSERT INTO dv_items (sac_par_table, sac_par_id, item_name, assessable_value, duty_value, insurance_value, container_number) VALUES ('$sacParTable', '$sacParId', '$tempItemName', '$tempAssessableValue', '$tempDutyValue', '$tempInsuranceValue', '$containerNumber')";
+			$itemQuantity = mysqli_real_escape_string($dbc, trim($itemQuantities[$i]));
+
+			$query = "INSERT INTO dv_items (sac_par_table, sac_par_id, item_name, assessable_value, duty_value, insurance_value, container_number, item_qty) VALUES ('$sacParTable', '$sacParId', '$tempItemName', '$tempAssessableValue', '$tempDutyValue', '$tempInsuranceValue', '$containerNumber', '$itemQuantity')";
 			//file_put_contents("formlog.log", print_r(json_encode($query), true ));
 			mysqli_query($dbc,$query);
 		}

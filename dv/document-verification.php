@@ -25,7 +25,7 @@
 ?>
 
 <style type="text/css">
-  .modal-dialog{
+  .modal{
     width: 80%; /* respsonsive width */
     margin-left:-40%; /* width/2) */ 
   }
@@ -210,6 +210,7 @@
                       <tr>
                         <th>Sl.no</th>
                         <th>Item Name</th>
+                        <th>Quantity</th>
                         <th>Assessable Value</th>
                         <th>Duty Value</th>
                         <th>Insurance Value</th>
@@ -221,6 +222,8 @@
                           <td><span class="td_sno">1</span></td>
 
                           <td><input type="text" name="item_name[]" placeholder="" class="form-control" value=""></td>
+
+                          <td><input type="text" name="item_qty[]" placeholder="" class="form-control" value=""></td>
 
                           <td><input type="text" name="assessabe_value[]" placeholder="" class="form-control" value=""></td>
 
