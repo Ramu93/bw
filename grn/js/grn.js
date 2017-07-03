@@ -78,6 +78,7 @@ function getDataDetails(dataItem){
 				$('#material_name').html(selectedData.material_name);
 				$('#packing_nature_label').html('Packing Nature:');
 				$('#packing_nature').html(selectedData.packing_nature);
+				$('#job_order_id').val(dataItem);
 				$('#fields').show();
 				$('#create_grn_button').show();			}
 		},
