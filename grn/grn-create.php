@@ -134,7 +134,7 @@
       </div>
       <!-- /.box -->
 
-      <!--Container Modal Div -->
+      <!--Job Order Modal Div -->
       <div class="modal fade" id="view_list_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
