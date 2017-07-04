@@ -35,11 +35,12 @@
               </div>
             </div>
           </div>
-          <form action="#" method="post" onsubmit="return false;">
+          <form id="pdr_create_form" action="#" method="post" onsubmit="return false;">
             <div class="row" id="fields">
               <div class="form-group col-md-4">
                 <label for="sac_par_id" id="sac_par_table_label"></label>
                 <input type="text" class="form-control" id="sac_par_id" name="sac_par_id" readonly="true">
+                <input type="hidden" class="form-control" id="sac_par_table" name="sac_par_id" readonly="true">
               </div>
             </div>
             <div class="row">
@@ -65,7 +66,7 @@
             <div class="row">
               <div class="form-group col-md-3">
                 <label for="boe_number">BOE Number</label>
-                <input type="text" class="form-control" id="boe_number" name="boe_number" placeholder="">
+                <input type="text" class="form-control" id="boe_number" name="boe_number" placeholder="BOE Number">
               </div>
               <div class="form-group col-md-3">
                 <label for="exbond_be_number">EXBond BE Number</label>
@@ -100,10 +101,10 @@
             </div>
             <div class="row">
               <div class="col-md-6 col-sm-6">
-                <input type="button" name="select_items" value="Select Items" class="btn btn-success btn-block pull-left" onclick="">
+                <input type="button" name="select_items" value="Select Items" class="btn btn-success btn-block pull-left" onclick="showItemsList()">
               </div>
               <div class="col-md-6 col-sm-6">
-                <input type="submit" id="create_pdr_btn" name="submit" value="Create PDR" class="btn btn-primary btn-block pull-left" onclick="">
+                <input type="submit" id="create_pdr_btn" name="submit" value="Create PDR" class="btn btn-primary btn-block pull-left" onclick="createPDR()">
               </div>
             </div>
           </form>
@@ -122,15 +123,49 @@
                 </div>
                 <div class="modal-body">
                   <div class="responsive">
+                      <table id="tariff_master_list" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Bond Order ID</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="datalist_tbody">
+                         
+                        </tbody>
+                      </table>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </form>
+            </div>
+        </div>
+      </div>
+
+      <!--Items Modal -->
+      <div class="modal fade" id="select_items_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+              <form  id="select_items_form" name="dataapprovedlist_form" method="post" class="validator-form1" action="" onsubmit="return false;">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                  <h4 class="modal-title" id="modal_title">Item List</h4>
+                </div>
+                <div class="modal-body">
+                  <div class="responsive">
                     <table id="tariff_master_list" class="table table-striped table-bordered" cellspacing="0" width="100%">
                           <thead>
                               <tr>
-                                  <th>S.No</th>
-                                  <th>Bond Order ID</th>
-                                  <th>Action</th>
+                                  <th></th>
+                                  <th>Item Name</th>
+                                  <th>Available Qty.</th>
+                                  <th>Despatch Qty.</th>
                               </tr>
                           </thead>
-                          <tbody id="datalist_tbody">
+                          <tbody id="item_list_tbody">
                            
                           </tbody>
                       </table>

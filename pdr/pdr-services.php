@@ -25,6 +25,12 @@
 	    case 'get_selected_data_details':
 	    	$finaloutput = getSelectedDataDetails();
 	    break;
+	    case 'get_items_list':
+	    	$finaloutput = getItemsList();
+	    break;
+	    case 'create_pdr':
+	    	$finaloutput = createPDR();
+	    break;
 	    default:
 	        $finaloutput = array("infocode" => "INVALIDACTION", "message" => "Irrelevant action");
 	}
@@ -78,5 +84,41 @@
 		}
 		//file_put_contents("datalog.log", print_r($innerQuery, true ));
 		return $output;
+	}
+
+	function getItemsList(){
+		global $dbc;
+		$sacParTable = mysqli_real_escape_string($dbc, trim($_POST['sac_par_table']));
+		$sacParId = mysqli_real_escape_string($dbc, trim($_POST['sac_par_id']));
+		$query = "SELECT item_name, item_qty FROM dv_items WHERE sac_par_table='$sacParTable' AND sac_par_id='$sacParId'";
+		$result = mysqli_query($dbc, $query);
+		$out = array();
+		if(mysqli_num_rows($result) > 0){
+			while($row = mysqli_fetch_assoc($result)){
+				$out[] = $row;
+			}
+		}
+
+		$output = array("infocode" => "ITEMDATAFETCHSUCCESS", "data" => json_encode($out));
+		// file_put_contents("datalog.log", print_r($output, true ));
+		return $output;
+	}
+
+	function createPDR(){
+		global $dbc;
+		$bondNumber = mysqli_real_escape_string($dbc, $_POST['bond_number']);
+		$sacParTable = mysqli_real_escape_string($dbc, $_POST['sac_par_table']);
+		$sacParId = mysqli_real_escape_string($dbc, $_POST['sac_par_id']);
+		$clientWeb = mysqli_real_escape_string($dbc, $_POST['client_web']);
+		$chaName = mysqli_real_escape_string($dbc, $_POST['cha_name_exporter']);
+		$orderNumber = mysqli_real_escape_string($dbc, $_POST['order_number']);
+		$boeNumber = mysqli_real_escape_string($dbc, $_POST['boe_number']);
+		$exBondBeNumber = mysqli_real_escape_string($dbc, $_POST['exbond_be_number']);
+		$exBondBeDate = mysqli_real_escape_string($dbc, $_POST['exbond_be_date']);
+		$customsOfficerName = mysqli_real_escape_string($dbc, $_POST['customs_officer_name']);
+		$numberOfPackages = mysqli_real_escape_string($dbc, $_POST['packages_number']);
+		$assessmentValue = mysqli_real_escape_string($dbc, $_POST['assessment_value']);
+		$dutyValue = mysqli_real_escape_string($dbc, $_POST['duty_value']);
+		$transporterName = mysqli_real_escape_string($dbc, $_POST['transporter_name']);
 	}
 ?>

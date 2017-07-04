@@ -1,3 +1,6 @@
+var gItemList = new Array;
+var gItemSelectedCount = 0;
+
 function getBondOrderList(){
 	$('#data_fetch_message').html('');
 	var data = "&action=get_bond_order_list";
@@ -66,5 +69,107 @@ function getDataDetails(dvId, bondNumber){
 		error: function(){
 			alert('error');
 		} 	        
+	});
+}
+
+function showItemsList(){
+	var sacParTable = $('#sac_par_table').val();
+	var sacParID = $('#sac_par_id').val();
+
+	var data = 'sac_par_table=' + sacParTable + '&sac_par_id=' + sacParID + '&action=get_items_list';
+	$.ajax({
+		url: "pdr-services.php",
+		type: "POST",
+		data: data,
+		dataType: 'json',
+		success: function(result){
+			if(result.infocode == 'ITEMDATAFETCHSUCCESS'){
+				var itemData = JSON.parse(result.data);
+				displayItemsList(itemData);
+				$('#select_items_modal').modal();
+				
+				//set default selected value for item list
+				setDefaultSelectedValueForItemList();
+				//set bind events for checkbox
+				selectItemsBindEvents();
+			} else {
+				bootbox.alert('No item data available.');
+			}
+		},
+		error: function(){} 	        
+	});
+}
+
+function displayItemsList(itemData){
+	var dp = '';
+
+	itemData.forEach( function(item, index) {
+		dp += '<tr>';
+			dp += '<td><input type="checkbox" id="item_checkbox_'+index+'" class="select_item_checkbox"></td>';
+			dp += '<td>'+item.item_name+'</td>';
+			dp += '<td>'+item.item_qty+'</td>';
+			dp += '<td><input type="text" name="item_despatch_qty[]"></td>';
+		dp += '</tr>';
+
+		//push item to global item array
+		gItemList.push(item);
+	});
+
+	$('#item_list_tbody').html(dp);
+}
+
+function setDefaultSelectedValueForItemList(){
+	gItemList.forEach( function(item, index) {
+		item.isItemSelected = 'false';
+	});
+	console.log(gItemList);
+}
+
+function selectItemsBindEvents(){
+	$('.select_item_checkbox').on("change", function() {
+	    var selectItemCheckBoxID = $(this).attr("id");
+	    var selectItemCheckBoxVal = $('#'+selectItemCheckBoxID).val();
+	    var selectItemCheckBoxIDArray = selectItemCheckBoxID.split('_'); 
+	    var idCountVal = selectItemCheckBoxIDArray[selectItemCheckBoxIDArray.length-1];
+	    console.log(idCountVal);
+	    if ($('#'+selectItemCheckBoxID).is(':checked')){
+	      gItemList[idCountVal].isItemSelected = 'true'; 
+	      console.log(gItemList);
+
+	      //to validate selected item count
+	      gItemSelectedCount++;
+	    } else {
+	      gItemList[idCountVal].isItemSelected = 'false';
+	      gItemSelectedCount--;
+	    }  
+	});
+}
+
+function createPDR(){
+	if($('#pdr_create_form').valid()){
+		if(gItemSelectedCount > 0){
+			confirmCreatePDR();
+		} else {
+			bootbox.alert('No items selected. Please try again!');
+		}
+	}
+}
+
+function confirmCreatePDR(){
+	var data = $('#pdr_create_form').serialize() + '&' + $('#select_items_form').serialize() + '&action=create_pdr';
+
+	$.ajax({
+		url: "pdr-services.php",
+		type: "POST",
+		data: data,
+		dataType: 'json',
+		success: function(result){
+			if(result.infocode == 'CREATEPDRSUCCESS'){
+				
+			} else {
+				bootbox.alert(result.message);
+			}
+		},
+		error: function(){} 	        
 	});
 }
