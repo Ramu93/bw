@@ -4,6 +4,8 @@
 	require('../dbwrapper.php');
 	require('../formwrapper.php');
 
+	define('GRN_CREATED_STATUS','grn_created');
+
 	$db = new DBWrapper($dbobj);
 	$form = new FormWrapper();
 
@@ -33,13 +35,29 @@
 	echo json_encode($finaloutput);
 
 	function createGRN(){
-		global $db,$form;
+		global $db, $form, $dbc;
+		$sacParTable = $_POST['sac_par_table'];
+		$sacParId = $_POST['sac_par_id'];
+
 		$grnFormArray = array("sac_par_table"=>"sac_par_table", "sac_par_id"=>"sac_par_id", "ju_id"=>"ju_id", "space_occupied"=>"space_occupied", "location"=>"location", "validity"=>"validity");
 		$grnFormArray = $form->getFormValues($grnFormArray,$_POST);
 		//file_put_contents("formlog.log", print_r( $_POST, true ));
     	$db->insertOperation('good_receipt_note',$grnFormArray);
     	// $parlogarray = array("par_id" => $parId, "status_to" => 'Submitted', "remarks" => "Waiting for Approval");
     	// $db->insertOperation('par_log',$parlogarray);
+
+    	if($sacParTable == 'sac'){
+    		$tableName = 'sac_request';
+    		$idCol = 'sac_id';
+    	} else {
+    		$tableName = 'pre_arrival_request';
+    		$idCol = 'par_id';
+    	}
+
+    	$updateSacParStatusQuery = "UPDATE $tableName SET status='" . GRN_CREATED_STATUS . "' WHERE $idCol = '$sacParId'";
+		file_put_contents("formlog.log", print_r( $updateSacParStatusQuery, true ));
+
+    	mysqli_query($dbc, $updateSacParStatusQuery);
     	return array("status"=>"success","message"=>"GRN created successfully.");
 	}
 
@@ -76,7 +94,7 @@
 				$colName = 'sac_id';
 			} else {
 				$table = 'par';
-				$tableName = 'pre_arival_request';
+				$tableName = 'pre_arrival_request';
 				$colName = 'par_id';
 			}
 			$sacParId = $row['sac_par_id'];
@@ -88,7 +106,7 @@
 			}
 			
 		}
-		file_put_contents("datalog.log", print_r(json_encode($output), true ));
+		file_put_contents("datalog.log", print_r($innerQuery, true ));
 		return $output;
 	}
 ?>
