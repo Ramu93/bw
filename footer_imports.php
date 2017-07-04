@@ -29,6 +29,6 @@
 <script src="<?php echo LIBRARYURL; ?>/plugins/bootbox/bootbox-4.0.0.min.js"></script>
 <script src="<?php echo LIBRARYURL; ?>/plugins/jquery-validate/jquery.validate.js"></script>
 <script src="<?php echo LIBRARYURL; ?>/plugins/jQueryUI/jquery-ui.min.js"></script>
-<!-- <script src="<?php //echo LIBRARYURL; ?>/plugins/jQueryUI/jquery-ui.js"></script> -->
+<script src="<?php echo LIBRARYURL; ?>/plugins/jQueryUI/jquery-ui.js"></script>
 
 
