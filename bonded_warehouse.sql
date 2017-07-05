@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 03, 2017 at 08:19 PM
+-- Generation Time: Jul 05, 2017 at 10:14 PM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.1
 
@@ -32,6 +32,38 @@ CREATE TABLE `client_login` (
   `login_id` varchar(300) NOT NULL,
   `password` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `despatch_request`
+--
+
+CREATE TABLE `despatch_request` (
+  `pdr_id` int(11) NOT NULL,
+  `bond_number` varchar(50) NOT NULL,
+  `sac_par_table` varchar(10) NOT NULL,
+  `sac_par_id` int(11) NOT NULL,
+  `client_web` varchar(20) NOT NULL,
+  `cha_name` varchar(50) NOT NULL,
+  `order_number` varchar(50) NOT NULL,
+  `boe_number` varchar(50) NOT NULL,
+  `exbond_be_number` varchar(50) NOT NULL,
+  `exbond_be_date` date NOT NULL,
+  `customs_officer_name` varchar(50) NOT NULL,
+  `number_of_packages` int(11) NOT NULL,
+  `assessment_value` varchar(50) NOT NULL,
+  `duty_value` varchar(50) NOT NULL,
+  `transporter_name` varchar(50) NOT NULL,
+  `status` varchar(50) NOT NULL DEFAULT 'created'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `despatch_request`
+--
+
+INSERT INTO `despatch_request` (`pdr_id`, `bond_number`, `sac_par_table`, `sac_par_id`, `client_web`, `cha_name`, `order_number`, `boe_number`, `exbond_be_number`, `exbond_be_date`, `customs_officer_name`, `number_of_packages`, `assessment_value`, `duty_value`, `transporter_name`, `status`) VALUES
+(1, '6674', 'par', 44, 'Debond', 'abc', '1234', '445533', '334421', '2017-07-14', 'ram', 45, '4', '4', 'KPN', 'igp_created');
 
 -- --------------------------------------------------------
 
@@ -65,13 +97,13 @@ CREATE TABLE `document_verification` (
 --
 
 INSERT INTO `document_verification` (`do_ver_id`, `sac_par_table`, `sac_par_id`, `cfs_name`, `customs_officer_name`, `do_number`, `do_date`, `bond_number`, `bond_date`, `do_issued_by`, `weight`, `no_of_packages`, `description`, `invoice_copy`, `packing_list`, `boe_copy`, `bond_order`, `do_verification`) VALUES
-(4, 'par', 1, 'tambram', 'xyz', '123', '2017-05-06', NULL, NULL, 'abc', 'yes', 'no', 'no', 'no', 'no', 'yes', 'no', 'yes'),
-(5, 'par', 2, 'eerr', 'qwd', '123', '2017-06-28', NULL, NULL, '786', 'yes', 'no', 'no', 'no', 'no', 'no', 'no', 'yes'),
+(4, 'par', 1, 'tambram', 'xyz', '123', '2017-05-06', '44564', '2017-07-17', 'abc', 'yes', 'no', 'no', 'no', 'no', 'yes', 'no', 'yes'),
+(5, 'par', 2, 'eerr', 'qwd', '123', '2017-06-28', '33225', '2017-06-20', '786', 'yes', 'no', 'no', 'no', 'no', 'no', 'no', 'yes'),
 (6, 'par', 4, '34', '44', '788', '0000-00-00', '344', '2017-06-23', '9900', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'yes'),
 (7, 'par', 4, '1', '1', '1', '2017-06-27', '1', '2017-06-20', 's', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'no'),
 (8, 'par', 44, 'qq', 'qq', '44422', '2017-06-29', '1344', '2017-06-26', 'rr', 'no', 'no', 'yes', 'no', 'no', 'yes', 'yes', 'yes'),
 (9, 'par', 11, 'eer', 'qwwe', '334', '2017-07-11', 'qr445', '2017-07-17', '45t', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'yes'),
-(10, 'par', 44, '1', '1', '2233', '2017-07-27', '1', '2017-07-24', 'eerrttyy', 'no', 'no', 'yes', 'yes', 'yes', 'no', 'no', 'yes');
+(10, 'par', 44, '1', '1', '2233', '2017-07-27', '6674', '2017-07-24', 'eerrttyy', 'no', 'no', 'yes', 'yes', 'yes', 'no', 'no', 'yes');
 
 -- --------------------------------------------------------
 
@@ -167,6 +199,33 @@ INSERT INTO `good_receipt_note` (`grn_id`, `ju_id`, `sac_par_table`, `sac_par_id
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `igp_loading`
+--
+
+CREATE TABLE `igp_loading` (
+  `igp_lo_id` int(11) NOT NULL,
+  `entry_date` date NOT NULL,
+  `data_type` varchar(50) NOT NULL,
+  `data_value` varchar(50) NOT NULL,
+  `vehicle_number` varchar(50) DEFAULT NULL,
+  `driver_name` varchar(50) DEFAULT NULL,
+  `driving_license` varchar(50) DEFAULT NULL,
+  `time_in` varchar(50) NOT NULL,
+  `status` varchar(50) NOT NULL DEFAULT 'igp_created'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `igp_loading`
+--
+
+INSERT INTO `igp_loading` (`igp_lo_id`, `entry_date`, `data_type`, `data_value`, `vehicle_number`, `driver_name`, `driving_license`, `time_in`, `status`) VALUES
+(1, '0000-00-00', 'pdr_id', '1', '1', '1', '1', '0:43:06', 'igp_created'),
+(2, '0000-00-00', 'boe_number', '445533', 'uuyjkk', 'raamm', '77yuu5vh', '1:38:17', 'igp_created'),
+(3, '0000-00-00', 'pdr_id', '1', 'gghh', 'gtghjujs', 'kkksl', '1:40:06', 'igp_created');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `igp_unloading`
 --
 
@@ -205,7 +264,8 @@ INSERT INTO `igp_unloading` (`igp_un_id`, `sac_par_table`, `sac_par_id`, `data_t
 (12, 'sac', 4, 'sac', '4', '1', '1', '1', '14', '1', '28-06-2017', '0:28:04', 'Good', '20', '1', ''),
 (13, 'sac', 4, 'sac', '4', '1', '1', '1', '14', '1', '28-06-2017', '0:28:04', 'Good', '20', '1', ''),
 (14, 'sac', 4, 'sac', '4', '1', '1', '1', '4', '1', '28-06-2017', '0:32:10', 'Good', '20', '1', ''),
-(15, 'sac', 4, 'sac', '4', '1', '2', '1', '1', '1', '28-06-2017', '0:33:40', 'Good', '20', '1', '');
+(15, 'sac', 4, 'sac', '4', '1', '2', '1', '1', '1', '28-06-2017', '0:33:40', 'Good', '20', '1', ''),
+(16, 'sac', 4, 'customer_name', 'q', '1', '111', '111', '3', '112', '06-07-2017', '0:13:37', 'Good', '40', '223', '');
 
 -- --------------------------------------------------------
 
@@ -318,6 +378,30 @@ INSERT INTO `par_log` (`par_log_id`, `par_id`, `status_from`, `status_to`, `logg
 (9, 2, 'Submitted', 0, '2017-04-30 09:50:06', 'PAR Approved'),
 (10, 1, 'Submitted', 0, '2017-06-23 13:34:55', 'PAR Approved'),
 (11, 5, 'Submitted', 0, '2017-06-23 13:40:22', 'PAR Approved');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pdr_items`
+--
+
+CREATE TABLE `pdr_items` (
+  `pdr_item_id` int(11) NOT NULL,
+  `pdr_id` int(11) NOT NULL,
+  `dv_item_id` int(11) NOT NULL,
+  `container_number` varchar(50) NOT NULL,
+  `sac_par_table` varchar(10) NOT NULL,
+  `sac_par_id` int(11) NOT NULL,
+  `item_name` varchar(100) NOT NULL,
+  `despatch_qty` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `pdr_items`
+--
+
+INSERT INTO `pdr_items` (`pdr_item_id`, `pdr_id`, `dv_item_id`, `container_number`, `sac_par_table`, `sac_par_id`, `item_name`, `despatch_qty`) VALUES
+(1, 1, 11, '937789', 'par', 44, '334', '25');
 
 -- --------------------------------------------------------
 
@@ -467,7 +551,7 @@ INSERT INTO `sac_par_container_info` (`container_info_id`, `dimension`, `contain
 (33, '40 ft. Container', 2, '{\"0\":{\"container_number\":\"11\",\"status\":\"picked\"},\"1\":{\"container_number\":\"22\",\"status\":\"not_picked\"}}', 3, 'sac', 'notgenerated'),
 (34, 'Break Bulk/ODC', 2, '{\"0\":{\"container_number\":\"11\",\"status\":\"picked\"},\"1\":{\"container_number\":\"22\",\"status\":\"not_picked\"}}', 3, 'sac', 'notgenerated'),
 (35, '20 ft. Container', 2, '{\"0\":{\"container_number\":\"1\",\"status\":\"picked\"},\"1\":{\"container_number\":\"2\",\"status\":\"not_picked\"}}', 4, 'sac', 'notgenerated'),
-(36, '40 ft. Container', 3, '{\"0\":{\"container_number\":\"3\",\"status\":\"not_picked\"},\"1\":{\"container_number\":\"4\",\"status\":\"picked\"},\"2\":{\"container_number\":\"5\",\"status\":\"not_picked\"}}', 4, 'sac', 'notgenerated'),
+(36, '40 ft. Container', 3, '{\"0\":{\"container_number\":\"3\",\"status\":\"picked\"},\"1\":{\"container_number\":\"4\",\"status\":\"picked\"},\"2\":{\"container_number\":\"5\",\"status\":\"not_picked\"}}', 4, 'sac', 'notgenerated'),
 (37, 'Break Bulk/ODC', 4, '{\"0\":{\"container_number\":\"6\",\"status\":\"not_picked\"},\"1\":{\"container_number\":\"7\",\"status\":\"not_picked\"},\"2\":{\"container_number\":\"8\",\"status\":\"not_picked\"},\"3\":{\"container_number\":\"9\",\"status\":\"not_picked\"}}', 4, 'sac', 'notgenerated'),
 (38, 'LCL', 5, '{\"0\":{\"container_number\":\"10\",\"status\":\"not_picked\"},\"1\":{\"container_number\":\"11\",\"status\":\"not_picked\"},\"2\":{\"container_number\":\"12\",\"status\":\"not_picked\"},\"3\":{\"container_number\":\"13\",\"status\":\"not_picked\"},\"4\":{\"container_number\":\"14\",\"status\":\"picked\"}}', 4, 'sac', 'notgenerated'),
 (39, '20 ft. Container', 2, '{\"0\":{\"container_number\":\"1\",\"status\":\"not_picked\"},\"1\":{\"container_number\":\"2\",\"status\":\"not_picked\"}}', 1, 'sac', 'notgenerated');
@@ -520,6 +604,12 @@ ALTER TABLE `client_login`
   ADD PRIMARY KEY (`client_id`);
 
 --
+-- Indexes for table `despatch_request`
+--
+ALTER TABLE `despatch_request`
+  ADD PRIMARY KEY (`pdr_id`);
+
+--
 -- Indexes for table `document_verification`
 --
 ALTER TABLE `document_verification`
@@ -544,6 +634,12 @@ ALTER TABLE `good_receipt_note`
   ADD PRIMARY KEY (`grn_id`);
 
 --
+-- Indexes for table `igp_loading`
+--
+ALTER TABLE `igp_loading`
+  ADD PRIMARY KEY (`igp_lo_id`);
+
+--
 -- Indexes for table `igp_unloading`
 --
 ALTER TABLE `igp_unloading`
@@ -566,6 +662,12 @@ ALTER TABLE `party_master`
 --
 ALTER TABLE `par_log`
   ADD PRIMARY KEY (`par_log_id`);
+
+--
+-- Indexes for table `pdr_items`
+--
+ALTER TABLE `pdr_items`
+  ADD PRIMARY KEY (`pdr_item_id`);
 
 --
 -- Indexes for table `pre_arrival_request`
@@ -601,6 +703,11 @@ ALTER TABLE `sac_request`
 ALTER TABLE `client_login`
   MODIFY `client_id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `despatch_request`
+--
+ALTER TABLE `despatch_request`
+  MODIFY `pdr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT for table `document_verification`
 --
 ALTER TABLE `document_verification`
@@ -621,10 +728,15 @@ ALTER TABLE `exception`
 ALTER TABLE `good_receipt_note`
   MODIFY `grn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
+-- AUTO_INCREMENT for table `igp_loading`
+--
+ALTER TABLE `igp_loading`
+  MODIFY `igp_lo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
 -- AUTO_INCREMENT for table `igp_unloading`
 --
 ALTER TABLE `igp_unloading`
-  MODIFY `igp_un_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `igp_un_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `joborder_unloading`
 --
@@ -640,6 +752,11 @@ ALTER TABLE `party_master`
 --
 ALTER TABLE `par_log`
   MODIFY `par_log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT for table `pdr_items`
+--
+ALTER TABLE `pdr_items`
+  MODIFY `pdr_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `pre_arrival_request`
 --
