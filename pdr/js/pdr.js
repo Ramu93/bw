@@ -182,7 +182,7 @@ function confirmCreatePDR(){
 		success: function(result){
 			if(result.infocode == 'CREATEPDRSUCCESS'){
 				bootbox.alert(result.message, function(){
-					window.location.href = 'pdr-view.php';
+					console.log(result.message);
 				});
 			} else {
 				bootbox.alert(result.message);
