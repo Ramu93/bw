@@ -88,8 +88,8 @@ function showItemsList(){
 				displayItemsList(itemData);
 				$('#select_items_modal').modal();
 				
-				//set default selected value for item list
-				setDefaultSelectedValueForItemList();
+				//set default values for item list
+				setDefaultValuesForItemList();
 				//set bind events for checkbox
 				selectItemsBindEvents();
 			} else {
@@ -101,14 +101,18 @@ function showItemsList(){
 }
 
 function displayItemsList(itemData){
+	//reset item data
+	gItemList = new Array;
+
 	var dp = '';
 
 	itemData.forEach( function(item, index) {
 		dp += '<tr>';
 			dp += '<td><input type="checkbox" id="item_checkbox_'+index+'" class="select_item_checkbox"></td>';
+			dp += '<td>'+item.dv_item_id+'</td>';
 			dp += '<td>'+item.item_name+'</td>';
 			dp += '<td>'+item.item_qty+'</td>';
-			dp += '<td><input type="text" name="item_despatch_qty[]"></td>';
+			dp += '<td><input type="text" id="item_despatch_qty_'+index+'" name="item_despatch_qty[]"></td>';
 		dp += '</tr>';
 
 		//push item to global item array
@@ -118,9 +122,10 @@ function displayItemsList(itemData){
 	$('#item_list_tbody').html(dp);
 }
 
-function setDefaultSelectedValueForItemList(){
+function setDefaultValuesForItemList(){
 	gItemList.forEach( function(item, index) {
-		item.isItemSelected = 'false';
+		item.is_item_selected = 'false';
+		item.despatch_qty = 0;
 	});
 	console.log(gItemList);
 }
@@ -133,16 +138,26 @@ function selectItemsBindEvents(){
 	    var idCountVal = selectItemCheckBoxIDArray[selectItemCheckBoxIDArray.length-1];
 	    console.log(idCountVal);
 	    if ($('#'+selectItemCheckBoxID).is(':checked')){
-	      gItemList[idCountVal].isItemSelected = 'true'; 
+	      gItemList[idCountVal].is_item_selected = 'true'; 
 	      console.log(gItemList);
 
 	      //to validate selected item count
 	      gItemSelectedCount++;
 	    } else {
-	      gItemList[idCountVal].isItemSelected = 'false';
+	      gItemList[idCountVal].is_item_selected = 'false';
 	      gItemSelectedCount--;
 	    }  
 	});
+}
+
+//call this method on closing the item list modal
+function setDespatchQtyForItems(){
+	gItemList.forEach( function(item, index) {
+		if(item.is_item_selected == 'true'){
+			item.despatch_qty = $('#item_despatch_qty_' + index).val();
+		}
+	});
+	console.log(gItemList);
 }
 
 function createPDR(){
@@ -156,7 +171,8 @@ function createPDR(){
 }
 
 function confirmCreatePDR(){
-	var data = $('#pdr_create_form').serialize() + '&' + $('#select_items_form').serialize() + '&action=create_pdr';
+	var bondNumber = $('#bond_number').val();
+	var data = $('#pdr_create_form').serialize() + '&bond_number=' + bondNumber + '&item_data=' + JSON.stringify(gItemList) + '&action=create_pdr';
 
 	$.ajax({
 		url: "pdr-services.php",
@@ -165,7 +181,9 @@ function confirmCreatePDR(){
 		dataType: 'json',
 		success: function(result){
 			if(result.infocode == 'CREATEPDRSUCCESS'){
-				
+				bootbox.alert(result.message, function(){
+					window.location.href = 'pdr-view.php';
+				});
 			} else {
 				bootbox.alert(result.message);
 			}

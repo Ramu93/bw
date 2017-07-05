@@ -90,7 +90,7 @@
 		global $dbc;
 		$sacParTable = mysqli_real_escape_string($dbc, trim($_POST['sac_par_table']));
 		$sacParId = mysqli_real_escape_string($dbc, trim($_POST['sac_par_id']));
-		$query = "SELECT item_name, item_qty FROM dv_items WHERE sac_par_table='$sacParTable' AND sac_par_id='$sacParId'";
+		$query = "SELECT dv_item_id, item_name, item_qty, sac_par_table, sac_par_id, container_number FROM dv_items WHERE sac_par_table='$sacParTable' AND sac_par_id='$sacParId'";
 		$result = mysqli_query($dbc, $query);
 		$out = array();
 		if(mysqli_num_rows($result) > 0){
@@ -120,5 +120,30 @@
 		$assessmentValue = mysqli_real_escape_string($dbc, $_POST['assessment_value']);
 		$dutyValue = mysqli_real_escape_string($dbc, $_POST['duty_value']);
 		$transporterName = mysqli_real_escape_string($dbc, $_POST['transporter_name']);
+		$itemObject = json_decode($_POST['item_data']);
+		$itemData = array();
+  		$itemData = json_decode(json_encode($itemObject), True);
+		//file_put_contents("datalog.log", print_r($itemData, true ));
+
+  		$query = "INSERT INTO despatch_request (bond_number, sac_par_table, sac_par_id, client_web, cha_name, order_number, boe_number, exbond_be_number, exbond_be_date, customs_officer_name, number_of_packages, assessment_value, duty_value, transporter_name) VALUES ('$bondNumber', '$sacParTable', '$sacParId', '$clientWeb', '$chaName', '$orderNumber', '$boeNumber', '$exBondBeNumber', '$exBondBeDate', '$customsOfficerName', '$numberOfPackages', '$assessmentValue', '$dutyValue', '$transporterName')";
+  		if(mysqli_query($dbc, $query)){
+  			$lastPdrId = mysqli_insert_id($dbc);
+  			foreach ($itemData as $item) {
+  				if($item['is_item_selected'] == 'true'){
+  					$dvItemId = $item['dv_item_id'];
+  					$containerNumber = $item['container_number'];
+  					$despatchQty = $item['despatch_qty'];
+  					$itemName = $item['item_name'];
+
+  					$itemQuery = "INSERT INTO pdr_items (dv_item_id, pdr_id, container_number, despatch_qty, item_name, sac_par_table, sac_par_id) VALUES ('$dvItemId', $lastPdrId, '$containerNumber', '$despatchQty', '$itemName', '$sacParTable', '$sacParId')";
+  					//file_put_contents("querylog.log", $itemQuery, FILE_APPEND | LOCK_EX);
+  					mysqli_query($dbc, $itemQuery);
+  				}
+  			}
+  			$output = array("infocode" => "PDRCREATIONSUCCESS", "message" => "PDR creation successful.");
+  		} else {
+  			$output = array("infocode" => "PDRCREATIONFAILURE", "message" => "PDR creation unsuccessful.");
+  		}
+  		return $output;
 	}
 ?>

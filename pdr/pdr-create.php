@@ -40,7 +40,7 @@
               <div class="form-group col-md-4">
                 <label for="sac_par_id" id="sac_par_table_label"></label>
                 <input type="text" class="form-control" id="sac_par_id" name="sac_par_id" readonly="true">
-                <input type="hidden" class="form-control" id="sac_par_table" name="sac_par_id" readonly="true">
+                <input type="hidden" class="form-control" id="sac_par_table" name="sac_par_table">
               </div>
             </div>
             <div class="row">
@@ -160,6 +160,7 @@
                           <thead>
                               <tr>
                                   <th></th>
+                                  <th>Item ID</th>
                                   <th>Item Name</th>
                                   <th>Available Qty.</th>
                                   <th>Despatch Qty.</th>
@@ -172,7 +173,7 @@
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" onclick="setDespatchQtyForItems()" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
               </form>
             </div>
