@@ -43,7 +43,7 @@
                     echo "<td>".$row['pdr_id']."</td>";
                     echo "<td>".strtoupper($row['sac_par_table']).": ".$row['sac_par_id']."</td>";
                     echo "<td>".$row['client_web']."</td>";
-                    echo "<td><a href='pdr-view.php?pdr_id=".$row['pdr_id']."'>View</a></td>";
+                    echo "<td><a href='pdr-edit.php?pdr_id=".$row['pdr_id']."'>View</a></td>";
                     echo "</tr>";
                   }
                 } else {

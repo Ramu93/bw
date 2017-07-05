@@ -182,7 +182,27 @@ function confirmCreatePDR(){
 		success: function(result){
 			if(result.infocode == 'CREATEPDRSUCCESS'){
 				bootbox.alert(result.message, function(){
-					console.log(result.message);
+					window.location = 'pdr-list-view.php';
+				});
+			} else {
+				bootbox.alert(result.message);
+			}
+		},
+		error: function(){} 	        
+	});
+}
+
+function updatePDR(){
+	var data = $('#pdr_update_form').serialize() + '&action=update_pdr';
+	$.ajax({
+		url: "pdr-services.php",
+		type: "POST",
+		data: data,
+		dataType: 'json',
+		success: function(result){
+			if(result.infocode == 'UPDATEPDRSUCCESS'){
+				bootbox.alert(result.message, function(){
+					window.location = 'pdr-list-view.php';
 				});
 			} else {
 				bootbox.alert(result.message);

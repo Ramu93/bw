@@ -31,6 +31,9 @@
 	    case 'create_pdr':
 	    	$finaloutput = createPDR();
 	    break;
+	    case 'update_pdr':
+	    	$finaloutput = updatePDR();
+	    break;
 	    default:
 	        $finaloutput = array("infocode" => "INVALIDACTION", "message" => "Irrelevant action");
 	}
@@ -140,10 +143,35 @@
   					mysqli_query($dbc, $itemQuery);
   				}
   			}
-  			$output = array("infocode" => "PDRCREATIONSUCCESS", "message" => "PDR creation successful.");
+  			$output = array("infocode" => "CREATEPDRSUCCESS", "message" => "PDR creation successful.");
   		} else {
-  			$output = array("infocode" => "PDRCREATIONFAILURE", "message" => "PDR creation unsuccessful.");
+  			$output = array("infocode" => "CREATEPDRFAILURE", "message" => "PDR creation unsuccessful.");
   		}
   		return $output;
+	}
+
+	function updatePDR(){
+		global $dbc;
+		$pdrId = $_POST['pdr_id'];
+		
+		$clientWeb = mysqli_real_escape_string($dbc, $_POST['client_web']);
+		$chaName = mysqli_real_escape_string($dbc, $_POST['cha_name_exporter']);
+		$orderNumber = mysqli_real_escape_string($dbc, $_POST['order_number']);
+		$boeNumber = mysqli_real_escape_string($dbc, $_POST['boe_number']);
+		$exBondBeNumber = mysqli_real_escape_string($dbc, $_POST['exbond_be_number']);
+		$exBondBeDate = mysqli_real_escape_string($dbc, $_POST['exbond_be_date']);
+		$customsOfficerName = mysqli_real_escape_string($dbc, $_POST['customs_officer_name']);
+		$numberOfPackages = mysqli_real_escape_string($dbc, $_POST['packages_number']);
+		$assessmentValue = mysqli_real_escape_string($dbc, $_POST['assessment_value']);
+		$dutyValue = mysqli_real_escape_string($dbc, $_POST['duty_value']);
+		$transporterName = mysqli_real_escape_string($dbc, $_POST['transporter_name']);
+
+		$query = "UPDATE despatch_request SET client_web='$clientWeb', cha_name='$chaName', order_number='$orderNumber', boe_number='$boeNumber', exbond_be_number='$exBondBeNumber', exbond_be_date='$exBondBeDate', customs_officer_name='$customsOfficerName', number_of_packages='$numberOfPackages', assessment_value='$assessmentValue', duty_value='$dutyValue', transporter_name='$transporterName' WHERE pdr_id='$pdrId'";
+		if(mysqli_query($dbc, $query)){
+			$output = array("infocode" => "UPDATEPDRSUCCESS", "message" => "PDR updation successful.");
+		} else {
+			$output = array("infocode" => "UPDATEPDRFAILURE", "message" => "PDR updation unsuccessful.");
+		}
+		return $output;
 	}
 ?>
