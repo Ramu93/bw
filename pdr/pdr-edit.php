@@ -103,10 +103,10 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-6 col-sm-6">
+              <div class="col-md-3 col-sm-3">
                 <input type="submit" id="do_back_btn" name="submit" value="Go Back" class="btn btn-success btn-block pull-left" onclick="window.location='pdr-list-view.php';">
               </div>
-              <div class="col-md-6 col-sm-6">
+              <div class="col-md-3 col-sm-3">
                 <input type="submit" id="update_pdr_btn" name="submit" value="Update PDR" class="btn btn-primary btn-block pull-left" onclick="updatePDR()">
               </div>
             </div>

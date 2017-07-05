@@ -100,10 +100,10 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-6 col-sm-6">
+              <div class="col-md-3 col-sm-3">
                 <input type="button" name="select_items" value="Select Items" class="btn btn-success btn-block pull-left" onclick="showItemsList()">
               </div>
-              <div class="col-md-6 col-sm-6">
+              <div class="col-md-3 col-sm-3">
                 <input type="submit" id="create_pdr_btn" name="submit" value="Create PDR" class="btn btn-primary btn-block pull-left" onclick="createPDR()">
               </div>
             </div>
