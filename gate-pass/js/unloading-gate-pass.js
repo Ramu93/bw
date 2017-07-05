@@ -3,7 +3,7 @@ function generateIGP(){
 		var data = $('#igp-unloading-form').serialize() + "&action=generate_igp";
 		//alert(data);
 		$.ajax({
-			url: "gate-pass-services.php",
+			url: "unloading-gate-pass-services.php",
 			type: "POST",
 			data:  data,
 			dataType: 'json',
@@ -103,7 +103,7 @@ function getDataList(){
 	}
 	
 	$.ajax({
-		url: "gate-pass-services.php",
+		url: "unloading-gate-pass-services.php",
 		type: "POST",
 		data: data,
 		dataType: 'json',
@@ -150,7 +150,7 @@ function getDataDetails(dataItem){
 	data += '&data_value=' + dataItem + '&action=get_selected_data_details';
 	//alert(data)
 	$.ajax({
-		url: "gate-pass-services.php",
+		url: "unloading-gate-pass-services.php",
 		type: "POST",
 		data:  data,
 		dataType: 'json',
@@ -190,7 +190,7 @@ function getSelectedtContainerData(sacParTable, sacParId){
 	var data = 'sac_par_table=' + sacParTable + "&sac_par_id=" + sacParId + '&action=get_container_data';
 	//alert(data);
 	$.ajax({
-		url: "gate-pass-services.php",
+		url: "unloading-gate-pass-services.php",
 		type: "POST",
 		data:  data,
 		dataType: 'json',
@@ -228,4 +228,16 @@ function displayContainerNumbers(containers){
 	console.log(containerNumberArray);
 
 	$('#container_number_select').html(dp);
+}
+
+function printData(divName) {
+	var printContents = $('#'+divName).html();
+	/*var originalContents = document.body.innerHTML;
+	document.body.innerHTML = printContents;
+	window.print();
+	document.body.innerHTML = originalContents;*/
+	var printWindow = window.open('','','height=400,width=800');
+	printWindow.document.write('<html><head><title>Print</title><link href="<?php echo HOMEURL; ?>assets/plugins/bootstrap/bootstrap.css" rel="stylesheet" /></head><body>'+printContents+'</body></html>');
+	printWindow.document.close();
+	printWindow.print();
 }

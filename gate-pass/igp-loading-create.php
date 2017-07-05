@@ -9,7 +9,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        In Gate Pass - Inward
+        In Gate Pass - Outward
       </h1>
     </section>
 
@@ -19,7 +19,7 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-body">
-          <form id="igp-unloading-form" name="igp-unloading-form" action="#" method="post" onsubmit="return false;">
+          <form id="igp-loading-form" name="igp-loading-form" action="#" method="post" onsubmit="return false;">
             <div class="row">
               <div class="col-md-3">
                 <div class="form-group">
@@ -30,10 +30,9 @@
               <div class="col-md-3">
                 <label for="select_by_label">Choose By</label>
                 <select class="form-control" tabindex="2" id="select_by_type" name="select_by_type">
-                  <option value="customer_name">Customer Name</option>
+                  <option value="pdr_id">PDR ID</option>
                   <option value="boe_number">BOE Number</option>
-                  <option value="par">PAR</option>
-                  <option value="sac">SAC</option>
+                  <option value="bond_number">Bond Number</option>
                 </select>
               </div>
               <div class="col-md-3">
@@ -47,35 +46,74 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-3">
-                <label id="id_label"></label>
-                <div class="clearfix"></div>
-                <label id="id_value"></label>
+            <div id="pdr_data">
+              <div class="row">
+                <div class="col-md-3">
+                  <label>PDR ID</label>
+                  <div class="clearfix"></div>
+                  <label id="pdr_id_label"></label>
+                </div>
+                <div class="col-md-3">
+                  <label>Bond Number</label>
+                  <div class="clearfix"></div>
+                  <label id="bond_number_label"></label>
+                </div>
+                <div class="col-md-3">
+                  <label><BOE Number/label>
+                  <div class="clearfix"></div>
+                  <label id="boe_number_label"></label>
+                </div>
+                <div class="col-md-3">
+                  <label>Client Web</label>
+                  <div class="clearfix"></div>
+                  <label id="client_web_label"></label>
+                </div>
               </div>
-              <div class="col-md-3">
-                <label id="customer_name_label"></label>
-                <div class="clearfix"></div>
-                <label id="customer_name_value"></label>
+              <div class="row">
+                <div class="col-md-3">
+                  <label>CHA Name</label>
+                  <div class="clearfix"></div>
+                  <label id="cha_name_label"></label>
+                </div>
+                <div class="col-md-3">
+                  <label>ExBond BE Number</label>
+                  <div class="clearfix"></div>
+                  <label id="exbond_be_number_label"></label>
+                </div>
+                <div class="col-md-3">
+                  <label>ExBond BE Date</label>
+                  <div class="clearfix"></div>
+                  <label id="exbond_be_date_label"></label>
+                </div>
+                <!-- <div class="col-md-3">
+                  <label>Customs Officer Name</label>
+                  <div class="clearfix"></div>
+                  <label id="customs_officer_name_label"></label>
+                </div> -->
               </div>
             </div>
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <div class="form-group">
                   <label for="vehicle_number">Vehicle Number</label>
                   <input type="text" tabindex="4" class="form-control required" id="vehicle_number" name="vehicle_number" placeholder="Vehicle number">
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <label for="driver_name">Driver Name</label>
                 <input type="text" tabindex="5" class="form-control required" id="driver_name" name="driver_name" placeholder="Driver name">
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <label for="driver_license">Driving License</label>
                 <input type="text" tabindex="6" class="form-control required" id="driving_license" name="driving_license" placeholder="Driving license">
               </div>
+              <div class="col-md-3">
+                <label for="time_in">Time In</label>
+                <input type="hidden" tabindex="-1" class="form-control required" id="entry_date" name="entry_date" >
+                <input type="text" tabindex="-1" class="form-control required" id="time_in" name="in_time" placeholder="">
+              </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="container_number">Container Number</label>
@@ -86,14 +124,9 @@
               <div class="col-md-4">
                 <label for="seal_number">Seal Number</label>
                 <input type="text" tabindex="8" class="form-control required" id="seal_number" name="seal_number" placeholder="Seal number">
-              </div>
-              <div class="col-md-4">
-                <label for="time_in">Time In</label>
-                <input type="hidden" tabindex="-1" class="form-control required" id="entry_date" name="entry_date" >
-                <input type="text" tabindex="-1" class="form-control required" id="time_in" name="in_time" placeholder="">
-              </div>
-            </div>
-            <div class="row">
+              </div>            
+            </div> -->
+            <!-- <div class="row">
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="container_condition">Container Condition</label>
@@ -119,11 +152,12 @@
               </div>
             </div>
             <input type="hidden" name="sac_par_table" id="sac_par_table" value="">
-            <input type="hidden" name="sac_par_id" id="sac_par_id" value="">
+            <input type="hidden" name="sac_par_id" id="sac_par_id" value=""> -->
             <!-- <div class="clearfix"></div>
             <div id="container_data_div" class="responsive">
               
             </div> -->
+            <input type="hidden" name="">
             <div class="clearfix">&nbsp;</div>
             <div class="row">
               <div class="col-md-4 col-sm-4">
@@ -180,11 +214,11 @@
   <?php
     include('../footer_imports.php');
   ?>
-  <script type="text/javascript" src="<?php echo HOMEURL; ?>/gate-pass/js/unloading-gate-pass.js"></script>
+  <script type="text/javascript" src="<?php echo HOMEURL; ?>/gate-pass/js/loading-gate-pass.js"></script>
   <script type="text/javascript">
 
     $(document).ready(function(){
-      $('#igp-unloading-form').validate({
+      $('#igp-loading-form').validate({
         errorClass: "my-error-class"
       });
 
@@ -195,25 +229,16 @@
       //alert(setTime() + " " + setDate());
 
       //initial value of label
-      $('#fetch_by_label').html('Customer Name');
+      $('#fetch_by_label').html('PDR ID');
       //change label name according to selected value
       $('#select_by_type').on('change', function() {
         $('#data_item').val('');
         changeLabelText();
       })
 
+      $('#pdr_data').hide();
     });
 
-    
-    //auto load time ends
-
-    //Date picker
-    var startDate = new Date();
-    $('#expected_date').datepicker({
-      autoclose: true,
-      dateFormat: "yy-mm-dd",
-      minDate: startDate
-    });
   </script>
   <?php
     include('../footer.php');

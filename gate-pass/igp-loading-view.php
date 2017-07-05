@@ -5,14 +5,14 @@
     require('../dbconfig.php'); 
 
     $out = array();
-    $igpUnID = $_GET['igp_un_id'];
-    $select = "SELECT * FROM igp_unloading WHERE igp_un_id='$igpUnID'";
+    $igpLoID = $_GET['igp_lo_id'];
+    $select = "SELECT * FROM igp_loading WHERE igp_lo_id='$igpLoID'";
     $query = mysqli_query($dbc,$select);
     if(mysqli_num_rows($query) > 0) {
       $row = mysqli_fetch_array($query);
       $out = $row;
     }
-    file_put_contents("editlog.log", print_r( $out, true ));
+    //file_put_contents("editlog.log", print_r( $out, true ));
 
   ?>
 
@@ -21,7 +21,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        In Gate Pass - Inward
+        In Gate Pass - Outward
       </h1>
     </section>
 
@@ -31,21 +31,21 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-body">
-          <form id="igp-unloading-form" name="igp-unloading-form" action="#" method="post" onsubmit="return false;">
+          <form id="igp-loading-form" name="igp-loading-form" action="#" method="post" onsubmit="return false;">
             <div id="print-div">
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="igp_unloading_id">IGP Unloading ID:</label>
+                    <label for="igp_unloading_id">IGP Loading ID</label>
                     <div class="clearfix"></div>
-                    <label><?php echo $out['igp_un_id']; ?></label>
+                    <label><?php echo $out['igp_lo_id']; ?></label>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group">
-                    <label for="date">Date:</label>
+                    <label for="date">Date</label>
                     <div class="clearfix"></div>
-                    <label><?php echo $out['date']; ?></label>
+                    <label><?php echo $out['entry_date']; ?></label>
                   </div>
                 </div>
                 <div class="col-md-3">
@@ -63,17 +63,14 @@
                   <label>
                     <?php 
                         switch($out['data_type']){
-                          case 'customer_name':
-                            echo 'Customer Name';
+                          case 'pdr_id':
+                            echo 'PDR ID';
                           break;
                           case 'boe_number':
                             echo 'BOE Number';
                           break;
-                          case 'par':
-                            echo 'PAR';
-                          break;
-                          case 'sac':
-                            echo 'SAC';
+                          case 'bond_number':
+                            echo 'Bond Number';
                           break;
                         }
                     ?>
@@ -84,17 +81,14 @@
                     <label for="data_value">
                       <?php 
                         switch($out['data_type']){
-                          case 'customer_name':
-                            echo 'Customer Name:';
+                          case 'pdr_id':
+                            echo 'PDR ID';
                           break;
                           case 'boe_number':
-                            echo 'BOE Number:';
+                            echo 'BOE Number';
                           break;
-                          case 'par':
-                            echo 'PAR:';
-                          break;
-                          case 'sac':
-                            echo 'SAC:';
+                          case 'bond_number':
+                            echo 'Bond Number';
                           break;
                         }
                     ?>
@@ -123,42 +117,42 @@
                     <label><?php echo $out['driving_license']; ?></label>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="container_number">Container Number:</label>
-                    <div class="clearfix"></div>
-                    <label><?php echo $out['container_number']; ?></label>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <label for="seal_number">Seal Number:</label>
+            </div>
+            <!-- <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="container_number">Container Number:</label>
                   <div class="clearfix"></div>
-                  <label><?php echo $out['seal_number']; ?></label>
+                  <label><?php //echo $out['container_number']; ?></label>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="container_condition">Container Condition:</label>
-                    <div class="form-group">
-                      <div class="clearfix"></div>
-                      <label><?php echo $out['container_condition']; ?></label>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <label for="vehicle_type">Vehicle Type:</label>
-                  <div class="clearfix"></div>
-                  <label><?php echo $out['vehicle_type']; ?></label>
-                </div>
-                <div class="col-md-4">
-                  <label for="transporter_name">Transporter Name:</label>
-                  <div class="clearfix"></div>
-                  <label><?php echo $out['transporter_name']; ?></label>
-                </div>
+              <div class="col-md-4">
+                <label for="seal_number">Seal Number:</label>
+                <div class="clearfix"></div>
+                <label><?php //echo $out['seal_number']; ?></label>
               </div>
             </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="container_condition">Container Condition:</label>
+                  <div class="form-group">
+                    <div class="clearfix"></div>
+                    <label><?php //echo $out['container_condition']; ?></label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label for="vehicle_type">Vehicle Type:</label>
+                <div class="clearfix"></div>
+                <label><?php //echo $out['vehicle_type']; ?></label>
+              </div>
+              <div class="col-md-4">
+                <label for="transporter_name">Transporter Name:</label>
+                <div class="clearfix"></div>
+                <label><?php //echo $out['transporter_name']; ?></label>
+              </div>
+            </div> -->
             <div class="row">
               <div class="col-md-4 col-sm-4">
                 
