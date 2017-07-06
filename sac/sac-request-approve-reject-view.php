@@ -54,7 +54,7 @@
                   }
                 } else {
                   $dataTableFlag = false;
-                  echo "<tr><td colspan=\"8\">No SAC requests available. <a href=\"par-create.php\">Create one</a> now</td></tr>";
+                  echo "<tr><td colspan=\"8\">No SAC requests available.</td></tr>";
                 }
               ?>
             </tbody>

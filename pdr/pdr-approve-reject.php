@@ -20,7 +20,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Despatch Request - Create
+        Despatch Request - Approve/Reject
       </h1>
     </section>
 
@@ -30,13 +30,6 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-body">
-          <div class="row">
-            <div class="form-group col-md-3">
-              <label for="bond_number">Bond Number</label>
-              <div class="clearfix">&nbsp;</div>
-              <label><?php echo $out['bond_number'] ?></label>
-            </div>
-          </div>
           <form id="pdr_update_form" action="#" method="post" onsubmit="return false;">
             <input type="hidden" name="pdr_id" value="<?php echo $pdrID; ?>">
             <!-- <div class="row" id="fields">
@@ -109,96 +102,50 @@
               <div class="col-md-3 col-sm-3">
                 <input type="submit" id="update_pdr_btn" name="submit" value="Update PDR" class="btn btn-primary btn-block pull-left" onclick="updatePDR()">
               </div>
+              <div class="col-md-3 col-sm-3">
+                <input type="submit" id="update_pdr_btn" name="submit" value="Approve PDR" class="btn btn-primary btn-block pull-left" onclick="approvePDR(<?php echo $out['pdr_id']; ?>)">
+              </div>
+              <div class="col-md-3 col-sm-3">
+                <input type="submit" id="update_pdr_btn" name="submit" value="Reject PDR" class="btn btn-primary btn-block pull-left" onclick="rejectPDR(<?php echo $out['pdr_id']; ?>)">
+              </div>
             </div>
           </form>
         </div>
       </div>
       <!-- /.box -->
 
-      <!--Bond Order Modal Div -->
-      <div class="modal fade" id="view_list_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-              <form  id="dataapprovedlist_form" name="dataapprovedlist_form" method="post" class="validator-form1" action="" onsubmit="return false;">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                  <h4 class="modal-title" id="modal_title">Bond Orders</h4>
-                </div>
-                <div class="modal-body">
-                  <div class="responsive">
-                      <table id="tariff_master_list" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th>S.No</th>
-                                <th>Bond Order ID</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="datalist_tbody">
-                         
-                        </tbody>
-                      </table>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-              </form>
-            </div>
-        </div>
-      </div>
-
-      <!--Items Modal -->
-      <div class="modal fade" id="select_items_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-              <form  id="select_items_form" name="dataapprovedlist_form" method="post" class="validator-form1" action="" onsubmit="return false;">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                  <h4 class="modal-title" id="modal_title">Item List</h4>
-                </div>
-                <div class="modal-body">
-                  <div class="responsive">
-                    <table id="tariff_master_list" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                          <thead>
-                              <tr>
-                                  <th></th>
-                                  <th>Item ID</th>
-                                  <th>Item Name</th>
-                                  <th>Available Qty.</th>
-                                  <th>Despatch Qty.</th>
-                              </tr>
-                          </thead>
-                          <tbody id="item_list_tbody">
-                           
-                          </tbody>
-                      </table>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" onclick="setDespatchQtyForItems()" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-              </form>
-            </div>
-        </div>
-      </div>
-
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+
   <?php
     include('../footer_imports.php');
   ?>
-  <script type="text/javascript" src="<?php echo HOMEURL; ?>/pdr/js/pdr.js""></script>
+  <script type="text/javascript" src="<?php echo HOMEURL; ?>/pdr/js/pdr.js"></script>
   <script type="text/javascript">
+    $(document).ready(function(){
+      $("#client_insurance_file_div").hide();
+      $("#client_insurance_declaration_file_div").hide();
+      $('#containerlist_form').validate({
+        errorClass: "my-error-class" //error class defined in header file style tag
+      });
+      $('#pdr_update_form').validate({
+        errorClass: "my-error-class"
+      });
+    });
+
     //Date picker
     $('#exbond_be_date').datepicker({
       autoclose: true,
       dateFormat: "yy-mm-dd"
     });
 
-    var isEditPage = true;// used to redirect to pdr-apprvoe-reject-view.php when update method is called
+    function updateClicked(){
+      $('#action_hidden_text').val('update_pdr');
+    }
+
+    var isEditPage = false;// used to redirect to pdr-apprvoe-reject-view.php when update method is called
 
   </script>
   <?php

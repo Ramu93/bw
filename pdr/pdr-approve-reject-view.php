@@ -10,7 +10,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Job Order Unloading - List
+        Despatch Request - List
       </h1>
     </section>
 
@@ -20,20 +20,19 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-body">
-          <table id="par_table" class="table table-bordered table-striped">
+          <table id="pdr_table" class="table table-bordered table-striped">
             <thead>
               <tr>
                 <th>S. No.</th>
-                <th>Job Order ID</th>
-                <th>No. of Packages</th>
-                <th>Type of Unloading</th>
-                <th>Supervisor Name</th>
+                <th>PDR ID</th>
+                <th>SAC/PAR</th>
+                <th>Client Web</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
               <?php 
-                $select_query = "SELECT * FROM joborder_unloading WHERE status<>'rejected'";
+                $select_query = "SELECT * FROM despatch_request";
                 $result = mysqli_query($dbc,$select_query);
                 $row_counter = 0;
                 if(mysqli_num_rows($result) > 0) {
@@ -41,11 +40,10 @@
                   while($row = mysqli_fetch_array($result)) {
                     echo "<tr>";
                     echo "<td>".++$row_counter."</td>";
-                    echo "<td>".$row['ju_id']."</td>";
-                    echo "<td>".$row['no_of_packages']."</td>";
-                    echo "<td>".$row['unloading_type']."</td>";
-                    echo "<td>".$row['supervisor_name']."</td>";
-                    echo "<td><a href='job-order-unloading-view.php?ju_id=".$row['ju_id']."'>View</a></td>";
+                    echo "<td>".$row['pdr_id']."</td>";
+                    echo "<td>".strtoupper($row['sac_par_table']).": ".$row['sac_par_id']."</td>";
+                    echo "<td>".$row['client_web']."</td>";
+                    echo "<td><a href='pdr-approve-reject.php?pdr_id=".$row['pdr_id']."'>Approve/Reject</a></td>";
                     echo "</tr>";
                   }
                 } else {

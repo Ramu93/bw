@@ -195,6 +195,10 @@
       dateFormat: "yy-mm-dd"
     });
 
+    $('#pdr_create_form').validate({
+      errorClass: "my-error-class"
+    });
+
     $('#fields').hide();
     $('#create_pdr_btn').hide();
 

@@ -50,7 +50,7 @@
                   }
                 } else {
                   $dataTableFlag = false;
-                  echo "<tr><td colspan=\"6\">No IGPs available. <a href=\"igp-unloading-create.php\">Create one</a> now</td></tr>";
+                  echo "<tr><td colspan=\"6\">No IGPs available.</td></tr>";
                 }
               ?>
             </tbody>

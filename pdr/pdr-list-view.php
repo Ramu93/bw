@@ -20,7 +20,7 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-body">
-          <table id="grn_table" class="table table-bordered table-striped">
+          <table id="pdr_table" class="table table-bordered table-striped">
             <thead>
               <tr>
                 <th>S. No.</th>
@@ -48,7 +48,7 @@
                   }
                 } else {
                   $dataTableFlag = false;
-                  echo "<tr><td colspan=\"6\">No Job Orders available. <a href=\"job-order-unloading-create.php\">Create one</a> now</td></tr>";
+                  echo "<tr><td colspan=\"6\">No PDRs available.</td></tr>";
                 }
               ?>
             </tbody>
@@ -70,7 +70,7 @@
   <script>
     $(function () {
       <?php if($dataTableFlag) { ?>
-        $("#grn_table").DataTable();
+        $("#pdr_table").DataTable();
       <?php } ?>
     });
   </script>

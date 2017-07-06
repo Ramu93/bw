@@ -32,7 +32,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Pre Arrivat Request - Approve/Reject
+        Pre Arrival Request - Approve/Reject
       </h1>
     </section>
 
@@ -167,9 +167,9 @@
               <div class="col-md-3 col-sm-3">
                 <input type="submit" name="submit" value="Update PAR" class="btn btn-primary btn-block pull-left" onclick="updateClicked();updatePAR(<?php echo $parID; ?>);">
               </div>
-              <div class="col-md-3 col-sm-3">
-                <input type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#containerlist_modal" value="Add Container">
-              </div>
+              <!-- <div class="col-md-3 col-sm-3">
+                <input type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#containerlist_modal" value="View Containers">
+              </div> -->
             </div>
           </form>
         </div>
@@ -181,53 +181,42 @@
   </div>
   <!-- /.content-wrapper -->
 
-  <!--Container Modal Div -->
+<!--Container Modal Div -->
  <div class="modal fade" id="containerlist_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <form  id="containerlist_form" name="containerlist_form" method="post" class="validator-form1" action="" onsubmit="return false;"> 
               <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                  <h4 class="modal-title" id="myModalLabel">Add Container Details</h4>
+                  <h4 class="modal-title" id="myModalLabel">View Container Details</h4>
               </div>
               <div class="modal-body">
-                <div class="" id="containeritems_div">
-                  <div class="col-md-6">
-                    <label for="dimension">Dimension per Unit and Weight</label>
+                <!-- <div class="" id="containeritems_div">
+                  <div class="col-md-4">
+                    <label for="dimension">Dimension</label>
                     <select class="form-control required" id="dimension" name="dimension">
                       <option value="20 ft. Container">20 ft. Container</option>
                       <option value="40 ft. Container">40 ft. container</option>
-                      <option value="Break Bulk ODC LCL">Break Bulk ODC LCL</option>
+                      <option value="Break Bulk/ODC">Break Bulk/ODC</option>
+                      <option value="LCL">LCL</option>
                     </select>
                   </div>
-                  <div class="col-md-6">
-                    <label for="qty_numbers">Quantity</label>
+                  <div class="col-md-4">
+                    <label for="container_detail">No. of Containers</label>
                     <div class="form-group">
-                      <input type="text" class="form-control required number" id="qty_numbers" name="qty_numbers" placeholder="Quantity">
+                      <input type="text" class="form-control" name="container_count" id="container_count" placeholder="" value="1" />
                     </div>
-                  </div>  
-                  <div class="col-md-6">
-                    <label for="weight">Weight</label>
-                      <div class="form-group">
-                        <input type="text" class="form-control required number" id="container_weight" name="container_weight" placeholder="Weight">
-                      </div>
                   </div>
-                  <!-- <div class="col-md-6">
-                    <label for="total">Number of Vehicles</label>
-                    <div class="form-group">
-                      <input  name="vehicle_number" placeholder="1" id="vehicle_number" class="form-control" value="1">
-                    </div>
-                  </div> -->
+                  <div class="clearfix"></div>
                   <div id="container_number_div">
-                    <div class="col-md-6">
-                      <label for="container_detail">Container Detail</label>
+                    <div class="col-md-4">
                       <div class="form-group">
-                        <input type="text" class="form-control" name="container_detail" id="container_detail" placeholder="Container Number" />
+                        <input type="text" class="form-control required" name="container_number_1" id="container_number_1" placeholder="Container Number" />
                       </div>
                     </div>
                   </div>
                   <div class="clearfix"></div>
-                </div>
+                </div> -->
                 <div class="col-sm-12" id="accordion_div_container">
                   <div class="panel-group" id="accordion_container" role="tablist" aria-multiselectable="true" style="display:none;">
                     <div class="panel panel-default">
@@ -249,13 +238,13 @@
               </div>
               <div class="clearfix"></div>
               <div class="modal-footer">
-                  <button type="button" class="btn btn-success" onclick="addContainerItem();" >Add Detail</button>
+                  <!-- <button type="button" class="btn btn-success" onclick="addContainerItem();" >Add Detail</button> -->
+                  <button type="button" data-dismiss="modal" class="btn btn-default" >Close</button>
               </div>
             </form>
         </div>
     </div>
   </div>
-
 
   <?php
     include('../footer_imports.php');
@@ -302,8 +291,11 @@
       $('#action_hidden_text').val('update_par');
     }
 
-    g_containerlist = <?php echo json_encode($containerOutput); ?>;
-    displayContainers();
+    gContainerList = <?php echo json_encode($containerOutput); ?>;
+    for(i = 0; i < gContainerList.length; i++){
+      gContainerList[i].container_details = JSON.parse(gContainerList[i].container_details);
+    }
+    displayContainersInEditMode();
 
     var isEditPage = false;// used to redirect to par-apprvoe-reject-view.php when update method is called
 

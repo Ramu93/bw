@@ -34,6 +34,9 @@
 	    case 'update_pdr':
 	    	$finaloutput = updatePDR();
 	    break;
+	    case 'update_status_pdr':
+	    	$finaloutput = updateStatusPDR();
+	    break;
 	    default:
 	        $finaloutput = array("infocode" => "INVALIDACTION", "message" => "Irrelevant action");
 	}
@@ -167,6 +170,20 @@
 		$transporterName = mysqli_real_escape_string($dbc, $_POST['transporter_name']);
 
 		$query = "UPDATE despatch_request SET client_web='$clientWeb', cha_name='$chaName', order_number='$orderNumber', boe_number='$boeNumber', exbond_be_number='$exBondBeNumber', exbond_be_date='$exBondBeDate', customs_officer_name='$customsOfficerName', number_of_packages='$numberOfPackages', assessment_value='$assessmentValue', duty_value='$dutyValue', transporter_name='$transporterName' WHERE pdr_id='$pdrId'";
+		if(mysqli_query($dbc, $query)){
+			$output = array("infocode" => "UPDATEPDRSUCCESS", "message" => "PDR updation successful.");
+		} else {
+			$output = array("infocode" => "UPDATEPDRFAILURE", "message" => "PDR updation unsuccessful.");
+		}
+		return $output;
+	}
+
+	function updateStatusPDR(){
+		global $dbc;
+		$pdrId = $_POST['pdr_id'];
+		$status = $_POST['status'];
+
+		$query = "UPDATE despatch_request SET status='$status' WHERE pdr_id='$pdrId'";
 		if(mysqli_query($dbc, $query)){
 			$output = array("infocode" => "UPDATEPDRSUCCESS", "message" => "PDR updation successful.");
 		} else {

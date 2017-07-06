@@ -202,7 +202,51 @@ function updatePDR(){
 		success: function(result){
 			if(result.infocode == 'UPDATEPDRSUCCESS'){
 				bootbox.alert(result.message, function(){
-					window.location = 'pdr-list-view.php';
+					if(isEditPage){
+						window.location = 'pdr-list-view.php';
+					} else {
+						window.location = 'pdr-approve-reject-view.php';
+					}
+				});
+			} else {
+				bootbox.alert(result.message);
+			}
+		},
+		error: function(){} 	        
+	});
+}
+
+function approvePDR(pdrId){
+	var data = $('#pdr_update_form').serialize() + '&status=approved' + '&action=update_status_pdr';
+	$.ajax({
+		url: "pdr-services.php",
+		type: "POST",
+		data: data,
+		dataType: 'json',
+		success: function(result){
+			if(result.infocode == 'UPDATEPDRSUCCESS'){
+				bootbox.alert(result.message, function(){
+					window.location = 'pdr-approve-reject-view.php';
+				});
+			} else {
+				bootbox.alert(result.message);
+			}
+		},
+		error: function(){} 	        
+	});
+}
+
+function rejectPDR(pdrId){
+	var data = $('#pdr_update_form').serialize() + '&status=rejected' + '&action=update_status_pdr';
+	$.ajax({
+		url: "pdr-services.php",
+		type: "POST",
+		data: data,
+		dataType: 'json',
+		success: function(result){
+			if(result.infocode == 'UPDATEPDRSUCCESS'){
+				bootbox.alert(result.message, function(){
+					window.location = 'pdr-approve-reject-view.php';
 				});
 			} else {
 				bootbox.alert(result.message);

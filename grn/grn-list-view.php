@@ -46,7 +46,7 @@
                   }
                 } else {
                   $dataTableFlag = false;
-                  echo "<tr><td colspan=\"6\">No Job Orders available. <a href=\"job-order-unloading-create.php\">Create one</a> now</td></tr>";
+                  echo "<tr><td colspan=\"6\">No Job Orders available.</td></tr>";
                 }
               ?>
             </tbody>
