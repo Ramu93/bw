@@ -17,9 +17,8 @@
         while ($containerRow = mysqli_fetch_array($result)) {
           $containerOutput[] = array (
            'dimension'=>$containerRow['dimension'],
-           'qty_numbers' => $containerRow['qty_numbers'],
-           'container_weight'=> $containerRow['container_weight'],
-           'vehicle_number' => $containerRow['vehicle_number']
+           'container_count' => $containerRow['container_count'],
+           'container_details'=> $containerRow['container_details']
            );
         }
       }
@@ -167,9 +166,9 @@
               <div class="col-md-3 col-sm-3">
                 <input type="submit" name="submit" value="Update PAR" class="btn btn-primary btn-block pull-left" onclick="updateClicked();updatePAR(<?php echo $parID; ?>);">
               </div>
-              <!-- <div class="col-md-3 col-sm-3">
+              <div class="col-md-3 col-sm-3">
                 <input type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#containerlist_modal" value="View Containers">
-              </div> -->
+              </div>
             </div>
           </form>
         </div>

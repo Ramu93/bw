@@ -120,7 +120,7 @@
                 <input type="submit" name="submit" value="Update SAC Request" class="btn btn-primary btn-block pull-left" onclick="updateSACRequest(<?php echo $sacID; ?>);">
               </div>
               <div class="col-md-6 col-sm-6">
-                <input type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#containerlist_modal" value="Add Container">
+                <input type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#containerlist_modal" value="View Container">
               </div>
             </div>
           </form>

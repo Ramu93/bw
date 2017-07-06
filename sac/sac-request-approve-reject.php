@@ -17,9 +17,8 @@
         while ($containerRow = mysqli_fetch_array($result)) {
           $containerOutput[] = array (
            'dimension'=>$containerRow['dimension'],
-           'qty_numbers' => $containerRow['qty_numbers'],
-           'container_weight'=> $containerRow['container_weight'],
-           'vehicle_number' => $containerRow['vehicle_number']
+           'container_count' => $containerRow['container_count'],
+           'container_details'=> $containerRow['container_details']
            );
         }
       }
@@ -118,13 +117,16 @@
             </div>
             <div class="row">
               <div class="col-md-3 col-sm-3">
-                <input type="button" name="approve_par" value="Approve SAC Request" class="btn btn-success btn-block pull-left" onclick="approveSACRequest(<?php echo $sacID; ?>);">
+                <input type="button" name="approve_par" value="Approve SAC Request" class="btn btn-primary btn-block pull-left" onclick="approveSACRequest(<?php echo $sacID; ?>);">
               </div>
               <div class="col-md-3 col-sm-3">
                 <input type="button" name="reject_par" value="Reject SAC Request" class="btn btn-primary btn-block pull-left" onclick="rejectSACRequest(<?php echo $sacID; ?>);">
               </div>
               <div class="col-md-3 col-sm-3">
                 <input type="submit" name="submit" value="Update SAC Request" class="btn btn-primary btn-block pull-left" onclick="updateSACRequest(<?php echo $sacID; ?>);">
+              </div>
+              <div class="col-md-3 col-sm-3">
+                <input type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#containerlist_modal" value="View Container">
               </div>
             </div>
           </form>
@@ -136,6 +138,71 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+
+  <!--Container Modal Div -->
+ <div class="modal fade" id="containerlist_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form  id="containerlist_form" name="containerlist_form" method="post" class="validator-form1" action="" onsubmit="return false;"> 
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                  <h4 class="modal-title" id="myModalLabel">View Container Details</h4>
+              </div>
+              <div class="modal-body">
+                <!-- <div class="" id="containeritems_div">
+                  <div class="col-md-4">
+                    <label for="dimension">Dimension</label>
+                    <select class="form-control required" id="dimension" name="dimension">
+                      <option value="20 ft. Container">20 ft. Container</option>
+                      <option value="40 ft. Container">40 ft. container</option>
+                      <option value="Break Bulk/ODC">Break Bulk/ODC</option>
+                      <option value="LCL">LCL</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="container_detail">No. of Containers</label>
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="container_count" id="container_count" placeholder="" value="1" />
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                  <div id="container_number_div">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <input type="text" class="form-control required" name="container_number_1" id="container_number_1" placeholder="Container Number" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div> -->
+                <div class="col-sm-12" id="accordion_div_container">
+                  <div class="panel-group" id="accordion_container" role="tablist" aria-multiselectable="true" style="display:none;">
+                    <div class="panel panel-default">
+                      <div class="panel-heading" role="tab" id="headingOne_container">
+                        <h4 class="panel-title">
+                          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne_c" aria-expanded="false" aria-controls="collapseOne">
+                            Collapsible Group Item #1
+                          </a>
+                        </h4>
+                      </div>
+                      <div id="collapseOne_c" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="panel-body">
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+              <div class="modal-footer">
+                  <!-- <button type="button" class="btn btn-success" onclick="addContainerItem();" >Add Detail</button> -->
+                  <button type="button" data-dismiss="modal" class="btn btn-default" >Close</button>
+              </div>
+            </form>
+        </div>
+    </div>
+  </div>
 
  
 
@@ -162,6 +229,12 @@
       dateFormat: "yy-mm-dd",
       minDate: startDate
     });
+
+    gContainerList = <?php echo json_encode($containerOutput); ?>;
+    for(i = 0; i < gContainerList.length; i++){
+      gContainerList[i].container_details = JSON.parse(gContainerList[i].container_details);
+    }
+    displayContainersInEditMode();
 
     var isEditPage = false; // used to redirect to sac-request-approve-reject-view.php when update method is called
 
