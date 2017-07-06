@@ -36,7 +36,7 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Document Verification
+      Document Verification - Inward
     </h1>
   </section>
 

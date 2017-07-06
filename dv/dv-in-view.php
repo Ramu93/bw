@@ -10,7 +10,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Document Verification - List View
+        Document Verification Inward - List View
       </h1>
     </section>
 
