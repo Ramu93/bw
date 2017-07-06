@@ -275,7 +275,7 @@
 <?php
   include('../footer_imports.php');
 ?>
-<script type="text/javascript" src="<?php echo HOMEURL; ?>/dv/js/document-verification.js"></script>
+<script type="text/javascript" src="<?php echo HOMEURL; ?>/dv/js/dv-in.js"></script>
 <script type="text/javascript">
 
   $(document).ready(function(){

@@ -1,13 +1,13 @@
 Array
 (
-    [0] => 44
-    [id] => 44
-    [1] => rr
-    [importing_firm_name] => rr
-    [2] => rr
-    [licence_code] => rr
-    [3] => rr
-    [bol_awb_number] => rr
-    [4] => rr
-    [boe_number] => rr
+    [0] => 6
+    [id] => 6
+    [1] => q
+    [importing_firm_name] => q
+    [2] => 123
+    [licence_code] => 123
+    [3] => 122
+    [bol_awb_number] => 122
+    [4] => 1223
+    [boe_number] => 1223
 )

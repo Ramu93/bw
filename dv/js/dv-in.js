@@ -19,18 +19,18 @@ function submitDocumentVerification(){
 		var data = $('#document_verification_form').serialize() + '&action=submit_verification';
 		//alert(data);
 		$.ajax({
-			url: "document-verification-services.php",
+			url: "dv-in-services.php",
 			type: "POST",
 			data:  data,
 			dataType: 'json',
 			success: function(result){
 				if(result.infocode == 'DOCUMENTVERIFICATIONSUCCESS'){
 					bootbox.alert(result.message,function(){
-						window.location='document-verification-view.php';	
+						window.location='dv-in-view.php';	
 					});
 				} else if(result.infocode == 'DOCUMENTNOTVERIFIED') {
 					bootbox.alert(result.message,function(){
-						window.location='document-verification-view.php';	
+						window.location='dv-in-view.php';	
 					});
 				}		
 			},
@@ -98,7 +98,7 @@ function getSelectedtContainerData(){
 	var data = 'sac_par_table=' + sacParTable + "&sac_par_id=" + sacParID + '&action=get_container_data';
 	//alert(data);
 	$.ajax({
-		url: "document-verification-services.php",
+		url: "dv-in-services.php",
 		type: "POST",
 		data:  data,
 		dataType: 'json',

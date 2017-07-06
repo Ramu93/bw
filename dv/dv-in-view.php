@@ -47,7 +47,7 @@
                     echo "<td>".$row['licence_code']."</td>";
                     echo "<td>".$row['bol_awb_number']."</td>";
                     echo "<td>".$row['boe_number']."</td>";
-                    echo "<td><a href='document-verification.php?id=".$row['id']."&table=".$row['table_name']. "'>Verify</a></td>";
+                    echo "<td><a href='dv-in.php?id=".$row['id']."&table=".$row['table_name']. "'>Verify</a></td>";
                     echo "</tr>";
                   }
                 } else {
