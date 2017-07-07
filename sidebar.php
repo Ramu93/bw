@@ -133,7 +133,7 @@
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
               </a>
-              <ul class="treeview-menu">
+              <ul class="treeview-menu" style="display:block;">
                 <li><a href="<?php echo HOMEURL; ?>/gate-pass/igp-unloading-create.php"><i class="fa fa-plus"></i> Create</a></li>
                 <li><a href="<?php echo HOMEURL; ?>/gate-pass/igp-unloading-list-view.php"><i class="fa fa-file"></i> View</a></li>
               </ul>
@@ -144,7 +144,7 @@
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
               </a>
-              <ul class="treeview-menu">
+              <ul class="treeview-menu" style="display:block;">
                 <li><a href="<?php echo HOMEURL; ?>/job-order-loading-create.php"><i class="fa fa-plus"></i> Create</a></li>
                 <li><a href="<?php echo HOMEURL; ?>/job-order-loading-list-view.php"><i class="fa fa-file"></i> View</a></li>
               </ul>
@@ -165,7 +165,7 @@
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
               </a>
-              <ul class="treeview-menu">
+              <ul class="treeview-menu" style="display:block;">
                 <li><a href="<?php echo HOMEURL; ?>/job-order/job-order-unloading-create.php"><i class="fa fa-plus"></i> Create</a></li>
                 <li><a href="<?php echo HOMEURL; ?>/job-order/job-order-unloading-list-view.php"><i class="fa fa-file"></i> View</a></li>
               </ul>
@@ -176,7 +176,7 @@
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
               </a>
-              <ul class="treeview-menu">
+              <ul class="treeview-menu" style="display:block;">
                 <li><a href="<?php echo HOMEURL; ?>/job-order/job-order-loading-create.php"><i class="fa fa-plus"></i> Create</a></li>
                 <li><a href="<?php echo HOMEURL; ?>/job-order/job-order-loading-view.php"><i class="fa fa-file"></i> View</a></li>
               </ul>
@@ -222,7 +222,7 @@
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
               </a>
-              <ul class="treeview-menu">
+              <ul class="treeview-menu" style="display:block;">
                 <li><a href="<?php echo HOMEURL; ?>/gate-pass/igp-loading-create.php"><i class="fa fa-plus"></i> Create</a></li>
                 <li><a href="<?php echo HOMEURL; ?>/gate-pass/igp-loading-list-view.php"><i class="fa fa-file"></i> View</a></li>
               </ul>
@@ -233,7 +233,7 @@
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
               </a>
-              <ul class="treeview-menu">
+              <ul class="treeview-menu" style="display:block;">
                 <li><a href="<?php echo HOMEURL; ?>/job-order-loading-create.php"><i class="fa fa-plus"></i> Create</a></li>
                 <li><a href="<?php echo HOMEURL; ?>/job-order-loading-view.php"><i class="fa fa-file"></i> View</a></li>
               </ul>
@@ -244,5 +244,6 @@
     </section>
     <!-- /.sidebar -->
   </aside>
+
 
   <!-- ===============================================
