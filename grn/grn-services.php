@@ -55,7 +55,7 @@
     	}
 
     	$updateSacParStatusQuery = "UPDATE $tableName SET status='" . GRN_CREATED_STATUS . "' WHERE $idCol = '$sacParId'";
-		file_put_contents("formlog.log", print_r( $updateSacParStatusQuery, true ));
+		// file_put_contents("formlog.log", print_r( $updateSacParStatusQuery, true ));
 
     	mysqli_query($dbc, $updateSacParStatusQuery);
     	return array("status"=>"success","message"=>"GRN created successfully.");
@@ -106,7 +106,7 @@
 			}
 			
 		}
-		file_put_contents("datalog.log", print_r($innerQuery, true ));
+		// file_put_contents("datalog.log", print_r($innerQuery, true ));
 		return $output;
 	}
 ?>

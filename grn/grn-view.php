@@ -27,7 +27,7 @@
         $out = array_merge($out, $innerRow);
       }
     }
-    file_put_contents("editlog.log", print_r( $out, true ));
+    // file_put_contents("editlog.log", print_r( $out, true ));
   ?>
 
   <!-- Content Wrapper. Contains page content -->

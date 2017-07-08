@@ -12,7 +12,7 @@
       $row = mysqli_fetch_array($query);
       $out = $row;
     }
-    file_put_contents("editlog.log", print_r( $out, true ));
+    // file_put_contents("editlog.log", print_r( $out, true ));
 
   ?>
 
@@ -249,7 +249,7 @@
   <?php
     include('../footer_imports.php');
   ?>
-  <script type="text/javascript" src="<?php echo HOMEURL; ?>/job-order/js/job-order.js"></script>
+  <script type="text/javascript" src="<?php echo HOMEURL; ?>/job-order/js/job-order-unloading.js"></script>
   <script type="text/javascript">
 
     $(document).ready(function(){

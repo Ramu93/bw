@@ -185,7 +185,7 @@
   <?php
     include('../footer_imports.php');
   ?>
-  <script type="text/javascript" src="<?php echo HOMEURL; ?>/job-order/js/job-order.js"></script>
+  <script type="text/javascript" src="<?php echo HOMEURL; ?>/job-order/js/job-order-unloading.js"></script>
   <script type="text/javascript">
 
     $('#unloading_type').on('change', function() {

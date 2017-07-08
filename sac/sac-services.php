@@ -51,7 +51,7 @@
 		$sacFormElementsArray = array("importing_firm_name"=>"importing_firm_name","bol_awb_number"=>"bol_awb_number","material_name"=>"material_name","packing_nature"=>"packing_nature","assessable_value"=>"assessable_value","material_nature"=>"material_nature","required_period"=>"required_period","licence_code"=>"licence_code","boe_number"=>"boe_number","qty_units"=>"qty_units","space_requirement"=>"space_requirement","duty_amount"=>"duty_amount","expected_date"=>"expected_date","insurance_by"=>"insurance_by",);
 		$sacFormElementsArray = $form->getFormValues($sacFormElementsArray,$_POST);	
 		$sacFormElementsArray['status'] = SAC_DEFAULT_STATUS;
-		file_put_contents("formlog.log", print_r( $sacFormElementsArray, true ));
+		// file_put_contents("formlog.log", print_r( $sacFormElementsArray, true ));
     	$db->insertOperation('sac_request',$sacFormElementsArray);
 
     	// $saclogarray = array("sac_id" => $sacId, "status_to" => 'Submitted', "remarks" => "Waiting for Approval");
