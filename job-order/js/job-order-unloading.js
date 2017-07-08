@@ -52,7 +52,7 @@ function getDataList(){
 	}
 	
 	$.ajax({
-		url: "job-order-services.php",
+		url: "job-order-unloading-services.php",
 		type: "POST",
 		data: data,
 		dataType: 'json',
@@ -102,7 +102,7 @@ function getDataDetails(dataItem){
 	data += '&data_value=' + dataItem + '&action=get_selected_data_details';
 	//alert(data)
 	$.ajax({
-		url: "job-order-services.php",
+		url: "job-order-unloading-services.php",
 		type: "POST",
 		data:  data,
 		dataType: 'json',
@@ -149,7 +149,7 @@ function createJobOrder(){
 		var sacParTable = $('#sac_par_table').val();
 		var sacParId = $('#sac_par_id').val();
 		$.ajax({
-			url: "job-order-services.php",
+			url: "job-order-unloading-services.php",
 			type: "POST",
 			data:  data,
 			dataType: 'json',
@@ -182,7 +182,7 @@ function raiseException(){
 	var data = $('#exception_form').serialize() + '&action=raise_exception';
 	//alert(data);
 	$.ajax({
-		url: "job-order-services.php",
+		url: "job-order-unloading-services.php",
 		type: "POST",
 		data:  data,
 		dataType: 'json',
@@ -203,7 +203,7 @@ function raiseException(){
 function closException(exceptionId){
 	var data = $('#close_exception_form').serialize() + '&exception_id=' + exceptionId + '&action=close_exception';
 	$.ajax({
-		url: "job-order-services.php",
+		url: "job-order-unloading-services.php",
 		type: "POST",
 		data:  data,
 		dataType: 'json',
@@ -225,7 +225,7 @@ function rejectJobOrder(juId){
 			if(result){
 				var data = 'ju_id=' + juId + '&action=reject_joborder';
 				$.ajax({
-					url: "job-order-services.php",
+					url: "job-order-unloading-services.php",
 					type: "POST",
 					data:  data,
 					dataType: 'json',
@@ -249,7 +249,7 @@ function completeJobOrder(juId){
 			if(result){
 				var data = 'ju_id=' + juId + "&action=complete_joborder";
 				$.ajax({
-					url: "job-order-services.php",
+					url: "job-order-unloading-services.php",
 					type: "POST",
 					data:  data,
 					dataType: 'json',

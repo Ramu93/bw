@@ -9,6 +9,7 @@
 	define('CLOSE_EXCEPTION_STATUS','complete');
 	define('JOB_ORDER_REJECT_STATUS', 'rejected');
 	define('JOB_ORDER_COMPLETE_STATUS', 'completed');
+	define('GRN_JOB_ORDER_COMPLETE', 'joborder_completed');
 
 	$db = new DBWrapper($dbobj);
 	$form = new FormWrapper();
@@ -114,7 +115,31 @@
   		$wherearray = array('condition'=>'ju_id = :ju_id', 'param'=>':ju_id', 'value'=>$juId);
 	    $db->updateOperation('joborder_unloading',array('status'=>JOB_ORDER_COMPLETE_STATUS),$wherearray);
 
+	    //change the status of GRN to job-rder_complete
+	    changeIGPStatus($juId);
+
 	    return array("infocode"=>"JOBORDERCOMPLETED","message"=>"Job Order completed successfully");
+	}
+
+	function changeIGPStatus($juId){
+		global $dbc;
+		$sacParDetails = getSacParDetails($juId);
+		$sacParTable = $sacParDetails['sac_par_table'];
+		$sacParId = $sacParDetails['sac_par_id'];
+		$query = "UPDATE igp_unloading SET status='".GRN_JOB_ORDER_COMPLETE."' WHERE sac_par_table='$sacParTable' AND sac_par_id='$sacParId'";
+		mysqli_query($dbc, $query);
+	}
+
+	function getSacParDetails($juId){
+		global $dbc;
+		$query = "SELECT sac_par_id, sac_par_table FROM joborder_unloading WHERE ju_id='$juId'";
+		$result = mysqli_query($dbc, $query);
+		$out = array();
+		if(mysqli_num_rows($result) > 0){
+			$row = mysqli_fetch_assoc($result);
+			$out = $row;
+		}
+		return $out;
 	}
 
 	function getDataList(){
@@ -189,7 +214,7 @@
 			}
 			$output = array("infocode" => "DATADETAILFETCHSUCCESS", "data" => json_encode($out));
 		}
-		file_put_contents("datalog.log", print_r(json_encode($output), true ));
+		//file_put_contents("datalog.log", print_r(json_encode($output), true ));
 		return $output;
 	}
 ?>
