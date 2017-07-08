@@ -52,6 +52,7 @@
                   <label>PDR ID</label>
                   <div class="clearfix"></div>
                   <label id="pdr_id_label"></label>
+                  <input type="hidden" name="pdr_id_hidden" id="pdr_id_hidden">
                 </div>
                 <div class="col-md-3">
                   <label>Bond Number</label>

@@ -126,6 +126,8 @@ function getDataDetails(dataItem){
 				selectedData = JSON.parse(selectedData)[0];
 
 				$('#pdr_id_label').html(selectedData.pdr_id);
+				$('#pdr_id_hidden').val(selectedData.pdr_id);
+
 				$('#bond_number_label').html(selectedData.bond_number);
 				$('#boe_number_label').html(selectedData.boe_number);
 				$('#client_web_label').html(selectedData.client_web);
