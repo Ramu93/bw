@@ -106,10 +106,10 @@
 		$driverName = mysqli_real_escape_string($dbc, trim($_POST['driver_name']));
 		$drivingLicense = mysqli_real_escape_string($dbc, trim($_POST['driving_license']));
 		$timeIn = mysqli_real_escape_string($dbc, trim($_POST['in_time']));
-		$entryDate =  mysqli_real_escape_string($dbc, trim($_POST['entry_date']));
+		$entryDate =  $_POST['entry_date'];
 
-		$query = "INSERT INTO igp_loading (data_type, data_value, vehicle_number, driver_name, driving_license,time_in, entry_date) VALUES ('$dataType', '$dataValue', '$vehicleNumber', '$driverName', '$drivingLicense', '$timeIn', $entryDate)";
-		// file_put_contents("testlog.log",$query, FILE_APPEND | LOCK_EX);
+		$query = "INSERT INTO igp_loading (data_type, data_value, vehicle_number, driver_name, driving_license,time_in, entry_date) VALUES ('$dataType', '$dataValue', '$vehicleNumber', '$driverName', '$drivingLicense', '$timeIn', '".date("Y-m-d")."')";
+		//file_put_contents("testlog.log",$query, FILE_APPEND | LOCK_EX);
 		if(mysqli_query($dbc, $query)){
 			switch ($dataType) {
 				case 'pdr_id':

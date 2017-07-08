@@ -157,7 +157,6 @@
             <div id="container_data_div" class="responsive">
               
             </div> -->
-            <input type="hidden" name="">
             <div class="clearfix">&nbsp;</div>
             <div class="row">
               <div class="col-md-4 col-sm-4">

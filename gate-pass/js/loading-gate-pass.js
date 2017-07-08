@@ -152,9 +152,9 @@ function generateIGP(){
 			type: "POST",
 			data:  data,
 			dataType: 'json',
-			success: function(data){
-				if(data.status == 'Success'){
-					bootbox.alert(data.message,function(){
+			success: function(result){
+				if(result.status == 'Success'){
+					bootbox.alert(result.message,function(){
 						window.location='igp-loading-list-view.php';	
 					});
 				}
