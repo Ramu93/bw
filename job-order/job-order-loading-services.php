@@ -7,7 +7,8 @@
 	//define('IGP_LOADING_DEFAULT_STATUS','created');
 	define('JOBORDER_CREATED_STATUS','created');
 	define('JOBORDER_COMPLETE_STATUS','completed');
-	define('IGP_JOBORDER_COMPLETE_STATUS','joborder_complete');
+	define('IGP_JOBORDER_CREATE_STATUS','joborder_created');
+	define('IGP_JOBORDER_COMPLETE_STATUS','joborder_completed');
 
 
 	$db = new DBWrapper($dbobj);
@@ -142,8 +143,9 @@
 
 		$query = "INSERT INTO joborder_loading(pdr_id, space_occupied_after, supervisor_name, loading_type, equipment_ref_number, no_of_labors, loading_time) VALUES ('$pdrId', '$spaceOccupiedAfter', '$supervisorName', '$loadingType', '$equipmentRefNumber', '$noOfLabors', '$loadingTime')";
 		if(mysqli_query($dbc, $query)){
-			$lastInsertId = mysqli_insert_id($dbc);
-			$output = array("infocode" => "JOBORDERCREATESUCCESS", "data" => $lastInsertId, "message" => "Job order created successfully");
+			$lastInsertJobOrderId = mysqli_insert_id($dbc);
+			changeIGPStatus($lastInsertJobOrderId, IGP_JOBORDER_CREATE_STATUS);
+			$output = array("infocode" => "JOBORDERCREATESUCCESS", "data" => $lastInsertJobOrderId, "message" => "Job order created successfully");
 		} else {
 			$output = array("infocode" => "JOBORDERCREATEFAILURE", "message" => "Job order not created.","data"=>"");
 		}
@@ -157,8 +159,10 @@
 		$query = "UPDATE joborder_loading SET status='completed' WHERE jl_id='$jlId'";
 		// file_put_contents("querylog.log",$query, FILE_APPEND | LOCK_EX);
 		if(mysqli_query($dbc, $query)){
+			//add OGP-loading entry
+			addOGPEntry($jlId);
 			//change the status of IGP - loading to joborder_complete
-			changeIGPStatus($jlId);
+			changeIGPStatus($jlId, IGP_JOBORDER_COMPLETE_STATUS);
 			$output = array("infocode"=>"JOBORDERCOMPLETED","message"=>"Job order completed successfully.");
 		} else {
 			array("infocode"=>"JOBORDERNOTCOMPLETED","message"=>"Job order not completed.");
@@ -166,12 +170,19 @@
 		return $output;
 	}
 
-	function changeIGPStatus($jlId){
+	function addOGPEntry($jlId){
+		global $dbc;
+		$query = "INSERT INTO ogp_loading (jl_id) VALUES ('$jlId')";
+		mysqli_query($dbc, $query);
+	}
+
+	function changeIGPStatus($jlId, $status){
 		global $dbc;
 		$pdrId = getPdrId($jlId);
-		$query = "UPDATE igp_loading SET status='joborder_complete' WHERE pdr_id='$pdrId'";
+		$query = "UPDATE igp_loading SET status='$status' WHERE pdr_id='$pdrId'";
 		// file_put_contents("querylog.log",$query, FILE_APPEND | LOCK_EX);
 		mysqli_query($dbc, $query);
+		updatePDRStatus($pdrId, $status);
 	}
 
 	function getPdrId($jlId){
@@ -181,5 +192,11 @@
 		$result = mysqli_query($dbc, $query);
 		$row = mysqli_fetch_assoc($result);
 		return $row['pdr_id'];
+	}
+
+	function updatePDRStatus($pdrId, $status){
+		global $dbc;
+		$query = "UPDATE despatch_request SET status='$status' WHERE pdr_id='$pdrId'";
+		mysqli_query($dbc, $query);
 	}
 ?>

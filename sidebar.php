@@ -234,8 +234,7 @@
                 </span>
               </a>
               <ul class="treeview-menu" style="display:block;">
-                <li><a href="<?php echo HOMEURL; ?>/job-order-loading-create.php"><i class="fa fa-plus"></i> Create</a></li>
-                <li><a href="<?php echo HOMEURL; ?>/job-order-loading-view.php"><i class="fa fa-file"></i> View</a></li>
+                <li><a href="<?php echo HOMEURL; ?>/gate-pass/ogp-loading-list-view.php"><i class="fa fa-file"></i> View</a></li>
               </ul>
             </li>
           </ul>
