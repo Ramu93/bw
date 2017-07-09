@@ -142,6 +142,44 @@
                 <label><?php //echo $out['dimension']; ?></label>
               </div> -->
             </div>
+            <div class="row">
+              <table id="view_items_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                  <tr>
+                    <th>S. No.</th>
+                    <th>Item ID</th>
+                    <th>Item Name</th>
+                    <th>Despatch Qty.</th>
+                  </tr>
+                </thead>
+                <tbody id="item_list_tbody">
+                 <?php
+                  $pdrId = $out['pdr_id'];
+                    $query = "SELECT * FROM pdr_items WHERE pdr_id='$pdrId'";
+                    $itemsResult = mysqli_query($dbc, $query);
+                    if(mysqli_num_rows($itemsResult) > 0){
+                      $counter = 1;
+                      while ($itemsRow = mysqli_fetch_assoc($itemsResult)){
+                        echo '<tr>';
+                          echo '<td>';
+                            echo $counter++;
+                          echo '</td>';
+                          echo '<td>';
+                            echo $itemsRow['pdr_item_id'];
+                          echo '</td>';
+                          echo '<td>';
+                            echo $itemsRow['item_name'];
+                          echo '</td>';
+                          echo '<td>';
+                            echo $itemsRow['despatch_qty'];
+                          echo '</td>';
+                        echo '</tr>';
+                      }
+                    }
+                 ?>
+                </tbody>
+              </table>
+            </div>
             <!-- printDiv close -->
             </div> 
             

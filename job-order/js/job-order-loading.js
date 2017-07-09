@@ -103,7 +103,9 @@ function getDataDetails(dataItem){
 
 				$('#pdr_data').show();
 				$('#space_data').show();
-				$('#view_items_btn').prop('disabled', false);
+				
+				//display items 
+				getPDRItems();
 			}
 		},
 		error: function(){
@@ -125,7 +127,7 @@ function getPDRItems(){
 				//alert(result.data)
 				var itemData = JSON.parse(result.data);
 				displayItemsListInViewMode(itemData);
-				$('#view_items_modal').modal();
+				$('#view_items_table').show();
 			} else {
 				bootbox.alert('No item data available.');
 			}
