@@ -193,65 +193,115 @@ function confirmCreatePDR(){
 }
 
 function updatePDR(){
-	var data = $('#pdr_update_form').serialize() + '&action=update_pdr';
-	$.ajax({
-		url: "pdr-services.php",
-		type: "POST",
-		data: data,
-		dataType: 'json',
-		success: function(result){
-			if(result.infocode == 'UPDATEPDRSUCCESS'){
-				bootbox.alert(result.message, function(){
-					if(isEditPage){
-						window.location = 'pdr-list-view.php';
-					} else {
-						window.location = 'pdr-approve-reject-view.php';
-					}
-				});
-			} else {
-				bootbox.alert(result.message);
-			}
-		},
-		error: function(){} 	        
-	});
+	if($('#pdr_update_form').valid()){
+		var data = $('#pdr_update_form').serialize() + '&action=update_pdr';
+		$.ajax({
+			url: "pdr-services.php",
+			type: "POST",
+			data: data,
+			dataType: 'json',
+			success: function(result){
+				if(result.infocode == 'UPDATEPDRSUCCESS'){
+					bootbox.alert(result.message, function(){
+						if(isEditPage){
+							window.location = 'pdr-list-view.php';
+						} else {
+							window.location = 'pdr-approve-reject-view.php';
+						}
+					});
+				} else {
+					bootbox.alert(result.message);
+				}
+			},
+			error: function(){} 	        
+		});
+	}
 }
 
 function approvePDR(pdrId){
-	var data = $('#pdr_update_form').serialize() + '&status=approved' + '&action=update_status_pdr';
+	if($('#pdr_update_form').valid()){
+		bootbox.confirm('You sure you want to approve this PDR?',function(result){
+			if(result){
+				var data = $('#pdr_update_form').serialize() + '&status=approved' + '&action=update_status_pdr';
+				$.ajax({
+					url: "pdr-services.php",
+					type: "POST",
+					data: data,
+					dataType: 'json',
+					success: function(result){
+						if(result.infocode == 'UPDATEPDRSUCCESS'){
+							bootbox.alert(result.message, function(){
+								window.location = 'pdr-approve-reject-view.php';
+							});
+						} else {
+							bootbox.alert(result.message);
+						}
+					},
+					error: function(){} 	        
+				});
+			}
+		});
+	}
+}
+
+function rejectPDR(pdrId){
+	if($('#pdr_update_form').valid()){
+		if($('#pdr_update_form').valid()){
+			bootbox.confirm('You sure you want to reject this PDR?',function(result){
+				if(result){
+					var data = $('#pdr_update_form').serialize() + '&status=rejected' + '&action=update_status_pdr';
+					$.ajax({
+						url: "pdr-services.php",
+						type: "POST",
+						data: data,
+						dataType: 'json',
+						success: function(result){
+							if(result.infocode == 'UPDATEPDRSUCCESS'){
+								bootbox.alert(result.message, function(){
+									window.location = 'pdr-approve-reject-view.php';
+								});
+							} else {
+								bootbox.alert(result.message);
+							}
+						},
+						error: function(){} 	        
+					});
+				}
+			});
+		}
+	}
+}
+
+function getPDRItems(pdrId){
+	var data = 'pdr_id=' + pdrId + '&action=get_pdr_items';
 	$.ajax({
 		url: "pdr-services.php",
 		type: "POST",
 		data: data,
 		dataType: 'json',
 		success: function(result){
-			if(result.infocode == 'UPDATEPDRSUCCESS'){
-				bootbox.alert(result.message, function(){
-					window.location = 'pdr-approve-reject-view.php';
-				});
+			if(result.infocode == 'ITEMDATAFETCHSUCCESS'){
+				//alert(result.data)
+				var itemData = JSON.parse(result.data);
+				displayItemsListInViewMode(itemData);
+				$('#view_items_modal').modal();
 			} else {
-				bootbox.alert(result.message);
+				bootbox.alert('No item data available.');
 			}
 		},
 		error: function(){} 	        
 	});
 }
 
-function rejectPDR(pdrId){
-	var data = $('#pdr_update_form').serialize() + '&status=rejected' + '&action=update_status_pdr';
-	$.ajax({
-		url: "pdr-services.php",
-		type: "POST",
-		data: data,
-		dataType: 'json',
-		success: function(result){
-			if(result.infocode == 'UPDATEPDRSUCCESS'){
-				bootbox.alert(result.message, function(){
-					window.location = 'pdr-approve-reject-view.php';
-				});
-			} else {
-				bootbox.alert(result.message);
-			}
-		},
-		error: function(){} 	        
+function displayItemsListInViewMode(itemData){
+	var dp = '';
+
+	itemData.forEach( function(item, index) {
+		dp += '<tr>';
+			dp += '<td>'+item.pdr_item_id+'</td>';
+			dp += '<td>'+item.item_name+'</td>';
+			dp += '<td>'+item.despatch_qty+'</td>';
+		dp += '</tr>';
 	});
+	$('#item_list_tbody').html(dp);
 }

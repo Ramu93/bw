@@ -97,7 +97,7 @@
             </div>
             <div class="row">
               <div class="col-md-3 col-sm-3">
-                <input type="submit" id="do_back_btn" name="submit" value="Go Back" class="btn btn-success btn-block pull-left" onclick="window.location='pdr-list-view.php';">
+                <input type="submit" id="view_items_btn" name="submit" value="View Items" class="btn btn-success btn-block pull-left" onclick="getPDRItems(<?php echo $pdrID; ?>)">
               </div>
               <div class="col-md-3 col-sm-3">
                 <input type="submit" id="update_pdr_btn" name="submit" value="Update PDR" class="btn btn-primary btn-block pull-left" onclick="updatePDR()">
@@ -113,6 +113,39 @@
         </div>
       </div>
       <!-- /.box -->
+
+      <!--Items Modal -->
+      <div class="modal fade" id="view_items_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+              <form  id="select_items_form" name="dataapprovedlist_form" method="post" class="validator-form1" action="" onsubmit="return false;">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                  <h4 class="modal-title" id="modal_title">Item List</h4>
+                </div>
+                <div class="modal-body">
+                  <div class="responsive">
+                    <table id="tariff_master_list" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                          <thead>
+                              <tr>
+                                  <th>Item ID</th>
+                                  <th>Item Name</th>
+                                  <th>Despatch Qty.</th>
+                              </tr>
+                          </thead>
+                          <tbody id="item_list_tbody">
+                           
+                          </tbody>
+                      </table>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" onclick="setDespatchQtyForItems()" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </form>
+            </div>
+        </div>
+      </div>
 
     </section>
     <!-- /.content -->

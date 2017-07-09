@@ -37,6 +37,9 @@
 	    case 'update_status_pdr':
 	    	$finaloutput = updateStatusPDR();
 	    break;
+	    case 'get_pdr_items':
+	    	$finaloutput = getPDRItemsList();
+	    break;
 	    default:
 	        $finaloutput = array("infocode" => "INVALIDACTION", "message" => "Irrelevant action");
 	}
@@ -45,7 +48,7 @@
 
 	function getBondOrderList(){
 		global $dbc;
-		$query = "SELECT bond_number, do_ver_id FROM document_verification";
+		$query = "SELECT bond_number, do_ver_id FROM dv_inward";
 		$result = mysqli_query($dbc,$query);
 		if(mysqli_num_rows($result) > 0) {
 			$out = array();
@@ -65,7 +68,7 @@
 		global $dbc;
 		$dvId = $_POST['dv_id'];
 
-		$query = "SELECT sac_par_table, sac_par_id FROM document_verification WHERE do_ver_id='$dvId'";
+		$query = "SELECT sac_par_table, sac_par_id FROM dv_inward WHERE do_ver_id='$dvId'";
 		$output = array();
 		$result = mysqli_query($dbc,$query);
 		if(mysqli_num_rows($result) > 0) {
@@ -110,6 +113,22 @@
 		return $output;
 	}
 
+	function getPDRItemsList(){
+		global $dbc;
+		$pdrId = mysqli_real_escape_string($dbc, trim($_POST['pdr_id']));
+		$query = "SELECT * FROM pdr_items WHERE pdr_id='$pdrId'";
+		$result = mysqli_query($dbc, $query);
+		$out = array();
+		if(mysqli_num_rows($result) > 0){
+			while ($row = mysqli_fetch_assoc($result)){
+				$out[] = $row;
+			}
+		}
+		//file_put_contents("datalog.log", print_r($out, true ));
+		$output = array("infocode" => "ITEMDATAFETCHSUCCESS", "data" => json_encode($out));
+		return $output;
+	}
+
 	function createPDR(){
 		global $dbc;
 		$bondNumber = mysqli_real_escape_string($dbc, $_POST['bond_number']);
@@ -146,9 +165,9 @@
   					mysqli_query($dbc, $itemQuery);
   				}
   			}
-  			$output = array("infocode" => "CREATEPDRSUCCESS", "message" => "PDR creation successful.");
+  			$output = array("infocode" => "CREATEPDRSUCCESS", "message" => "PDR successfully created.");
   		} else {
-  			$output = array("infocode" => "CREATEPDRFAILURE", "message" => "PDR creation unsuccessful.");
+  			$output = array("infocode" => "CREATEPDRFAILURE", "message" => "PDR not created successfully.");
   		}
   		return $output;
 	}
