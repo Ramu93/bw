@@ -115,10 +115,18 @@
   		$wherearray = array('condition'=>'ju_id = :ju_id', 'param'=>':ju_id', 'value'=>$juId);
 	    $db->updateOperation('joborder_unloading',array('status'=>JOB_ORDER_COMPLETE_STATUS),$wherearray);
 
+	    //add OGP table entry
+	    addOGPEntry($juId);
 	    //change the status of IGP - unloading to joborder_complete
 	    changeIGPStatus($juId);
 
 	    return array("infocode"=>"JOBORDERCOMPLETED","message"=>"Job Order completed successfully");
+	}
+
+	function addOGPEntry($juId){
+		global $dbc;
+		$query = "INSERT INTO ogp_unloading (ju_id) VALUES ($juId)";
+		mysqli_query($dbc, $query);
 	}
 
 	function changeIGPStatus($juId){

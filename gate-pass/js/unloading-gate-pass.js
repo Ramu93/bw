@@ -241,3 +241,24 @@ function printData(divName) {
 	printWindow.document.close();
 	printWindow.print();
 }
+
+function setVehicleLeftTimeStamp(ogpId){
+	var data = 'ogp_un_id=' + ogpId + '&action=set_vehivle_left_timestamp';
+	$.ajax({
+		url: "unloading-gate-pass-services.php",
+		type: "POST",
+		data:  data,
+		dataType: 'json',
+		success: function(result){
+			if(result.infocode == 'success'){
+				bootbox.alert(result.message,function(){
+					window.location='ogp-unloading-list-view.php';	
+				});
+			}
+			
+		},
+		error: function(){
+			bootbox.alert("failure");
+		} 	        
+	});
+}

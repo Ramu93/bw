@@ -10,7 +10,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Out Gate Pass(Outward) - List
+        Out Gate Pass(Inward) - List
       </h1>
     </section>
 
@@ -33,7 +33,7 @@
             </thead>
             <tbody>
               <?php 
-                $select_query = "SELECT ol.ogp_lo_id, ol.jl_id, jl.pdr_id, il.vehicle_number, il.driver_name, il.driving_license FROM ogp_loading ol, joborder_loading jl, igp_loading il WHERE ol.jl_id=jl.jl_id AND jl.pdr_id=il.pdr_id AND ol.status='created'";
+                $select_query = "SELECT ou.ogp_un_id, ju.ju_id, ju.sac_par_table, ju.sac_par_id, iu.vehicle_number, iu.driver_name, iu.driving_license FROM ogp_unloading ou, joborder_unloading ju, igp_unloading iu WHERE ou.ju_id=ju.ju_id AND ju.sac_par_table=iu.sac_par_table AND ju.sac_par_id=iu.sac_par_id AND ou.status='created'";
                 $result = mysqli_query($dbc,$select_query);
                 $row_counter = 0;
                 if(mysqli_num_rows($result) > 0) {
@@ -41,11 +41,11 @@
                   while($row = mysqli_fetch_array($result)) {
                     echo "<tr>";
                     echo "<td>".++$row_counter."</td>";
-                    echo "<td>".$row['ogp_lo_id']."</td>";
+                    echo "<td>".$row['ogp_un_id']."</td>";
                     echo "<td>".$row['vehicle_number']."</td>";
                     echo "<td>".$row['driver_name']."</td>";
                     echo "<td>".$row['driving_license']."</td>";
-                    echo "<td><a href='ogp-loading-view.php?ogp_lo_id=".$row['ogp_lo_id']."'>View</a></td>";
+                    echo "<td><a href='ogp-unloading-view.php?ogp_un_id=".$row['ogp_un_id']."'>View</a></td>";
                     echo "</tr>";
                   }
                 } else {

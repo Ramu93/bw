@@ -6,6 +6,7 @@
 
 	define('IGP_UNLOADING_DEFAULT_STATUS','created');
 	define('IGP_CREATED_STATUS','yes');
+	define('OGP_COMPLETE_STATUS','completed');
 
 	$db = new DBWrapper($dbobj);
 	$form = new FormWrapper();
@@ -31,6 +32,9 @@
 	    break;
 	    case 'generate_igp':
 	    	$finaloutput = generateIGP();
+	    break;
+	    case 'set_vehivle_left_timestamp':
+	    	$finaloutput = setVehicleLeftTimeStamp();
 	    break;
 	    default:
 	        $finaloutput = array("infocode" => "INVALIDACTION", "message" => "Irrelevant action");
@@ -215,6 +219,18 @@
 			//file_put_contents("formlog.log", print_r($containerJSON, true ));
 		}
 		return $containerJSON;
+	}
+
+	function setVehicleLeftTimeStamp(){
+		global $dbc;
+		$ogpId = $_POST['ogp_un_id'];
+		$query = "UPDATE ogp_unloading SET exit_time=now(), status='".OGP_COMPLETE_STATUS."' WHERE ogp_un_id='$ogpId'";
+		if(mysqli_query($dbc, $query)){
+			$output = array("infocode"=>"success","message"=>"Out gate-pass completed.");
+		} else {
+			$output = array("infocode"=>"failure","message"=>"Out gate-pass not completed.");
+		}
+		return $output;
 	}
 
 ?>
