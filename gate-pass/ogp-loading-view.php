@@ -32,6 +32,7 @@
       <div class="box">
         <div class="box-body">
           <form id="igp-unloading-form" name="igp-unloading-form" action="#" method="post" onsubmit="return false;">
+            <input type="hidden" name="pdr_id_hidden" id="pdr_id_hidden" value="<?php echo $out['pdr_id']; ?>">
             <div id="print-div">
               <div class="row">
                 <div class="col-md-3">
@@ -64,6 +65,22 @@
                 </div>
               </div>
               <div class="row">
+                <div class="col-md-12">
+                  <table id="view_items_table" class="table table-striped table-bordered" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th>Item ID</th>
+                        <th>Item Name</th>
+                        <th>Despatch Qty.</th>
+                      </tr>
+                    </thead>
+                    <tbody id="item_list_tbody">
+                     
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="row">
                 <div class="col-md-4 col-sm-4">
                   
                 </div>
@@ -81,38 +98,6 @@
   </div>
   <!-- /.content-wrapper -->
 
-  <!--Container Modal Div -->
-  <div class="modal fade" id="view_list_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-          <form  id="dataapprovedlist_form" name="dataapprovedlist_form" method="post" class="validator-form1" action="" onsubmit="return false;">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-              <h4 class="modal-title" id="modal_title"></h4>
-            </div>
-            <div class="modal-body">
-              <div class="responsive">
-                <table id="tariff_master_list" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                      <thead>
-                          <tr>
-                              <th>S.No</th>
-                              <th id="data_name"></th>
-                              <th>Action</th>
-                          </tr>
-                      </thead>
-                      <tbody id="datalist_tbody">
-                       
-                      </tbody>
-                  </table>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-          </form>
-        </div>
-    </div>
-  </div>
 
 
   <?php
@@ -138,6 +123,9 @@
         $('#data_item').val('');
         changeLabelText();
       })
+
+      //load pdr items table
+      getPDRItems();
 
     });
 
