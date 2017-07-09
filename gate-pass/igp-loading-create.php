@@ -60,7 +60,7 @@
                   <label id="bond_number_label"></label>
                 </div>
                 <div class="col-md-3">
-                  <label><BOE Number/label>
+                  <label>BOE Number</label>
                   <div class="clearfix"></div>
                   <label id="boe_number_label"></label>
                 </div>

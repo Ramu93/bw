@@ -9,7 +9,7 @@
 	define('CLOSE_EXCEPTION_STATUS','complete');
 	define('JOB_ORDER_REJECT_STATUS', 'rejected');
 	define('JOB_ORDER_COMPLETE_STATUS', 'completed');
-	define('GRN_JOB_ORDER_COMPLETE', 'joborder_completed');
+	define('IGP_JOB_ORDER_COMPLETE', 'joborder_completed');
 
 	$db = new DBWrapper($dbobj);
 	$form = new FormWrapper();
@@ -115,7 +115,7 @@
   		$wherearray = array('condition'=>'ju_id = :ju_id', 'param'=>':ju_id', 'value'=>$juId);
 	    $db->updateOperation('joborder_unloading',array('status'=>JOB_ORDER_COMPLETE_STATUS),$wherearray);
 
-	    //change the status of GRN to job-rder_complete
+	    //change the status of IGP - unloading to joborder_complete
 	    changeIGPStatus($juId);
 
 	    return array("infocode"=>"JOBORDERCOMPLETED","message"=>"Job Order completed successfully");
@@ -126,7 +126,7 @@
 		$sacParDetails = getSacParDetails($juId);
 		$sacParTable = $sacParDetails['sac_par_table'];
 		$sacParId = $sacParDetails['sac_par_id'];
-		$query = "UPDATE igp_unloading SET status='".GRN_JOB_ORDER_COMPLETE."' WHERE sac_par_table='$sacParTable' AND sac_par_id='$sacParId'";
+		$query = "UPDATE igp_unloading SET status='".IGP_JOB_ORDER_COMPLETE."' WHERE sac_par_table='$sacParTable' AND sac_par_id='$sacParId'";
 		mysqli_query($dbc, $query);
 	}
 

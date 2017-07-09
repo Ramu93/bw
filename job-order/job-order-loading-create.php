@@ -9,7 +9,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Job order Unloading - Inward Process
+        Job order Loading - Outward Process
       </h1>
     </section>
 
@@ -19,9 +19,7 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-body">
-          <form id="job_order_unloading_form" name="job_order_unloading_form" action="#" method="post" onsubmit="return false;">
-            <input type="hidden" name="sac_par_table" id="sac_par_table" value="">
-            <input type="hidden" name="sac_par_id" id="sac_par_id" value="">
+          <form id="job_order_loading_form" name="job_order_loading_form" action="#" method="post" onsubmit="return false;">
             <div class="row">
               <div class="col-md-3">
                 <div class="form-group">
@@ -32,11 +30,9 @@
               <div class="col-md-3">
                 <label for="select_by_label">Choose By</label>
                 <select class="form-control" tabindex="2" id="select_by_type" name="select_by_type">
-                  <option value="customer_name">Customer Name</option>
+                  <option value="pdr_id">PDR ID</option>
                   <option value="boe_number">BOE Number</option>
-                  <option value="par">PAR</option>
-                  <option value="sac">SAC</option>
-                  <option value="igp">IGP</option>
+                  <option value="bond_number">Bond Number</option>
                 </select>
               </div>
               <div class="col-md-3">
@@ -50,48 +46,71 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-3">
-                <label id="id_label"></label>
-                <div class="clearfix"></div>
-                <label id="id_value"></label>
+            <div id="pdr_data">
+              <div class="row">
+                <div class="col-md-3">
+                  <label>PDR ID</label>
+                  <div class="clearfix"></div>
+                  <label id="pdr_id_label"></label>
+                  <input type="hidden" name="pdr_id_hidden" id="pdr_id_hidden">
+                </div>
+                <div class="col-md-3">
+                  <label>Bond Number</label>
+                  <div class="clearfix"></div>
+                  <label id="bond_number_label"></label>
+                </div>
+                <div class="col-md-3">
+                  <label>BOE Number</label>
+                  <div class="clearfix"></div>
+                  <label id="boe_number_label"></label>
+                </div>
+                <div class="col-md-3">
+                  <label>Client Web</label>
+                  <div class="clearfix"></div>
+                  <label id="client_web_label"></label>
+                </div>
               </div>
-              <div class="col-md-3">
-                <label id="customer_name_label"></label>
-                <div class="clearfix"></div>
-                <label id="customer_name_value"></label>
+              <div class="row">
+                <div class="col-md-3">
+                  <label>CHA Name</label>
+                  <div class="clearfix"></div>
+                  <label id="cha_name_label"></label>
+                </div>
+                <div class="col-md-3">
+                  <label>ExBond BE Number</label>
+                  <div class="clearfix"></div>
+                  <label id="exbond_be_number_label"></label>
+                </div>
+                <div class="col-md-3">
+                  <label>ExBond BE Date</label>
+                  <div class="clearfix"></div>
+                  <label id="exbond_be_date_label"></label>
+                </div>
+                <!-- <div class="col-md-3">
+                  <label>Customs Officer Name</label>
+                  <div class="clearfix"></div>
+                  <label id="customs_officer_name_label"></label>
+                </div> -->
+              </div>
+            </div>
+            <div class="row" id="space_data">
+              <div class="col-md-4">
+                <label>Space Occupied Before Loading</label>
+                <input type="text" tabindex="6" class="form-control required" id="space_occupied_before" name="space_occupied_before" readonly="true">
+              </div>
+              <div class="col-md-4">
+                <label>Space Occupied After Loading</label>
+                <input type="text" tabindex="6" class="form-control required" id="space_occupied_after" name="space_occupied_after" placeholder="Space Occupied After Loading">
               </div>
             </div>
             <div class="row">
               <div class="col-md-4">
-                <div class="form-group">
-                  <label for="weight">Weight</label>
-                  <input type="text" tabindex="5" class="form-control required" id="weight" name="weight" placeholder="Weight">
-                </div>
+              <label>Name of the Supervisor</label>
+                <input type="text" tabindex="6" class="form-control required" id="supervisor_name" name="supervisor_name" placeholder="Supervisor Name">
               </div>
               <div class="col-md-4">
-                <div class="form-group">
-                  <label for="no_of_packages">No. of Packages</label>
-                  <input type="text" tabindex="6" class="form-control required" id="no_of_packages" name="no_of_packages" placeholder="Number of Packages">
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label for="description">Description</label>
-                  <input type="text" tabindex="7" class="form-control required" id="description" name="description" placeholder="Description">
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label for="supervisor_name">Name of the Supervisor</label>
-                  <input type="text" tabindex="8" class="form-control required" id="supervisor_name" name="supervisor_name" placeholder="Name of the Supervisor">
-                </div>
-              </div>
-              <div class="col-md-4">
-                <label for="unloading_type">Type of Unloading</label>
-                <select class="form-control" tabindex="9" id="unloading_type" name="unloading_type">
+                <label for="unloading_type">Type of Loading</label>
+                <select class="form-control" tabindex="9" id="loading_type" name="loading_type">
                   <option value="1">Manual 100%</option>
                   <option value="2">75% Manual + 25% FLT</option>
                   <option value="3">50% Manual + 50% FLT 25%-</option>
@@ -111,24 +130,13 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="no_of_labors">Number of labors</label>
-                  <input type="text" tabindex="11" class="form-control" id="no_of_labors" name="no_of_labors" placeholder="Number of labors">
+                  <input type="text" tabindex="" class="form-control required" id="no_of_labors" name="no_of_labors" placeholder="Number of labors">
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-group">
-                  <label for="unloading_time">Time for Unloading</label>
-                  <input type="text" tabindex="12" class="form-control" id="unloading_time" name="unloading_time" placeholder="Time for unloading">
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label for="dimension">Dimension per Unit and Weight</label>
-                    <select class="form-control required" id="dimension" name="dimension">
-                      <option value="20 ft. Container">20 ft. Container</option>
-                      <option value="40 ft. Container">40 ft. container</option>
-                      <option value="Break Bulk/ODC">Break Bulk/ODC</option>
-                      <option value="LCL">LCL</option>
-                    </select>
+                  <label for="unloading_time">Time for Loading</label>
+                  <input type="text" tabindex="" class="form-control required" id="loading_time" name="loading_time" placeholder="Time for loading">
                 </div>
               </div>
             </div>
@@ -145,38 +153,38 @@
       </div>
       <!-- /.box -->
 
-      <!--Container Modal Div -->
-      <div class="modal fade" id="view_list_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-              <form  id="dataapprovedlist_form" name="dataapprovedlist_form" method="post" class="validator-form1" action="" onsubmit="return false;">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                  <h4 class="modal-title" id="modal_title"></h4>
-                </div>
-                <div class="modal-body">
-                  <div class="responsive">
-                    <table id="tariff_master_list" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                          <thead>
-                              <tr>
-                                  <th>S.No</th>
-                                  <th id="data_name"></th>
-                                  <th>Action</th>
-                              </tr>
-                          </thead>
-                          <tbody id="datalist_tbody">
-                           
-                          </tbody>
-                      </table>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-              </form>
+  <!--Container Modal Div -->
+  <div class="modal fade" id="view_list_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <form  id="dataapprovedlist_form" name="dataapprovedlist_form" method="post" class="validator-form1" action="" onsubmit="return false;">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title" id="modal_title"></h4>
             </div>
+            <div class="modal-body">
+              <div class="responsive">
+                <table id="tariff_master_list" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                      <thead>
+                          <tr>
+                              <th>S.No</th>
+                              <th id="data_name"></th>
+                              <th>Action</th>
+                          </tr>
+                      </thead>
+                      <tbody id="datalist_tbody">
+                       
+                      </tbody>
+                  </table>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </form>
         </div>
-      </div>
+    </div>
+  </div>
 
     </section>
     <!-- /.content -->
@@ -188,16 +196,16 @@
   <script type="text/javascript" src="<?php echo HOMEURL; ?>/job-order/js/job-order-loading.js"></script>
   <script type="text/javascript">
 
-    $('#unloading_type').on('change', function() {
-      var unloadingType = $('#unloading_type').val();
-      if(unloadingType == 1){
+    $('#loading_type').on('change', function() {
+      var loadingType = $('#loading_type').val();
+      if(loadingType == 1){
         $('#equipment_ref_number').removeAttr('required');
       } else {
         $('#equipment_ref_number').attr('required','true');
       }
     })
 
-    $('#job_order_unloading_form').validate({
+    $('#job_order_loading_form').validate({
         errorClass: "my-error-class"
     });
 
@@ -208,6 +216,9 @@
       $('#data_item').val('');
       changeLabelText();
     })
+
+    $('#pdr_data').hide();
+    $('#space_data').hide();
   </script>
   <?php
     include('../footer.php');

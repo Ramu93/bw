@@ -111,13 +111,13 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="no_of_labors">Number of labors</label>
-                  <input type="text" tabindex="11" class="form-control" id="no_of_labors" name="no_of_labors" placeholder="Number of labors">
+                  <input type="text" tabindex="11" class="form-control required" id="no_of_labors" name="no_of_labors" placeholder="Number of labors">
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="unloading_time">Time for Unloading</label>
-                  <input type="text" tabindex="12" class="form-control" id="unloading_time" name="unloading_time" placeholder="Time for unloading">
+                  <input type="text" tabindex="12" class="form-control required" id="unloading_time" name="unloading_time" placeholder="Time for unloading">
                 </div>
               </div>
               <div class="col-md-4">
