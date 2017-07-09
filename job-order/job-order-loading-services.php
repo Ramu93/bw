@@ -35,6 +35,9 @@
 	    case 'complete_job_order':
 	    	$finaloutput = completeJobOrder();
 	    break;
+	    case 'get_pdr_items':
+	    	$finaloutput = getPDRItemsList();
+	    break;
 	    default:
 	        $finaloutput = array("infocode" => "INVALIDACTION", "message" => "Irrelevant action");
 	}
@@ -108,6 +111,22 @@
 			$output = array("infocode" => "DATADETAILFETCHSUCCESS", "data" => json_encode($out));
 		}
 		//file_put_contents("datalog.log", print_r(json_encode($output), true ));
+		return $output;
+	}
+
+	function getPDRItemsList(){
+		global $dbc;
+		$pdrId = mysqli_real_escape_string($dbc, trim($_POST['pdr_id']));
+		$query = "SELECT * FROM pdr_items WHERE pdr_id='$pdrId'";
+		$result = mysqli_query($dbc, $query);
+		$out = array();
+		if(mysqli_num_rows($result) > 0){
+			while ($row = mysqli_fetch_assoc($result)){
+				$out[] = $row;
+			}
+		}
+		//file_put_contents("datalog.log", print_r($out, true ));
+		$output = array("infocode" => "ITEMDATAFETCHSUCCESS", "data" => json_encode($out));
 		return $output;
 	}
 

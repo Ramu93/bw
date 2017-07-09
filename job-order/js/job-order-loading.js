@@ -103,12 +103,48 @@ function getDataDetails(dataItem){
 
 				$('#pdr_data').show();
 				$('#space_data').show();
+				$('#view_items_btn').prop('disabled', false);
 			}
 		},
 		error: function(){
 			bootbox.alert('error');
 		} 	        
 	});
+}
+
+function getPDRItems(){
+	var pdrId = $('#pdr_id_hidden').val();
+	var data = 'pdr_id=' + pdrId + '&action=get_pdr_items';
+	$.ajax({
+		url: "job-order-loading-services.php",
+		type: "POST",
+		data: data,
+		dataType: 'json',
+		success: function(result){
+			if(result.infocode == 'ITEMDATAFETCHSUCCESS'){
+				//alert(result.data)
+				var itemData = JSON.parse(result.data);
+				displayItemsListInViewMode(itemData);
+				$('#view_items_modal').modal();
+			} else {
+				bootbox.alert('No item data available.');
+			}
+		},
+		error: function(){} 	        
+	});
+}
+
+function displayItemsListInViewMode(itemData){
+	var dp = '';
+
+	itemData.forEach( function(item, index) {
+		dp += '<tr>';
+			dp += '<td>'+item.pdr_item_id+'</td>';
+			dp += '<td>'+item.item_name+'</td>';
+			dp += '<td>'+item.despatch_qty+'</td>';
+		dp += '</tr>';
+	});
+	$('#item_list_tbody').html(dp);
 }
 
 function createJobOrder(){
