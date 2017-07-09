@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 06, 2017 at 09:00 PM
+-- Generation Time: Jul 09, 2017 at 04:12 PM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.1
 
@@ -64,7 +64,7 @@ CREATE TABLE `despatch_request` (
 --
 
 INSERT INTO `despatch_request` (`pdr_id`, `bond_number`, `sac_par_table`, `sac_par_id`, `client_web`, `cha_name`, `order_number`, `boe_number`, `exbond_be_number`, `exbond_be_date`, `customs_officer_name`, `number_of_packages`, `assessment_value`, `duty_value`, `transporter_name`, `document_verified`, `status`) VALUES
-(1, '6674', 'par', 44, 'Debond', 'abc', '1234', '445533', '334421', '2017-07-14', 'ram', 45, '4', '4', 'KPN', 'yes', 'rejected');
+(1, '6674', 'par', 44, 'Inbond Sales', 'Rams International', '99891', '34345', '1234', '2017-07-19', 'Ron', 3, '3000000', '280000', 'Siddha', 'yes', 'joborder_completed');
 
 -- --------------------------------------------------------
 
@@ -172,7 +172,9 @@ INSERT INTO `dv_outward` (`dv_ver_id`, `pdr_id`, `exbond_original`, `exboe_origi
 (2, 1, 'no', 'no', 'no', 'no', 'no'),
 (3, 1, 'no', 'no', 'yes', 'no', 'no'),
 (4, 1, 'yes', 'yes', 'yes', 'yes', 'yes'),
-(5, 1, 'no', 'yes', 'no', 'yes', 'no');
+(5, 1, 'no', 'yes', 'no', 'yes', 'no'),
+(6, 2, 'no', 'no', 'no', 'yes', 'no'),
+(7, 1, 'no', 'no', 'no', 'yes', 'yes');
 
 -- --------------------------------------------------------
 
@@ -221,14 +223,9 @@ CREATE TABLE `good_receipt_note` (
 --
 
 INSERT INTO `good_receipt_note` (`grn_id`, `ju_id`, `sac_par_table`, `sac_par_id`, `space_occupied`, `location`, `validity`, `created_date`, `status`) VALUES
-(1, 1, 'sac', 1, '1', '1', '1', '2017-05-09 02:41:47', 'created'),
-(2, 2, 'sac', 1, '1', '2221', '11', '2017-07-03 17:38:41', 'created'),
-(3, 2, 'sac', 1, '1', '2221', '11', '2017-07-03 17:39:12', 'created'),
-(4, 2, 'sac', 1, '1', '2221', '11', '2017-07-03 17:40:00', 'created'),
-(5, 2, 'sac', 1, '1', '2221', '11', '2017-07-03 17:40:45', 'created'),
-(6, 3, 'sac', 1, '1', '2221', '11', '2017-07-03 17:58:10', 'created'),
-(7, 6, 'par', 2, '1', '2221', '11', '2017-07-03 17:58:17', 'created'),
-(8, 6, 'par', 2, '1', '2221', '11', '2017-07-03 17:59:17', 'created');
+(6, 3, 'sac', 1, '50', '2221', '11', '2017-07-08 20:30:53', 'created'),
+(7, 6, 'par', 2, '60', '2221', '11', '2017-07-08 20:30:59', 'created'),
+(9, 8, 'par', 44, '70', 'tnagar', '70', '2017-07-08 20:31:02', 'created');
 
 -- --------------------------------------------------------
 
@@ -238,6 +235,7 @@ INSERT INTO `good_receipt_note` (`grn_id`, `ju_id`, `sac_par_table`, `sac_par_id
 
 CREATE TABLE `igp_loading` (
   `igp_lo_id` int(11) NOT NULL,
+  `pdr_id` int(11) NOT NULL,
   `entry_date` date NOT NULL,
   `data_type` varchar(50) NOT NULL,
   `data_value` varchar(50) NOT NULL,
@@ -252,11 +250,8 @@ CREATE TABLE `igp_loading` (
 -- Dumping data for table `igp_loading`
 --
 
-INSERT INTO `igp_loading` (`igp_lo_id`, `entry_date`, `data_type`, `data_value`, `vehicle_number`, `driver_name`, `driving_license`, `time_in`, `status`) VALUES
-(1, '0000-00-00', 'pdr_id', '1', '1', '1', '1', '0:43:06', 'igp_created'),
-(2, '0000-00-00', 'boe_number', '445533', 'uuyjkk', 'raamm', '77yuu5vh', '1:38:17', 'igp_created'),
-(3, '0000-00-00', 'pdr_id', '1', 'gghh', 'gtghjujs', 'kkksl', '1:40:06', 'igp_created'),
-(4, '0000-00-00', 'bond_number', '6674', '009989', 'ted', 'qq2233cc4', '7:22:10', 'igp_created');
+INSERT INTO `igp_loading` (`igp_lo_id`, `pdr_id`, `entry_date`, `data_type`, `data_value`, `vehicle_number`, `driver_name`, `driving_license`, `time_in`, `status`) VALUES
+(1, 1, '2017-07-09', 'pdr_id', '1', 'TN 38 AJ 0784', 'Ram', '3498721114', '15:16:44', 'joborder_completed');
 
 -- --------------------------------------------------------
 
@@ -280,7 +275,7 @@ CREATE TABLE `igp_unloading` (
   `container_condition` varchar(30) NOT NULL,
   `vehicle_type` varchar(100) NOT NULL,
   `transporter_name` varchar(200) NOT NULL,
-  `status` varchar(50) NOT NULL
+  `status` varchar(50) NOT NULL DEFAULT 'created'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -289,10 +284,6 @@ CREATE TABLE `igp_unloading` (
 
 INSERT INTO `igp_unloading` (`igp_un_id`, `sac_par_table`, `sac_par_id`, `data_type`, `data_value`, `vehicle_number`, `driver_name`, `driving_license`, `container_number`, `seal_number`, `entry_date`, `time_in`, `container_condition`, `vehicle_type`, `transporter_name`, `status`) VALUES
 (4, 'par', 2, 'par', '2', '99', '9', '9', '9', '9', '01-05-2017', '22:28:50', 'Good', '20', '9', 'created'),
-(5, 'par', 44, 'par', '44', '1', '1', '1', '774878', '1', '28-06-2017', '0:15:38', 'Good', '20', '1', ''),
-(6, 'par', 44, 'par', '44', '1', '1', '1', '937789', '1', '28-06-2017', '0:17:12', 'Good', '20', '1', ''),
-(7, 'par', 44, 'par', '44', '1', '1', '1', '', '1', '28-06-2017', '0:18:09', 'Good', '20', '1', ''),
-(8, 'par', 44, 'par', '44', '1', '1', '1', '937789', '1', '28-06-2017', '0:21:25', 'Good', '20', '1', ''),
 (9, 'sac', 3, 'sac', '3', '1', '1', '1', '11', '1', '28-06-2017', '0:22:55', 'Good', '20', '1', ''),
 (10, 'sac', 4, 'sac', '4', '1', '1', '1', '14', '1', '28-06-2017', '0:28:04', 'Good', '20', '1', ''),
 (11, 'sac', 4, 'sac', '4', '1', '1', '1', '14', '1', '28-06-2017', '0:28:04', 'Good', '20', '1', ''),
@@ -300,7 +291,33 @@ INSERT INTO `igp_unloading` (`igp_un_id`, `sac_par_table`, `sac_par_id`, `data_t
 (13, 'sac', 4, 'sac', '4', '1', '1', '1', '14', '1', '28-06-2017', '0:28:04', 'Good', '20', '1', ''),
 (14, 'sac', 4, 'sac', '4', '1', '1', '1', '4', '1', '28-06-2017', '0:32:10', 'Good', '20', '1', ''),
 (15, 'sac', 4, 'sac', '4', '1', '2', '1', '1', '1', '28-06-2017', '0:33:40', 'Good', '20', '1', ''),
-(16, 'sac', 4, 'customer_name', 'q', '1', '111', '111', '3', '112', '06-07-2017', '0:13:37', 'Good', '40', '223', '');
+(16, 'sac', 4, 'customer_name', 'q', '1', '111', '111', '3', '112', '06-07-2017', '0:13:37', 'Good', '40', '223', ''),
+(17, 'par', 44, 'par', '44', 'TN 10 AB 1233', 'qwerty', '1122', '774878', '67', '08-07-2017', '20:35:53', 'Good', 'Break Bulk', '11', 'joborder_completed');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `joborder_loading`
+--
+
+CREATE TABLE `joborder_loading` (
+  `jl_id` int(11) NOT NULL,
+  `pdr_id` int(11) NOT NULL,
+  `space_occupied_after` varchar(50) NOT NULL,
+  `supervisor_name` varchar(50) NOT NULL,
+  `loading_type` int(11) NOT NULL,
+  `equipment_ref_number` varchar(50) NOT NULL,
+  `no_of_labors` varchar(10) NOT NULL,
+  `loading_time` varchar(10) NOT NULL,
+  `status` varchar(50) NOT NULL DEFAULT 'created'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `joborder_loading`
+--
+
+INSERT INTO `joborder_loading` (`jl_id`, `pdr_id`, `space_occupied_after`, `supervisor_name`, `loading_type`, `equipment_ref_number`, `no_of_labors`, `loading_time`, `status`) VALUES
+(1, 1, '15', 'Ram', 3, '11443123', '2', '1 hour', 'completed');
 
 -- --------------------------------------------------------
 
@@ -331,12 +348,49 @@ CREATE TABLE `joborder_unloading` (
 
 INSERT INTO `joborder_unloading` (`ju_id`, `sac_par_table`, `sac_par_id`, `weight`, `no_of_packages`, `description`, `supervisor_name`, `unloading_type`, `equipment_ref_number`, `no_of_labors`, `unloading_time`, `dimension`, `status`, `exception_id`) VALUES
 (1, 'sac', 1, '1', '2', 'box', 'ramu', 2, '45', '2', '30', '20 ft. Container', 'completed', 2),
-(2, 'sac', 1, '1', '1', '1', '1', 1, '1', '1', '1', '20 ft. Container', 'created', 0),
-(3, 'sac', 1, '1', '1', '1', '1', 1, '1', '1', '1', '20 ft. Container', 'created', 0),
-(4, 'par', 1, '12', '12', '123', 'r', 1, '', '23', '123', '20 ft. Container', 'created', 0),
 (5, 'par', 5, '100', '3', 'abc', 'xy', 2, '44321', '3', '30', '20 ft. Container', 'exception', 1),
 (6, 'par', 2, '23', '1', '1', '1', 2, '1', '1', '1', '20 ft. Container', 'created', 0),
-(7, 'par', 1, '3', '3', '34', '3', 1, '1233', '3556', '6', 'LCL', 'created', 0);
+(7, 'par', 44, '3', '3', '34', '3', 1, '1233', '3556', '6', 'LCL', 'completed', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ogp_loading`
+--
+
+CREATE TABLE `ogp_loading` (
+  `ogp_lo_id` int(11) NOT NULL,
+  `jl_id` int(11) NOT NULL,
+  `exit_time` varchar(50) DEFAULT NULL,
+  `status` varchar(20) NOT NULL DEFAULT 'created'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ogp_loading`
+--
+
+INSERT INTO `ogp_loading` (`ogp_lo_id`, `jl_id`, `exit_time`, `status`) VALUES
+(1, 1, '2017-07-09 17:53:27', 'completed');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ogp_unloading`
+--
+
+CREATE TABLE `ogp_unloading` (
+  `ogp_un_id` int(11) NOT NULL,
+  `ju_id` int(11) NOT NULL,
+  `exit_time` varchar(50) DEFAULT NULL,
+  `status` varchar(30) NOT NULL DEFAULT 'created'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ogp_unloading`
+--
+
+INSERT INTO `ogp_unloading` (`ogp_un_id`, `ju_id`, `exit_time`, `status`) VALUES
+(1, 7, '2017-07-09 17:57:19', 'completed');
 
 -- --------------------------------------------------------
 
@@ -415,7 +469,8 @@ INSERT INTO `par_log` (`par_log_id`, `par_id`, `status_from`, `status_to`, `logg
 (11, 5, 'Submitted', 0, '2017-06-23 13:40:22', 'PAR Approved'),
 (12, 5, 'Submitted', 0, '2017-07-06 02:13:39', 'PAR Approved'),
 (13, 44, 'Submitted', 0, '2017-07-06 02:24:28', 'PAR Approved'),
-(14, 1, 'Submitted', 0, '2017-07-06 02:24:34', 'PAR Rejected');
+(14, 1, 'Submitted', 0, '2017-07-06 02:24:34', 'PAR Rejected'),
+(15, 44, 'Submitted', 0, '2017-07-08 15:05:49', 'PAR Approved');
 
 -- --------------------------------------------------------
 
@@ -439,8 +494,8 @@ CREATE TABLE `pdr_items` (
 --
 
 INSERT INTO `pdr_items` (`pdr_item_id`, `pdr_id`, `dv_item_id`, `container_number`, `sac_par_table`, `sac_par_id`, `item_name`, `despatch_qty`) VALUES
-(1, 1, 11, '937789', 'par', 44, 'Box', '25'),
-(2, 1, 10, '4355', 'par', 44, 'Wood', '15');
+(5, 1, 10, '4355', 'par', 44, 'Wood', '20'),
+(6, 1, 11, '937789', 'par', 44, 'Box', '20');
 
 -- --------------------------------------------------------
 
@@ -588,7 +643,7 @@ INSERT INTO `sac_par_container_info` (`container_info_id`, `dimension`, `contain
 (25, '20 ft. Container', 0, '1233', 2, 'par', 'notgenerated'),
 (26, '20 ft. Container', 0, '1234', 2, 'par', 'notgenerated'),
 (28, '40 ft. Container', 2, '{\"0\":{\"container_number\":\"1\",\"status\":\"not_picked\"},\"1\":{\"container_number\":\"1\",\"status\":\"not_picked\"}}', 1, 'par', 'notgenerated'),
-(31, '20 ft. Container', 2, '{\"0\":{\"container_number\":\"4355\",\"status\":\"not_picked\"},\"1\":{\"container_number\":\"774878\",\"status\":\"not_picked\"},\"2\":{\"container_number\":\"937789\",\"status\":\"picked\"},\"3\":{\"container_number\":\"998783\",\"status\":\"not_picked\"}}', 44, 'par', 'notgenerated'),
+(31, '20 ft. Container', 2, '{\"0\":{\"container_number\":\"4355\",\"status\":\"not_picked\"},\"1\":{\"container_number\":\"774878\",\"status\":\"picked\"},\"2\":{\"container_number\":\"937789\",\"status\":\"picked\"},\"3\":{\"container_number\":\"998783\",\"status\":\"not_picked\"}}', 44, 'par', 'notgenerated'),
 (32, 'LCL', 4, '{\"0\":{\"container_number\":\"4355\",\"status\":\"not_picked\"},\"1\":{\"container_number\":\"774878\",\"status\":\"not_picked\"},\"2\":{\"container_number\":\"937789\",\"status\":\"picked\"},\"3\":{\"container_number\":\"998783\",\"status\":\"not_picked\"}}', 44, 'par', 'notgenerated'),
 (33, '40 ft. Container', 2, '{\"0\":{\"container_number\":\"11\",\"status\":\"picked\"},\"1\":{\"container_number\":\"22\",\"status\":\"not_picked\"}}', 3, 'sac', 'notgenerated'),
 (34, 'Break Bulk/ODC', 2, '{\"0\":{\"container_number\":\"11\",\"status\":\"picked\"},\"1\":{\"container_number\":\"22\",\"status\":\"not_picked\"}}', 3, 'sac', 'notgenerated'),
@@ -694,10 +749,28 @@ ALTER TABLE `igp_unloading`
   ADD PRIMARY KEY (`igp_un_id`);
 
 --
+-- Indexes for table `joborder_loading`
+--
+ALTER TABLE `joborder_loading`
+  ADD PRIMARY KEY (`jl_id`);
+
+--
 -- Indexes for table `joborder_unloading`
 --
 ALTER TABLE `joborder_unloading`
   ADD PRIMARY KEY (`ju_id`);
+
+--
+-- Indexes for table `ogp_loading`
+--
+ALTER TABLE `ogp_loading`
+  ADD PRIMARY KEY (`ogp_lo_id`);
+
+--
+-- Indexes for table `ogp_unloading`
+--
+ALTER TABLE `ogp_unloading`
+  ADD PRIMARY KEY (`ogp_un_id`);
 
 --
 -- Indexes for table `party_master`
@@ -769,7 +842,7 @@ ALTER TABLE `dv_items`
 -- AUTO_INCREMENT for table `dv_outward`
 --
 ALTER TABLE `dv_outward`
-  MODIFY `dv_ver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `dv_ver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `exception`
 --
@@ -779,22 +852,37 @@ ALTER TABLE `exception`
 -- AUTO_INCREMENT for table `good_receipt_note`
 --
 ALTER TABLE `good_receipt_note`
-  MODIFY `grn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `grn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `igp_loading`
 --
 ALTER TABLE `igp_loading`
-  MODIFY `igp_lo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `igp_lo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `igp_unloading`
 --
 ALTER TABLE `igp_unloading`
-  MODIFY `igp_un_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `igp_un_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+--
+-- AUTO_INCREMENT for table `joborder_loading`
+--
+ALTER TABLE `joborder_loading`
+  MODIFY `jl_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `joborder_unloading`
 --
 ALTER TABLE `joborder_unloading`
-  MODIFY `ju_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ju_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT for table `ogp_loading`
+--
+ALTER TABLE `ogp_loading`
+  MODIFY `ogp_lo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `ogp_unloading`
+--
+ALTER TABLE `ogp_unloading`
+  MODIFY `ogp_un_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `party_master`
 --
@@ -804,12 +892,12 @@ ALTER TABLE `party_master`
 -- AUTO_INCREMENT for table `par_log`
 --
 ALTER TABLE `par_log`
-  MODIFY `par_log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `par_log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `pdr_items`
 --
 ALTER TABLE `pdr_items`
-  MODIFY `pdr_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `pdr_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `pre_arrival_request`
 --
