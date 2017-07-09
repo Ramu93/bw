@@ -136,8 +136,7 @@
 		global $dbc;
 		$jlId = $_POST['jl_id'];
 		$query = "UPDATE joborder_loading SET status='completed' WHERE jl_id='$jlId'";
-		file_put_contents("querylog.log",$query, FILE_APPEND | LOCK_EX);
-
+		// file_put_contents("querylog.log",$query, FILE_APPEND | LOCK_EX);
 		if(mysqli_query($dbc, $query)){
 			//change the status of IGP - loading to joborder_complete
 			changeIGPStatus($jlId);
@@ -152,15 +151,14 @@
 		global $dbc;
 		$pdrId = getPdrId($jlId);
 		$query = "UPDATE igp_loading SET status='joborder_complete' WHERE pdr_id='$pdrId'";
-		file_put_contents("querylog.log",$query, FILE_APPEND | LOCK_EX);
-
+		// file_put_contents("querylog.log",$query, FILE_APPEND | LOCK_EX);
 		mysqli_query($dbc, $query);
 	}
 
 	function getPdrId($jlId){
 		global $dbc;
 		$query = "SELECT pdr_id FROM joborder_loading WHERE jl_id='$jlId'";
-		file_put_contents("querylog.log",$query, FILE_APPEND | LOCK_EX);
+		// file_put_contents("querylog.log",$query, FILE_APPEND | LOCK_EX);
 		$result = mysqli_query($dbc, $query);
 		$row = mysqli_fetch_assoc($result);
 		return $row['pdr_id'];
