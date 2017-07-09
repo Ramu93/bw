@@ -141,18 +141,20 @@
               </div>
             </div>
             <div class="row">
-              <table id="view_items_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                <thead>
-                  <tr>
-                    <th>Item ID</th>
-                    <th>Item Name</th>
-                    <th>Despatch Qty.</th>
-                  </tr>
-                </thead>
-                <tbody id="item_list_tbody">
-                 
-                </tbody>
-              </table>
+              <div class="col-md-12">
+                <table id="view_items_table" class="table table-striped table-bordered" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Item ID</th>
+                      <th>Item Name</th>
+                      <th>Despatch Qty.</th>
+                    </tr>
+                  </thead>
+                  <tbody id="item_list_tbody">
+                   
+                  </tbody>
+                </table>
+              </div>
             </div>
             <div class="row">
               <div class="col-md-4 col-sm-4">
