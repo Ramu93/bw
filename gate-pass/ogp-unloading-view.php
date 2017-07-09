@@ -12,7 +12,7 @@
       $row = mysqli_fetch_array($query);
       $out = $row;
     }
-    file_put_contents("editlog.log", print_r( $out, true ));
+    //file_put_contents("editlog.log", print_r( $out, true ));
 
   ?>
 
