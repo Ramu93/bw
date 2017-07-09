@@ -97,7 +97,7 @@
             </div>
             <div class="row">
               <div class="col-md-3 col-sm-3">
-                <input type="submit" id="view_items_btn" name="submit" value="View Items" class="btn btn-success btn-block pull-left" onclick="getPDRItems(<?php echo $pdrID; ?>)">
+                <input type="button" id="view_items_btn" name="submit" value="View Items" class="btn btn-success btn-block pull-left" onclick="getPDRItems(<?php echo $pdrID; ?>)">
               </div>
               <div class="col-md-3 col-sm-3">
                 <input type="submit" id="update_pdr_btn" name="submit" value="Update PDR" class="btn btn-primary btn-block pull-left" onclick="updatePDR()">
