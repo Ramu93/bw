@@ -22,59 +22,22 @@
           </a>
           <ul class="treeview-menu">
             <li>
-              <a href="#"><i class="fa fa-circle-o"></i> Item Master
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu" style="display:block;">
-                <li><a href="<?php echo HOMEURL; ?>/master/item-master-create.php"><i class="fa fa-plus"></i> Create</a></li>
-                <li><a href="<?php echo HOMEURL; ?>/master/item-master-view.php"><i class="fa fa-file"></i> View</a></li>
-              </ul>
+              <a href="<?php echo HOMEURL; ?>/master/type-master.php"><i class="fa fa-circle-o"></i> Product Type Master</a>
             </li>
             <li>
-              <a href="#"><i class="fa fa-circle-o"></i> Party Master
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu" style="display:block;">
-                <li><a href="<?php echo HOMEURL; ?>/master/party-master-create.php"><i class="fa fa-plus"></i> Create</a></li>
-                <li><a href="<?php echo HOMEURL; ?>/master/party-master-view.php"><i class="fa fa-file"></i> View</a></li>
-              </ul>
+              <a href="<?php echo HOMEURL; ?>/master/item-master.php"><i class="fa fa-circle-o"></i> Item Master</a>
             </li>
             <li>
-              <a href="#"><i class="fa fa-circle-o"></i> Employee Master
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu" style="display:block;">
-                <li><a href="<?php echo HOMEURL; ?>/master/employee-master-create.php"><i class="fa fa-plus"></i> Create</a></li>
-                <li><a href="<?php echo HOMEURL; ?>/master/employee-master-view.php"><i class="fa fa-file"></i> View</a></li>
-              </ul>
+              <a href="#"><i class="fa fa-circle-o"></i> Party Master</a>
             </li>
             <li>
-              <a href="#"><i class="fa fa-circle-o"></i> Role Master
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu" style="display:block;">
-                <li><a href="<?php echo HOMEURL; ?>/master/role-master-create.php"><i class="fa fa-plus"></i> Create</a></li>
-                <li><a href="<?php echo HOMEURL; ?>/master/role-master-view.php"><i class="fa fa-file"></i> View</a></li>
-              </ul>
+              <a href="#"><i class="fa fa-circle-o"></i> Employee Master</a>
             </li>
             <li>
-              <a href="#"><i class="fa fa-circle-o"></i> Tarrif Master
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu" style="display:block;">
-                <li><a href="<?php echo HOMEURL; ?>/master/tarrif-master-create.php"><i class="fa fa-plus"></i> Create</a></li>
-                <li><a href="<?php echo HOMEURL; ?>/master/tarrif-master-view.php"><i class="fa fa-file"></i> View</a></li>
-              </ul>
+              <a href="#"><i class="fa fa-circle-o"></i> Role Master</a>
+            </li>
+            <li>
+              <a href="#"><i class="fa fa-circle-o"></i> Tarrif Master</a>
             </li>
           </ul>
         </li>
