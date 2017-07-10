@@ -27,7 +27,7 @@
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
               </a>
-              <ul class="treeview-menu" style="display:block;">
+              <ul class="treeview-menu">
                 <li><a href="<?php echo HOMEURL; ?>/master/item-master-create.php"><i class="fa fa-plus"></i> Create</a></li>
                 <li><a href="<?php echo HOMEURL; ?>/master/item-master-view.php"><i class="fa fa-file"></i> View</a></li>
               </ul>
@@ -38,7 +38,7 @@
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
               </a>
-              <ul class="treeview-menu" style="display:block;">
+              <ul class="treeview-menu">
                 <li><a href="<?php echo HOMEURL; ?>/master/party-master-create.php"><i class="fa fa-plus"></i> Create</a></li>
                 <li><a href="<?php echo HOMEURL; ?>/master/party-master-view.php"><i class="fa fa-file"></i> View</a></li>
               </ul>
@@ -49,7 +49,7 @@
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
               </a>
-              <ul class="treeview-menu" style="display:block;">
+              <ul class="treeview-menu">
                 <li><a href="<?php echo HOMEURL; ?>/master/employee-master-create.php"><i class="fa fa-plus"></i> Create</a></li>
                 <li><a href="<?php echo HOMEURL; ?>/master/employee-master-view.php"><i class="fa fa-file"></i> View</a></li>
               </ul>
@@ -60,7 +60,7 @@
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
               </a>
-              <ul class="treeview-menu" style="display:block;">
+              <ul class="treeview-menu">
                 <li><a href="<?php echo HOMEURL; ?>/master/role-master-create.php"><i class="fa fa-plus"></i> Create</a></li>
                 <li><a href="<?php echo HOMEURL; ?>/master/role-master-view.php"><i class="fa fa-file"></i> View</a></li>
               </ul>
@@ -71,9 +71,9 @@
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
               </a>
-              <ul class="treeview-menu" style="display:block;">
-                <li><a href="<?php echo HOMEURL; ?>/master/tarrif-master-create.php"><i class="fa fa-plus"></i> Create</a></li>
-                <li><a href="<?php echo HOMEURL; ?>/master/tarrif-master-view.php"><i class="fa fa-file"></i> View</a></li>
+              <ul class="treeview-menu">
+                <li><a href="<?php echo HOMEURL; ?>/master/tariff-master-create.php"><i class="fa fa-plus"></i> Create</a></li>
+                <li><a href="<?php echo HOMEURL; ?>/master/tariff-master.php"><i class="fa fa-file"></i> View</a></li>
               </ul>
             </li>
           </ul>
@@ -238,6 +238,13 @@
             </li>
           </ul>
         </li>
+      </ul>
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+
+  <!-- ===============================================i>
       </ul>
     </section>
     <!-- /.sidebar -->
