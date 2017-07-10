@@ -28,18 +28,20 @@
           </form>
           <br />
 
-          <table id="type_table" style="width: 50%;" class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th>S. No.</th>
-                <th>Type</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="type_table_body">
-              
-            </tbody>
-          </table>
+          <div style="width: 50%;">
+            <table id="type_table"  class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>S. No.</th>
+                  <th>Type</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="type_table_body">
+                
+              </tbody>
+            </table>
+          </div>
           
         </div>
       </div>

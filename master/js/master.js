@@ -26,6 +26,7 @@ function displayTypes(typeData){
 		dp += '</tr>';
 	});
 	$('#type_table_body').html(dp);
+	$("#type_table").DataTable();
 }
 
 function addType(){
@@ -129,6 +130,7 @@ function displayItems(typeData){
 		dp += '</tr>';
 	});
 	$('#item_table_body').html(dp);
+	$("#item_table").DataTable();
 }
 
 function addItem(){
