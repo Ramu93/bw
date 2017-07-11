@@ -37,7 +37,7 @@
               <a href="#"><i class="fa fa-circle-o"></i> Role Master</a>
             </li>
             <li>
-              <a href="#"><i class="fa fa-circle-o"></i> Tarrif Master</a>
+              <a href="<?php echo HOMEURL; ?>/master/tariff-master.php""><i class="fa fa-circle-o"></i> Tarrif Master</a>
             </li>
           </ul>
         </li>
@@ -207,4 +207,4 @@
   </aside>
 
 
-  <!-- ===============================================
+  <!-- ===============================================  
