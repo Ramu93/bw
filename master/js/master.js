@@ -119,9 +119,9 @@ function getItems(){
 	});
 }
 
-function displayItems(typeData){
+function displayItems(itemData){
 	var dp = '';
-	typeData.forEach( function(item, index) {
+	itemData.forEach( function(item, index) {
 		dp += '<tr>';
 			dp += '<td>'+ (parseInt(index)+1) +'</td>';
 			dp += '<td>'+item.item_name+'</td>';
@@ -199,6 +199,126 @@ function deleteItem(itemId){
 				success: function(result){
 					if(result.infocode == 'success'){
 						getItems();
+					}
+				},
+				error: function(){
+					bootbox.alert("failure");
+				} 	        
+			});
+		}
+	});
+}
+
+function getTariffs(){
+	var data = 'action=get_tariffs';
+	$.ajax({
+		url: "master-services.php",
+		type: "POST",
+		data:  data,
+		dataType: 'json',
+		success: function(result){
+			if(result.infocode == 'success'){
+				displayTariffs(result.data);
+			}
+		},
+		error: function(){
+			bootbox.alert("failure");
+		} 	        
+	});
+}
+	
+var gTariffObj = {};
+
+function displayTariffs(tariffData){
+	var dp = '';
+	tariffData.forEach( function(tariff, index) {
+		//save values in object for passing to edit modal
+		gTariffObj = {};
+		gTariffObj.tariff_master_id = tariff.tariff_master_id;
+		gTariffObj.service_name = tariff.service_name;
+		gTariffObj.service_type = tariff.service_type;
+		gTariffObj.storage_unit = tariff.storage_unit;
+		gTariffObj.base_tariff = tariff.base_tariff;
+
+		dp += '<tr>';
+			dp += '<td>'+ (parseInt(index)+1) +'</td>';
+			dp += '<td>'+tariff.service_name+'</td>';
+			dp += '<td>'+tariff.service_type+'</td>';
+			dp += '<td>'+tariff.storage_unit+'</td>';
+			dp += '<td>'+tariff.base_tariff+'</td>';
+			dp += '<td><input type="button" onclick="openEditTariffModal()" class="btn btn-primary" value="Edit" /> <input type="button" onclick="deleteTariff('+tariff.tariff_master_id+')" class="btn btn-danger" value="Delete"/></td>'
+		dp += '</tr>';
+	});
+	$('#tariff_table_body').html(dp);
+	$("#tariff_table").DataTable();
+}
+
+function addTariff(){
+	if($('#add_tariff_form').valid()){
+		var data = $('#add_tariff_form').serialize() + '&action=add_tariff';
+		$.ajax({
+			url: "master-services.php",
+			type: "POST",
+			data:  data,
+			dataType: 'json',
+			success: function(result){
+				if(result.infocode == 'success'){
+					getTariffs();
+					$('#service_name').val('');
+					$('#service_type').val('');
+					$('#storage_unit').val('');
+					$('#rate').val('');
+				}
+			},
+			error: function(){
+				bootbox.alert("failure");
+			} 	        
+		});
+	}
+}
+
+function openEditTariffModal(){
+	//var gTariffObj = JSON.parse(tariffString);
+	$('#tariff_id_hidden').val(gTariffObj.tariff_master_id);
+	$('#edit_service_name').val(gTariffObj.service_name);
+	$('#edit_service_type').val(gTariffObj.service_type);
+	$('#edit_storage_unit').val(gTariffObj.storage_unit);
+	$('#edit_rate').val(gTariffObj.base_tariff);
+	$('#edit_tariff_modal').modal();
+}
+
+function editTariff(){
+	if($('#edit_tariff_form').valid()){
+		var data = $('#edit_tariff_form').serialize() + '&action=edit_tariff';
+		$.ajax({
+			url: "master-services.php",
+			type: "POST",
+			data:  data,
+			dataType: 'json',
+			success: function(result){
+				if(result.infocode == 'success'){
+					getTariffs();
+				}
+			},
+			error: function(){
+				bootbox.alert("failure");
+			} 	        
+		});
+	}
+}
+
+function deleteTariff(tariffId){
+	bootbox.confirm('You sure you want to delete this item?',function(result){
+		if(result){
+			var data = 'tariff_id=' + tariffId + '&action=del_tariff';
+			$.ajax({
+				url: "master-services.php",
+				type: "POST",
+				data:  data,
+				dataType: 'json',
+				success: function(result){
+					if(result.infocode == 'success'){
+						getTariffs();
 					}
 				},
 				error: function(){

@@ -33,6 +33,18 @@
 	    case 'del_item':
 	    	$finaloutput = deleteItem();
 	    break;
+	    case 'get_tariffs':
+	    	$finaloutput = getTariffs();
+	    break;
+	    case 'edit_tariff':
+	    	$finaloutput = editTariff();
+	    break;
+	    case 'del_tariff':
+	    	$finaloutput = deleteTariff();
+	    break;
+	    case 'add_tariff':
+	    	$finaloutput = addTariff();
+	    break;
 	    default:
 	        $finaloutput = array("infocode" => "INVALIDACTION", "message" => "Irrelevant action");
 	}
@@ -133,6 +145,66 @@
 		global $dbc;
 		$itemId = mysqli_real_escape_string($dbc, trim($_POST['item_id']));
 		$query = "DELETE FROM item_master WHERE item_master_id='$itemId'";
+		if(mysqli_query($dbc, $query)){
+			return array('infocode' => 'success');
+		} else {
+			return array('infocode' => 'failure');
+		}
+	}
+
+	function getTariffs(){
+		global $dbc;
+		$query = "SELECT * FROM tariff_master";
+		$result = mysqli_query($dbc, $query);
+		//file_put_contents("querylog.log", print_r( $row, true ));
+		$out = array();
+		if(mysqli_num_rows($result) > 0) {
+			while($row = mysqli_fetch_assoc($result)){
+				$out[] = $row;
+			}
+			return array('infocode' => 'success', 'data' => $out);
+		} else {
+			return array('infocode' => 'failure');
+		}
+	}
+
+	function addTariff(){
+		global $dbc;
+		$serviceName = mysqli_real_escape_string($dbc, trim($_POST['service_name']));
+		$serviceType = mysqli_real_escape_string($dbc, trim($_POST['service_type']));
+		$storageUnit = mysqli_real_escape_string($dbc, trim($_POST['storage_unit']));
+		$baseTariff = mysqli_real_escape_string($dbc, trim($_POST['rate']));
+		$query = "INSERT INTO tariff_master (service_name, service_type, storage_unit, base_tariff) VALUES ('$serviceName', '$serviceType', '$storageUnit', '$baseTariff')";
+		//file_put_contents("querylog.log", print_r( $query, true ));
+
+		if(mysqli_query($dbc, $query)){
+			return array('infocode' => 'success');
+		} else {
+			return array('infocode' => 'failure');
+		}
+	}
+
+	function editTariff(){
+		global $dbc;
+		$tariffMasterId = mysqli_real_escape_string($dbc, trim($_POST['tariff_id_hidden']));
+		$serviceName = mysqli_real_escape_string($dbc, trim($_POST['edit_service_name']));
+		$serviceType = mysqli_real_escape_string($dbc, trim($_POST['edit_service_type']));
+		$storageUnit = mysqli_real_escape_string($dbc, trim($_POST['edit_storage_unit']));
+		$baseTariff = mysqli_real_escape_string($dbc, trim($_POST['edit_rate']));
+		$query = "UPDATE tariff_master SET service_name='$serviceName', service_type='$serviceType', storage_unit='$storageUnit', base_tariff='$baseTariff' WHERE tariff_master_id='$tariffMasterId'";
+		//file_put_contents("querylog.log", print_r( $query, true ));
+
+		if(mysqli_query($dbc, $query)){
+			return array('infocode' => 'success');
+		} else {
+			return array('infocode' => 'failure');
+		}
+	}
+
+	function deleteTariff(){
+		global $dbc;
+		$tariffMasterId = mysqli_real_escape_string($dbc, trim($_POST['tariff_id']));
+		$query = "DELETE FROM tariff_master WHERE tariff_master_id='$tariffMasterId'";
 		if(mysqli_query($dbc, $query)){
 			return array('infocode' => 'success');
 		} else {
