@@ -106,7 +106,7 @@
             <form  id="edit_item_form" name="edit_item_form" method="post" class="validator-form1" action="" onsubmit="return false;"> 
               <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                  <h4 class="modal-title" id="myModalLabel">Add Prodcut Type</h4>
+                  <h4 class="modal-title" id="myModalLabel">Edit Item</h4>
               </div>
               <div class="modal-body">
                 <div class="row">
