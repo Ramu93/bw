@@ -28,7 +28,7 @@
           </form>
           <br />
 
-          <div style="width: 80%;">
+          <div style="width: 100%;">
             <table id="tariff_table"  class="table table-bordered table-striped">
               <thead>
                 <tr>
@@ -169,10 +169,10 @@
   <script type="text/javascript">
 
     $(document).ready(function(){
-      $('#add_item_form').validate({
+      $('#add_tariff_form').validate({
         errorClass: "my-error-class"
       });
-      $('#edit_item_form').validate({
+      $('#edit_tariff_form').validate({
         errorClass: "my-error-class"
       });
 
