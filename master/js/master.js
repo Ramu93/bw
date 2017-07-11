@@ -8,6 +8,8 @@ function getTypes(){
 		success: function(result){
 			if(result.infocode == 'success'){
 				displayTypes(result.data);
+			} else {
+				displayTypes([]);
 			}
 		},
 		error: function(){
@@ -18,13 +20,15 @@ function getTypes(){
 
 function displayTypes(typeData){
 	var dp = '';
-	typeData.forEach( function(type, index) {
-		dp += '<tr>';
-			dp += '<td>'+ (parseInt(index)+1) +'</td>';
-			dp += '<td>'+type.type_name+'</td>';
-			dp += '<td><input type="button" onclick="openEditTypeModal('+type.type_id+',\''+type.type_name+'\')" class="btn btn-primary" value="Edit" /> <input type="button" onclick="deleteType('+type.type_id+')" class="btn btn-danger" value="Delete"/></td>'
-		dp += '</tr>';
-	});
+	if(typeData.length !== 0){
+		typeData.forEach( function(type, index) {
+			dp += '<tr>';
+				dp += '<td>'+ (parseInt(index)+1) +'</td>';
+				dp += '<td>'+type.type_name+'</td>';
+				dp += '<td><input type="button" onclick="openEditTypeModal('+type.type_id+',\''+type.type_name+'\')" class="btn btn-primary" value="Edit" /> <input type="button" onclick="deleteType('+type.type_id+')" class="btn btn-danger" value="Delete"/></td>'
+			dp += '</tr>';
+		});
+	}
 	$('#type_table_body').html(dp);
 	$("#type_table").DataTable();
 }
@@ -111,6 +115,8 @@ function getItems(){
 		success: function(result){
 			if(result.infocode == 'success'){
 				displayItems(result.data);
+			} else {
+				displayItems([]);
 			}
 		},
 		error: function(){
@@ -121,14 +127,16 @@ function getItems(){
 
 function displayItems(itemData){
 	var dp = '';
-	itemData.forEach( function(item, index) {
-		dp += '<tr>';
-			dp += '<td>'+ (parseInt(index)+1) +'</td>';
-			dp += '<td>'+item.item_name+'</td>';
-			dp += '<td>'+item.type_name+'</td>';
-			dp += '<td><input type="button" onclick="openEditItemModal('+item.item_master_id+',\''+item.item_name+'\',\''+item.type_id+'\')" class="btn btn-primary" value="Edit" /> <input type="button" onclick="deleteItem('+item.item_master_id+')" class="btn btn-danger" value="Delete"/></td>'
-		dp += '</tr>';
-	});
+	if(itemData.length !== 0){
+		itemData.forEach( function(item, index) {
+			dp += '<tr>';
+				dp += '<td>'+ (parseInt(index)+1) +'</td>';
+				dp += '<td>'+item.item_name+'</td>';
+				dp += '<td>'+item.type_name+'</td>';
+				dp += '<td><input type="button" onclick="openEditItemModal('+item.item_master_id+',\''+item.item_name+'\',\''+item.type_id+'\')" class="btn btn-primary" value="Edit" /> <input type="button" onclick="deleteItem('+item.item_master_id+')" class="btn btn-danger" value="Delete"/></td>'
+			dp += '</tr>';
+		});
+	}
 	$('#item_table_body').html(dp);
 	$("#item_table").DataTable();
 }
@@ -219,6 +227,8 @@ function getTariffs(){
 		success: function(result){
 			if(result.infocode == 'success'){
 				displayTariffs(result.data);
+			} else {
+				displayTariffs([]);
 			}
 		},
 		error: function(){
@@ -227,28 +237,25 @@ function getTariffs(){
 	});
 }
 	
-var gTariffObj = {};
+var gTariff = new Array;
 
 function displayTariffs(tariffData){
 	var dp = '';
-	tariffData.forEach( function(tariff, index) {
-		//save values in object for passing to edit modal
-		gTariffObj = {};
-		gTariffObj.tariff_master_id = tariff.tariff_master_id;
-		gTariffObj.service_name = tariff.service_name;
-		gTariffObj.service_type = tariff.service_type;
-		gTariffObj.storage_unit = tariff.storage_unit;
-		gTariffObj.base_tariff = tariff.base_tariff;
+	if(tariffData.length !== 0){
+		tariffData.forEach( function(tariff, index) {
+			//save values in object for passing to edit modal
+			gTariff.push(tariff);
 
-		dp += '<tr>';
-			dp += '<td>'+ (parseInt(index)+1) +'</td>';
-			dp += '<td>'+tariff.service_name+'</td>';
-			dp += '<td>'+tariff.service_type+'</td>';
-			dp += '<td>'+tariff.storage_unit+'</td>';
-			dp += '<td>'+tariff.base_tariff+'</td>';
-			dp += '<td><input type="button" onclick="openEditTariffModal()" class="btn btn-primary" value="Edit" /> <input type="button" onclick="deleteTariff('+tariff.tariff_master_id+')" class="btn btn-danger" value="Delete"/></td>'
-		dp += '</tr>';
-	});
+			dp += '<tr>';
+				dp += '<td>'+ (parseInt(index)+1) +'</td>';
+				dp += '<td>'+tariff.service_name+'</td>';
+				dp += '<td>'+tariff.service_type+'</td>';
+				dp += '<td>'+tariff.storage_unit+'</td>';
+				dp += '<td>'+tariff.base_tariff+'</td>';
+				dp += '<td><input type="button" onclick="openEditTariffModal('+index+')" class="btn btn-primary" value="Edit" /> <input type="button" onclick="deleteTariff('+tariff.tariff_master_id+')" class="btn btn-danger" value="Delete"/></td>'
+			dp += '</tr>';
+		});
+	}
 	$('#tariff_table_body').html(dp);
 	$("#tariff_table").DataTable();
 }
@@ -263,6 +270,8 @@ function addTariff(){
 			dataType: 'json',
 			success: function(result){
 				if(result.infocode == 'success'){
+					//reset gTariff array
+					gTariff = new Array;
 					getTariffs();
 					$('#service_name').val('');
 					$('#service_type').val('');
@@ -277,13 +286,13 @@ function addTariff(){
 	}
 }
 
-function openEditTariffModal(){
-	//var gTariffObj = JSON.parse(tariffString);
-	$('#tariff_id_hidden').val(gTariffObj.tariff_master_id);
-	$('#edit_service_name').val(gTariffObj.service_name);
-	$('#edit_service_type').val(gTariffObj.service_type);
-	$('#edit_storage_unit').val(gTariffObj.storage_unit);
-	$('#edit_rate').val(gTariffObj.base_tariff);
+function openEditTariffModal(index){
+	//var gTariff = JSON.parse(tariffString);
+	$('#tariff_id_hidden').val(gTariff[index].tariff_master_id);
+	$('#edit_service_name').val(gTariff[index].service_name);
+	$('#edit_service_type').val(gTariff[index].service_type);
+	$('#edit_storage_unit').val(gTariff[index].storage_unit);
+	$('#edit_rate').val(gTariff[index].base_tariff);
 	$('#edit_tariff_modal').modal();
 }
 
@@ -297,6 +306,8 @@ function editTariff(){
 			dataType: 'json',
 			success: function(result){
 				if(result.infocode == 'success'){
+					//reset gTariff array
+					gTariff = new Array;
 					getTariffs();
 				}
 			},
@@ -316,8 +327,10 @@ function deleteTariff(tariffId){
 				type: "POST",
 				data:  data,
 				dataType: 'json',
-				success: function(result){
-					if(result.infocode == 'success'){
+				success: function(res){
+					if(res.infocode == 'success'){
+						//reset gTariff array
+						gTariff = new Array;
 						getTariffs();
 					}
 				},
