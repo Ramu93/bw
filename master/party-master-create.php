@@ -19,14 +19,14 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-body">
-          <form action="#" name="pm_form" class="form" id="pm_form" method="POST">
+          <form action="#" name="add_party_form" class="form" id="add_party_form" method="POST">
             <div class="form-group col-lg-6 col-md-6 col-sm-6">
               <label for="im_type">Party Type </label>
                 <div class="checkbox">
-                <label><input type="radio" name="partytype" value="customer" checked="checked" onclick="changepartytype('customer');"> Customer</label>
+                <label><input type="radio" name="partytype" value="customer" checked="checked" onclick="changePartyType('customer');"> Customer</label>
               </div>
               <div class="checkbox">
-                <label><input type="radio" name="partytype" value="serviceprovider" onclick="changepartytype('serviceprovider');"> Service Provider</label>
+                <label><input type="radio" name="partytype" value="serviceprovider" onclick="changePartyType('serviceprovider');"> Service Provider</label>
               </div>
               <div id="sp_div" class="col-lg-12 col-md-12 col-sm-12 col-md-offset-1" style="display:none;">
                 <div class="checkbox">
@@ -37,7 +37,7 @@
                 </div>
               </div>
               <div class="checkbox">
-                <label><input type="radio" name="partytype" value="principalclient" onclick="changepartytype('principalclient');"> Principal Client</label>
+                <label><input type="radio" name="partytype" value="principalclient" onclick="changePartyType('principalclient');"> Principal Client</label>
               </div>
               <div id="sp_div2" class="col-lg-8 col-md-8 col-sm-6 col-md-offset-1" style="display:none;">
                 <div class="checkbox">
@@ -89,7 +89,7 @@
             </div>
             <div class="clearfix"></div><hr>
             <div class="form-group col-lg-4 col-md-4 col-sm-4">
-              <label for="pm_primaryContact">Primary Contact (Name & Designation)</label>
+              <label for="pm_primaryContact">Primary Contact (Name &amp; Designation)</label>
               <input type="text" class="form-control" id="pm_primaryContact required" name="pm_primaryContact" placeholder="Primary Contact">
             </div>
             <div class="form-group col-lg-4 col-md-4 col-sm-4">
@@ -101,7 +101,7 @@
               <input type="text" class="form-control" id="pm_primaryContactEmail required email" name="pm_primaryContactEmail" placeholder="Primary Contact Email">
             </div>
             <div class="form-group col-lg-4 col-md-4 col-sm-4">
-              <label for="pm_secondaryContact">Secondary Contact (Name & Designation)</label>
+              <label for="pm_secondaryContact">Secondary Contact (Name &amp; Designation)</label>
               <input type="text" class="form-control" id="pm_secondaryContact" name="pm_secondaryContact" placeholder="Secondary Contact">
             </div>
             <div class="form-group col-lg-4 col-md-4 col-sm-4">
@@ -113,7 +113,7 @@
               <input type="text" class="form-control" id="pm_secondaryContactEmail" name="pm_secondaryContactEmail" placeholder="Secondary Contact Email">
             </div>
             <div class="form-group col-lg-4 col-md-4 col-sm-4">
-              <label for="pm_secondaryContact">Tertiary Contact (Name & Designation)</label>
+              <label for="pm_secondaryContact">Tertiary Contact (Name &amp; Designation)</label>
               <input type="text" class="form-control" id="pm_tertiaryContact" name="pm_tertiaryContact" placeholder="Tertiary Contact">
             </div>
             <div class="form-group col-lg-4 col-md-4 col-sm-4">
@@ -192,5 +192,16 @@
   <!-- /.content-wrapper -->
   <?php
     include('../footer_imports.php');
+  ?>
+  <script type="text/javascript" src="<?php echo HOMEURL; ?>/master/js/master.js"></script>
+  <script type="text/javascript">
+
+    $(document).ready(function(){
+      $('#add_party_form').validate({
+        errorClass: "my-error-class"
+      });
+    });
+  </script>
+  <?php
     include('../footer.php');
   ?>
