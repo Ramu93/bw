@@ -45,6 +45,15 @@
 	    case 'add_tariff':
 	    	$finaloutput = addTariff();
 	    break;
+	    case 'add_party':
+	    	$finaloutput = addParty();
+	    break;
+	    case 'edit_party':
+	    	$finaloutput = editParty();
+	    break;
+	    case 'del_party':
+	    	$finaloutput = deleteParty();
+	    break;
 	    default:
 	        $finaloutput = array("infocode" => "INVALIDACTION", "message" => "Irrelevant action");
 	}
@@ -210,6 +219,117 @@
 		} else {
 			return array('infocode' => 'failure');
 		}
+	}
+
+	function addParty(){
+		global $dbc;
+		$pm_uuid = sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535)).'-'.time();
+		$pm_customerName = mysqli_real_escape_string($dbc, trim($_POST['pm_customerName']));
+		$pm_type = mysqli_real_escape_string($dbc, trim($_POST['partytype']));
+		$pm_subtype = mysqli_real_escape_string($dbc, trim($_POST['partytype_sp']));
+		$pm_address1 = mysqli_real_escape_string($dbc,trim($_POST['pm_address1']));
+		$pm_address2 = mysqli_real_escape_string($dbc,trim($_POST['pm_address2']));
+		$pm_cityTown = mysqli_real_escape_string($dbc,trim($_POST['pm_cityTown']));
+		$pm_state = mysqli_real_escape_string($dbc,trim($_POST['pm_state']));
+		$pm_pin = mysqli_real_escape_string($dbc,trim($_POST['pm_pin']));
+		$pm_landline = mysqli_real_escape_string($dbc,trim($_POST['pm_landline']));
+		$pm_fax = mysqli_real_escape_string($dbc,trim($_POST['pm_fax']));
+		$pm_sales = mysqli_real_escape_string($dbc,trim($_POST['pm_sales']));
+		$pm_servicesTax = mysqli_real_escape_string($dbc,trim($_POST['pm_servicesTax']));
+		$pm_licence = mysqli_real_escape_string($dbc,trim($_POST['pm_licence']));
+		$pm_tan = mysqli_real_escape_string($dbc,trim($_POST['pm_tan']));
+		$pm_pan = mysqli_real_escape_string($dbc,trim($_POST['pm_pan']));
+		//$pm_doc = mysqli_real_escape_string($dbc,trim($_POST['pm_doc']));
+		//$pm_sd = mysqli_real_escape_string($dbc,trim($_POST['pm_sd']));
+		$pm_inactive = mysqli_real_escape_string($dbc,trim($_POST['pm_inactive']));
+		$pm_primaryContact = mysqli_real_escape_string($dbc,trim($_POST['pm_primaryContact']));
+		$pm_primaryContactMobile = mysqli_real_escape_string($dbc,trim($_POST['pm_primaryContactMobile']));
+		$pm_primaryContactEmail = mysqli_real_escape_string($dbc,trim($_POST['pm_primaryContactEmail']));
+		$pm_secondaryContact = mysqli_real_escape_string($dbc,trim($_POST['pm_secondaryContact']));
+		$pm_secondaryContactMobile = mysqli_real_escape_string($dbc,trim($_POST['pm_secondaryContactMobile']));
+		$pm_secondaryContactEmail = mysqli_real_escape_string($dbc,trim($_POST['pm_secondaryContactEmail']));
+		$pm_tertiaryContact = mysqli_real_escape_string($dbc,trim($_POST['pm_tertiaryContact']));
+		$pm_tertiaryContactMobile = mysqli_real_escape_string($dbc,trim($_POST['pm_tertiaryContactMobile']));
+		$pm_tertiaryContactEmail = mysqli_real_escape_string($dbc,trim($_POST['pm_tertiaryContactEmail']));
+		$pm_ccd = mysqli_real_escape_string($dbc,trim($_POST['pm_ccd']));
+		$pm_ccLimit = mysqli_real_escape_string($dbc,trim($_POST['pm_ccLimit']));
+		$pm_ccBalance = mysqli_real_escape_string($dbc,trim($_POST['pm_ccBalance']));
+		$query1 = "SELECT * FROM party_master WHERE pm_customerName = '$pm_customerName'";
+		$result1 = mysqli_query($dbc,$query1);
+		if(mysqli_num_rows($result1)>0){
+			$output = array("infocode" => "CUSTOMEREXIST", "message" => "Customer Name already exists, please choose a different name!");
+		}else{
+			$query = "INSERT INTO party_master(pm_uuid,pm_customerName,pm_type,pm_subtype,pm_address1,pm_address2,pm_cityTown,pm_state,pm_pin,pm_landline,pm_fax,pm_sales,pm_servicesTax,pm_licence,pm_tan,pm_pan,pm_inactive,pm_primaryContact,pm_primaryContactMobile,pm_primaryContactEmail,pm_secondaryContact,pm_secondaryContactMobile,pm_secondaryContactEmail,pm_tertiaryContact,pm_tertiaryContactMobile,pm_tertiaryContactEmail,pm_ccd,pm_ccLimit,pm_ccBalance) VALUES('$pm_uuid','$pm_customerName','$pm_type','$pm_subtype','$pm_address1','$pm_address2','$pm_cityTown','$pm_state','$pm_pin','$pm_landline','$pm_fax','$pm_sales','$pm_servicesTax','$pm_licence','$pm_tan','$pm_pan','$pm_inactive','$pm_primaryContact','$pm_primaryContactMobile','$pm_primaryContactEmail','$pm_secondaryContact','$pm_secondaryContactMobile','$pm_secondaryContactEmail','$pm_tertiaryContact','$pm_tertiaryContactMobile','$pm_tertiaryContactEmail','$pm_ccd','$pm_ccLimit','$pm_ccBalance')";
+			//file_put_contents("querylog.log", print_r(json_encode($query), true ));
+			$result = mysqli_query($dbc,$query);
+			if($result) {
+				$output = array("infocode" => "INSERTSUCCESSFULLY", "message" => "Inserted Successfully");
+			}
+			else {
+				$output = array("infocode" => "UNSUCCESSFULL", "message" => "Something went worng");
+			}
+		}
+
+		return $output;
+	}
+
+	function editParty(){
+		global $dbc;
+		$pmId = $_POST['pm_id'];
+		$pm_customerName = mysqli_real_escape_string($dbc, trim($_POST['pm_customerName']));
+		$pm_address1 = mysqli_real_escape_string($dbc,trim($_POST['pm_address1']));
+		$pm_address2 = mysqli_real_escape_string($dbc,trim($_POST['pm_address2']));
+		$pm_cityTown = mysqli_real_escape_string($dbc,trim($_POST['pm_cityTown']));
+		$pm_state = mysqli_real_escape_string($dbc,trim($_POST['pm_state']));
+		$pm_pin = mysqli_real_escape_string($dbc,trim($_POST['pm_pin']));
+		$pm_landline = mysqli_real_escape_string($dbc,trim($_POST['pm_landline']));
+		$pm_fax = mysqli_real_escape_string($dbc,trim($_POST['pm_fax']));
+		$pm_sales = mysqli_real_escape_string($dbc,trim($_POST['pm_sales']));
+		$pm_servicesTax = mysqli_real_escape_string($dbc,trim($_POST['pm_servicesTax']));
+		$pm_licence = mysqli_real_escape_string($dbc,trim($_POST['pm_licence']));
+		$pm_tan = mysqli_real_escape_string($dbc,trim($_POST['pm_tan']));
+		$pm_pan = mysqli_real_escape_string($dbc,trim($_POST['pm_pan']));
+		//$pm_doc = mysqli_real_escape_string($dbc,trim($_POST['pm_doc']));
+		//$pm_sd = mysqli_real_escape_string($dbc,trim($_POST['pm_sd']));
+		$pm_inactive = mysqli_real_escape_string($dbc,trim($_POST['pm_inactive']));
+		$pm_primaryContact = mysqli_real_escape_string($dbc,trim($_POST['pm_primaryContact']));
+		$pm_primaryContactMobile = mysqli_real_escape_string($dbc,trim($_POST['pm_primaryContactMobile']));
+		$pm_primaryContactEmail = mysqli_real_escape_string($dbc,trim($_POST['pm_primaryContactEmail']));
+		$pm_secondaryContact = mysqli_real_escape_string($dbc,trim($_POST['pm_secondaryContact']));
+		$pm_secondaryContactMobile = mysqli_real_escape_string($dbc,trim($_POST['pm_secondaryContactMobile']));
+		$pm_secondaryContactEmail = mysqli_real_escape_string($dbc,trim($_POST['pm_secondaryContactEmail']));
+		$pm_tertiaryContact = mysqli_real_escape_string($dbc,trim($_POST['pm_tertiaryContact']));
+		$pm_tertiaryContactMobile = mysqli_real_escape_string($dbc,trim($_POST['pm_tertiaryContactMobile']));
+		$pm_tertiaryContactEmail = mysqli_real_escape_string($dbc,trim($_POST['pm_tertiaryContactEmail']));
+		$pm_ccd = mysqli_real_escape_string($dbc,trim($_POST['pm_ccd']));
+		$pm_ccLimit = mysqli_real_escape_string($dbc,trim($_POST['pm_ccLimit']));
+		$pm_ccBalance = mysqli_real_escape_string($dbc,trim($_POST['pm_ccBalance']));
+
+		//Query
+		$query = "UPDATE party_master SET pm_customerName = '$pm_customerName',pm_address1 = '$pm_address1',pm_address2 = '$pm_address2',pm_cityTown = '$pm_cityTown',pm_state = '$pm_state',pm_pin = '$pm_pin',pm_landline = '$pm_landline', pm_fax = '$pm_fax', pm_sales = '$pm_sales', pm_servicesTax = '$pm_servicesTax', pm_licence = '$pm_licence' , pm_tan = '$pm_tan' ,pm_pan = '$pm_pan', pm_inactive = '$pm_inactive', pm_primaryContact = '$pm_primaryContact',pm_primaryContactMobile = '$pm_primaryContactMobile', pm_primaryContactEmail = '$pm_primaryContactEmail',pm_secondaryContact = '$pm_secondaryContact', pm_secondaryContactMobile = '$pm_secondaryContactMobile',pm_secondaryContactEmail = '$pm_secondaryContactEmail', pm_tertiaryContact = '$pm_tertiaryContact',pm_tertiaryContactMobile = '$pm_tertiaryContactMobile', pm_tertiaryContactEmail = '$pm_tertiaryContactEmail', pm_ccd = '$pm_ccd', pm_ccLimit = '$pm_ccLimit', pm_ccBalance = '$pm_ccBalance' WHERE  pm_id = '$pmId'";
+		$result = mysqli_query($dbc,$query);
+		if($result) {
+			$output = array("infocode" => "SUCCESS", "message" => "Updated Successfully");
+		}
+		else {
+			$output = array("infocode" => "UNSUCCESSFULL", "message" => "Something went worng");
+		}
+
+		return $output;
+	}
+
+	function deleteParty() {
+	    global $dbc;
+	    $pmId = mysqli_real_escape_string($dbc, trim($_POST['pm_id']));
+	    $query = "UPDATE party_master SET pm_active_status = 'NO' WHERE pm_id = '$pmId'";
+	    $result = mysqli_query($dbc,$query);
+		if($result) {
+			$output = array("infocode" => "SUCCESS", "message" => "Deleted Successfully");
+		}
+		else {
+			$output = array("infocode" => "UNSUCCESSFULL", "message" => "Something went worng");
+		}
+		return $output;
 	}
 
 ?>

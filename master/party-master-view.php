@@ -19,7 +19,7 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-body">
-          <table id="example1" class="table table-bordered table-striped">
+          <table id="party_table" class="table table-bordered table-striped">
             <thead>
             <tr>
               <th>Customer Name</th>
@@ -36,32 +36,28 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>Ram</td>
-              <td>Chennai</td>
-              <td>TN</td>
-              <td>RR  </td>
-              <td>9876543210</td>
-              <td>r@r.com</td>
-              <td>20</td>
-              <td>10000</td>
-              <td>10000</td>
-              <td><a>Edit</a></td>
-              <td><a>Delete</a></td>
-            </tr>
-            <tr>
-              <td>Ron</td>
-              <td>Chennai</td>
-              <td>TN</td>
-              <td>RR  </td>
-              <td>9874563210</td>
-              <td>r@r.com</td>
-              <td>20</td>
-              <td>20000</td>
-              <td>20000</td>
-              <td><a>Edit</a></td>
-              <td><a>Delete</a></td>
-            </tr>
+              <?php 
+                $query = "SELECT * FROM party_master WHERE pm_active_status = 'yes'";
+                $result = mysqli_query($dbc, $query);
+                if(mysqli_num_rows($result) > 0){
+                  while ($row = mysqli_fetch_assoc($result)) {
+                    echo '<tr>';
+                      echo '<td>'.$row['pm_customerName'].'</td>';
+                      echo '<td>'.$row['pm_cityTown'].'</td>';
+                      echo '<td>'.$row['pm_state'].'</td>';
+                      echo '<td>'.$row['pm_primaryContact'].'</td>';
+                      echo '<td>'.$row['pm_primaryContactMobile'].'</td>';
+                      echo '<td>'.$row['pm_primaryContactEmail'].'</td>';
+                      echo '<td>'.$row['pm_ccd'].'</td>';
+                      echo '<td>'.$row['pm_ccLimit'].'</td>';
+                      echo '<td>'.$row['pm_ccBalance'].'</td>';
+                      echo '<td><a href="party-master-edit.php?pm_id='.$row['pm_id'].'">Edit</a></td>';
+                      echo '<td><a onclick="deleteParty('.$row['pm_id'].')">Delete</a></td>';
+                    echo '</tr>';
+                  }
+                }
+              ?>
+            </tbody>
           </table>
         </div>
         </div>
@@ -74,11 +70,14 @@
   <!-- /.content-wrapper -->
   <?php
     include('../footer_imports.php');
+  ?>
+  <script type="text/javascript" src="<?php echo HOMEURL; ?>/master/js/master.js"></script>
+  <?php
     include('../footer.php');
   ?>
   
   <script>
     $(function () {
-      $("#example1").DataTable();
+      $("#party_table").DataTable();
     });
   </script>

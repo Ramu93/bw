@@ -341,3 +341,90 @@ function deleteTariff(tariffId){
 		}
 	});
 }
+
+function changePartyType(patryType){
+	if(patryType == 'serviceprovider'){
+		$('#sp_div').show();
+		$('#sp_div2').hide();
+	}else if(patryType == 'principalclient'){
+		$('#sp_div2').show();
+		$('#sp_div').hide();
+	}else{
+		$('#sp_div').hide();
+		$('#sp_div2').hide();
+	}
+}
+
+function addParty(){
+	if($('#add_party_form').valid()){
+		var data = $('#add_party_form').serialize() + '&action=add_party';
+		//console.log(data);
+		$.ajax({
+			url: "master-services.php",
+			type: "POST",
+			data:  data,
+			dataType: 'json',
+			success: function(result){
+				if(result.infocode == 'INSERTSUCCESSFULLY'){
+					$('#add_party_form')[0].reset();
+				} else {
+					bootbox.alert(result.message);
+				}
+			},
+			error: function(){
+				bootbox.alert("failure");
+			} 	        
+		});
+	}
+}
+
+function editParty(pmId){
+	if($('#edit_party_master').valid()){
+		var data = $('#edit_party_master').serialize() + '&pm_id=' + pmId + '&action=edit_party';
+		//console.log(data);
+		$.ajax({
+			url: "master-services.php",
+			type: "POST",
+			data:  data,
+			dataType: 'json',
+			success: function(result){
+				if(result.infocode == 'SUCCESS'){
+					bootbox.alert(result.message, function(){
+						window.location='party-master-view.php';
+					});
+				} else {
+					bootbox.alert(result.message);
+				}
+			},
+			error: function(){
+				bootbox.alert("failure");
+			} 	        
+		});
+	}
+}
+
+function deleteParty(pmId){
+	bootbox.confirm('You sure you want to delete this item?',function(res){
+		if(res){
+			var data = 'pm_id=' + pmId + '&action=del_party';
+			$.ajax({
+				url: "master-services.php",
+				type: "POST",
+				data:  data,
+				dataType: 'json',
+				success: function(result){
+					if(result.infocode == 'SUCCESS'){
+						bootbox.alert(result.message, function(){
+							window.location='party-master-view.php';
+						});
+					} else {
+						bootbox.alert(result.message);
+					}
+				},
+				error: function(){
+					bootbox.alert("failure");
+				} 	        
+			});
+		}
+	});
+}

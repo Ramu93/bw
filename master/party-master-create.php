@@ -19,7 +19,7 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-body">
-          <form action="#" name="add_party_form" class="form" id="add_party_form" method="POST">
+          <form action="#" onsubmit="return false;" name="add_party_form" class="form" id="add_party_form" method="POST">
             <div class="form-group col-lg-6 col-md-6 col-sm-6">
               <label for="im_type">Party Type </label>
                 <div class="checkbox">
@@ -176,7 +176,7 @@
                 <input type="button" class="btn btn-primary btn-block margin_bottom" value="Back" onclick="history.go(-1);">
               </div-->
             <div class="col-ls-4 col-md-4 col-sm-4">
-              <input type="submit" class="btn btn-primary btn-block" value="Add Party" name="pm_submit">
+              <input type="submit" class="btn btn-primary btn-block" value="Add Party" name="pm_submit" onclick="addParty()">
             </div>
             <div class="col-ls-4 col-md-4 col-sm-4">
               <input type="button" class="btn btn-primary btn-block" value="View Parties" onclick="window.location='party-master-view.php';">
@@ -200,6 +200,8 @@
       $('#add_party_form').validate({
         errorClass: "my-error-class"
       });
+      $('#pm_form').validate();
+      $('#pm_inactive').datepicker({dateFormat: 'yy-mm-dd'});
     });
   </script>
   <?php
