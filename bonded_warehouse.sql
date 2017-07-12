@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 09, 2017 at 04:12 PM
+-- Generation Time: Jul 12, 2017 at 04:59 AM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.1
 
@@ -297,6 +297,18 @@ INSERT INTO `igp_unloading` (`igp_un_id`, `sac_par_table`, `sac_par_id`, `data_t
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `item_master`
+--
+
+CREATE TABLE `item_master` (
+  `item_master_id` int(11) NOT NULL,
+  `item_name` varchar(100) NOT NULL,
+  `type_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `joborder_loading`
 --
 
@@ -400,41 +412,47 @@ INSERT INTO `ogp_unloading` (`ogp_un_id`, `ju_id`, `exit_time`, `status`) VALUES
 
 CREATE TABLE `party_master` (
   `pm_id` int(11) NOT NULL,
-  `nature_of_business` varchar(100) NOT NULL,
-  `name_of_the_company` varchar(200) NOT NULL,
-  `customer_name` varchar(150) NOT NULL,
-  `customer_type` varchar(100) NOT NULL,
-  `customer_subtype` varchar(100) NOT NULL,
-  `customer_parent` varchar(100) NOT NULL,
-  `constitution_type` varchar(100) NOT NULL,
-  `address1` varchar(400) NOT NULL,
-  `address2` varchar(400) NOT NULL,
-  `city_town` varchar(200) NOT NULL,
-  `state` varchar(100) NOT NULL,
-  `pincode` varchar(10) NOT NULL,
-  `landline` varchar(150) NOT NULL,
-  `fax` varchar(150) NOT NULL,
-  `salestax_number` varchar(150) NOT NULL,
-  `servicetax_number` varchar(150) NOT NULL,
-  `ie_licence` varchar(150) NOT NULL,
-  `tan_number` varchar(150) NOT NULL,
-  `pan_number` varchar(150) NOT NULL,
-  `inactive_from` date NOT NULL,
-  `primary_contact_name` varchar(200) NOT NULL,
-  `primary_contact_mobile` varchar(20) NOT NULL,
-  `primary_contact_email` varchar(100) NOT NULL,
-  `secondary_contact_name` varchar(200) NOT NULL,
-  `secondary_contact_mobile` varchar(20) NOT NULL,
-  `secondary_contact_email` varchar(100) NOT NULL,
-  `tertiary_contact_name` varchar(200) NOT NULL,
-  `tertiary_contact_mobile` varchar(20) NOT NULL,
-  `tertiary_contact_email` varchar(100) NOT NULL,
-  `credit_days` varchar(10) NOT NULL,
-  `credit_limit` varchar(20) NOT NULL,
-  `opening_balance` varchar(20) NOT NULL,
-  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `pm_active_status` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `pm_uuid` varchar(255) NOT NULL,
+  `pm_customerName` varchar(150) DEFAULT NULL,
+  `pm_type` varchar(100) NOT NULL,
+  `pm_subtype` varchar(100) NOT NULL,
+  `pm_address1` varchar(200) DEFAULT NULL,
+  `pm_address2` varchar(200) NOT NULL,
+  `pm_cityTown` varchar(150) DEFAULT NULL,
+  `pm_state` varchar(150) DEFAULT NULL,
+  `pm_pin` int(100) DEFAULT NULL,
+  `pm_landline` varchar(150) DEFAULT NULL,
+  `pm_fax` varchar(150) DEFAULT NULL,
+  `pm_sales` varchar(150) DEFAULT NULL,
+  `pm_servicesTax` varchar(150) DEFAULT NULL,
+  `pm_licence` varchar(150) DEFAULT NULL,
+  `pm_tan` varchar(150) DEFAULT NULL,
+  `pm_pan` varchar(150) DEFAULT NULL,
+  `pm_doc` varchar(150) DEFAULT NULL,
+  `pm_sd` varchar(150) DEFAULT NULL,
+  `pm_inactive` date DEFAULT NULL,
+  `pm_primaryContact` varchar(150) DEFAULT NULL,
+  `pm_primaryContactMobile` varchar(150) DEFAULT NULL,
+  `pm_primaryContactEmail` varchar(200) DEFAULT NULL,
+  `pm_secondaryContact` varchar(150) DEFAULT NULL,
+  `pm_secondaryContactMobile` varchar(150) DEFAULT NULL,
+  `pm_secondaryContactEmail` varchar(200) DEFAULT NULL,
+  `pm_tertiaryContact` varchar(150) NOT NULL,
+  `pm_tertiaryContactMobile` varchar(150) NOT NULL,
+  `pm_tertiaryContactEmail` varchar(150) NOT NULL,
+  `pm_ccd` varchar(200) DEFAULT NULL,
+  `pm_ccLimit` varchar(150) DEFAULT NULL,
+  `pm_ccBalance` varchar(150) DEFAULT NULL,
+  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `pm_active_status` enum('YES','NO') DEFAULT 'YES'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `party_master`
+--
+
+INSERT INTO `party_master` (`pm_id`, `pm_uuid`, `pm_customerName`, `pm_type`, `pm_subtype`, `pm_address1`, `pm_address2`, `pm_cityTown`, `pm_state`, `pm_pin`, `pm_landline`, `pm_fax`, `pm_sales`, `pm_servicesTax`, `pm_licence`, `pm_tan`, `pm_pan`, `pm_doc`, `pm_sd`, `pm_inactive`, `pm_primaryContact`, `pm_primaryContactMobile`, `pm_primaryContactEmail`, `pm_secondaryContact`, `pm_secondaryContactMobile`, `pm_secondaryContactEmail`, `pm_tertiaryContact`, `pm_tertiaryContactMobile`, `pm_tertiaryContactEmail`, `pm_ccd`, `pm_ccLimit`, `pm_ccBalance`, `created_date`, `pm_active_status`) VALUES
+(13, '8496E4C0-9CA8-40BC-B563-26EDE633B240-1499823272', 'Rams Int', 'customer', 'chcagent', 'bbbb', 'ccccc', 'chennai', 'tamil nadu', 600097, '', '', '1', '1', '1', '1', '1', NULL, NULL, '2017-07-28', '1', '1', '1', '1', '1', '1', '1', '1', '1', '30', '100000', '500000', '2017-07-12 01:34:32', 'YES');
 
 -- --------------------------------------------------------
 
@@ -690,6 +708,31 @@ INSERT INTO `sac_request` (`sac_id`, `importing_firm_name`, `licence_code`, `bol
 (4, 'q', 'q', 'q', 'q', 'q', 0, 'Metal Drum', 'q', 'q', 'q', 'Non Hazardous', '2017-06-28', 'q', 'TRLPL', 'approved', 'yes'),
 (5, 'q', 'q', 'q', 'q', 'q', 0, 'Metal Drum', 'q', 'q', 'q', 'Non Hazardous', '2017-07-26', 'q', 'TRLPL', 'approved', 'no');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tariff_master`
+--
+
+CREATE TABLE `tariff_master` (
+  `tariff_master_id` int(11) NOT NULL,
+  `service_type` varchar(100) NOT NULL,
+  `service_name` varchar(200) NOT NULL,
+  `base_tariff` float(10,2) NOT NULL,
+  `storage_unit` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `type_master`
+--
+
+CREATE TABLE `type_master` (
+  `type_id` int(11) NOT NULL,
+  `type_name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Indexes for dumped tables
 --
@@ -747,6 +790,12 @@ ALTER TABLE `igp_loading`
 --
 ALTER TABLE `igp_unloading`
   ADD PRIMARY KEY (`igp_un_id`);
+
+--
+-- Indexes for table `item_master`
+--
+ALTER TABLE `item_master`
+  ADD PRIMARY KEY (`item_master_id`);
 
 --
 -- Indexes for table `joborder_loading`
@@ -815,6 +864,18 @@ ALTER TABLE `sac_request`
   ADD PRIMARY KEY (`sac_id`);
 
 --
+-- Indexes for table `tariff_master`
+--
+ALTER TABLE `tariff_master`
+  ADD PRIMARY KEY (`tariff_master_id`);
+
+--
+-- Indexes for table `type_master`
+--
+ALTER TABLE `type_master`
+  ADD PRIMARY KEY (`type_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -864,6 +925,11 @@ ALTER TABLE `igp_loading`
 ALTER TABLE `igp_unloading`
   MODIFY `igp_un_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
+-- AUTO_INCREMENT for table `item_master`
+--
+ALTER TABLE `item_master`
+  MODIFY `item_master_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+--
 -- AUTO_INCREMENT for table `joborder_loading`
 --
 ALTER TABLE `joborder_loading`
@@ -872,7 +938,7 @@ ALTER TABLE `joborder_loading`
 -- AUTO_INCREMENT for table `joborder_unloading`
 --
 ALTER TABLE `joborder_unloading`
-  MODIFY `ju_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ju_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `ogp_loading`
 --
@@ -887,7 +953,7 @@ ALTER TABLE `ogp_unloading`
 -- AUTO_INCREMENT for table `party_master`
 --
 ALTER TABLE `party_master`
-  MODIFY `pm_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `pm_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `par_log`
 --
@@ -918,6 +984,16 @@ ALTER TABLE `sac_par_container_info`
 --
 ALTER TABLE `sac_request`
   MODIFY `sac_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `tariff_master`
+--
+ALTER TABLE `tariff_master`
+  MODIFY `tariff_master_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT for table `type_master`
+--
+ALTER TABLE `type_master`
+  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
