@@ -29,6 +29,13 @@
     width: 80%; /* respsonsive width */
     margin-left:-40%; /* width/2) */ 
   }
+
+  ul.ui-autocomplete {
+      z-index: 1100;
+  }
+  .error{
+    color: red;
+  }
 </style>
 
 <!-- Content Wrapper. Contains page content -->
@@ -221,7 +228,7 @@
                         <tr id="itemtr_1">
                           <td><span class="td_sno">1</span></td>
 
-                          <td><input type="text" name="item_name[]" placeholder="" class="form-control" value=""></td>
+                          <td><input type="text" id="item_name" name="item_name[]" placeholder="" class="form-control auto-itemname" value="" autocomplete="on"></td>
 
                           <td><input type="text" name="item_qty[]" placeholder="" class="form-control" value=""></td>
 
@@ -253,7 +260,7 @@
       <!-- modal ends -->
           <div class="row">
             <div class="col-md-4 col-sm-4">
-              <input type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#view_list_modal" value="Add Item">
+              <input type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#view_list_modal" onclick="bindAutocomplete()" value="Add Item">
             </div>
             <div class="col-md-4 col-sm-4">
               <input type="submit" id="dv_submit_button" name="submit" value="Submit" class="btn btn-primary btn-block pull-left" onclick="submitDocumentVerification();" disabled>

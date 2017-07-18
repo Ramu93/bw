@@ -1,9 +1,8 @@
-
-  <?php
+<?php
     include('../header.php');
     include('../sidebar.php');
     include('../dbconfig.php');
-  ?>
+?>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
