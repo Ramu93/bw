@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 12, 2017 at 04:59 AM
+-- Generation Time: Jul 20, 2017 at 08:42 PM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.1
 
@@ -23,27 +23,13 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `client_login`
+-- Table structure for table `bonded_despatch_request`
 --
 
-CREATE TABLE `client_login` (
-  `client_id` int(11) NOT NULL,
-  `pm_id` int(11) NOT NULL,
-  `login_id` varchar(300) NOT NULL,
-  `password` varchar(500) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `despatch_request`
---
-
-CREATE TABLE `despatch_request` (
+CREATE TABLE `bonded_despatch_request` (
   `pdr_id` int(11) NOT NULL,
   `bond_number` varchar(50) NOT NULL,
-  `sac_par_table` varchar(10) NOT NULL,
-  `sac_par_id` int(11) NOT NULL,
+  `sac_id` int(11) NOT NULL,
   `client_web` varchar(20) NOT NULL,
   `cha_name` varchar(50) NOT NULL,
   `order_number` varchar(50) NOT NULL,
@@ -57,25 +43,26 @@ CREATE TABLE `despatch_request` (
   `transporter_name` varchar(50) NOT NULL,
   `document_verified` varchar(10) NOT NULL DEFAULT 'no',
   `status` varchar(50) NOT NULL DEFAULT 'created'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 --
--- Dumping data for table `despatch_request`
+-- Dumping data for table `bonded_despatch_request`
 --
 
-INSERT INTO `despatch_request` (`pdr_id`, `bond_number`, `sac_par_table`, `sac_par_id`, `client_web`, `cha_name`, `order_number`, `boe_number`, `exbond_be_number`, `exbond_be_date`, `customs_officer_name`, `number_of_packages`, `assessment_value`, `duty_value`, `transporter_name`, `document_verified`, `status`) VALUES
-(1, '6674', 'par', 44, 'Inbond Sales', 'Rams International', '99891', '34345', '1234', '2017-07-19', 'Ron', 3, '3000000', '280000', 'Siddha', 'yes', 'joborder_completed');
+INSERT INTO `bonded_despatch_request` (`pdr_id`, `bond_number`, `sac_id`, `client_web`, `cha_name`, `order_number`, `boe_number`, `exbond_be_number`, `exbond_be_date`, `customs_officer_name`, `number_of_packages`, `assessment_value`, `duty_value`, `transporter_name`, `document_verified`, `status`) VALUES
+(1, '6674', 44, 'Reexport', 'Rams International', '99891', '34345', '1234', '2017-07-19', 'Ron', 3, '3000000', '280000', 'Siddha', 'yes', 'joborder_completed'),
+(2, 'q12', 6, 'Debond', '1', '1', '1', '1', '2017-07-25', '1', 1, '1', '1', '1', 'no', 'approved'),
+(3, 'q12', 6, 'Transfer Bond', 'wtty', 'w', 'w', 'q', '2017-07-24', 'a', 0, 'a', 'a', 'a', 'yes', 'joborder_completed');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dv_inward`
+-- Table structure for table `bonded_dv_inward`
 --
 
-CREATE TABLE `dv_inward` (
+CREATE TABLE `bonded_dv_inward` (
   `do_ver_id` int(11) NOT NULL,
-  `sac_par_table` varchar(50) NOT NULL,
-  `sac_par_id` int(11) NOT NULL,
+  `sac_id` int(11) NOT NULL,
   `cfs_name` varchar(200) NOT NULL,
   `customs_officer_name` varchar(100) NOT NULL,
   `do_number` varchar(100) NOT NULL,
@@ -94,32 +81,403 @@ CREATE TABLE `dv_inward` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 --
--- Dumping data for table `dv_inward`
+-- Dumping data for table `bonded_dv_inward`
 --
 
-INSERT INTO `dv_inward` (`do_ver_id`, `sac_par_table`, `sac_par_id`, `cfs_name`, `customs_officer_name`, `do_number`, `do_date`, `bond_number`, `bond_date`, `do_issued_by`, `weight`, `no_of_packages`, `description`, `invoice_copy`, `packing_list`, `boe_copy`, `bond_order`, `do_verification`) VALUES
-(4, 'par', 1, 'tambram', 'xyz', '123', '2017-05-06', '44564', '2017-07-17', 'abc', 'yes', 'no', 'no', 'no', 'no', 'yes', 'no', 'yes'),
-(5, 'par', 2, 'eerr', 'qwd', '123', '2017-06-28', '33225', '2017-06-20', '786', 'yes', 'no', 'no', 'no', 'no', 'no', 'no', 'yes'),
-(6, 'par', 4, '34', '44', '788', '0000-00-00', '344', '2017-06-23', '9900', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'yes'),
-(7, 'par', 4, '1', '1', '1', '2017-06-27', '1', '2017-06-20', 's', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'no'),
-(8, 'par', 44, 'qq', 'qq', '44422', '2017-06-29', '1344', '2017-06-26', 'rr', 'no', 'no', 'yes', 'no', 'no', 'yes', 'yes', 'yes'),
-(9, 'par', 11, 'eer', 'qwwe', '334', '2017-07-11', 'qr445', '2017-07-17', '45t', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'yes'),
-(10, 'par', 44, '1', '1', '2233', '2017-07-27', '6674', '2017-07-24', 'eerrttyy', 'no', 'no', 'yes', 'yes', 'yes', 'no', 'no', 'yes'),
-(11, 'par', 6, '123', '12', '1223', '2017-07-27', '1', '2017-07-26', 'rrt', 'no', 'yes', 'no', 'no', 'yes', 'no', 'yes', 'yes'),
-(12, 'par', 5, '1', '1', '1', '2017-07-19', '1', '2017-07-19', '1', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'yes'),
-(13, 'sac', 2, '1', '1', '1', '2017-07-20', '1', '2017-07-11', '1', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'yes');
+INSERT INTO `bonded_dv_inward` (`do_ver_id`, `sac_id`, `cfs_name`, `customs_officer_name`, `do_number`, `do_date`, `bond_number`, `bond_date`, `do_issued_by`, `weight`, `no_of_packages`, `description`, `invoice_copy`, `packing_list`, `boe_copy`, `bond_order`, `do_verification`) VALUES
+(1, 7, 'Dummy123', 'Dummy', '11223344', '2017-07-31', '12334', '2017-07-28', 'trlpl', 'no', 'no', 'no', 'no', 'yes', 'no', 'no', 'yes'),
+(2, 6, 'www', 'ww', 'wsee', '2017-07-26', 'q12', '2017-07-17', '45f', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'yes');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dv_items`
+-- Table structure for table `bonded_dv_items`
 --
 
-CREATE TABLE `dv_items` (
+CREATE TABLE `bonded_dv_items` (
   `dv_item_id` int(11) NOT NULL,
   `container_number` int(11) DEFAULT NULL,
-  `sac_par_table` varchar(10) NOT NULL,
-  `sac_par_id` int(11) NOT NULL,
+  `sac_id` int(11) NOT NULL,
+  `item_name` varchar(100) NOT NULL,
+  `item_qty` int(11) NOT NULL,
+  `assessable_value` varchar(50) NOT NULL,
+  `duty_value` varchar(50) NOT NULL,
+  `insurance_value` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `bonded_dv_items`
+--
+
+INSERT INTO `bonded_dv_items` (`dv_item_id`, `container_number`, `sac_id`, `item_name`, `item_qty`, `assessable_value`, `duty_value`, `insurance_value`) VALUES
+(1, NULL, 1, 'a', 0, '1', '1', '2'),
+(2, NULL, 1, 'b', 0, '2', '2', '4'),
+(3, NULL, 1, 'c', 0, '3', '3', '6'),
+(4, NULL, 2, '', 0, '', '', ''),
+(5, NULL, 4, '', 0, '', '', ''),
+(6, NULL, 4, '', 0, '', '', ''),
+(7, 6644556, 44, 'dummy', 0, '1', '1', '2'),
+(8, 937789, 44, 'dummy 2', 0, '2', '2', '4'),
+(9, 0, 11, '', 0, '', '', ''),
+(10, 4355, 44, 'Wood', 23, '1', '1', '2'),
+(11, 937789, 44, 'Box', 34, '2', '2', '4'),
+(12, 0, 6, 'qq', 1, '1', '1', '1'),
+(13, 0, 5, '', 0, '', '', ''),
+(14, 0, 2, '', 0, '', '', ''),
+(15, 0, 6, '11233', 22, '22', '44', '44');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bonded_dv_outward`
+--
+
+CREATE TABLE `bonded_dv_outward` (
+  `dv_ver_id` int(11) NOT NULL,
+  `pdr_id` int(11) NOT NULL,
+  `exbond_original` varchar(10) NOT NULL DEFAULT 'no',
+  `exboe_original` varchar(10) NOT NULL DEFAULT 'no',
+  `order_number` varchar(10) NOT NULL DEFAULT 'no',
+  `vehicle_number` varchar(10) NOT NULL DEFAULT 'no',
+  `license_number` varchar(10) NOT NULL DEFAULT 'no'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `bonded_dv_outward`
+--
+
+INSERT INTO `bonded_dv_outward` (`dv_ver_id`, `pdr_id`, `exbond_original`, `exboe_original`, `order_number`, `vehicle_number`, `license_number`) VALUES
+(1, 1, 'no', 'no', 'no', 'no', 'no'),
+(2, 1, 'no', 'no', 'no', 'no', 'no'),
+(3, 1, 'no', 'no', 'yes', 'no', 'no'),
+(4, 1, 'yes', 'yes', 'yes', 'yes', 'yes'),
+(5, 1, 'no', 'yes', 'no', 'yes', 'no'),
+(6, 2, 'no', 'no', 'no', 'yes', 'no'),
+(7, 1, 'no', 'no', 'no', 'yes', 'yes'),
+(8, 3, 'no', 'no', 'no', 'yes', 'no');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bonded_exception`
+--
+
+CREATE TABLE `bonded_exception` (
+  `exception_id` int(11) NOT NULL,
+  `exception_type` varchar(50) NOT NULL,
+  `exception_subtype` varchar(50) NOT NULL,
+  `exception_remarks` varchar(500) NOT NULL,
+  `exception_closingremarks` varchar(500) NOT NULL,
+  `exception_status` varchar(50) NOT NULL DEFAULT 'created',
+  `exception_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `bonded_exception`
+--
+
+INSERT INTO `bonded_exception` (`exception_id`, `exception_type`, `exception_subtype`, `exception_remarks`, `exception_closingremarks`, `exception_status`, `exception_time`) VALUES
+(2, 'joborder_unloading', 'damage', '3', 'rectified', '', '2017-05-06 05:06:12'),
+(3, 'joborder_unloading', 'excess', '2 excess', '', 'created', '2017-05-06 05:34:12'),
+(4, 'joborder_unloading', 'damage', 'heavy damage', '', 'created', '2017-07-19 02:08:14'),
+(5, 'joborder_unloading', 'damage', 'heavy', '', 'created', '2017-07-19 02:09:09'),
+(6, 'joborder_unloading', 'damage', 'heavy damage', 'deone', 'complete', '2017-07-19 02:12:25');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bonded_good_receipt_note`
+--
+
+CREATE TABLE `bonded_good_receipt_note` (
+  `grn_id` int(11) NOT NULL,
+  `ju_id` int(11) NOT NULL,
+  `sac_id` int(11) NOT NULL,
+  `space_occupied` varchar(100) NOT NULL,
+  `location` varchar(100) NOT NULL,
+  `validity` varchar(100) NOT NULL,
+  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `status` varchar(30) NOT NULL DEFAULT 'created'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `bonded_good_receipt_note`
+--
+
+INSERT INTO `bonded_good_receipt_note` (`grn_id`, `ju_id`, `sac_id`, `space_occupied`, `location`, `validity`, `created_date`, `status`) VALUES
+(6, 3, 1, '50', '2221', '11', '2017-07-08 20:30:53', 'created'),
+(7, 6, 2, '60', '2221', '11', '2017-07-08 20:30:59', 'created'),
+(9, 8, 44, '70', 'tnagar', '70', '2017-07-08 20:31:02', 'created'),
+(10, 8, 6, '35', 'anna nagar', '5', '2017-07-19 16:17:41', 'created');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bonded_igp_loading`
+--
+
+CREATE TABLE `bonded_igp_loading` (
+  `igp_lo_id` int(11) NOT NULL,
+  `pdr_id` int(11) NOT NULL,
+  `entry_date` date NOT NULL,
+  `data_type` varchar(50) NOT NULL,
+  `data_value` varchar(50) NOT NULL,
+  `vehicle_number` varchar(50) DEFAULT NULL,
+  `driver_name` varchar(50) DEFAULT NULL,
+  `driving_license` varchar(50) DEFAULT NULL,
+  `time_in` varchar(50) NOT NULL,
+  `status` varchar(50) NOT NULL DEFAULT 'igp_created'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `bonded_igp_loading`
+--
+
+INSERT INTO `bonded_igp_loading` (`igp_lo_id`, `pdr_id`, `entry_date`, `data_type`, `data_value`, `vehicle_number`, `driver_name`, `driving_license`, `time_in`, `status`) VALUES
+(1, 1, '2017-07-09', 'pdr_id', '1', 'TN 38 AJ 0784', 'Ram', '3498721114', '15:16:44', 'joborder_completed'),
+(2, 3, '2017-07-19', 'pdr_id', '3', '1234', '1223', '11223', '21:06:53', 'joborder_completed');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bonded_igp_unloading`
+--
+
+CREATE TABLE `bonded_igp_unloading` (
+  `igp_un_id` int(11) NOT NULL,
+  `sac_id` int(11) NOT NULL,
+  `data_type` varchar(50) NOT NULL,
+  `data_value` varchar(100) NOT NULL,
+  `vehicle_number` varchar(50) NOT NULL,
+  `driver_name` varchar(100) NOT NULL,
+  `driving_license` varchar(100) NOT NULL,
+  `container_number` varchar(100) NOT NULL,
+  `seal_number` varchar(100) NOT NULL,
+  `entry_date` varchar(50) NOT NULL,
+  `time_in` varchar(50) NOT NULL,
+  `container_condition` varchar(30) NOT NULL,
+  `vehicle_type` varchar(100) NOT NULL,
+  `transporter_name` varchar(200) NOT NULL,
+  `status` varchar(50) NOT NULL DEFAULT 'created'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `bonded_igp_unloading`
+--
+
+INSERT INTO `bonded_igp_unloading` (`igp_un_id`, `sac_id`, `data_type`, `data_value`, `vehicle_number`, `driver_name`, `driving_license`, `container_number`, `seal_number`, `entry_date`, `time_in`, `container_condition`, `vehicle_type`, `transporter_name`, `status`) VALUES
+(4, 2, 'par', '2', '99', '9', '9', '9', '9', '01-05-2017', '22:28:50', 'Good', '20', '9', 'created'),
+(10, 4, 'sac', '4', '1', '1', '1', '14', '1', '28-06-2017', '0:28:04', 'Good', '20', '1', ''),
+(11, 4, 'sac', '4', '1', '1', '1', '14', '1', '28-06-2017', '0:28:04', 'Good', '20', '1', ''),
+(12, 4, 'sac', '4', '1', '1', '1', '14', '1', '28-06-2017', '0:28:04', 'Good', '20', '1', ''),
+(13, 4, 'sac', '4', '1', '1', '1', '14', '1', '28-06-2017', '0:28:04', 'Good', '20', '1', ''),
+(14, 4, 'sac', '4', '1', '1', '1', '4', '1', '28-06-2017', '0:32:10', 'Good', '20', '1', ''),
+(15, 4, 'sac', '4', '1', '2', '1', '1', '1', '28-06-2017', '0:33:40', 'Good', '20', '1', ''),
+(16, 4, 'customer_name', 'q', '1', '111', '111', '3', '112', '06-07-2017', '0:13:37', 'Good', '40', '223', ''),
+(17, 44, 'par', '44', 'TN 10 AB 1233', 'qwerty', '1122', '774878', '67', '08-07-2017', '20:35:53', 'Good', 'Break Bulk', '11', 'joborder_completed'),
+(18, 3, 'sac', '3', '2345', 'sac-igp-vehicle num', '1123', '112233', '123', '19-07-2017', '0:18:02', 'Good', '20', '11223', 'joborder_completed');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bonded_joborder_loading`
+--
+
+CREATE TABLE `bonded_joborder_loading` (
+  `jl_id` int(11) NOT NULL,
+  `pdr_id` int(11) NOT NULL,
+  `space_occupied_after` varchar(50) NOT NULL,
+  `supervisor_name` varchar(50) NOT NULL,
+  `loading_type` int(11) NOT NULL,
+  `equipment_ref_number` varchar(50) NOT NULL,
+  `no_of_labors` varchar(10) NOT NULL,
+  `loading_time` varchar(10) NOT NULL,
+  `status` varchar(50) NOT NULL DEFAULT 'created'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `bonded_joborder_loading`
+--
+
+INSERT INTO `bonded_joborder_loading` (`jl_id`, `pdr_id`, `space_occupied_after`, `supervisor_name`, `loading_type`, `equipment_ref_number`, `no_of_labors`, `loading_time`, `status`) VALUES
+(1, 1, '15', 'Ram', 3, '11443123', '2', '1 hour', 'completed'),
+(2, 3, '25', 'rewwr', 2, '1234', '2', '2', 'completed');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bonded_joborder_unloading`
+--
+
+CREATE TABLE `bonded_joborder_unloading` (
+  `ju_id` int(11) NOT NULL,
+  `sac_id` int(11) NOT NULL,
+  `weight` varchar(100) NOT NULL,
+  `no_of_packages` varchar(100) NOT NULL,
+  `description` varchar(300) NOT NULL,
+  `supervisor_name` varchar(100) NOT NULL,
+  `unloading_type` int(11) NOT NULL,
+  `equipment_ref_number` varchar(100) NOT NULL,
+  `no_of_labors` varchar(100) NOT NULL,
+  `unloading_time` varchar(50) NOT NULL,
+  `dimension` varchar(80) NOT NULL,
+  `status` varchar(50) NOT NULL DEFAULT 'created',
+  `exception_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `bonded_joborder_unloading`
+--
+
+INSERT INTO `bonded_joborder_unloading` (`ju_id`, `sac_id`, `weight`, `no_of_packages`, `description`, `supervisor_name`, `unloading_type`, `equipment_ref_number`, `no_of_labors`, `unloading_time`, `dimension`, `status`, `exception_id`) VALUES
+(1, 1, '1', '2', 'box', 'ramu', 2, '45', '2', '30', '20 ft. Container', 'completed', 2),
+(5, 5, '100', '3', 'abc', 'xy', 2, '44321', '3', '30', '20 ft. Container', 'exception', 1),
+(6, 2, '23', '1', '1', '1', 2, '1', '1', '1', '20 ft. Container', 'created', 0),
+(7, 44, '3', '3', '34', '3', 1, '1233', '3556', '6', 'LCL', 'completed', 0),
+(8, 3, '300', '2', '1122', '112', 4, '12', '12', '3', '40 ft. Container', 'completed', 6);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bonded_ogp_loading`
+--
+
+CREATE TABLE `bonded_ogp_loading` (
+  `ogp_lo_id` int(11) NOT NULL,
+  `jl_id` int(11) NOT NULL,
+  `exit_time` varchar(50) DEFAULT NULL,
+  `status` varchar(20) NOT NULL DEFAULT 'created'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `bonded_ogp_loading`
+--
+
+INSERT INTO `bonded_ogp_loading` (`ogp_lo_id`, `jl_id`, `exit_time`, `status`) VALUES
+(1, 1, '2017-07-09 17:53:27', 'completed'),
+(2, 2, '2017-07-19 21:54:03', 'completed');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bonded_ogp_unloading`
+--
+
+CREATE TABLE `bonded_ogp_unloading` (
+  `ogp_un_id` int(11) NOT NULL,
+  `ju_id` int(11) NOT NULL,
+  `exit_time` varchar(50) DEFAULT NULL,
+  `status` varchar(30) NOT NULL DEFAULT 'created'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `bonded_ogp_unloading`
+--
+
+INSERT INTO `bonded_ogp_unloading` (`ogp_un_id`, `ju_id`, `exit_time`, `status`) VALUES
+(1, 7, '2017-07-09 17:57:19', 'completed'),
+(2, 8, '2017-07-19 07:59:02', 'completed'),
+(3, 8, '2017-07-19 07:59:05', 'completed'),
+(4, 8, '2017-07-19 07:58:38', 'completed');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bonded_pdr_items`
+--
+
+CREATE TABLE `bonded_pdr_items` (
+  `pdr_item_id` int(11) NOT NULL,
+  `pdr_id` int(11) NOT NULL,
+  `dv_item_id` int(11) NOT NULL,
+  `container_number` varchar(50) NOT NULL,
+  `sac_id` int(11) NOT NULL,
+  `item_name` varchar(100) NOT NULL,
+  `despatch_qty` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `bonded_pdr_items`
+--
+
+INSERT INTO `bonded_pdr_items` (`pdr_item_id`, `pdr_id`, `dv_item_id`, `container_number`, `sac_id`, `item_name`, `despatch_qty`) VALUES
+(7, 3, 15, '0', 6, '11233', '20');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `general_despatch_request`
+--
+
+CREATE TABLE `general_despatch_request` (
+  `pdr_id` int(11) NOT NULL,
+  `bond_number` varchar(50) NOT NULL,
+  `par_id` int(11) NOT NULL,
+  `client_web` varchar(20) NOT NULL,
+  `cha_name` varchar(50) NOT NULL,
+  `order_number` varchar(50) NOT NULL,
+  `boe_number` varchar(50) NOT NULL,
+  `exbond_be_number` varchar(50) NOT NULL,
+  `exbond_be_date` date NOT NULL,
+  `customs_officer_name` varchar(50) NOT NULL,
+  `number_of_packages` int(11) NOT NULL,
+  `assessment_value` varchar(50) NOT NULL,
+  `duty_value` varchar(50) NOT NULL,
+  `transporter_name` varchar(50) NOT NULL,
+  `document_verified` varchar(10) NOT NULL DEFAULT 'no',
+  `status` varchar(50) NOT NULL DEFAULT 'created'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `general_despatch_request`
+--
+
+INSERT INTO `general_despatch_request` (`pdr_id`, `bond_number`, `par_id`, `client_web`, `cha_name`, `order_number`, `boe_number`, `exbond_be_number`, `exbond_be_date`, `customs_officer_name`, `number_of_packages`, `assessment_value`, `duty_value`, `transporter_name`, `document_verified`, `status`) VALUES
+(1, '123', 3, 'Debond', '123', '1111', '1111', '1111', '2017-07-12', '1111', 111, '111', '1111', '1111', 'yes', 'joborder_completed');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `general_dv_inward`
+--
+
+CREATE TABLE `general_dv_inward` (
+  `do_ver_id` int(11) NOT NULL,
+  `par_id` int(11) NOT NULL,
+  `cfs_name` varchar(200) NOT NULL,
+  `customs_officer_name` varchar(100) NOT NULL,
+  `do_number` varchar(100) NOT NULL,
+  `do_date` date NOT NULL,
+  `bond_number` varchar(50) DEFAULT NULL,
+  `bond_date` date DEFAULT NULL,
+  `do_issued_by` varchar(100) NOT NULL,
+  `weight` varchar(100) NOT NULL DEFAULT 'no',
+  `no_of_packages` varchar(100) NOT NULL DEFAULT 'no',
+  `description` varchar(100) NOT NULL DEFAULT 'no',
+  `invoice_copy` varchar(10) NOT NULL DEFAULT 'no',
+  `packing_list` varchar(10) NOT NULL DEFAULT 'no',
+  `boe_copy` varchar(10) NOT NULL DEFAULT 'no',
+  `bond_order` varchar(10) NOT NULL DEFAULT 'no',
+  `do_verification` varchar(10) NOT NULL DEFAULT 'no'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `general_dv_inward`
+--
+
+INSERT INTO `general_dv_inward` (`do_ver_id`, `par_id`, `cfs_name`, `customs_officer_name`, `do_number`, `do_date`, `bond_number`, `bond_date`, `do_issued_by`, `weight`, `no_of_packages`, `description`, `invoice_copy`, `packing_list`, `boe_copy`, `bond_order`, `do_verification`) VALUES
+(1, 3, 'ABC', 'ram', '212', '2017-07-26', '123', '2017-07-13', '122', 'no', 'no', 'no', 'no', 'no', 'no', 'yes', 'yes');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `general_dv_items`
+--
+
+CREATE TABLE `general_dv_items` (
+  `dv_item_id` int(11) NOT NULL,
+  `container_number` int(11) DEFAULT NULL,
+  `par_id` int(11) NOT NULL,
   `item_name` varchar(100) NOT NULL,
   `item_qty` int(11) NOT NULL,
   `assessable_value` varchar(50) NOT NULL,
@@ -128,32 +486,19 @@ CREATE TABLE `dv_items` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `dv_items`
+-- Dumping data for table `general_dv_items`
 --
 
-INSERT INTO `dv_items` (`dv_item_id`, `container_number`, `sac_par_table`, `sac_par_id`, `item_name`, `item_qty`, `assessable_value`, `duty_value`, `insurance_value`) VALUES
-(1, NULL, 'par', 1, 'a', 0, '1', '1', '2'),
-(2, NULL, 'par', 1, 'b', 0, '2', '2', '4'),
-(3, NULL, 'par', 1, 'c', 0, '3', '3', '6'),
-(4, NULL, 'par', 2, '', 0, '', '', ''),
-(5, NULL, 'par', 4, '', 0, '', '', ''),
-(6, NULL, 'par', 4, '', 0, '', '', ''),
-(7, 6644556, 'par', 44, 'dummy', 0, '1', '1', '2'),
-(8, 937789, 'par', 44, 'dummy 2', 0, '2', '2', '4'),
-(9, 0, 'par', 11, '', 0, '', '', ''),
-(10, 4355, 'par', 44, 'Wood', 23, '1', '1', '2'),
-(11, 937789, 'par', 44, 'Box', 34, '2', '2', '4'),
-(12, 0, 'par', 6, 'qq', 1, '1', '1', '1'),
-(13, 0, 'par', 5, '', 0, '', '', ''),
-(14, 0, 'sac', 2, '', 0, '', '', '');
+INSERT INTO `general_dv_items` (`dv_item_id`, `container_number`, `par_id`, `item_name`, `item_qty`, `assessable_value`, `duty_value`, `insurance_value`) VALUES
+(1, 123, 3, 'abc', 12, '12', '12', '24');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dv_outward`
+-- Table structure for table `general_dv_outward`
 --
 
-CREATE TABLE `dv_outward` (
+CREATE TABLE `general_dv_outward` (
   `dv_ver_id` int(11) NOT NULL,
   `pdr_id` int(11) NOT NULL,
   `exbond_original` varchar(10) NOT NULL DEFAULT 'no',
@@ -164,25 +509,19 @@ CREATE TABLE `dv_outward` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `dv_outward`
+-- Dumping data for table `general_dv_outward`
 --
 
-INSERT INTO `dv_outward` (`dv_ver_id`, `pdr_id`, `exbond_original`, `exboe_original`, `order_number`, `vehicle_number`, `license_number`) VALUES
-(1, 1, 'no', 'no', 'no', 'no', 'no'),
-(2, 1, 'no', 'no', 'no', 'no', 'no'),
-(3, 1, 'no', 'no', 'yes', 'no', 'no'),
-(4, 1, 'yes', 'yes', 'yes', 'yes', 'yes'),
-(5, 1, 'no', 'yes', 'no', 'yes', 'no'),
-(6, 2, 'no', 'no', 'no', 'yes', 'no'),
-(7, 1, 'no', 'no', 'no', 'yes', 'yes');
+INSERT INTO `general_dv_outward` (`dv_ver_id`, `pdr_id`, `exbond_original`, `exboe_original`, `order_number`, `vehicle_number`, `license_number`) VALUES
+(1, 1, 'no', 'no', 'yes', 'no', 'no');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `exception`
+-- Table structure for table `general_exception`
 --
 
-CREATE TABLE `exception` (
+CREATE TABLE `general_exception` (
   `exception_id` int(11) NOT NULL,
   `exception_type` varchar(50) NOT NULL,
   `exception_subtype` varchar(50) NOT NULL,
@@ -193,24 +532,22 @@ CREATE TABLE `exception` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `exception`
+-- Dumping data for table `general_exception`
 --
 
-INSERT INTO `exception` (`exception_id`, `exception_type`, `exception_subtype`, `exception_remarks`, `exception_closingremarks`, `exception_status`, `exception_time`) VALUES
-(2, 'joborder_unloading', 'damage', '3', 'rectified', '', '2017-05-06 05:06:12'),
-(3, 'joborder_unloading', 'excess', '2 excess', '', 'created', '2017-05-06 05:34:12');
+INSERT INTO `general_exception` (`exception_id`, `exception_type`, `exception_subtype`, `exception_remarks`, `exception_closingremarks`, `exception_status`, `exception_time`) VALUES
+(1, 'joborder_unloading', 'damage', 'heavy damage', 'resolved', 'complete', '2017-07-20 02:09:43');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `good_receipt_note`
+-- Table structure for table `general_good_receipt_note`
 --
 
-CREATE TABLE `good_receipt_note` (
+CREATE TABLE `general_good_receipt_note` (
   `grn_id` int(11) NOT NULL,
   `ju_id` int(11) NOT NULL,
-  `sac_par_table` varchar(10) NOT NULL,
-  `sac_par_id` int(11) NOT NULL,
+  `par_id` int(11) NOT NULL,
   `space_occupied` varchar(100) NOT NULL,
   `location` varchar(100) NOT NULL,
   `validity` varchar(100) NOT NULL,
@@ -219,21 +556,22 @@ CREATE TABLE `good_receipt_note` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `good_receipt_note`
+-- Dumping data for table `general_good_receipt_note`
 --
 
-INSERT INTO `good_receipt_note` (`grn_id`, `ju_id`, `sac_par_table`, `sac_par_id`, `space_occupied`, `location`, `validity`, `created_date`, `status`) VALUES
-(6, 3, 'sac', 1, '50', '2221', '11', '2017-07-08 20:30:53', 'created'),
-(7, 6, 'par', 2, '60', '2221', '11', '2017-07-08 20:30:59', 'created'),
-(9, 8, 'par', 44, '70', 'tnagar', '70', '2017-07-08 20:31:02', 'created');
+INSERT INTO `general_good_receipt_note` (`grn_id`, `ju_id`, `par_id`, `space_occupied`, `location`, `validity`, `created_date`, `status`) VALUES
+(6, 3, 1, '50', '2221', '11', '2017-07-08 20:30:53', 'created'),
+(7, 6, 2, '60', '2221', '11', '2017-07-08 20:30:59', 'created'),
+(9, 8, 44, '70', 'tnagar', '70', '2017-07-08 20:31:02', 'created'),
+(12, 2, 3, '50', 'tnagar', '30', '2017-07-20 02:52:29', 'created');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `igp_loading`
+-- Table structure for table `general_igp_loading`
 --
 
-CREATE TABLE `igp_loading` (
+CREATE TABLE `general_igp_loading` (
   `igp_lo_id` int(11) NOT NULL,
   `pdr_id` int(11) NOT NULL,
   `entry_date` date NOT NULL,
@@ -247,22 +585,21 @@ CREATE TABLE `igp_loading` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `igp_loading`
+-- Dumping data for table `general_igp_loading`
 --
 
-INSERT INTO `igp_loading` (`igp_lo_id`, `pdr_id`, `entry_date`, `data_type`, `data_value`, `vehicle_number`, `driver_name`, `driving_license`, `time_in`, `status`) VALUES
-(1, 1, '2017-07-09', 'pdr_id', '1', 'TN 38 AJ 0784', 'Ram', '3498721114', '15:16:44', 'joborder_completed');
+INSERT INTO `general_igp_loading` (`igp_lo_id`, `pdr_id`, `entry_date`, `data_type`, `data_value`, `vehicle_number`, `driver_name`, `driving_license`, `time_in`, `status`) VALUES
+(1, 1, '2017-07-20', 'pdr_id', '1', 'TN 38 AJ 0784', 'Ram', '1234', '23:50:37', 'joborder_completed');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `igp_unloading`
+-- Table structure for table `general_igp_unloading`
 --
 
-CREATE TABLE `igp_unloading` (
+CREATE TABLE `general_igp_unloading` (
   `igp_un_id` int(11) NOT NULL,
-  `sac_par_table` varchar(20) NOT NULL,
-  `sac_par_id` int(11) NOT NULL,
+  `par_id` int(11) NOT NULL,
   `data_type` varchar(50) NOT NULL,
   `data_value` varchar(100) NOT NULL,
   `vehicle_number` varchar(50) NOT NULL,
@@ -279,40 +616,19 @@ CREATE TABLE `igp_unloading` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `igp_unloading`
+-- Dumping data for table `general_igp_unloading`
 --
 
-INSERT INTO `igp_unloading` (`igp_un_id`, `sac_par_table`, `sac_par_id`, `data_type`, `data_value`, `vehicle_number`, `driver_name`, `driving_license`, `container_number`, `seal_number`, `entry_date`, `time_in`, `container_condition`, `vehicle_type`, `transporter_name`, `status`) VALUES
-(4, 'par', 2, 'par', '2', '99', '9', '9', '9', '9', '01-05-2017', '22:28:50', 'Good', '20', '9', 'created'),
-(9, 'sac', 3, 'sac', '3', '1', '1', '1', '11', '1', '28-06-2017', '0:22:55', 'Good', '20', '1', ''),
-(10, 'sac', 4, 'sac', '4', '1', '1', '1', '14', '1', '28-06-2017', '0:28:04', 'Good', '20', '1', ''),
-(11, 'sac', 4, 'sac', '4', '1', '1', '1', '14', '1', '28-06-2017', '0:28:04', 'Good', '20', '1', ''),
-(12, 'sac', 4, 'sac', '4', '1', '1', '1', '14', '1', '28-06-2017', '0:28:04', 'Good', '20', '1', ''),
-(13, 'sac', 4, 'sac', '4', '1', '1', '1', '14', '1', '28-06-2017', '0:28:04', 'Good', '20', '1', ''),
-(14, 'sac', 4, 'sac', '4', '1', '1', '1', '4', '1', '28-06-2017', '0:32:10', 'Good', '20', '1', ''),
-(15, 'sac', 4, 'sac', '4', '1', '2', '1', '1', '1', '28-06-2017', '0:33:40', 'Good', '20', '1', ''),
-(16, 'sac', 4, 'customer_name', 'q', '1', '111', '111', '3', '112', '06-07-2017', '0:13:37', 'Good', '40', '223', ''),
-(17, 'par', 44, 'par', '44', 'TN 10 AB 1233', 'qwerty', '1122', '774878', '67', '08-07-2017', '20:35:53', 'Good', 'Break Bulk', '11', 'joborder_completed');
+INSERT INTO `general_igp_unloading` (`igp_un_id`, `par_id`, `data_type`, `data_value`, `vehicle_number`, `driver_name`, `driving_license`, `container_number`, `seal_number`, `entry_date`, `time_in`, `container_condition`, `vehicle_type`, `transporter_name`, `status`) VALUES
+(1, 3, 'par', '3', '9894', 'Ram', '11226677889944', '11223', '23', '20-07-2017', '6:59:52', 'Good', '20', 'KPN', 'joborder_completed');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `item_master`
+-- Table structure for table `general_joborder_loading`
 --
 
-CREATE TABLE `item_master` (
-  `item_master_id` int(11) NOT NULL,
-  `item_name` varchar(100) NOT NULL,
-  `type_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `joborder_loading`
---
-
-CREATE TABLE `joborder_loading` (
+CREATE TABLE `general_joborder_loading` (
   `jl_id` int(11) NOT NULL,
   `pdr_id` int(11) NOT NULL,
   `space_occupied_after` varchar(50) NOT NULL,
@@ -325,22 +641,21 @@ CREATE TABLE `joborder_loading` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `joborder_loading`
+-- Dumping data for table `general_joborder_loading`
 --
 
-INSERT INTO `joborder_loading` (`jl_id`, `pdr_id`, `space_occupied_after`, `supervisor_name`, `loading_type`, `equipment_ref_number`, `no_of_labors`, `loading_time`, `status`) VALUES
-(1, 1, '15', 'Ram', 3, '11443123', '2', '1 hour', 'completed');
+INSERT INTO `general_joborder_loading` (`jl_id`, `pdr_id`, `space_occupied_after`, `supervisor_name`, `loading_type`, `equipment_ref_number`, `no_of_labors`, `loading_time`, `status`) VALUES
+(1, 1, '123', 'ram', 2, '677554', '3', '1 hour', 'completed');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `joborder_unloading`
+-- Table structure for table `general_joborder_unloading`
 --
 
-CREATE TABLE `joborder_unloading` (
+CREATE TABLE `general_joborder_unloading` (
   `ju_id` int(11) NOT NULL,
-  `sac_par_table` varchar(10) NOT NULL,
-  `sac_par_id` int(11) NOT NULL,
+  `par_id` int(11) NOT NULL,
   `weight` varchar(100) NOT NULL,
   `no_of_packages` varchar(100) NOT NULL,
   `description` varchar(300) NOT NULL,
@@ -355,22 +670,20 @@ CREATE TABLE `joborder_unloading` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `joborder_unloading`
+-- Dumping data for table `general_joborder_unloading`
 --
 
-INSERT INTO `joborder_unloading` (`ju_id`, `sac_par_table`, `sac_par_id`, `weight`, `no_of_packages`, `description`, `supervisor_name`, `unloading_type`, `equipment_ref_number`, `no_of_labors`, `unloading_time`, `dimension`, `status`, `exception_id`) VALUES
-(1, 'sac', 1, '1', '2', 'box', 'ramu', 2, '45', '2', '30', '20 ft. Container', 'completed', 2),
-(5, 'par', 5, '100', '3', 'abc', 'xy', 2, '44321', '3', '30', '20 ft. Container', 'exception', 1),
-(6, 'par', 2, '23', '1', '1', '1', 2, '1', '1', '1', '20 ft. Container', 'created', 0),
-(7, 'par', 44, '3', '3', '34', '3', 1, '1233', '3556', '6', 'LCL', 'completed', 0);
+INSERT INTO `general_joborder_unloading` (`ju_id`, `par_id`, `weight`, `no_of_packages`, `description`, `supervisor_name`, `unloading_type`, `equipment_ref_number`, `no_of_labors`, `unloading_time`, `dimension`, `status`, `exception_id`) VALUES
+(1, 1, '50', '30', 'dummy', 'ram', 3, '677554', '3', '3', '40 ft. Container', 'completed', 1),
+(2, 3, '67', '12', 'jj', 'j', 1, '12', '12', '1', '40 ft. Container', 'created', 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ogp_loading`
+-- Table structure for table `general_ogp_loading`
 --
 
-CREATE TABLE `ogp_loading` (
+CREATE TABLE `general_ogp_loading` (
   `ogp_lo_id` int(11) NOT NULL,
   `jl_id` int(11) NOT NULL,
   `exit_time` varchar(50) DEFAULT NULL,
@@ -378,19 +691,19 @@ CREATE TABLE `ogp_loading` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ogp_loading`
+-- Dumping data for table `general_ogp_loading`
 --
 
-INSERT INTO `ogp_loading` (`ogp_lo_id`, `jl_id`, `exit_time`, `status`) VALUES
-(1, 1, '2017-07-09 17:53:27', 'completed');
+INSERT INTO `general_ogp_loading` (`ogp_lo_id`, `jl_id`, `exit_time`, `status`) VALUES
+(2, 1, '2017-07-21 00:10:54', 'completed');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ogp_unloading`
+-- Table structure for table `general_ogp_unloading`
 --
 
-CREATE TABLE `ogp_unloading` (
+CREATE TABLE `general_ogp_unloading` (
   `ogp_un_id` int(11) NOT NULL,
   `ju_id` int(11) NOT NULL,
   `exit_time` varchar(50) DEFAULT NULL,
@@ -398,11 +711,57 @@ CREATE TABLE `ogp_unloading` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ogp_unloading`
+-- Dumping data for table `general_ogp_unloading`
 --
 
-INSERT INTO `ogp_unloading` (`ogp_un_id`, `ju_id`, `exit_time`, `status`) VALUES
-(1, 7, '2017-07-09 17:57:19', 'completed');
+INSERT INTO `general_ogp_unloading` (`ogp_un_id`, `ju_id`, `exit_time`, `status`) VALUES
+(1, 7, '2017-07-09 17:57:19', 'completed'),
+(3, 2, '2017-07-20 08:04:52', 'completed');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `general_pdr_items`
+--
+
+CREATE TABLE `general_pdr_items` (
+  `pdr_item_id` int(11) NOT NULL,
+  `pdr_id` int(11) NOT NULL,
+  `dv_item_id` int(11) NOT NULL,
+  `container_number` varchar(50) NOT NULL,
+  `par_id` int(11) NOT NULL,
+  `item_name` varchar(100) NOT NULL,
+  `despatch_qty` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `general_pdr_items`
+--
+
+INSERT INTO `general_pdr_items` (`pdr_item_id`, `pdr_id`, `dv_item_id`, `container_number`, `par_id`, `item_name`, `despatch_qty`) VALUES
+(1, 1, 1, '123', 3, 'abc', '10');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `item_master`
+--
+
+CREATE TABLE `item_master` (
+  `item_master_id` int(11) NOT NULL,
+  `item_name` varchar(100) NOT NULL,
+  `type_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `item_master`
+--
+
+INSERT INTO `item_master` (`item_master_id`, `item_name`, `type_id`) VALUES
+(9, 'Varnish', 11),
+(10, 'dum', 11),
+(11, 'paru', 11),
+(12, 'parm', 11);
 
 -- --------------------------------------------------------
 
@@ -457,6 +816,28 @@ INSERT INTO `party_master` (`pm_id`, `pm_uuid`, `pm_customerName`, `pm_type`, `p
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `par_container_info`
+--
+
+CREATE TABLE `par_container_info` (
+  `container_info_id` int(11) NOT NULL,
+  `dimension` varchar(100) NOT NULL,
+  `container_count` int(11) NOT NULL,
+  `container_details` varchar(1000) NOT NULL,
+  `id` int(11) NOT NULL,
+  `igp_status` varchar(50) NOT NULL DEFAULT 'notgenerated'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `par_container_info`
+--
+
+INSERT INTO `par_container_info` (`container_info_id`, `dimension`, `container_count`, `container_details`, `id`, `igp_status`) VALUES
+(1, '20 ft. Container', 2, '{\"0\":{\"container_number\":\"123\",\"status\":\"not_picked\"},\"1\":{\"container_number\":\"11223\",\"status\":\"picked\"}}', 3, 'notgenerated');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `par_log`
 --
 
@@ -488,32 +869,9 @@ INSERT INTO `par_log` (`par_log_id`, `par_id`, `status_from`, `status_to`, `logg
 (12, 5, 'Submitted', 0, '2017-07-06 02:13:39', 'PAR Approved'),
 (13, 44, 'Submitted', 0, '2017-07-06 02:24:28', 'PAR Approved'),
 (14, 1, 'Submitted', 0, '2017-07-06 02:24:34', 'PAR Rejected'),
-(15, 44, 'Submitted', 0, '2017-07-08 15:05:49', 'PAR Approved');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pdr_items`
---
-
-CREATE TABLE `pdr_items` (
-  `pdr_item_id` int(11) NOT NULL,
-  `pdr_id` int(11) NOT NULL,
-  `dv_item_id` int(11) NOT NULL,
-  `container_number` varchar(50) NOT NULL,
-  `sac_par_table` varchar(10) NOT NULL,
-  `sac_par_id` int(11) NOT NULL,
-  `item_name` varchar(100) NOT NULL,
-  `despatch_qty` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `pdr_items`
---
-
-INSERT INTO `pdr_items` (`pdr_item_id`, `pdr_id`, `dv_item_id`, `container_number`, `sac_par_table`, `sac_par_id`, `item_name`, `despatch_qty`) VALUES
-(5, 1, 10, '4355', 'par', 44, 'Wood', '20'),
-(6, 1, 11, '937789', 'par', 44, 'Box', '20');
+(15, 44, 'Submitted', 0, '2017-07-08 15:05:49', 'PAR Approved'),
+(16, 3, 'Submitted', 0, '2017-07-19 17:52:18', 'PAR Rejected'),
+(17, 3, 'Submitted', 0, '2017-07-19 17:52:32', 'PAR Approved');
 
 -- --------------------------------------------------------
 
@@ -551,49 +909,29 @@ CREATE TABLE `pre_arrival_request` (
 --
 
 INSERT INTO `pre_arrival_request` (`par_id`, `importing_firm_name`, `bol_awb_number`, `material_name`, `packing_nature`, `assessable_value`, `material_nature`, `required_period`, `licence_code`, `boe_number`, `qty_units`, `space_requirement`, `duty_amount`, `expected_date`, `cargo_life`, `shelf_life`, `insurance_by`, `client_insurance_copy`, `insurance_declaration`, `insurance_declaration_copy`, `status`, `document_verified`) VALUES
-(1, 'xyz', 'AWB_2345', 'Jasmine', 'Wooden Crate Bags Cartons', '75000', 'Non Hazardous', '34', 'LN_2345', 'BOE_2345', '5', '5', '7500', '2017-05-06', '2017-05-17', '2017-05-31', 'Client', 'client-insurance-copy/xyz_client_insurance_copy_CCA-ramu Ramasamy.pdf', 'No', '', 'rejected', 'yes'),
-(2, 'xyz123', 'AWB_2345', 'ram', 'Metal Drum', '100000', 'Hazardous', '5', 'LN_1234', 'BOE_23459', '5', '5', '10000', '2017-05-19', '2017-05-27', '2017-05-26', 'TRLPL', '', 'Yes', 'insurance_declaration_copy/', 'grn_created', 'yes'),
-(4, 'abc123', 'AWB_123', 'cotton material', 'Fibre Drum', '200000', 'Non Hazardous', '56', 'LN_2345', 'BOE_123', '12', '12', '20000', '2017-04-30', '2017-04-30', '2017-04-30', 'TRLPL', '', 'No', '', 'rejected', 'yes'),
-(5, 'abcd', 'AWB_2345', 'steel', 'Metal Drum', '200000', 'Non Hazardous', '123', 'LN_1234', 'BOE_234501', '4', '4', '20000', '2017-04-30', '2017-04-30', '2017-04-30', 'Client', 'client-insurance-copy/abc_client_insurance_copy_CCA-ramu Ramasamy.pdf', 'Yes', 'insurance_declaration_copy/abc_client_insurance_copy_CCA-ramu Ramasamy.pdf', 'approved', 'yes'),
-(6, 'q', '122', 'ee', 'Metal Drum', '12231', 'Non Hazardous', '3', '123', '1223', '1', '12', '121', '2017-06-30', '2017-06-30', '2017-06-26', 'TRLPL', '', 'No', '', 'submitted', 'yes'),
-(7, 'q', '122', 'ee', 'Metal Drum', '12231', 'Non Hazardous', '3', '123', '1223', '1', '12', '121', '2017-06-30', '2017-06-30', '2017-06-26', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(8, 'q', '122', 'ee', 'Metal Drum', '12231', 'Non Hazardous', '3', '123', '1223', '1', '12', '121', '2017-06-30', '2017-06-30', '2017-06-26', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(9, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '3', '1', '1', '1', '1', '1', '2017-06-27', '2017-06-30', '2017-06-28', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(10, 'r', 'r', 'r', 'Metal Drum', '2', 'Non Hazardous', '5', 'r', 'r', 'r', '23', '4', '2017-06-27', '2017-06-30', '2017-06-28', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(11, 'r', 'r', 'r', 'Metal Drum', 'r', 'Non Hazardous', 'w', 'rr', 'r', 'r', 'r', 'r', '2017-06-28', '2017-06-29', '2017-06-26', 'TRLPL', '', 'No', '', 'submitted', 'yes'),
-(12, 'r', '112', '11', 'Metal Drum', '11', 'Non Hazardous', '11', '12', '111', '11', '11', '11', '2017-06-28', '2017-06-30', '2017-06-26', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(13, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '12', '1', '1', '1', '1', '1', '2017-06-26', '2017-06-29', '2017-06-27', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(14, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '3', '1', '1', '1', '1', '1', '2017-06-26', '2017-06-30', '2017-06-26', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(15, '2', '2', '2', 'Metal Drum', '2', 'Non Hazardous', '2', '2', '2', '2', '2', '2', '2017-06-28', '2017-06-30', '2017-06-26', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(16, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '12', '1', '1', '1', '1', '1', '2017-06-27', '2017-06-30', '2017-06-26', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(17, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '12', '1', '1', '1', '1', '1', '2017-06-27', '2017-06-30', '2017-06-26', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(18, 'q', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '4', '1', '1', '1', '1', '1', '2017-06-27', '2017-06-30', '2017-06-28', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(19, 'r', '1', '2', 'Metal Drum', '1', 'Non Hazardous', '1', '1', 'r', '1', '1', '1', '2017-06-30', '2017-06-30', '2017-06-26', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(20, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '1', '1', '1', '1', '1', '1', '2017-06-27', '2017-06-30', '2017-06-28', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(21, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '1', '1', '1', '1', '1', '1', '2017-06-28', '2017-06-30', '2017-06-26', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(22, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '1', '1', '1', '1', '1', '1', '2017-06-29', '2017-06-30', '2017-06-27', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(23, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '1', '1', '1', '1', '1', '1', '2017-06-28', '2017-06-30', '2017-06-27', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(24, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '1', '1', '1', '1', '1', '1', '2017-06-27', '2017-06-30', '2017-06-26', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(25, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '1', '1', '1', '1', '1', '1', '2017-06-26', '2017-06-30', '2017-06-26', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(26, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '1', '1', '1', '1', '1', '1', '2017-06-27', '2017-06-30', '2017-06-26', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(27, '11', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '1', '1', '1', '1', '1', '1', '2017-06-28', '2017-06-29', '2017-06-26', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(28, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '1', '1', '1', '1', '1', '1', '2017-06-29', '2017-06-30', '2017-06-27', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(29, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '1', '1', '1', '1', '1', '1', '2017-06-27', '2017-06-30', '2017-06-28', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(30, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '1', '1', '1', '1', '1', '1', '2017-06-27', '2017-06-30', '2017-06-27', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(31, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '1', '1', '1', '1', '1', '1', '2017-06-29', '2017-06-29', '2017-06-27', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(32, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '1', '1', '1', '1', '1', '1', '2017-06-29', '2017-06-30', '2017-06-28', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(33, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '1', '1', '1', '1', '1', '1', '2017-06-29', '2017-06-30', '2017-06-28', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(34, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '1', '1', '1', '1', '1', '1', '2017-06-27', '2017-06-30', '2017-06-26', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(35, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '1', '1', '1', '1', '1', '1', '2017-06-27', '2017-06-30', '2017-06-27', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(36, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '1', '1', '1', '1', '1', '1', '2017-06-28', '2017-06-30', '2017-06-27', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(37, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '1', '1', '1', '1', '1', '1', '2017-06-27', '2017-06-29', '2017-06-27', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(38, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '1', '1', '1', '1', '1', '1', '2017-06-27', '2017-06-30', '2017-06-26', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(39, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '1', '1', '1', '1', '1', '1', '2017-06-27', '2017-06-29', '2017-06-28', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(40, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '1', '1', '1', '1', '1', '1', '2017-06-27', '2017-06-30', '2017-06-27', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(41, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '11', '1', '1', '1', '1', '1', '2017-06-28', '2017-06-29', '2017-06-26', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(42, '1', '1', '1', 'Metal Drum', '1', 'Non Hazardous', '1', '1', '1', '1', '1', '1', '2017-06-27', '2017-06-29', '2017-06-28', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(43, 'rams', '112333', '1223', 'Metal Drum', '112', 'Non Hazardous', '34', '112211', '113233', '1123', '1122', '223', '2017-06-29', '2017-06-30', '2017-06-28', 'TRLPL', '', 'No', '', 'submitted', 'no'),
-(44, 'rr', 'rr', 'rr', 'Metal Drum', 'rr', 'Non Hazardous', '1', 'rr', 'rr', 'rr', 'rr', 'rramm', '2017-06-27', '2017-06-30', '2017-06-28', 'TRLPL', '', 'No', '', 'approved', 'yes');
+(3, 'qwerty123', 'r', 'q', 'Wooden Crate Bags Cartons', '12231', 'Chemcals Compositor', '1', '123', 'r', 'q', '23', '3444', '2017-07-31', '2017-06-30', '2017-06-26', 'TRLPL', '', 'No', '', 'grn_created', 'yes');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sac_container_info`
+--
+
+CREATE TABLE `sac_container_info` (
+  `container_info_id` int(11) NOT NULL,
+  `dimension` varchar(100) NOT NULL,
+  `container_count` int(11) NOT NULL,
+  `container_details` varchar(1000) NOT NULL,
+  `id` int(11) NOT NULL,
+  `igp_status` varchar(50) NOT NULL DEFAULT 'notgenerated'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `sac_container_info`
+--
+
+INSERT INTO `sac_container_info` (`container_info_id`, `dimension`, `container_count`, `container_details`, `id`, `igp_status`) VALUES
+(1, '20 ft. Container', 1, '{\"0\":{\"container_number\":\"112233\",\"status\":\"picked\"}}', 5, 'notgenerated');
 
 -- --------------------------------------------------------
 
@@ -630,46 +968,11 @@ INSERT INTO `sac_log` (`sac_log_id`, `sac_id`, `status_from`, `status_to`, `logg
 (13, 1, 'Submitted', 'Rejected', '2017-06-23 13:36:49', 'SAC Rejected'),
 (14, 5, 'Submitted', 'Approved', '2017-07-06 02:48:46', 'SAC Approved'),
 (15, 3, 'Submitted', 'Rejected', '2017-07-06 02:49:55', 'SAC Rejected'),
-(16, 3, 'Submitted', 'Approved', '2017-07-06 02:50:13', 'SAC Approved');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `sac_par_container_info`
---
-
-CREATE TABLE `sac_par_container_info` (
-  `container_info_id` int(11) NOT NULL,
-  `dimension` varchar(100) NOT NULL,
-  `container_count` int(11) NOT NULL,
-  `container_details` varchar(1000) NOT NULL,
-  `id` int(11) NOT NULL,
-  `added_from` varchar(30) NOT NULL,
-  `igp_status` varchar(50) NOT NULL DEFAULT 'notgenerated'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `sac_par_container_info`
---
-
-INSERT INTO `sac_par_container_info` (`container_info_id`, `dimension`, `container_count`, `container_details`, `id`, `added_from`, `igp_status`) VALUES
-(3, '20 ft. Container', 0, '9894', 1, 'sac', 'notgenerated'),
-(4, 'Break Bulk/ODC', 0, '4545', 1, 'sac', 'notgenerated'),
-(9, 'Break Bulk/ODC', 0, '3424', 3, 'par', 'notgenerated'),
-(23, 'LCL', 0, '4444', 1, 'par', 'notgenerated'),
-(24, '40 ft. Container', 0, '6544', 5, 'par', 'notgenerated'),
-(25, '20 ft. Container', 0, '1233', 2, 'par', 'notgenerated'),
-(26, '20 ft. Container', 0, '1234', 2, 'par', 'notgenerated'),
-(28, '40 ft. Container', 2, '{\"0\":{\"container_number\":\"1\",\"status\":\"not_picked\"},\"1\":{\"container_number\":\"1\",\"status\":\"not_picked\"}}', 1, 'par', 'notgenerated'),
-(31, '20 ft. Container', 2, '{\"0\":{\"container_number\":\"4355\",\"status\":\"not_picked\"},\"1\":{\"container_number\":\"774878\",\"status\":\"picked\"},\"2\":{\"container_number\":\"937789\",\"status\":\"picked\"},\"3\":{\"container_number\":\"998783\",\"status\":\"not_picked\"}}', 44, 'par', 'notgenerated'),
-(32, 'LCL', 4, '{\"0\":{\"container_number\":\"4355\",\"status\":\"not_picked\"},\"1\":{\"container_number\":\"774878\",\"status\":\"not_picked\"},\"2\":{\"container_number\":\"937789\",\"status\":\"picked\"},\"3\":{\"container_number\":\"998783\",\"status\":\"not_picked\"}}', 44, 'par', 'notgenerated'),
-(33, '40 ft. Container', 2, '{\"0\":{\"container_number\":\"11\",\"status\":\"picked\"},\"1\":{\"container_number\":\"22\",\"status\":\"not_picked\"}}', 3, 'sac', 'notgenerated'),
-(34, 'Break Bulk/ODC', 2, '{\"0\":{\"container_number\":\"11\",\"status\":\"picked\"},\"1\":{\"container_number\":\"22\",\"status\":\"not_picked\"}}', 3, 'sac', 'notgenerated'),
-(35, '20 ft. Container', 2, '{\"0\":{\"container_number\":\"1\",\"status\":\"picked\"},\"1\":{\"container_number\":\"2\",\"status\":\"not_picked\"}}', 4, 'sac', 'notgenerated'),
-(36, '40 ft. Container', 3, '{\"0\":{\"container_number\":\"3\",\"status\":\"picked\"},\"1\":{\"container_number\":\"4\",\"status\":\"picked\"},\"2\":{\"container_number\":\"5\",\"status\":\"not_picked\"}}', 4, 'sac', 'notgenerated'),
-(37, 'Break Bulk/ODC', 4, '{\"0\":{\"container_number\":\"6\",\"status\":\"not_picked\"},\"1\":{\"container_number\":\"7\",\"status\":\"not_picked\"},\"2\":{\"container_number\":\"8\",\"status\":\"not_picked\"},\"3\":{\"container_number\":\"9\",\"status\":\"not_picked\"}}', 4, 'sac', 'notgenerated'),
-(38, 'LCL', 5, '{\"0\":{\"container_number\":\"10\",\"status\":\"not_picked\"},\"1\":{\"container_number\":\"11\",\"status\":\"not_picked\"},\"2\":{\"container_number\":\"12\",\"status\":\"not_picked\"},\"3\":{\"container_number\":\"13\",\"status\":\"not_picked\"},\"4\":{\"container_number\":\"14\",\"status\":\"picked\"}}', 4, 'sac', 'notgenerated'),
-(39, '20 ft. Container', 2, '{\"0\":{\"container_number\":\"1\",\"status\":\"not_picked\"},\"1\":{\"container_number\":\"2\",\"status\":\"not_picked\"}}', 5, 'sac', 'notgenerated');
+(16, 3, 'Submitted', 'Approved', '2017-07-06 02:50:13', 'SAC Approved'),
+(17, 7, 'Submitted', 'Approved', '2017-07-18 18:56:29', 'SAC Approved'),
+(18, 7, 'Submitted', 'Approved', '2017-07-18 18:57:10', 'SAC Approved'),
+(19, 6, 'Submitted', 'Rejected', '2017-07-18 18:57:41', 'SAC Rejected'),
+(20, 8, 'Submitted', 'Rejected', '2017-07-19 02:47:34', 'SAC Rejected');
 
 -- --------------------------------------------------------
 
@@ -704,9 +1007,12 @@ CREATE TABLE `sac_request` (
 INSERT INTO `sac_request` (`sac_id`, `importing_firm_name`, `licence_code`, `bol_awb_number`, `boe_number`, `material_name`, `qty_units`, `packing_nature`, `space_requirement`, `assessable_value`, `duty_amount`, `material_nature`, `expected_date`, `required_period`, `insurance_by`, `status`, `document_verified`) VALUES
 (1, 'ABC123', 'LN_1234', 'AWB_123', 'BOE_12378', 'Lilly', 4, 'Wooden Crate Bags Cartons', '4', '50000', '5000', 'Non Hazardous', '2017-04-30', '2017-04-30', 'TRLPL', 'grn_created', 'yes'),
 (2, '1', '1', '1', '1', '1', 1, 'Metal Drum', '1', '1', '1', 'Non Hazardous', '2017-06-27', '1', 'TRLPL', 'submitted', 'yes'),
-(3, '1', '1', '1', '1', '1', 1, 'Metal Drum', '2', '1', '1', 'Non Hazardous', '2017-06-27', '2017-06-27', 'TRLPL', 'approved', 'yes'),
+(3, '1', '1', '1', '1', '1', 1, 'Metal Drum', '2', '1', '1', 'Non Hazardous', '2017-07-29', '2017-06-27', 'TRLPL', 'grn_created', 'yes'),
 (4, 'q', 'q', 'q', 'q', 'q', 0, 'Metal Drum', 'q', 'q', 'q', 'Non Hazardous', '2017-06-28', 'q', 'TRLPL', 'approved', 'yes'),
-(5, 'q', 'q', 'q', 'q', 'q', 0, 'Metal Drum', 'q', 'q', 'q', 'Non Hazardous', '2017-07-26', 'q', 'TRLPL', 'approved', 'no');
+(5, 'q', 'q', 'q', 'q', 'q', 0, 'Metal Drum', 'q', 'q', 'q', 'Non Hazardous', '2017-07-26', 'q', 'TRLPL', 'approved', 'no'),
+(6, '1', '1', '1', '1', '1', 1, 'Metal Drum', '1', '1', '1', 'Non Hazardous', '2017-07-24', '1', 'TRLPL', 'rejected', 'yes'),
+(7, '1', '1', '1', '1', '1', 1, 'Metal Drum', '1', '1', '11', 'Non Hazardous', '2017-07-31', '1', 'TRLPL', 'approved', 'yes'),
+(8, 'a', 'a', 'a', 'a', 'a', 0, 'Metal Drum', 'a', 'a', 'a', 'Non Hazardous', '2017-07-29', 'a', 'TRLPL', 'rejected', 'no');
 
 -- --------------------------------------------------------
 
@@ -720,7 +1026,7 @@ CREATE TABLE `tariff_master` (
   `service_name` varchar(200) NOT NULL,
   `base_tariff` float(10,2) NOT NULL,
   `storage_unit` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
@@ -731,65 +1037,174 @@ CREATE TABLE `tariff_master` (
 CREATE TABLE `type_master` (
   `type_id` int(11) NOT NULL,
   `type_name` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `type_master`
+--
+
+INSERT INTO `type_master` (`type_id`, `type_name`) VALUES
+(11, 'Chemicals');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `client_login`
+-- Indexes for table `bonded_despatch_request`
 --
-ALTER TABLE `client_login`
-  ADD PRIMARY KEY (`client_id`);
-
---
--- Indexes for table `despatch_request`
---
-ALTER TABLE `despatch_request`
+ALTER TABLE `bonded_despatch_request`
   ADD PRIMARY KEY (`pdr_id`);
 
 --
--- Indexes for table `dv_inward`
+-- Indexes for table `bonded_dv_inward`
 --
-ALTER TABLE `dv_inward`
+ALTER TABLE `bonded_dv_inward`
   ADD PRIMARY KEY (`do_ver_id`);
 
 --
--- Indexes for table `dv_items`
+-- Indexes for table `bonded_dv_items`
 --
-ALTER TABLE `dv_items`
+ALTER TABLE `bonded_dv_items`
   ADD PRIMARY KEY (`dv_item_id`);
 
 --
--- Indexes for table `dv_outward`
+-- Indexes for table `bonded_dv_outward`
 --
-ALTER TABLE `dv_outward`
+ALTER TABLE `bonded_dv_outward`
   ADD PRIMARY KEY (`dv_ver_id`);
 
 --
--- Indexes for table `exception`
+-- Indexes for table `bonded_exception`
 --
-ALTER TABLE `exception`
+ALTER TABLE `bonded_exception`
   ADD PRIMARY KEY (`exception_id`);
 
 --
--- Indexes for table `good_receipt_note`
+-- Indexes for table `bonded_good_receipt_note`
 --
-ALTER TABLE `good_receipt_note`
+ALTER TABLE `bonded_good_receipt_note`
   ADD PRIMARY KEY (`grn_id`);
 
 --
--- Indexes for table `igp_loading`
+-- Indexes for table `bonded_igp_loading`
 --
-ALTER TABLE `igp_loading`
+ALTER TABLE `bonded_igp_loading`
   ADD PRIMARY KEY (`igp_lo_id`);
 
 --
--- Indexes for table `igp_unloading`
+-- Indexes for table `bonded_igp_unloading`
 --
-ALTER TABLE `igp_unloading`
+ALTER TABLE `bonded_igp_unloading`
   ADD PRIMARY KEY (`igp_un_id`);
+
+--
+-- Indexes for table `bonded_joborder_loading`
+--
+ALTER TABLE `bonded_joborder_loading`
+  ADD PRIMARY KEY (`jl_id`);
+
+--
+-- Indexes for table `bonded_joborder_unloading`
+--
+ALTER TABLE `bonded_joborder_unloading`
+  ADD PRIMARY KEY (`ju_id`);
+
+--
+-- Indexes for table `bonded_ogp_loading`
+--
+ALTER TABLE `bonded_ogp_loading`
+  ADD PRIMARY KEY (`ogp_lo_id`);
+
+--
+-- Indexes for table `bonded_ogp_unloading`
+--
+ALTER TABLE `bonded_ogp_unloading`
+  ADD PRIMARY KEY (`ogp_un_id`);
+
+--
+-- Indexes for table `bonded_pdr_items`
+--
+ALTER TABLE `bonded_pdr_items`
+  ADD PRIMARY KEY (`pdr_item_id`);
+
+--
+-- Indexes for table `general_despatch_request`
+--
+ALTER TABLE `general_despatch_request`
+  ADD PRIMARY KEY (`pdr_id`);
+
+--
+-- Indexes for table `general_dv_inward`
+--
+ALTER TABLE `general_dv_inward`
+  ADD PRIMARY KEY (`do_ver_id`);
+
+--
+-- Indexes for table `general_dv_items`
+--
+ALTER TABLE `general_dv_items`
+  ADD PRIMARY KEY (`dv_item_id`);
+
+--
+-- Indexes for table `general_dv_outward`
+--
+ALTER TABLE `general_dv_outward`
+  ADD PRIMARY KEY (`dv_ver_id`);
+
+--
+-- Indexes for table `general_exception`
+--
+ALTER TABLE `general_exception`
+  ADD PRIMARY KEY (`exception_id`);
+
+--
+-- Indexes for table `general_good_receipt_note`
+--
+ALTER TABLE `general_good_receipt_note`
+  ADD PRIMARY KEY (`grn_id`);
+
+--
+-- Indexes for table `general_igp_loading`
+--
+ALTER TABLE `general_igp_loading`
+  ADD PRIMARY KEY (`igp_lo_id`);
+
+--
+-- Indexes for table `general_igp_unloading`
+--
+ALTER TABLE `general_igp_unloading`
+  ADD PRIMARY KEY (`igp_un_id`);
+
+--
+-- Indexes for table `general_joborder_loading`
+--
+ALTER TABLE `general_joborder_loading`
+  ADD PRIMARY KEY (`jl_id`);
+
+--
+-- Indexes for table `general_joborder_unloading`
+--
+ALTER TABLE `general_joborder_unloading`
+  ADD PRIMARY KEY (`ju_id`);
+
+--
+-- Indexes for table `general_ogp_loading`
+--
+ALTER TABLE `general_ogp_loading`
+  ADD PRIMARY KEY (`ogp_lo_id`);
+
+--
+-- Indexes for table `general_ogp_unloading`
+--
+ALTER TABLE `general_ogp_unloading`
+  ADD PRIMARY KEY (`ogp_un_id`);
+
+--
+-- Indexes for table `general_pdr_items`
+--
+ALTER TABLE `general_pdr_items`
+  ADD PRIMARY KEY (`pdr_item_id`);
 
 --
 -- Indexes for table `item_master`
@@ -798,34 +1213,16 @@ ALTER TABLE `item_master`
   ADD PRIMARY KEY (`item_master_id`);
 
 --
--- Indexes for table `joborder_loading`
---
-ALTER TABLE `joborder_loading`
-  ADD PRIMARY KEY (`jl_id`);
-
---
--- Indexes for table `joborder_unloading`
---
-ALTER TABLE `joborder_unloading`
-  ADD PRIMARY KEY (`ju_id`);
-
---
--- Indexes for table `ogp_loading`
---
-ALTER TABLE `ogp_loading`
-  ADD PRIMARY KEY (`ogp_lo_id`);
-
---
--- Indexes for table `ogp_unloading`
---
-ALTER TABLE `ogp_unloading`
-  ADD PRIMARY KEY (`ogp_un_id`);
-
---
 -- Indexes for table `party_master`
 --
 ALTER TABLE `party_master`
   ADD PRIMARY KEY (`pm_id`);
+
+--
+-- Indexes for table `par_container_info`
+--
+ALTER TABLE `par_container_info`
+  ADD PRIMARY KEY (`container_info_id`);
 
 --
 -- Indexes for table `par_log`
@@ -834,28 +1231,22 @@ ALTER TABLE `par_log`
   ADD PRIMARY KEY (`par_log_id`);
 
 --
--- Indexes for table `pdr_items`
---
-ALTER TABLE `pdr_items`
-  ADD PRIMARY KEY (`pdr_item_id`);
-
---
 -- Indexes for table `pre_arrival_request`
 --
 ALTER TABLE `pre_arrival_request`
   ADD PRIMARY KEY (`par_id`);
 
 --
+-- Indexes for table `sac_container_info`
+--
+ALTER TABLE `sac_container_info`
+  ADD PRIMARY KEY (`container_info_id`);
+
+--
 -- Indexes for table `sac_log`
 --
 ALTER TABLE `sac_log`
   ADD PRIMARY KEY (`sac_log_id`);
-
---
--- Indexes for table `sac_par_container_info`
---
-ALTER TABLE `sac_par_container_info`
-  ADD PRIMARY KEY (`container_info_id`);
 
 --
 -- Indexes for table `sac_request`
@@ -880,120 +1271,185 @@ ALTER TABLE `type_master`
 --
 
 --
--- AUTO_INCREMENT for table `client_login`
+-- AUTO_INCREMENT for table `bonded_despatch_request`
 --
-ALTER TABLE `client_login`
-  MODIFY `client_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `bonded_despatch_request`
+  MODIFY `pdr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
--- AUTO_INCREMENT for table `despatch_request`
+-- AUTO_INCREMENT for table `bonded_dv_inward`
 --
-ALTER TABLE `despatch_request`
+ALTER TABLE `bonded_dv_inward`
+  MODIFY `do_ver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `bonded_dv_items`
+--
+ALTER TABLE `bonded_dv_items`
+  MODIFY `dv_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+--
+-- AUTO_INCREMENT for table `bonded_dv_outward`
+--
+ALTER TABLE `bonded_dv_outward`
+  MODIFY `dv_ver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT for table `bonded_exception`
+--
+ALTER TABLE `bonded_exception`
+  MODIFY `exception_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT for table `bonded_good_receipt_note`
+--
+ALTER TABLE `bonded_good_receipt_note`
+  MODIFY `grn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT for table `bonded_igp_loading`
+--
+ALTER TABLE `bonded_igp_loading`
+  MODIFY `igp_lo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `bonded_igp_unloading`
+--
+ALTER TABLE `bonded_igp_unloading`
+  MODIFY `igp_un_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+--
+-- AUTO_INCREMENT for table `bonded_joborder_loading`
+--
+ALTER TABLE `bonded_joborder_loading`
+  MODIFY `jl_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `bonded_joborder_unloading`
+--
+ALTER TABLE `bonded_joborder_unloading`
+  MODIFY `ju_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT for table `bonded_ogp_loading`
+--
+ALTER TABLE `bonded_ogp_loading`
+  MODIFY `ogp_lo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `bonded_ogp_unloading`
+--
+ALTER TABLE `bonded_ogp_unloading`
+  MODIFY `ogp_un_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `bonded_pdr_items`
+--
+ALTER TABLE `bonded_pdr_items`
+  MODIFY `pdr_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT for table `general_despatch_request`
+--
+ALTER TABLE `general_despatch_request`
   MODIFY `pdr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
--- AUTO_INCREMENT for table `dv_inward`
+-- AUTO_INCREMENT for table `general_dv_inward`
 --
-ALTER TABLE `dv_inward`
-  MODIFY `do_ver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+ALTER TABLE `general_dv_inward`
+  MODIFY `do_ver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
--- AUTO_INCREMENT for table `dv_items`
+-- AUTO_INCREMENT for table `general_dv_items`
 --
-ALTER TABLE `dv_items`
-  MODIFY `dv_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+ALTER TABLE `general_dv_items`
+  MODIFY `dv_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
--- AUTO_INCREMENT for table `dv_outward`
+-- AUTO_INCREMENT for table `general_dv_outward`
 --
-ALTER TABLE `dv_outward`
-  MODIFY `dv_ver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+ALTER TABLE `general_dv_outward`
+  MODIFY `dv_ver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
--- AUTO_INCREMENT for table `exception`
+-- AUTO_INCREMENT for table `general_exception`
 --
-ALTER TABLE `exception`
-  MODIFY `exception_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `general_exception`
+  MODIFY `exception_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
--- AUTO_INCREMENT for table `good_receipt_note`
+-- AUTO_INCREMENT for table `general_good_receipt_note`
 --
-ALTER TABLE `good_receipt_note`
-  MODIFY `grn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+ALTER TABLE `general_good_receipt_note`
+  MODIFY `grn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
--- AUTO_INCREMENT for table `igp_loading`
+-- AUTO_INCREMENT for table `general_igp_loading`
 --
-ALTER TABLE `igp_loading`
+ALTER TABLE `general_igp_loading`
   MODIFY `igp_lo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
--- AUTO_INCREMENT for table `igp_unloading`
+-- AUTO_INCREMENT for table `general_igp_unloading`
 --
-ALTER TABLE `igp_unloading`
-  MODIFY `igp_un_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+ALTER TABLE `general_igp_unloading`
+  MODIFY `igp_un_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `general_joborder_loading`
+--
+ALTER TABLE `general_joborder_loading`
+  MODIFY `jl_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `general_joborder_unloading`
+--
+ALTER TABLE `general_joborder_unloading`
+  MODIFY `ju_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `general_ogp_loading`
+--
+ALTER TABLE `general_ogp_loading`
+  MODIFY `ogp_lo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `general_ogp_unloading`
+--
+ALTER TABLE `general_ogp_unloading`
+  MODIFY `ogp_un_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `general_pdr_items`
+--
+ALTER TABLE `general_pdr_items`
+  MODIFY `pdr_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `item_master`
 --
 ALTER TABLE `item_master`
-  MODIFY `item_master_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
---
--- AUTO_INCREMENT for table `joborder_loading`
---
-ALTER TABLE `joborder_loading`
-  MODIFY `jl_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `joborder_unloading`
---
-ALTER TABLE `joborder_unloading`
-  MODIFY `ju_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
---
--- AUTO_INCREMENT for table `ogp_loading`
---
-ALTER TABLE `ogp_loading`
-  MODIFY `ogp_lo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `ogp_unloading`
---
-ALTER TABLE `ogp_unloading`
-  MODIFY `ogp_un_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `item_master_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `party_master`
 --
 ALTER TABLE `party_master`
   MODIFY `pm_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
+-- AUTO_INCREMENT for table `par_container_info`
+--
+ALTER TABLE `par_container_info`
+  MODIFY `container_info_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT for table `par_log`
 --
 ALTER TABLE `par_log`
-  MODIFY `par_log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
---
--- AUTO_INCREMENT for table `pdr_items`
---
-ALTER TABLE `pdr_items`
-  MODIFY `pdr_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `par_log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `pre_arrival_request`
 --
 ALTER TABLE `pre_arrival_request`
-  MODIFY `par_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `par_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `sac_container_info`
+--
+ALTER TABLE `sac_container_info`
+  MODIFY `container_info_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `sac_log`
 --
 ALTER TABLE `sac_log`
-  MODIFY `sac_log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
---
--- AUTO_INCREMENT for table `sac_par_container_info`
---
-ALTER TABLE `sac_par_container_info`
-  MODIFY `container_info_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `sac_log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `sac_request`
 --
 ALTER TABLE `sac_request`
-  MODIFY `sac_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `sac_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `tariff_master`
 --
 ALTER TABLE `tariff_master`
-  MODIFY `tariff_master_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `tariff_master_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `type_master`
 --
 ALTER TABLE `type_master`
-  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
