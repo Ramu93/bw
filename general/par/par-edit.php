@@ -10,7 +10,7 @@
     if(mysqli_num_rows($query) > 0) {
       $row = mysqli_fetch_array($query);
       //loading containers from db
-      $containerSelect = "SELECT * FROM sac_par_container_info WHERE id='$parID' AND added_from='par'";
+      $containerSelect = "SELECT * FROM par_container_info WHERE id='$parID'";
       $result = mysqli_query($dbc,$containerSelect);
       $containerOutput = array();
       if(mysqli_num_rows($result) > 0){

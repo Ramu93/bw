@@ -70,7 +70,7 @@
   <script>
     $(function () {
       <?php if($dataTableFlag) { ?>
-        $("#par_table").DataTable();
+        $("#pdr_table").DataTable();
       <?php } ?>
     });
   </script>
