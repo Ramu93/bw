@@ -1,20 +1,19 @@
+<?php
+  include('../header.php');
+  include('../sidebar.php');
+  require('../dbconfig.php'); 
 
-  <?php
-    include('../header.php');
-    include('../sidebar.php');
-    require('../dbconfig.php'); 
+  $out = array();
+  $juId = $_GET['ju_id'];
+  $select = "SELECT * FROM bonded_joborder_unloading WHERE ju_id='$juId'";
+  $query = mysqli_query($dbc,$select);
+  if(mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_array($query);
+    $out = $row;
+  }
+  // file_put_contents("editlog.log", print_r( $out, true ));
 
-    $out = array();
-    $juId = $_GET['ju_id'];
-    $select = "SELECT * FROM bonded_joborder_unloading WHERE ju_id='$juId'";
-    $query = mysqli_query($dbc,$select);
-    if(mysqli_num_rows($query) > 0) {
-      $row = mysqli_fetch_array($query);
-      $out = $row;
-    }
-    // file_put_contents("editlog.log", print_r( $out, true ));
-
-  ?>
+?>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">

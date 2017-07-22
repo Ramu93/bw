@@ -1,26 +1,25 @@
+<?php
+  include('../header.php');
+  include('../sidebar.php');
+  require('../dbconfig.php'); 
 
-  <?php
-    include('../header.php');
-    include('../sidebar.php');
-    require('../dbconfig.php'); 
-
-    $out = array();
-    $grnId = $_GET['grn_id'];
-    $select = "SELECT * FROM general_good_receipt_note WHERE grn_id='$grnId'";
-    $query = mysqli_query($dbc,$select);
-    if(mysqli_num_rows($query) > 0) {
-      $row = mysqli_fetch_array($query);
-      $out = $row;
-      $parId = $row['par_id'];
-      $innerQuery = "SELECT par_id as 'id', 'par' as 'table_name', importing_firm_name, licence_code, bol_awb_number, boe_number, material_name, material_nature, packing_nature FROM pre_arrival_request WHERE par_id='$parId'";
-      $innerResult = mysqli_query($dbc,$innerQuery);
-      if(mysqli_num_rows($innerResult) > 0){
-        $innerRow = mysqli_fetch_assoc($innerResult);
-        $out = array_merge($out, $innerRow);
-      }
+  $out = array();
+  $grnId = $_GET['grn_id'];
+  $select = "SELECT * FROM general_good_receipt_note WHERE grn_id='$grnId'";
+  $query = mysqli_query($dbc,$select);
+  if(mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_array($query);
+    $out = $row;
+    $parId = $row['par_id'];
+    $innerQuery = "SELECT par_id as 'id', 'par' as 'table_name', importing_firm_name, licence_code, bol_awb_number, boe_number, material_name, material_nature, packing_nature FROM pre_arrival_request WHERE par_id='$parId'";
+    $innerResult = mysqli_query($dbc,$innerQuery);
+    if(mysqli_num_rows($innerResult) > 0){
+      $innerRow = mysqli_fetch_assoc($innerResult);
+      $out = array_merge($out, $innerRow);
     }
-    // file_put_contents("editlog.log", print_r( $out, true ));
-  ?>
+  }
+  // file_put_contents("editlog.log", print_r( $out, true ));
+?>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">

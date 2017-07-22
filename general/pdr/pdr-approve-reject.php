@@ -1,19 +1,18 @@
+<?php
+  include('../header.php');
+  include('../sidebar.php');
+  include('../dbconfig.php');
 
-  <?php
-    include('../header.php');
-    include('../sidebar.php');
-    include('../dbconfig.php');
-
-    $pdrID = $_GET['pdr_id'];
-    $select = "SELECT * FROM general_despatch_request WHERE pdr_id='$pdrID'";
-    $query = mysqli_query($dbc,$select);
-    $out = array();
-    if(mysqli_num_rows($query) > 0) {
-      $row = mysqli_fetch_array($query);
-      $out = $row;
-      //file_put_contents("editlog.log", print_r( json_encode($containerOutput), true ));
-    }
-  ?>
+  $pdrID = $_GET['pdr_id'];
+  $select = "SELECT * FROM general_despatch_request WHERE pdr_id='$pdrID'";
+  $query = mysqli_query($dbc,$select);
+  $out = array();
+  if(mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_array($query);
+    $out = $row;
+    //file_put_contents("editlog.log", print_r( json_encode($containerOutput), true ));
+  }
+?>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">

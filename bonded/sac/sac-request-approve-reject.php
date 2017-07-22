@@ -1,30 +1,29 @@
+<?php
+  include('../header.php');
+  include('../sidebar.php');
+  include('../dbconfig.php');
 
-  <?php
-    include('../header.php');
-    include('../sidebar.php');
-    include('../dbconfig.php');
-
-    $sacID = $_GET['sac_id'];
-    $select = "SELECT * FROM sac_request WHERE sac_id='$sacID'";
-    $query = mysqli_query($dbc,$select);
-    if(mysqli_num_rows($query) > 0) {
-      $row = mysqli_fetch_array($query);
-      //loading containers from db
-      $containerSelect = "SELECT * FROM sac_container_info WHERE id='$sacID'";
-      $result = mysqli_query($dbc,$containerSelect);
-      $containerOutput = array();
-      if(mysqli_num_rows($result) > 0){
-        while ($containerRow = mysqli_fetch_array($result)) {
-          $containerOutput[] = array (
-           'dimension'=>$containerRow['dimension'],
-           'container_count' => $containerRow['container_count'],
-           'container_details'=> $containerRow['container_details']
-           );
-        }
+  $sacID = $_GET['sac_id'];
+  $select = "SELECT * FROM sac_request WHERE sac_id='$sacID'";
+  $query = mysqli_query($dbc,$select);
+  if(mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_array($query);
+    //loading containers from db
+    $containerSelect = "SELECT * FROM sac_container_info WHERE id='$sacID'";
+    $result = mysqli_query($dbc,$containerSelect);
+    $containerOutput = array();
+    if(mysqli_num_rows($result) > 0){
+      while ($containerRow = mysqli_fetch_array($result)) {
+        $containerOutput[] = array (
+         'dimension'=>$containerRow['dimension'],
+         'container_count' => $containerRow['container_count'],
+         'container_details'=> $containerRow['container_details']
+         );
       }
-      //file_put_contents("editlog.log", print_r( json_encode($containerOutput), true ));
     }
-  ?>
+    //file_put_contents("editlog.log", print_r( json_encode($containerOutput), true ));
+  }
+?>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">

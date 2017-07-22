@@ -1,12 +1,12 @@
-  <?php
-    //session_start();
-    include('dbconfig.php');
+<?php
+  //session_start();
+  include('dbconfig.php');
 
-    //if(!$_SESSION['login']){
-      //echo "<script>window.location.href=\"".HOMEURL."/login.php\"</script>";
-    
-    //}
-  ?>
+  //if(!$_SESSION['login']){
+    //echo "<script>window.location.href=\"".HOMEURL."/login.php\"</script>";
+  
+  //}
+?>
 <!DOCTYPE html>
 <html>
 <head>

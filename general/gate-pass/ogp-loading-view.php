@@ -1,20 +1,19 @@
+<?php
+  include('../header.php');
+  include('../sidebar.php');
+  require('../dbconfig.php'); 
 
-  <?php
-    include('../header.php');
-    include('../sidebar.php');
-    require('../dbconfig.php'); 
+  $out = array();
+  $ogpId = $_GET['ogp_lo_id'];
+  $select = "SELECT ol.ogp_lo_id, ol.jl_id, jl.pdr_id, il.vehicle_number, il.driver_name, il.driving_license FROM general_ogp_loading ol, general_joborder_loading jl, general_igp_loading il WHERE ol.jl_id=jl.jl_id AND jl.pdr_id=il.pdr_id AND ogp_lo_id='$ogpId'";
+  $query = mysqli_query($dbc,$select);
+  if(mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_array($query);
+    $out = $row;
+  }
+  // file_put_contents("editlog.log", print_r( $out, true ));
 
-    $out = array();
-    $ogpId = $_GET['ogp_lo_id'];
-    $select = "SELECT ol.ogp_lo_id, ol.jl_id, jl.pdr_id, il.vehicle_number, il.driver_name, il.driving_license FROM general_ogp_loading ol, general_joborder_loading jl, general_igp_loading il WHERE ol.jl_id=jl.jl_id AND jl.pdr_id=il.pdr_id AND ogp_lo_id='$ogpId'";
-    $query = mysqli_query($dbc,$select);
-    if(mysqli_num_rows($query) > 0) {
-      $row = mysqli_fetch_array($query);
-      $out = $row;
-    }
-    // file_put_contents("editlog.log", print_r( $out, true ));
-
-  ?>
+?>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">

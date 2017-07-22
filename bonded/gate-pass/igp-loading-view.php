@@ -1,20 +1,19 @@
+<?php
+  include('../header.php');
+  include('../sidebar.php');
+  require('../dbconfig.php'); 
 
-  <?php
-    include('../header.php');
-    include('../sidebar.php');
-    require('../dbconfig.php'); 
+  $out = array();
+  $igpLoID = $_GET['igp_lo_id'];
+  $select = "SELECT * FROM bonded_igp_loading WHERE igp_lo_id='$igpLoID'";
+  $query = mysqli_query($dbc,$select);
+  if(mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_array($query);
+    $out = $row;
+  }
+  //file_put_contents("editlog.log", print_r( $out, true ));
 
-    $out = array();
-    $igpLoID = $_GET['igp_lo_id'];
-    $select = "SELECT * FROM bonded_igp_loading WHERE igp_lo_id='$igpLoID'";
-    $query = mysqli_query($dbc,$select);
-    if(mysqli_num_rows($query) > 0) {
-      $row = mysqli_fetch_array($query);
-      $out = $row;
-    }
-    //file_put_contents("editlog.log", print_r( $out, true ));
-
-  ?>
+?>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">

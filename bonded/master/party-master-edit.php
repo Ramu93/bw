@@ -1,19 +1,18 @@
+<?php
+  include('../header.php');
+  include('../sidebar.php');
 
-  <?php
-    include('../header.php');
-    include('../sidebar.php');
-
-    $message ="";
-    $pmId = $_GET['pm_id'];
-    $select = "SELECT * FROM party_master WHERE pm_id = '$pmId'";
-    $query = mysqli_query($dbc,$select);
-    if(mysqli_num_rows($query) > 0) {
-      $row = mysqli_fetch_array($query);
-    }
-    else {
-      //echo "<script type='text/javascript'>window.location.href='party-master-view.php'</script>";
-    }
-  ?>
+  $message ="";
+  $pmId = $_GET['pm_id'];
+  $select = "SELECT * FROM party_master WHERE pm_id = '$pmId'";
+  $query = mysqli_query($dbc,$select);
+  if(mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_array($query);
+  }
+  else {
+    //echo "<script type='text/javascript'>window.location.href='party-master-view.php'</script>";
+  }
+?>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
