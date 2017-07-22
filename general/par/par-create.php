@@ -66,7 +66,7 @@
                 <div class="form-group">
                   <label for="boe_num">BOE Number</label>
                   <input type="text" tabindex="4" class="form-control required" id="boe_num" name="boe_number" placeholder="BOE Number">
-                </div>            
+                </div>      
                 <div class="form-group">
                   <label for="qty_units">Quantity in Number of Units</label>
                   <input type="text" tabindex="6" class="form-control required" id="qty_units" name="qty_units" placeholder="Quantity in No of units">

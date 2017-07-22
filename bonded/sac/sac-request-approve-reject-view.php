@@ -45,9 +45,9 @@
                     echo "<td>".$row['sac_id']."</td>";
                     echo "<td>".$row['importing_firm_name']."</td>";
                     echo "<td>".$row['assessable_value']."</td>";
-                    echo "<td>".$row['expected_date']."</td>";
-                    echo "<td>".$row['space_requirement']."</td>";
                     echo "<td>".$row['qty_units']."</td>";
+                    echo "<td>".$row['space_requirement']."</td>";
+                    echo "<td>".$row['expected_date']."</td>";
                     echo "<td><a href='sac-request-approve-reject.php?sac_id=".$row['sac_id']."'>Approve/Reject</a></td>";
                     echo "</tr>";
                   }

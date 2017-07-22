@@ -28,6 +28,10 @@
                 <div class="form-group">
                   <label for="bol_awb_no">BOL/AWB Number</label>
                   <input type="text" tabindex="3" class="form-control required" id="bol_awb_no" name="bol_awb_number" placeholder="BOL/AWB Number">
+                </div>   
+                <div class="form-group">
+                  <label for="bol_awb_no">BOL/AWB Date</label>
+                  <input type="text" tabindex="" class="form-control required" id="bol_awb_date" name="bol_awb_date" placeholder="BOL/AWB Date">
                 </div>
                 <div class="form-group">
                   <label for="material_name">Name of the Material</label>
@@ -66,7 +70,11 @@
                 <div class="form-group">
                   <label for="boe_num">BOE Number</label>
                   <input type="text" tabindex="4" class="form-control required" id="boe_num" name="boe_number" placeholder="BOE Number">
-                </div>            
+                </div>          
+                <div class="form-group">
+                  <label for="bol_awb_no">BOE Date</label>
+                  <input type="text" tabindex="" class="form-control required" id="boe_date" name="boe_date" placeholder="BOE Date">
+                </div>     
                 <div class="form-group">
                   <label for="qty_units">Quantity in Number of Units</label>
                   <input type="text" tabindex="6" class="form-control required" id="qty_units" name="qty_units" placeholder="Quantity in No of units">
@@ -193,6 +201,14 @@
 
     //Date picker
     var startDate = new Date();
+    $('#bol_awb_date').datepicker({
+      autoclose: true,
+      dateFormat: "yy-mm-dd"
+    });
+    $('#boe_date').datepicker({
+      autoclose: true,
+      dateFormat: "yy-mm-dd"
+    });
     $('#expected_date').datepicker({
       autoclose: true,
       dateFormat: "yy-mm-dd",

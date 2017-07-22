@@ -52,6 +52,10 @@
                   <input type="text" tabindex="3" class="form-control required" id="bol_awb_no" name="bol_awb_number" placeholder="BOL/AWB Number" value="<?php echo $row['bol_awb_number']; ?>">
                 </div>
                 <div class="form-group">
+                  <label for="bol_awb_no">BOL/AWB Date</label>
+                  <input type="text" tabindex="3" class="form-control required" id="bol_awb_date" name="bol_awb_date" placeholder="BOL/AWB Date" value="<?php echo $row['bol_awb_date']; ?>">
+                </div>
+                <div class="form-group">
                   <label for="material_name">Name of the Material</label>
                   <input type="text" tabindex="5" class="form-control required" id="material_name" name="material_name" placeholder="Name of the Material" value="<?php echo $row['material_name']; ?>">
                 </div>
@@ -88,7 +92,11 @@
                 <div class="form-group">
                   <label for="boe_num">BOE Number</label>
                   <input type="text" tabindex="4" class="form-control required" id="boe_num" name="boe_number" placeholder="BOE Number" value="<?php echo $row['boe_number']; ?>">
-                </div>            
+                </div>
+                <div class="form-group">
+                  <label for="boe_num">BOE Number</label>
+                  <input type="text" tabindex="4" class="form-control required" id="boe_num" name="boe_number" placeholder="BOE Number" value="<?php echo $row['boe_number']; ?>">
+                </div>             
                 <div class="form-group">
                   <label for="qty_units">Quantity in Number of Units</label>
                   <input type="text" tabindex="6" class="form-control required" id="qty_units" name="qty_units" placeholder="Quantity in No of units" value="<?php echo $row['qty_units']; ?>">
