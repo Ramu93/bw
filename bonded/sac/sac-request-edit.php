@@ -113,13 +113,6 @@
                   <label for="expected_date">Expected Date of Warehousing</label>
                   <input type="text" tabindex="12" class="form-control required" id="expected_date" name="expected_date" placeholder="Expected Date of Warehousing" value="<?php echo $row['expected_date']; ?>">
                 </div>
-                <div class="form-group">
-                  <label for="insurance_by">Insurance By</label>
-                  <div class="form-group">
-                    <input type="radio" tabindex="14" id="insurance_by" name="insurance_by" value="TRLPL" <?php echo (($row['insurance_by']=='TRLPL')?'checked':''); ?>> TRLPL &nbsp;&nbsp;&nbsp;
-                    <input type="radio" tabindex="15" id="insurance_by" name="insurance_by" value="Client" <?php echo (($row['insurance_by']=='Client')?'checked':''); ?> > Client
-                  </div>
-                </div>
               </div>
             </div>
             <div class="row">

@@ -48,7 +48,7 @@
 	function createSACRequest(){
 		global $db,$form;
 		$containerData = $_POST['containerdata'];
-		$sacFormElementsArray = array("importing_firm_name"=>"importing_firm_name","bol_awb_number"=>"bol_awb_number","material_name"=>"material_name","packing_nature"=>"packing_nature","assessable_value"=>"assessable_value","material_nature"=>"material_nature","required_period"=>"required_period","licence_code"=>"licence_code","boe_number"=>"boe_number","qty_units"=>"qty_units","space_requirement"=>"space_requirement","duty_amount"=>"duty_amount","expected_date"=>"expected_date","insurance_by"=>"insurance_by", "bol_awb_date"=>"bol_awb_date", "boe_date"=>"boe_date");
+		$sacFormElementsArray = array("importing_firm_name"=>"importing_firm_name","bol_awb_number"=>"bol_awb_number","material_name"=>"material_name","packing_nature"=>"packing_nature","assessable_value"=>"assessable_value","material_nature"=>"material_nature","required_period"=>"required_period","licence_code"=>"licence_code","boe_number"=>"boe_number","qty_units"=>"qty_units","space_requirement"=>"space_requirement","duty_amount"=>"duty_amount","expected_date"=>"expected_date", "bol_awb_date"=>"bol_awb_date", "boe_date"=>"boe_date");
 		$sacFormElementsArray = $form->getFormValues($sacFormElementsArray,$_POST);	
 		$sacFormElementsArray['status'] = SAC_DEFAULT_STATUS;
 		// file_put_contents("formlog.log", print_r( $sacFormElementsArray, true ));
@@ -95,7 +95,7 @@
 	function updateSACRequest(){
 		global $db,$form;
 		$sac_id = $_POST['sac_id'];
-		$sacFormElementsArray = array("importing_firm_name"=>"importing_firm_name","bol_awb_number"=>"bol_awb_number","material_name"=>"material_name","packing_nature"=>"packing_nature","assessable_value"=>"assessable_value","material_nature"=>"material_nature","required_period"=>"required_period","licence_code"=>"licence_code","boe_number"=>"boe_number","qty_units"=>"qty_units","space_requirement"=>"space_requirement","duty_amount"=>"duty_amount","expected_date"=>"expected_date","insurance_by"=>"insurance_by", "bol_awb_date"=>"bol_awb_date", "boe_date"=>"boe_date");
+		$sacFormElementsArray = array("importing_firm_name"=>"importing_firm_name","bol_awb_number"=>"bol_awb_number","material_name"=>"material_name","packing_nature"=>"packing_nature","assessable_value"=>"assessable_value","material_nature"=>"material_nature","required_period"=>"required_period","licence_code"=>"licence_code","boe_number"=>"boe_number","qty_units"=>"qty_units","space_requirement"=>"space_requirement","duty_amount"=>"duty_amount","expected_date"=>"expected_date", "bol_awb_date"=>"bol_awb_date", "boe_date"=>"boe_date");
 		$sacFormElementsArray = $form->getFormValues($sacFormElementsArray,$_POST);
 		$wherearray = array('condition'=>'sac_id = :sac_id', 'param'=>':sac_id', 'value'=>$sac_id);
 	    $db->updateOperation('sac_request',$sacFormElementsArray,$wherearray);
