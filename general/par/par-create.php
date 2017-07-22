@@ -26,8 +26,12 @@
                   <input type="text" tabindex="1" class="form-control required" id="importing_firm_name" name="importing_firm_name" placeholder="Name of the importing firm">
                 </div>
                 <div class="form-group">
-                  <label for="bol_awb_no">BOL/AWB Number</label>
-                  <input type="text" tabindex="3" class="form-control required" id="bol_awb_no" name="bol_awb_number" placeholder="BOL/AWB Number">
+                  <label for="bol_awb_no">BOL/Invoice Number</label>
+                  <input type="text" tabindex="3" class="form-control required" id="bol_awb_no" name="bol_awb_number" placeholder="BOL/Invoice Number">
+                </div>
+                <div class="form-group">
+                  <label for="bol_awb_no">BOL/Invoice Date</label>
+                  <input type="text" tabindex="3" class="form-control required" id="bol_awb_date" name="bol_awb_date" placeholder="BOL/Invoice Date">
                 </div>
                 <div class="form-group">
                   <label for="material_name">Name of the Material</label>
@@ -66,7 +70,11 @@
                 <div class="form-group">
                   <label for="boe_num">BOE Number</label>
                   <input type="text" tabindex="4" class="form-control required" id="boe_num" name="boe_number" placeholder="BOE Number">
-                </div>      
+                </div>   
+                <div class="form-group">
+                  <label for="boe_num">BOE Date</label>
+                  <input type="text" tabindex="4" class="form-control required" id="boe_date" name="boe_date" placeholder="BOE Date">
+                </div>            
                 <div class="form-group">
                   <label for="qty_units">Quantity in Number of Units</label>
                   <input type="text" tabindex="6" class="form-control required" id="qty_units" name="qty_units" placeholder="Quantity in No of units">
@@ -90,29 +98,13 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <div class="form-group">
                   <label for="expected_date">Required Period of Warehousing</label>
                   <input type="text" tabindex="15" class="form-control required" id="required_period_of_warehousing" name="required_period" placeholder="Required Period of Warehousing">
                 </div>
               </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label for="insurance_by">Insurance By</label>
-                  <div class="form-group">
-                    <input type="radio" tabindex="16" id="insurance_by" name="insurance_by" value="TRLPL" checked onclick="disableClientInsuranceFile();"> TRLPL &nbsp;&nbsp;&nbsp;
-                    <input type="radio" tabindex="17" id="insurance_by" name="insurance_by" value="Client" onclick="enableClientInsuranceFile();"> Client
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="form-group" id="client_insurance_file_div">
-                  <label class="btn btn-primary">
-                      Attach copy <input type="file" style="display: none;" name="client_insurance_file">
-                  </label>
-                </div>
-              </div>
-              <div class="col-md-2">
+              <div class="col-md-4">
                 <div class="form-group">
                   <label for="insurance_declaration">Insurance Declaration</label>
                   <div class="form-group">
@@ -222,7 +214,6 @@
   <script type="text/javascript">
 
     $(document).ready(function(){
-      $("#client_insurance_file_div").hide();
       $("#client_insurance_declaration_file_div").hide();
       $('#containerlist_form').validate({
         errorClass: "my-error-class" //error class defined in header file style tag
@@ -235,6 +226,15 @@
 
     //Date picker
     var startDate = new Date();
+
+    $('#bol_awb_date').datepicker({
+      autoclose: true,
+      dateFormat: "yy-mm-dd"
+    });
+    $('#boe_date').datepicker({
+      autoclose: true,
+      dateFormat: "yy-mm-dd"
+    });
     $('#expected_date').datepicker({
       autoclose: true,
       dateFormat: "yy-mm-dd",
