@@ -129,6 +129,22 @@
               </div>
               <div class="col-md-2">
                 <div class="form-group">
+                  <label for="insurance_by">Insurance By</label>
+                  <div class="form-group">
+                    <input type="radio" tabindex="16" id="insurance_by" name="insurance_by" value="TRLPL" <?php echo (($row['insurance_by']=='TRLPL')?'checked':''); ?> onclick="disableClientInsuranceFile();"> TRLPL &nbsp;&nbsp;&nbsp;
+                    <input type="radio" tabindex="17" id="insurance_by" name="insurance_by" value="Client" <?php echo (($row['insurance_by']=='Client')?'checked':''); ?> onclick="enableClientInsuranceFile();"> Client
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group" id="client_insurance_file_div">
+                  <label class="btn btn-primary">
+                      Attach copy <input type="file" style="display: none;" name="client_insurance_file">
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
                   <label for="insurance_declaration">Insurance Declaration</label>
                   <div class="form-group">
                     <input type="radio" tabindex="18" id="insurance_declaration" name="insurance_declaration" value="Yes" <?php echo (($row['insurance_declaration']=='Yes')?'checked':''); ?> onclick="enableClientInsuranceDeclararionFile();"> Yes &nbsp;&nbsp;&nbsp;
