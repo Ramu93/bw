@@ -49,8 +49,12 @@
                   <input type="text" tabindex="1" class="form-control required" id="importing_firm_name" name="importing_firm_name" placeholder="Name of the importing firm" value="<?php echo $row['importing_firm_name']; ?>">
                 </div>
                 <div class="form-group">
-                  <label for="bol_awb_no">BOL/AWB Number</label>
+                  <label for="bol_awb_no">BOL/Invoice Number</label>
                   <input type="text" tabindex="3" class="form-control required" id="bol_awb_no" name="bol_awb_number" placeholder="BOL/AWB Number" value="<?php echo $row['bol_awb_number']; ?>">
+                </div>
+                <div class="form-group">
+                  <label for="bol_awb_no">BOL/Invoice Date</label>
+                  <input type="text" tabindex="3" class="form-control required" id="bol_awb_date" name="bol_awb_date" placeholder="BOL/Invoice Date" value="<?php echo $row['bol_awb_date']; ?>">
                 </div>
                 <div class="form-group">
                   <label for="material_name">Name of the Material</label>
