@@ -104,7 +104,23 @@
                   <input type="text" tabindex="15" class="form-control required" id="required_period_of_warehousing" name="required_period" placeholder="Required Period of Warehousing">
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="insurance_by">Insurance By</label>
+                  <div class="form-group">
+                    <input type="radio" tabindex="16" id="insurance_by" name="insurance_by" value="TRLPL" checked onclick="disableClientInsuranceFile();"> TRLPL &nbsp;&nbsp;&nbsp;
+                    <input type="radio" tabindex="17" id="insurance_by" name="insurance_by" value="Client" onclick="enableClientInsuranceFile();"> Client
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group" id="client_insurance_file_div">
+                  <label class="btn btn-primary">
+                      Attach copy <input type="file" style="display: none;" name="client_insurance_file">
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-2">
                 <div class="form-group">
                   <label for="insurance_declaration">Insurance Declaration</label>
                   <div class="form-group">
@@ -214,6 +230,7 @@
   <script type="text/javascript">
 
     $(document).ready(function(){
+      $("#client_insurance_file_div").hide();
       $("#client_insurance_declaration_file_div").hide();
       $('#containerlist_form').validate({
         errorClass: "my-error-class" //error class defined in header file style tag
