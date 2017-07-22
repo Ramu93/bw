@@ -3,6 +3,7 @@
 	require('../dbwrapper.php');
 	require('../formwrapper.php');
 	require('../dbconfig_delete_entries.php');
+	require('licence-code-map.php');
 
 	define('SAC_DEFAULT_STATUS','submitted');
 	define('ADDED_FROM', 'sac');
@@ -25,7 +26,10 @@
 	    	$finaloutput = SACRequestStatusChange();
 	    break;
 	    case 'update_sac_req':
-	    $finaloutput = updateSACRequest();
+	    	$finaloutput = updateSACRequest();
+	    break;
+	    case 'get_licence_data':
+	    	$finaloutput = getLicenceCodeData();
 	    break;
 	    default:
 	        $finaloutput = array("infocode" => "INVALIDACTION", "message" => "Irrelevant action");
@@ -48,7 +52,7 @@
 	function createSACRequest(){
 		global $db,$form;
 		$containerData = $_POST['containerdata'];
-		$sacFormElementsArray = array("importing_firm_name"=>"importing_firm_name","bol_awb_number"=>"bol_awb_number","material_name"=>"material_name","packing_nature"=>"packing_nature","assessable_value"=>"assessable_value","material_nature"=>"material_nature","required_period"=>"required_period","licence_code"=>"licence_code","boe_number"=>"boe_number","qty_units"=>"qty_units","space_requirement"=>"space_requirement","duty_amount"=>"duty_amount","expected_date"=>"expected_date", "bol_awb_date"=>"bol_awb_date", "boe_date"=>"boe_date");
+		$sacFormElementsArray = array("importing_firm_name"=>"importing_firm_name","bol_awb_number"=>"bol_awb_number","material_name"=>"material_name","packing_nature"=>"packing_nature","assessable_value"=>"assessable_value","material_nature"=>"material_nature","required_period"=>"required_period","licence_code"=>"licence_code","boe_number"=>"boe_number","qty_units"=>"qty_units","space_requirement"=>"space_requirement","duty_amount"=>"duty_amount","expected_date"=>"expected_date", "bol_awb_date"=>"bol_awb_date", "boe_date"=>"boe_date", "cha_name"=>"cha_name");
 		$sacFormElementsArray = $form->getFormValues($sacFormElementsArray,$_POST);	
 		$sacFormElementsArray['status'] = SAC_DEFAULT_STATUS;
 		// file_put_contents("formlog.log", print_r( $sacFormElementsArray, true ));
@@ -81,7 +85,7 @@
 			$addContainerQuery = "INSERT INTO sac_container_info (id, igp_status, container_details, dimension, container_count) VALUES ('$lastInsertPARId', '".DEFAULT_IGP_STATUS."','$containerDetails', '$dimension', '$containerCount')";
 			mysqli_query($dbc, $addContainerQuery);
 
-			file_put_contents("formlog.log", print_r( $addContainerQuery, true ), FILE_APPEND | LOCK_EX);	
+			//file_put_contents("formlog.log", print_r( $addContainerQuery, true ), FILE_APPEND | LOCK_EX);	
 			//file_put_contents("formlog.log", print_r( $containerDetails, true ));
 		}
 	}
@@ -95,7 +99,7 @@
 	function updateSACRequest(){
 		global $db,$form;
 		$sac_id = $_POST['sac_id'];
-		$sacFormElementsArray = array("importing_firm_name"=>"importing_firm_name","bol_awb_number"=>"bol_awb_number","material_name"=>"material_name","packing_nature"=>"packing_nature","assessable_value"=>"assessable_value","material_nature"=>"material_nature","required_period"=>"required_period","licence_code"=>"licence_code","boe_number"=>"boe_number","qty_units"=>"qty_units","space_requirement"=>"space_requirement","duty_amount"=>"duty_amount","expected_date"=>"expected_date", "bol_awb_date"=>"bol_awb_date", "boe_date"=>"boe_date");
+		$sacFormElementsArray = array("importing_firm_name"=>"importing_firm_name","bol_awb_number"=>"bol_awb_number","material_name"=>"material_name","packing_nature"=>"packing_nature","assessable_value"=>"assessable_value","material_nature"=>"material_nature","required_period"=>"required_period","licence_code"=>"licence_code","boe_number"=>"boe_number","qty_units"=>"qty_units","space_requirement"=>"space_requirement","duty_amount"=>"duty_amount","expected_date"=>"expected_date", "bol_awb_date"=>"bol_awb_date", "boe_date"=>"boe_date", "cha_name"=>"cha_name");
 		$sacFormElementsArray = $form->getFormValues($sacFormElementsArray,$_POST);
 		$wherearray = array('condition'=>'sac_id = :sac_id', 'param'=>':sac_id', 'value'=>$sac_id);
 	    $db->updateOperation('sac_request',$sacFormElementsArray,$wherearray);
@@ -114,6 +118,30 @@
 	    $db->insertOperation('sac_log',$saclogarray);
 	    
 	    return array("status"=>"Success","message"=>"Space Availability Certificate request " . $sac_status . ".");
+	}
+
+	function getLicenceCodeData(){
+		global $licenceCodeMap;
+		$licenceCode = $_POST['licence_code'];
+		$licenceKey = '';
+		$licenceAddress = '';
+		switch ($licenceCode) {
+			case 'C-068':
+				$licenceKey = $licenceCodeMap['C-068']['licence_key'];
+				$licenceAddress = $licenceCodeMap['C-068']['licence_address'];
+			break;
+			case 'C-069':
+				$licenceKey = $licenceCodeMap['C-069']['licence_key'];
+				$licenceAddress = $licenceCodeMap['C-069']['licence_address'];
+			break;
+			case 'C-085':
+				$licenceKey = $licenceCodeMap['C-085']['licence_key'];
+				$licenceAddress = $licenceCodeMap['C-085']['licence_address'];
+			break;
+		}
+		// file_put_contents("licence.log", print_r( $licenceCode . ' ' . $licenceAddress, true ));
+
+		return array("licence_key" => $licenceKey, "licence_address" => $licenceAddress);
 	}
 
 ?>

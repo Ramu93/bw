@@ -86,16 +86,16 @@
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="licence_code">Licence Code</label>
-                  <input type="text" tabindex="2" class="form-control required" id="licence_code" name="licence_code" placeholder="Licence code" value="<?php echo $row['licence_code']; ?>">
+                  <label for="importing_firm_name">Name of the CHA</label>
+                  <input type="text" tabindex="1" class="form-control required" id="cha_name" name="cha_name" placeholder="Name of the CHA" value="<?php echo $row['cha_name']; ?>">
                 </div>
                 <div class="form-group">
                   <label for="boe_num">BOE Number</label>
                   <input type="text" tabindex="4" class="form-control required" id="boe_num" name="boe_number" placeholder="BOE Number" value="<?php echo $row['boe_number']; ?>">
                 </div>
                 <div class="form-group">
-                  <label for="boe_num">BOE Number</label>
-                  <input type="text" tabindex="4" class="form-control required" id="boe_num" name="boe_number" placeholder="BOE Number" value="<?php echo $row['boe_number']; ?>">
+                  <label for="boe_num">BOE Date</label>
+                  <input type="text" tabindex="4" class="form-control required" id="boe_date" name="boe_date" placeholder="BOE Date" value="<?php echo $row['boe_date']; ?>">
                 </div>             
                 <div class="form-group">
                   <label for="qty_units">Quantity in Number of Units</label>
@@ -113,7 +113,23 @@
                   <label for="expected_date">Expected Date of Warehousing</label>
                   <input type="text" tabindex="12" class="form-control required" id="expected_date" name="expected_date" placeholder="Expected Date of Warehousing" value="<?php echo $row['expected_date']; ?>">
                 </div>
+                <div class="form-group">
+                  <label for="licence_code">Licence Code</label>
+                  <select name="licence_code" id="licence_code" class="form-control required">
+                    <option selected="selected">Select licence code...</option>
+                    <option value="C-068" <?php echo (($row['licence_code']=='C-068')?'selected="selected"':'');  ?> >C-068</option>
+                    <option value="C-069" <?php echo (($row['licence_code']=='C-069')?'selected="selected"':'');  ?> >C-069</option>
+                    <option value="C-085" <?php echo (($row['licence_code']=='C-085')?'selected="selected"':'');  ?> >C-085</option>
+                  </select>
+                </div>
               </div>
+              <div class="row" id="licence_code_row">
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                  <label id="licence_code_label"></label> : 
+                  <label id="licence_code_value_label"></label>
+                </div>
+              </div>  
             </div>
             <div class="row">
               <div class="col-md-3 col-sm-3">
@@ -213,14 +229,40 @@
   <script type="text/javascript">
 
     $(document).ready(function(){
+
+      getLicenceData();
+
       $('#containerlist_form').validate({
         errorClass: "my-error-class" //error class defined in header file style tag
       });
+
       $('#sac-req-form').validate({
         errorClass: "my-error-class"
       });
+
+      $('#licence_code').on('change', function() {
+        getLicenceData();
+      });
+
     });
 
+    function getLicenceData(){
+      var licenceCode = $('#licence_code').val();
+      var data = "licence_code=" + licenceCode + "&action=get_licence_data";
+      $.ajax({
+        url: "sac-services.php",
+        type: "POST",
+        data:  data,
+        dataType: 'json',
+        success: function(data){
+          $('#licence_code_label').html(data.licence_key);
+          $('#licence_code_value_label').html(data.licence_address);
+        },
+        error: function(){
+          bootbox.alert("failure");
+        }           
+      });
+  }
 
     //Date picker
     var startDate = new Date();

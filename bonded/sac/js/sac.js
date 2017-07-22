@@ -19,6 +19,7 @@ function addContainerRow(rowcount){
 	$('.item_removebutton').show();
 }
 
+
 function removeContainerRow(rowcount){
 	$('#itemtr_'+rowcount).remove();
 	refreshSNoCount();
