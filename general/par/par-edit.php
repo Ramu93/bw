@@ -87,8 +87,8 @@
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="licence_code">Licence Code</label>
-                  <input type="text" tabindex="2" class="form-control required" id="licence_code" name="licence_code" placeholder="Licence code" value="<?php echo $row['licence_code']; ?>">
+                  <label for="importing_firm_name">Name of the CHA</label>
+                  <input type="text" tabindex="1" class="form-control required" id="cha_name" name="cha_name" placeholder="Name of the CHA" value="<?php echo $row['cha_name']; ?>">
                 </div>
                 <div class="form-group">
                   <label for="boe_num">BOE Number</label>

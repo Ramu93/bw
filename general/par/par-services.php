@@ -52,7 +52,7 @@
 	function createPAR(){
 		global $db,$form;
 		$containerData = $_POST['container_stringified'];
-		$parFormElementsArray = array("importing_firm_name"=>"importing_firm_name","bol_awb_number"=>"bol_awb_number","material_name"=>"material_name","packing_nature"=>"packing_nature","assessable_value"=>"assessable_value","material_nature"=>"material_nature","required_period"=>"required_period","licence_code"=>"licence_code","boe_number"=>"boe_number","qty_units"=>"qty_units","space_requirement"=>"space_requirement","duty_amount"=>"duty_amount","expected_date"=>"expected_date", "insurance_declaration"=>"insurance_declaration", "cargo_life"=>"cargo_life", "shelf_life"=>"shelf_life", "bol_awb_date"=>"bol_awb_date", "boe_date"=>"boe_date", "insurance_by"=>"insurance_by");
+		$parFormElementsArray = array("importing_firm_name"=>"importing_firm_name","bol_awb_number"=>"bol_awb_number","material_name"=>"material_name","packing_nature"=>"packing_nature","assessable_value"=>"assessable_value","material_nature"=>"material_nature","required_period"=>"required_period","cha_name"=>"cha_name","boe_number"=>"boe_number","qty_units"=>"qty_units","space_requirement"=>"space_requirement","duty_amount"=>"duty_amount","expected_date"=>"expected_date", "insurance_declaration"=>"insurance_declaration", "cargo_life"=>"cargo_life", "shelf_life"=>"shelf_life", "bol_awb_date"=>"bol_awb_date", "boe_date"=>"boe_date", "insurance_by"=>"insurance_by");
 		$parFormElementsArray = $form->getFormValues($parFormElementsArray,$_POST);	
 		$parFormElementsArray['status'] = PAR_DEFAULT_STATUS;	
 		//file_put_contents("formlog.log", print_r( $parFormElementsArray, true ));
@@ -118,7 +118,7 @@
 	function updatePAR(){
 		global $db,$form;
 		$containerData = $_POST['container_stringified'];
-		$parFormElementsArray = array("importing_firm_name"=>"importing_firm_name","bol_awb_number"=>"bol_awb_number","material_name"=>"material_name","packing_nature"=>"packing_nature","assessable_value"=>"assessable_value","material_nature"=>"material_nature","required_period"=>"required_period","licence_code"=>"licence_code","boe_number"=>"boe_number","qty_units"=>"qty_units","space_requirement"=>"space_requirement","duty_amount"=>"duty_amount","expected_date"=>"expected_date", "insurance_declaration"=>"insurance_declaration", "cargo_life"=>"cargo_life", "shelf_life"=>"shelf_life", "bol_awb_date"=>"bol_awb_date", "boe_date"=>"boe_date", "insurance_by"=>"insurance_by");
+		$parFormElementsArray = array("importing_firm_name"=>"importing_firm_name","bol_awb_number"=>"bol_awb_number","material_name"=>"material_name","packing_nature"=>"packing_nature","assessable_value"=>"assessable_value","material_nature"=>"material_nature","required_period"=>"required_period","cha_name"=>"cha_name","boe_number"=>"boe_number","qty_units"=>"qty_units","space_requirement"=>"space_requirement","duty_amount"=>"duty_amount","expected_date"=>"expected_date", "insurance_declaration"=>"insurance_declaration", "cargo_life"=>"cargo_life", "shelf_life"=>"shelf_life", "bol_awb_date"=>"bol_awb_date", "boe_date"=>"boe_date", "insurance_by"=>"insurance_by");
 		$parFormElementsArray = $form->getFormValues($parFormElementsArray,$_POST);
 		$par_id = $_POST['par_id'];
 		////file_put_contents("formlog.log", print_r( $containerData, true ), FILE_APPEND | LOCK_EX);
