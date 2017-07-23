@@ -98,20 +98,6 @@
           <div class="row">
             <div class="col-md-4">
               <div class="form-group">
-                <label for="name_of_cfs">Bond Number</label>
-                <input type="text" class="form-control required" id="bond_number" name="bond_number" placeholder="Bond Number">
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group">
-                <label for="customs_officer_name">Bond Date</label>
-                <input type="text" class="form-control required" id="bond_date" name="bond_date" placeholder="Bond Date">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4">
-              <div class="form-group">
                 <label for="do_number">DO Number</label>
                 <input type="text" class="form-control required" id="do_number" name="do_number" placeholder="Document number">
               </div>

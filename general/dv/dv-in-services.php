@@ -32,7 +32,7 @@
 
 	function submitVerification(){
 		global $db,$form;
-		$docVerificationArray = array("par_id"=>"par_id", "invoice_copy"=>"invoice_copy", "packing_list"=>"packing_list", "boe_copy"=>"boe_copy", "bond_order"=>"bond_order", "cfs_name"=>"cfs_name", "customs_officer_name"=>"customs_officer_name", "do_number"=>"do_number", "do_date"=>"do_date", "do_issued_by"=>"do_issued_by", "bond_number"=>"bond_number", "bond_date"=>"bond_date");
+		$docVerificationArray = array("par_id"=>"par_id", "invoice_copy"=>"invoice_copy", "packing_list"=>"packing_list", "boe_copy"=>"boe_copy", "bond_order"=>"bond_order", "cfs_name"=>"cfs_name", "customs_officer_name"=>"customs_officer_name", "do_number"=>"do_number", "do_date"=>"do_date", "do_issued_by"=>"do_issued_by");
 		$docVerificationArray = $form->getFormValues($docVerificationArray,$_POST);	
 		if(true){
 			$db->insertOperation('general_dv_inward',$docVerificationArray);
