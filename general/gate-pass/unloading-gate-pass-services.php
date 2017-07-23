@@ -173,12 +173,19 @@
 			$updatedContainerStatusJSON = getUpdatedContainerStatus($parId, $containerNumberData);
 			$containerUpdateQuery = "UPDATE par_container_info SET container_details='$updatedContainerStatusJSON' WHERE dimension='$containerDimension' AND id='$parId'";
 			if(mysqli_query($dbc, $containerUpdateQuery)){
+				changeParStatusOnIgpCreate($parId);
 				return array("status"=>"Success","message"=>"Inward gate pass generated successfully.");
 			} else {
 				return array("status"=>"Failure","message"=>"Inward gate pass not generated successfully.");
 			}
 		}
 
+	}
+
+	function changeParStatusOnIgpCreate($parId){
+		global $dbc;
+		$query = "UPDATE pre_arrival_request SET igp_created='yes' WHERE par_id='$parId'";
+		mysqli_query($dbc, $query);
 	}
 
 	function getUpdatedContainerStatus($parId, $containerNumberData){

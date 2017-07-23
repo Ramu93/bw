@@ -5,7 +5,7 @@
 
   $out = array();
   $id = $_GET['id'];
-  $select = "SELECT par_id as 'id', importing_firm_name, licence_code, bol_awb_number, boe_number FROM pre_arrival_request WHERE par_id='$id'";
+  $select = "SELECT par_id as 'id', importing_firm_name, bol_awb_number, boe_number FROM pre_arrival_request WHERE par_id='$id'";
   $query = mysqli_query($dbc,$select);
   if(mysqli_num_rows($query) > 0) {
     $row = mysqli_fetch_array($query);
@@ -78,13 +78,6 @@
                 <label for="boe_number">BOE Number:</label>
                 <div class="clearfix"></div>
                 <label><?php echo $out['boe_number']; ?></label>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Licence Code:</label>
-                <div class="clearfix"></div>
-                <label><?php echo $out['licence_code']; ?></label>
               </div>
             </div>
           </div>

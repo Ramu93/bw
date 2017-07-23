@@ -25,15 +25,15 @@
                 <th>S. No.</th>
                 <th>PAR ID</th>
                 <th>Importing Firm Name</th>
-                <th>Licence Code</th>
-                <th>BOL/AWB No.</th>
+                <th>CHA Name</th>
+                <th>BOL/Invoice No.</th>
                 <th>BOE No.</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
               <?php 
-                $select_query = "SELECT par_id as 'id', 'par' as 'table_name', importing_firm_name, licence_code, bol_awb_number, boe_number FROM pre_arrival_request WHERE document_verified='no'";
+                $select_query = "SELECT par_id as 'id', 'par' as 'table_name', importing_firm_name, bol_awb_number, boe_number, cha_name FROM pre_arrival_request WHERE document_verified='no' AND igp_created='yes'";
                 $result = mysqli_query($dbc,$select_query);
                 $row_counter = 0;
                 if(mysqli_num_rows($result) > 0) {
@@ -43,7 +43,7 @@
                     echo "<td>".++$row_counter."</td>";
                     echo "<td>".$row['id']."</td>";
                     echo "<td>".$row['importing_firm_name']."</td>";
-                    echo "<td>".$row['licence_code']."</td>";
+                    echo "<td>".$row['cha_name']."</td>";
                     echo "<td>".$row['bol_awb_number']."</td>";
                     echo "<td>".$row['boe_number']."</td>";
                     echo "<td><a href='dv-in.php?id=".$row['id']."&table=".$row['table_name']. "'>Verify</a></td>";
