@@ -24,7 +24,7 @@
               <tr>
                 <th>S. No.</th>
                 <th>GRN ID</th>
-                <th>SAC/PAR</th>
+                <th>PAR ID</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -39,7 +39,7 @@
                     echo "<tr>";
                     echo "<td>".++$row_counter."</td>";
                     echo "<td>".$row['grn_id']."</td>";
-                    echo "<td>".$row['sac_par_id']."</td>";
+                    echo "<td>".$row['par_id']."</td>";
                     echo "<td><a href='grn-view.php?grn_id=".$row['grn_id']."'>View</a></td>";
                     echo "</tr>";
                   }
