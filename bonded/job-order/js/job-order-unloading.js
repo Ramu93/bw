@@ -1,4 +1,20 @@
-
+(function($) {
+  $.fn.serializefiles = function() {
+      var obj = $(this);
+      /* ADD FILE TO PARAM AJAX */
+      var formData = new FormData();
+      $.each($(obj).find("input[type='file']"), function(i, tag) {
+          $.each($(tag)[0].files, function(i, file) {
+              formData.append(tag.name, file);
+          });
+      });
+      var params = $(obj).serializeArray();
+      $.each(params, function (i, val) {
+          formData.append(val.name, val.value);
+      });
+      return formData;
+  };
+})(jQuery);
 
 function changeLabelText(){
 	var selectType = $('#select_by_type').val();
@@ -179,12 +195,14 @@ function showCloseException(){
 }
 
 function raiseException(){
-	var data = $('#exception_form').serialize() + '&action=raise_exception';
+	var data = $('#exception_form').serializefiles();
 	//alert(data);
 	$.ajax({
 		url: "job-order-unloading-services.php",
 		type: "POST",
 		data:  data,
+		processData: false,
+        contentType: false,
 		dataType: 'json',
 		success: function(result){
 			if(result.infocode == "RAISEEXCEPTIONSUCCESS"){

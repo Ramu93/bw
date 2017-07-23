@@ -191,20 +191,33 @@
                     <h4 class="modal-title" id="myModalLabel">Exception Details</h4>
                 </div>
                 <div class="modal-body">
-                  <div class="col-md-4">
-                    <label>Exception Type</label>
-                    <select class="form-control" name="exception_subtype" id="exception_subtype">
-                      <option value="damage">Damage</option>
-                      <option value="excess">Excess</option>
-                      <option value="shortage">Shortage</option>
-                    </select>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Exception Type</label>
+                      <select class="form-control" name="exception_subtype" id="exception_subtype">
+                        <option value="damage">Damage</option>
+                        <option value="excess">Excess</option>
+                        <option value="shortage">Shortage</option>
+                      </select>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-5">
                       <label>Exception Remarks</label>
                       <input type="text" class="form-control" name="exception_remarks" id="exception_remarks" placeholder="Exception Remarks">
                     </div>
-                    <input type="hidden" name="action" id="action" value="joborder_raise_exception"/>
+                    <div class="col-md-3">
+                    &nbsp;
+                      <div class="form-group" id="exception_file_div">
+                        <label class="btn btn-primary">
+                            Attach Photo <input type="file" style="display: none;" name="exception_file">
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
                     
+                  </div>
+                  <input type="hidden" name="action" id="action" value="joborder_raise_exception"/> 
+                  <div class="clearfix"></div>  
                 </div>
                 <div class="clearfix"></div>
                 <div class="modal-footer">
@@ -232,6 +245,7 @@
                       <input type="text" class="form-control" name="exception_closingremarks" id="exception_closingremarks" placeholder="Exception Closing Remarks">
                     </div>
                     <input type="hidden" name="action" id="action" value="joborder_close_exception"/>                   
+                  <div class="clearfix"></div>
                 </div>
                 <div class="clearfix"></div>
                 <div class="modal-footer">

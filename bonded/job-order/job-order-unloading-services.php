@@ -10,11 +10,13 @@
 	define('JOB_ORDER_REJECT_STATUS', 'rejected');
 	define('JOB_ORDER_COMPLETE_STATUS', 'completed');
 	define('IGP_JOB_ORDER_COMPLETE', 'joborder_completed');
+	define('EXCEPTION_FILE_COPY_PATH', 'exception_images/');
 
 	$db = new DBWrapper($dbobj);
 	$form = new FormWrapper();
 
 	$finaloutput = array();
+		file_put_contents("post.log", print_r( $_POST, true ));
 
 	if(!$_POST) {
 		$action = $_GET['action'];
@@ -33,7 +35,7 @@
 	    case 'create_job_order':
 	    	$finaloutput = createJobOrder();
 	    break;
-	    case 'raise_exception':
+	    case 'joborder_raise_exception':
 	    	$finaloutput = raiseException();
 	    break;
 	    case 'close_exception':
@@ -68,6 +70,17 @@
     	$raiseExceptionFormArray = array("exception_subtype"=>"exception_subtype", "exception_remarks"=>"exception_remarks");
 	   	$raiseExceptionFormArray = $form->getFormValues($raiseExceptionFormArray,$_POST);
 	   	$raiseExceptionFormArray['exception_type'] = 'joborder_unloading';
+	   	$raiseExceptionFormArray['start_time'] = date("Y-m-d H:i:s");
+
+	   	if(isset($_FILES['exception_file']['name'])){
+    		$exceptionFname = $_POST['ju_id'].'_'.date("Y-m-d H:i:s").'_'.$_FILES['exception_file']['name'];
+    		$exceptionFileCopyPath = EXCEPTION_FILE_COPY_PATH.$exceptionFname;
+    		$raiseExceptionFormArray['image'] = $exceptionFileCopyPath;
+    		if(!move_uploaded_file($_FILES['exception_file']['tmp_name'],$exceptionFileCopyPath)){
+    			$output = array("infocode" => "FILEUPLOADERR", "message" => "Unable to upload image, please try again!");
+    		}
+    	}
+
 	    $db->insertOperation('bonded_exception',$raiseExceptionFormArray);
 
 	    $wherearray = array('condition'=>'ju_id = :ju_id', 'param'=>':ju_id', 'value'=>$_POST['ju_id']);
@@ -82,7 +95,7 @@
 		$exceptionId = $_POST['exception_id'];
 		$exceptionClosingRemarks = $_POST['exception_closingremarks'];
 		$wherearray = array('condition'=>'exception_id = :exception_id', 'param'=>':exception_id', 'value'=>$exceptionId);
-	    $db->updateOperation('bonded_exception',array('exception_closingremarks'=>$exceptionClosingRemarks, 'exception_status'=>CLOSE_EXCEPTION_STATUS),$wherearray);
+	    $db->updateOperation('bonded_exception',array('exception_closingremarks'=>$exceptionClosingRemarks, 'exception_status'=>CLOSE_EXCEPTION_STATUS, 'end_time'=>date("Y-m-d H:i:s")),$wherearray);
 
 	    $wherearray = array('condition'=>'ju_id = :ju_id', 'param'=>':ju_id', 'value'=>$_POST['ju_id']);
 	    $db->updateOperation('bonded_joborder_unloading',array('status'=>EXCEPTION_CLOSE_STATUS),$wherearray);
