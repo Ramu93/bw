@@ -34,8 +34,8 @@
 	    case 'set_vehivle_left_timestamp':
 	    	$finaloutput = setVehicleLeftTimeStamp();
 	    break;
-	    case 'get_pdr_items':
-	    	$finaloutput = getPDRItemsList();
+	    case 'get_pdr_items_count':
+	    	$finaloutput = getPDRItemsCount();
 	    break;
 	    default:
 	        $finaloutput = array("infocode" => "INVALIDACTION", "message" => "Irrelevant action");
@@ -130,19 +130,18 @@
 
 	}
 
-	function getPDRItemsList(){
+	function getPDRItemsCount(){
 		global $dbc;
 		$pdrId = mysqli_real_escape_string($dbc, trim($_POST['pdr_id']));
-		$query = "SELECT * FROM general_pdr_items WHERE pdr_id='$pdrId'";
+		$query = "SELECT sum(despatch_qty) as 'qty' FROM general_pdr_items WHERE pdr_id='$pdrId'";
 		$result = mysqli_query($dbc, $query);
-		$out = array();
+		$qty = 0;
 		if(mysqli_num_rows($result) > 0){
-			while ($row = mysqli_fetch_assoc($result)){
-				$out[] = $row;
-			}
+			$row = mysqli_fetch_assoc($result);
+			$qty = $row['qty'];
 		}
-		//file_put_contents("datalog.log", print_r($out, true ));
-		$output = array("infocode" => "ITEMDATAFETCHSUCCESS", "data" => json_encode($out));
+		file_put_contents("datalog.log", print_r($qty, true ));
+		$output = array("infocode" => "ITEMDATAFETCHSUCCESS", "data" => $qty);
 		return $output;
 	}
 

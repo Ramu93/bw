@@ -181,9 +181,9 @@ function printData(divName) {
 	printWindow.print();
 }
 
-function getPDRItems(){
+function getPDRItemsCount(){
 	var pdrId = $('#pdr_id_hidden').val();
-	var data = 'pdr_id=' + pdrId + '&action=get_pdr_items';
+	var data = 'pdr_id=' + pdrId + '&action=get_pdr_items_count';
 	$.ajax({
 		url: "loading-gate-pass-services.php",
 		type: "POST",
@@ -192,9 +192,8 @@ function getPDRItems(){
 		success: function(result){
 			if(result.infocode == 'ITEMDATAFETCHSUCCESS'){
 				//alert(result.data)
-				var itemData = JSON.parse(result.data);
-				displayItemsListInViewMode(itemData);
-				$('#view_items_table').show();
+				var qty = result.data;
+				$('#item_total_qty').html(qty);
 			} else {
 				bootbox.alert('No item data available.');
 			}
@@ -203,18 +202,6 @@ function getPDRItems(){
 	});
 }
 
-function displayItemsListInViewMode(itemData){
-	var dp = '';
-
-	itemData.forEach( function(item, index) {
-		dp += '<tr>';
-			dp += '<td>'+item.pdr_item_id+'</td>';
-			dp += '<td>'+item.item_name+'</td>';
-			dp += '<td>'+item.despatch_qty+'</td>';
-		dp += '</tr>';
-	});
-	$('#item_list_tbody').html(dp);
-}
 
 
 function setVehicleLeftTimeStamp(ogpId){

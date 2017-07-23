@@ -64,24 +64,12 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-12">
-                  <table id="view_items_table" class="table table-striped table-bordered" cellspacing="0">
-                    <thead>
-                      <tr>
-                        <th>Item ID</th>
-                        <th>Item Name</th>
-                        <th>Despatch Qty.</th>
-                      </tr>
-                    </thead>
-                    <tbody id="item_list_tbody">
-                     
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <div class="row">
                 <div class="col-md-4 col-sm-4">
-                  
+                  <div class="form-group">
+                    <label for="date" id="time">Item Total Qty.:</label>
+                    <div class="clearfix"></div>
+                    <label id="item_total_qty"></label>
+                  </div>
                 </div>
                 <div class="col-md-4 col-sm-4">
                   <input type="submit" name="submit" value="Vehicle Left" class="btn btn-primary btn-block pull-left" onclick="setVehicleLeftTimeStamp(<?php echo $ogpId; ?>)">
@@ -124,7 +112,7 @@
       })
 
       //load pdr items table
-      getPDRItems();
+      getPDRItemsCount();
 
     });
 
