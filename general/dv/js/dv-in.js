@@ -14,52 +14,40 @@ var additem_template = '<tr id="[trid]"><td><span class="td_sno">[sno]</span></t
 							<td><button onclick="additemrow([addcount]);">+</button><button class="item_removebutton" style="display:none;" onclick="removeitemrow([removecount])">-</button></td></tr>';
 
 function submitDocumentVerification(){
+
 	if($('#document_verification_form').valid()){
-		setValueBasedOnCheckBox();
-		var data = $('#document_verification_form').serialize() + '&action=submit_verification';
-		//alert(data);
-		$.ajax({
-			url: "dv-in-services.php",
-			type: "POST",
-			data:  data,
-			dataType: 'json',
-			success: function(result){
-				if(result.infocode == 'DOCUMENTVERIFICATIONSUCCESS'){
-					bootbox.alert(result.message,function(){
-						window.location='dv-in-view.php';	
-					});
-				} else if(result.infocode == 'DOCUMENTNOTVERIFIED') {
-					bootbox.alert(result.message,function(){
-						window.location='dv-in-view.php';	
-					});
-				}		
-			},
-			error: function(){
-				bootbox.alert("failure");
-			} 	        
+		bootbox.confirm('Are you sure, you have all the documents?',function(result){
+			if(result){
+				setValueBasedOnCheckBox();
+				var data = $('#document_verification_form').serialize() + '&action=submit_verification';
+				//alert(data);
+				$.ajax({
+					url: "dv-in-services.php",
+					type: "POST",
+					data:  data,
+					dataType: 'json',
+					success: function(result){
+						if(result.infocode == 'DOCUMENTVERIFICATIONSUCCESS'){
+							bootbox.alert(result.message,function(){
+								window.location='dv-in-view.php';	
+							});
+						} else if(result.infocode == 'DOCUMENTNOTVERIFIED') {
+							bootbox.alert(result.message,function(){
+								window.location='dv-in-view.php';	
+							});
+						}		
+					},
+					error: function(){
+						bootbox.alert("failure");
+					} 	        
+				});
+			}
 		});
 	}
 }
 
 function setValueBasedOnCheckBox(){
 
-	if($('#weight_check').is(":checked")){
-		$('#weight_text').val('yes');
-	} else {
-		$('#weight_text').val('no');
-	}
-	
-	if($('#no_of_packages_check').is(":checked")){
-		$('#no_of_packages_text').val('yes');
-	} else {
-		$('#no_of_packages_text').val('no');
-	}
-	
-	if($('#description_check').is(":checked")){
-		$('#description_text').val('yes');
-	} else {
-		$('#description_text').val('no');
-	}
 
 	if($('#invoice_copy_check').is(":checked")){
 		$('#invoice_copy_text').val('yes');
@@ -84,12 +72,7 @@ function setValueBasedOnCheckBox(){
 	} else {
 		$('#bond_order_text').val('no');
 	}
-	
-	if($('#do_verification_check').is(":checked")){
-		$('#do_verification_text').val('yes');
-	} else {
-		$('#do_verification_text').val('no');
-	}
+
 }
 
 function getSelectedtContainerData(){

@@ -132,26 +132,6 @@
           <div class="row">
             <div class="col-md-2">
               <div class="form-group">
-                <input type="checkbox" name="weight_check" id="weight_check" value="yes"> Weight
-                <input type="hidden" name="weight" id="weight_text" value="">
-              </div>
-            </div>
-            <div class="col-md-2">
-              <div class="form-group">
-                <input type="checkbox" name="no_of_packages_check" id="no_of_packages_check" value="yes"> No of Packages
-                <input type="hidden" name="no_of_packages" id="no_of_packages_text" value="">
-              </div>
-            </div>
-            <div class="col-md-2">
-              <div class="form-group">
-                <input type="checkbox" name="description_check" id="description_check" value="yes"> Description
-                <input type="hidden" name="description" id="description_text" value="">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-2">
-              <div class="form-group">
                 <input type="checkbox" name="invoice_copy_check" id="invoice_copy_check" value="yes"> Invoice Copy
                 <input type="hidden" name="invoice_copy" id="invoice_copy_text" value="">
               </div>
@@ -164,20 +144,14 @@
             </div>
             <div class="col-md-2">
               <div class="form-group">
-                <input type="checkbox" name="boe_copy_check" id="boe_copy_check" value="yes"> BOE Copy
+                <input type="checkbox" class="required" name="boe_copy_check" id="boe_copy_check" value="yes"> BOE Copy
                 <input type="hidden" name="boe_copy" id="boe_copy_text" value="">
               </div>
             </div>
             <div class="col-md-2">
               <div class="form-group">
-                <input type="checkbox" name="bond_order_check" id="bond_order_check" value="yes"> Bond Order
+                <input type="checkbox" class="required" name="bond_order_check" id="bond_order_check" value="yes"> Bond Order
                 <input type="hidden" name="bond_order" id="bond_order_text" value="">
-              </div>
-            </div>
-            <div class="col-md-2">
-              <div class="form-group">
-                <input type="checkbox" name="do_verification_check" id="do_verification_check" value="yes"> Document Verification
-                <input type="hidden" name="do_verification" id="do_verification_text" value="">
               </div>
             </div>
           </div>
@@ -246,7 +220,7 @@
               <input type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#view_list_modal" onclick="bindAutocomplete()" value="Add Item">
             </div>
             <div class="col-md-4 col-sm-4">
-              <input type="submit" id="dv_submit_button" name="submit" value="Submit" class="btn btn-primary btn-block pull-left" onclick="submitDocumentVerification();" disabled>
+              <input type="submit" id="dv_submit_button" name="submit" value="Submit" class="btn btn-primary btn-block pull-left" onclick="submitDocumentVerification();">
             </div>
           </div>
         </form>
@@ -271,14 +245,6 @@
   $(document).ready(function(){
 
     getSelectedtContainerData();
-
-    $('#do_verification_check').change(function() {
-      if($(this).is(":checked")) {
-          $('#dv_submit_button').prop('disabled', false);
-      } else {
-          $('#dv_submit_button').prop('disabled', true);
-      }      
-    });
 
     $('#document_verification_form').validate({
       errorClass: "my-error-class" //error class defined in header file style tag
