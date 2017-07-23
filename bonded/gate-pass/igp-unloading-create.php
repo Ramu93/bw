@@ -43,7 +43,7 @@
                   <div class="clearfix">&nbsp;</div>
                   <span id="data_fetch_message"></span>
                 </div>
-              </div>
+              </div>  
             </div>
             <div class="row">
               <div class="col-md-3">
@@ -58,12 +58,17 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label for="vehicle_number">Vehicle Number</label>
-                  <input type="text" tabindex="4" class="form-control required" id="vehicle_number" name="vehicle_number" placeholder="Vehicle number">
-                </div>
+            <div class="col-md-4">
+                <label for="vehicle_type">Vehicle Type</label>
+                <select class="form-control" tabindex="11" id="vehicle_type" name="vehicle_type">
+                  <option value="20">20</option>
+                  <option value="40">40</option>
+                  <option value="ODC">ODC</option>
+                  <option value="Break Bulk">Break Bulk</option>
+                  <option value="LCL">LCL</option>
+                </select>
               </div>
+              
               <div class="col-md-4">
                 <label for="driver_name">Driver Name</label>
                 <input type="text" tabindex="5" class="form-control required" id="driver_name" name="driver_name" placeholder="Driver name">
@@ -74,7 +79,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-4" id="container_tonnage_div">
                 <div class="form-group">
                   <label for="container_number">Container Number</label>
                   <select name="container_number" id="container_number_select" class="form-control required">
@@ -102,14 +107,10 @@
                 </div>
               </div>
               <div class="col-md-4">
-                <label for="vehicle_type">Vehicle Type</label>
-                <select class="form-control" tabindex="11" id="vehicle_type" name="vehicle_type">
-                  <option value="20">20</option>
-                  <option value="40">40</option>
-                  <option value="LCL">LCL</option>
-                  <option value="Break Bulk">Break Bulk</option>
-                  <option value="ODC">ODC</option>
-                </select>
+                <div class="form-group">
+                  <label for="vehicle_number">Vehicle Number</label>
+                  <input type="text" tabindex="4" class="form-control required" id="vehicle_number" name="vehicle_number" placeholder="Vehicle number">
+                </div>
               </div>
               <div class="col-md-4">
                 <label for="transporter_name">Transporter Name</label>
@@ -199,6 +200,10 @@
         $('#data_item').val('');
         changeLabelText();
       })
+
+      $('#vehicle_type').on('change', function(){
+        replaceContainerTonnageFields();
+      });
 
     });
 

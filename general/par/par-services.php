@@ -104,7 +104,7 @@
 				case 'Break Bulk':
 				case 'LCL': 
 					$tonnage = $containerData[$i]['tonnage'];
-					$addContainerQuery = "INSERT INTO par_container_info (id, igp_status, tonnage, dimension) VALUES ('$lastInsertPARId', '".DEFAULT_IGP_STATUS."', '$tonnage', '$dimension')";
+					$addContainerQuery = "INSERT INTO par_container_info (id, igp_status, tonnage, dimension, has_containers) VALUES ('$lastInsertPARId', '".DEFAULT_IGP_STATUS."', '$tonnage', '$dimension', 'no')";
 
 				break;
 				case '20 ft. Container':
@@ -112,7 +112,7 @@
 				case 'ODC':
 					$containerCount = $containerData[$i]['container_count'];
 					$containerDetails = json_encode($containerData[$i]['container_detail'], JSON_FORCE_OBJECT);
-					$addContainerQuery = "INSERT INTO par_container_info (id, igp_status, container_details, dimension, container_count) VALUES ('$lastInsertPARId', '".DEFAULT_IGP_STATUS."','$containerDetails', '$dimension', '$containerCount')";
+					$addContainerQuery = "INSERT INTO par_container_info (id, igp_status, container_details, dimension, container_count, has_containers) VALUES ('$lastInsertPARId', '".DEFAULT_IGP_STATUS."','$containerDetails', '$dimension', '$containerCount', 'yes')";
 				break;
 			}
 

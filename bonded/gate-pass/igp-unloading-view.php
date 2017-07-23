@@ -125,9 +125,17 @@
               <div class="row">
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label for="container_number">Container Number:</label>
-                    <div class="clearfix"></div>
-                    <label><?php echo $out['container_number']; ?></label>
+                    <?php 
+                      if($out['container_number'] !== NULL){
+                        echo '<label for="container_number">Container Number:</label>
+                        <div class="clearfix"></div>
+                        <label>'.$out['container_number'].'</label>';
+                      } else {
+                        echo '<label for="container_number">No. of Packages/Tonnage:</label>
+                        <div class="clearfix"></div>
+                        <label>'.$out['num_tonnage'].'</label>';
+                      }
+                    ?>
                   </div>
                 </div>
               </div>

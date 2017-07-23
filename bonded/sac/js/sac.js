@@ -41,6 +41,13 @@ function replaceFieldsForContainers(){
 		break;
 	}
 	$('#container_fields_div').html(dp);
+
+	$('#container_count').spinner({
+        min: 1,
+        stop: function( event, ui ){
+                containerSpinner();
+            }
+    });
 }
 
 function addContainerRow(rowcount){

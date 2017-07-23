@@ -108,9 +108,9 @@
 
 	function getContainerData(){
 		global $dbc;
-		$sacID = $_POST['sac_par_id'];
+		$sacID = $_POST['sac_id'];
 		$containerRows = array();
-		$query = "SELECT * FROM sac_container_info WHERE id='" . $sacID . "'";
+		$query = "SELECT * FROM sac_container_info WHERE id='" . $sacID . "' AND has_containers='yes'";
 		$result = mysqli_query($dbc,$query);
 		if(mysqli_num_rows($result) > 0) {
 			while($containerRow = mysqli_fetch_assoc($result)){
@@ -159,18 +159,39 @@
 		$transporterName = mysqli_real_escape_string($dbc, trim($_POST['transporter_name']));
 		$entryDate = mysqli_real_escape_string($dbc, trim($_POST['entry_date']));
 		$sacId = mysqli_real_escape_string($dbc, trim($_POST['sac_par_id']));
-		$containerNumberData = mysqli_real_escape_string($dbc, trim($_POST['container_number']));
 
-		//split container number data
-		$containerNumberData = explode('_', $containerNumberData);
-		$containerDimension = $containerNumberData[0];
-		$containerNumberKey = $containerNumberData[1];
-		$containerNumber = $containerNumberData[2];
+		switch($vehicleType){
+			case 'Break Bulk':
+			case 'LCL': 
+				$numTonnage = mysqli_real_escape_string($dbc, trim($_POST['num_tonnage']));
+				$query = "INSERT INTO bonded_igp_unloading (data_type, data_value, vehicle_number, driver_name, driving_license, time_in, container_condition, vehicle_type, transporter_name, entry_date, sac_id, num_tonnage) VALUES ('$dataType', '$dataValue', '$vehicleNumber', '$driverName', '$drivingLicense', '$timeIn', '$containerCondition', '$vehicleType', '$transporterName', '$entryDate', '$sacId', '$numTonnage')";
 
-		$query = "INSERT INTO bonded_igp_unloading (data_type, data_value, vehicle_number, driver_name, driving_license, time_in, container_condition, vehicle_type, transporter_name, entry_date, sac_id, container_number) VALUES ('$dataType', '$dataValue', '$vehicleNumber', '$driverName', '$drivingLicense', '$timeIn', '$containerCondition', '$vehicleType', '$transporterName', '$entryDate', '$sacId', '$containerNumber')";
+    		//file_put_contents("formlog.log", print_r( $query, true ));
+			break;
+			case '20':
+			case '40':
+			case 'ODC':
+				$containerNumberData = mysqli_real_escape_string($dbc, trim($_POST['container_number']));
+
+				//split container number data
+				$containerNumberData = explode('_', $containerNumberData);
+				$containerDimension = $containerNumberData[0];
+				$containerNumberKey = $containerNumberData[1];
+				$containerNumber = $containerNumberData[2];
+
+				$query = "INSERT INTO bonded_igp_unloading (data_type, data_value, vehicle_number, driver_name, driving_license, time_in, container_condition, vehicle_type, transporter_name, entry_date, sac_id, container_number) VALUES ('$dataType', '$dataValue', '$vehicleNumber', '$driverName', '$drivingLicense', '$timeIn', '$containerCondition', '$vehicleType', '$transporterName', '$entryDate', '$sacId', '$containerNumber')";
+    		//file_put_contents("formlog.log", print_r( $query, true ));
+			break;
+		}
+
 		if(mysqli_query($dbc, $query)){
-			$updatedContainerStatusJSON = getUpdatedContainerStatus($sacId, $containerNumberData);
-			$containerUpdateQuery = "UPDATE sac_container_info SET container_details='$updatedContainerStatusJSON' WHERE dimension='$containerDimension' AND id='$sacId'";
+			
+			if($vehicleType != 'Break Bulk' && $vehicleType != 'LCL'){
+				$updatedContainerStatusJSON = getUpdatedContainerStatus($sacId, $containerNumberData);
+				$containerUpdateQuery = "UPDATE sac_container_info SET container_details='$updatedContainerStatusJSON' WHERE dimension='$containerDimension' AND id='$sacId'";
+			} else {
+				$containerUpdateQuery = 'SELECT 0';
+			}
 			if(mysqli_query($dbc, $containerUpdateQuery)){
 				changeSacIgpStatus($sacId);
 				return array("status"=>"Success","message"=>"Inward gate pass generated successfully.");

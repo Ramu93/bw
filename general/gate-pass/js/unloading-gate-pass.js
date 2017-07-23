@@ -1,3 +1,27 @@
+function replaceContainerTonnageFields(){
+	var vehicleType = $('#vehicle_type').val();
+	var dp = '';
+	switch(vehicleType){
+		case 'Break Bulk':
+		case 'LCL':
+			dp += '<label>No of Packages/Tonnage</label>\
+                  <div class="form-group">\
+                    <input type="text" class="form-control" name="num_tonnage" id="num_tonnage" placeholder="" />\
+                  </div>';
+			$('#container_tonnage_div').html(dp);
+		break;
+		case '20':
+		case '40':
+		case 'ODC':
+			dp += '<label for="container_number">Container Number</label>\
+                  <select name="container_number" id="container_number_select" class="form-control required">\
+                  </select>';
+			$('#container_tonnage_div').html(dp);
+            getContainerData();
+		break;
+	}
+}
+
 function generateIGP(){
 	if($('#igp-unloading-form').valid()){
 		var data = $('#igp-unloading-form').serialize() + "&action=generate_igp";
@@ -183,6 +207,25 @@ function getDataDetails(dataItem){
 }
 
 function getSelectedtContainerData(parId){
+	var data = "par_id=" + parId + '&action=get_container_data';
+	//alert(data);
+	$.ajax({
+		url: "unloading-gate-pass-services.php",
+		type: "POST",
+		data:  data,
+		dataType: 'json',
+		success: function(result){	
+			if(result.infocode == 'CONTAINERDATAFETCHSUCCESS'){
+				var containers = result.data;
+				displayContainerNumbers(containers);
+			}
+		},
+		error: function(){} 	        
+	});
+}
+
+function getContainerData(){
+	var parId = $('#id_value').html();
 	var data = "par_id=" + parId + '&action=get_container_data';
 	//alert(data);
 	$.ajax({
