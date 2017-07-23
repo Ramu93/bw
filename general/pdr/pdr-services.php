@@ -48,6 +48,7 @@
 
 	function getBondOrderList(){
 		global $dbc;
+		$type = $_POST['type'];
 		$query = "SELECT bond_number, do_ver_id FROM general_dv_inward";
 		$result = mysqli_query($dbc,$query);
 		if(mysqli_num_rows($result) > 0) {

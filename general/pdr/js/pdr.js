@@ -1,9 +1,26 @@
 var gItemList = new Array;
 var gItemSelectedCount = 0;
 
+function changeLabelText(){
+	var selectType = $('#select_by_type').val();
+	switch (selectType) {
+		//for column name
+		case 'boe_number':
+			$('#fetch_by_label').html('BOE Number');
+		break;
+		case 'grn':
+			$('#fetch_by_label').html('GRN');
+		break;
+		case 'invoice':
+			$('#fetch_by_label').html('Invoice');
+		break;
+	}
+}
+
 function getBondOrderList(){
 	$('#data_fetch_message').html('');
-	var data = "&action=get_bond_order_list";
+	var type = $('#select_by_type').val();
+	var data = "type=" + type + "&action=get_bond_order_list";
 	
 	$.ajax({
 		url: "pdr-services.php",
