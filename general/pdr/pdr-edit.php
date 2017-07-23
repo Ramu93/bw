@@ -46,16 +46,7 @@
               </div>
             </div> -->
             <div class="row">
-              <div class="form-group col-md-4">
-                <label for="client_web">Client Web</label>
-                <select class="form-control" id="client_web" name="client_web" class="client-web" required="">
-                  <option value="">Select client web...</option>
-                  <option value="Debond" <?php echo (($out['client_web']=='Debond')?'selected="selected"':''); ?> >Debond</option>
-                  <option value="Inbond Sales" <?php echo (($out['client_web']=='Inbond Sales')?'selected="selected"':''); ?> >Inbond Sales</option>
-                  <option value="Reexport" <?php echo (($out['client_web']=='Reexport')?'selected="selected"':''); ?> >Reexport</option>
-                  <option value="Transfer Bond" <?php echo (($out['client_web']=='Transfer Bond')?'selected="selected"':''); ?> >Transfer Bond</option>
-                </select>
-              </div>
+              
               <div class="form-group col-md-4">
                 <label for="order_number">CHA Name/Exporter</label>
                 <input type="text" class="form-control" id="cha_name_exporter" name="cha_name_exporter" value="<?php echo $out['cha_name']; ?>" placeholder="CHA Name/Exporter">
@@ -67,7 +58,7 @@
             </div>
             <div class="row">
               <div class="form-group col-md-3">
-                <label for="boe_number">BOE Number</label>
+                <label for="boe_number">Warehouse BOE Number</label>
                 <input type="text" value="<?php echo $out['boe_number']; ?>" class="form-control" id="boe_number" name="boe_number" placeholder="BOE Number">
               </div>
               <div class="form-group col-md-3">

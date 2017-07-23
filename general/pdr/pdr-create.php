@@ -42,7 +42,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="form-group col-md-4">
+              <!-- <div class="form-group col-md-4">
                 <label for="client_web">Client Web</label>
                 <select class="form-control" id="client_web" name="client_web" class="client-web" required="">
                   <option value="">Select client web...</option>
@@ -51,7 +51,7 @@
                   <option value="Reexport">Reexport</option>
                   <option value="Transfer Bond">Transfer Bond</option>
                 </select>
-              </div>
+              </div> -->
               <div class="form-group col-md-4">
                 <label for="order_number">CHA Name/Exporter</label>
                 <input type="text" class="form-control" id="cha_name_exporter" name="cha_name_exporter" placeholder="CHA Name/Exporter">
@@ -63,7 +63,7 @@
             </div>
             <div class="row">
               <div class="form-group col-md-3">
-                <label for="boe_number">BOE Number</label>
+                <label for="boe_number">Warehouse BOE Number</label>
                 <input type="text" class="form-control" id="boe_number" name="boe_number" placeholder="BOE Number">
               </div>
               <div class="form-group col-md-3">

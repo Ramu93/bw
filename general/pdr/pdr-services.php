@@ -74,7 +74,7 @@
 		if(mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_assoc($result);
 			$parId = $row['par_id'];
-			$innerQuery = "SELECT par_id as 'id', 'par' as 'table_name', importing_firm_name, licence_code, bol_awb_number, boe_number, material_name, material_nature, packing_nature FROM pre_arrival_request WHERE par_id='$parId'";
+			$innerQuery = "SELECT par_id as 'id', 'par' as 'table_name', importing_firm_name, bol_awb_number, boe_number, material_name, material_nature, packing_nature FROM pre_arrival_request WHERE par_id='$parId'";
 			$innerResult = mysqli_query($dbc,$innerQuery);
 			if(mysqli_num_rows($innerResult) > 0){
 				$innerRow = mysqli_fetch_assoc($innerResult);
@@ -123,7 +123,7 @@
 		global $dbc;
 		$bondNumber = mysqli_real_escape_string($dbc, $_POST['bond_number']);
 		$parId = mysqli_real_escape_string($dbc, $_POST['par_id']);
-		$clientWeb = mysqli_real_escape_string($dbc, $_POST['client_web']);
+		//$clientWeb = mysqli_real_escape_string($dbc, $_POST['client_web']);
 		$chaName = mysqli_real_escape_string($dbc, $_POST['cha_name_exporter']);
 		$orderNumber = mysqli_real_escape_string($dbc, $_POST['order_number']);
 		$boeNumber = mysqli_real_escape_string($dbc, $_POST['boe_number']);
@@ -139,7 +139,7 @@
   		$itemData = json_decode(json_encode($itemObject), True);
 		//file_put_contents("datalog.log", print_r($itemData, true ));
 
-  		$query = "INSERT INTO general_despatch_request (bond_number, par_id, client_web, cha_name, order_number, boe_number, exbond_be_number, exbond_be_date, customs_officer_name, number_of_packages, assessment_value, duty_value, transporter_name) VALUES ('$bondNumber', '$parId', '$clientWeb', '$chaName', '$orderNumber', '$boeNumber', '$exBondBeNumber', '$exBondBeDate', '$customsOfficerName', '$numberOfPackages', '$assessmentValue', '$dutyValue', '$transporterName')";
+  		$query = "INSERT INTO general_despatch_request (bond_number, par_id, cha_name, order_number, boe_number, exbond_be_number, exbond_be_date, customs_officer_name, number_of_packages, assessment_value, duty_value, transporter_name) VALUES ('$bondNumber', '$parId', '$chaName', '$orderNumber', '$boeNumber', '$exBondBeNumber', '$exBondBeDate', '$customsOfficerName', '$numberOfPackages', '$assessmentValue', '$dutyValue', '$transporterName')";
 		// file_put_contents("querylog.log", print_r($query, true ));
   		if(mysqli_query($dbc, $query)){
   			$lastPdrId = mysqli_insert_id($dbc);
