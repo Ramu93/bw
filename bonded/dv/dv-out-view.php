@@ -25,6 +25,7 @@
                 <th>S. No.</th>
                 <th>PDR ID</th>
                 <th>SAC ID</th>
+                <th>CHA Name</th>
                 <th>Client Web</th>
                 <th>Action</th>
               </tr>
@@ -41,6 +42,7 @@
                     echo "<td>".++$row_counter."</td>";
                     echo "<td>".$row['pdr_id']."</td>";
                     echo "<td>".$row['sac_id']."</td>";
+                    echo "<td>".$row['cha_name']."</td>";
                     echo "<td>".$row['client_web']."</td>";
                     echo "<td><a href='dv-out.php?pdr_id=".$row['pdr_id']."'>Verify</a></td>";
                     echo "</tr>";
