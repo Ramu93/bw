@@ -25,6 +25,7 @@
                 <th>S. No.</th>
                 <th>SAC ID</th>
                 <th>Importing Firm Name</th>
+                <th>CHA Name</th>
                 <th>Licence Code</th>
                 <th>BOL/AWB No.</th>
                 <th>BOE No.</th>
@@ -33,7 +34,7 @@
             </thead>
             <tbody>
               <?php 
-                $select_query = "SELECT sac_id as 'id', 'sac' as 'table_name', importing_firm_name, licence_code, bol_awb_number, boe_number FROM sac_request WHERE document_verified='no'";
+                $select_query = "SELECT sac_id as 'id', 'sac' as 'table_name', importing_firm_name, licence_code, bol_awb_number, boe_number, cha_name FROM sac_request WHERE document_verified='no' AND igp_created='yes'";
                 $result = mysqli_query($dbc,$select_query);
                 $row_counter = 0;
                 if(mysqli_num_rows($result) > 0) {
@@ -43,6 +44,7 @@
                     echo "<td>".++$row_counter."</td>";
                     echo "<td>".$row['id']."</td>";
                     echo "<td>".$row['importing_firm_name']."</td>";
+                    echo "<td>".$row['cha_name']."</td>";
                     echo "<td>".$row['licence_code']."</td>";
                     echo "<td>".$row['bol_awb_number']."</td>";
                     echo "<td>".$row['boe_number']."</td>";

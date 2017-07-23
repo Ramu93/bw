@@ -119,20 +119,8 @@
 		$query = "INSERT INTO bonded_igp_loading (pdr_id, data_type, data_value, vehicle_number, driver_name, driving_license,time_in, entry_date) VALUES ('$pdrId', '$dataType', '$dataValue', '$vehicleNumber', '$driverName', '$drivingLicense', '$timeIn', '".date("Y-m-d")."')";
 		//file_put_contents("testlog.log",$query, FILE_APPEND | LOCK_EX);
 		if(mysqli_query($dbc, $query)){
-			switch ($dataType) {
-				case 'pdr_id':
-					$updatePdrStatusQuery = "UPDATE bonded_despatch_request SET status='". IGP_CREATED_STATUS ."' WHERE pdr_id='$dataValue'";
-				break;
-				case 'boe_number':
-					$updatePdrStatusQuery = "UPDATE bonded_despatch_request SET status='". IGP_CREATED_STATUS ."' WHERE boe_number='$dataValue'";
-				break;
-				case 'bond_number':
-					$updatePdrStatusQuery = "UPDATE bonded_despatch_request SET status='". IGP_CREATED_STATUS ."' WHERE bond_number='$dataValue'";
-				break;
-			}
-			// file_put_contents("testlog.log",$updatePdrStatusQuery, FILE_APPEND | LOCK_EX);
-			
-			if(mysqli_query($dbc, $updatePdrStatusQuery)){
+			$query = "UPDATE bonded_despatch_request SET igp_created='yes' WHERE pdr_id='$pdrId'";
+			if(mysqli_query($dbc, $query)){
 				return array("status"=>"Success","message"=>"Inward gate pass generated successfully.");
 			} else {
 				return array("status"=>"Failure","message"=>"Inward gate pass not generated successfully.");
