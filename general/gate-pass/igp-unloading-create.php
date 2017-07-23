@@ -81,10 +81,10 @@
                   </select>
                 </div>
               </div>
-              <div class="col-md-4">
+              <!-- <div class="col-md-4">
                 <label for="seal_number">Seal Number</label>
                 <input type="text" tabindex="8" class="form-control required" id="seal_number" name="seal_number" placeholder="Seal number">
-              </div>
+              </div> -->
               <div class="col-md-4">
                 <label for="time_in">Time In</label>
                 <input type="hidden" tabindex="-1" class="form-control required" id="entry_date" name="entry_date" >

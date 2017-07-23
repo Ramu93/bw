@@ -130,11 +130,7 @@
                     <label><?php echo $out['container_number']; ?></label>
                   </div>
                 </div>
-                <div class="col-md-4">
-                  <label for="seal_number">Seal Number:</label>
-                  <div class="clearfix"></div>
-                  <label><?php echo $out['seal_number']; ?></label>
-                </div>
+                
               </div>
               <div class="row">
                 <div class="col-md-4">

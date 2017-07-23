@@ -152,7 +152,7 @@
 		$vehicleNumber = mysqli_real_escape_string($dbc, trim($_POST['vehicle_number']));
 		$driverName = mysqli_real_escape_string($dbc, trim($_POST['driver_name']));
 		$drivingLicense = mysqli_real_escape_string($dbc, trim($_POST['driving_license']));
-		$sealNumber = mysqli_real_escape_string($dbc, trim($_POST['seal_number']));
+		//$sealNumber = mysqli_real_escape_string($dbc, trim($_POST['seal_number']));
 		$timeIn = mysqli_real_escape_string($dbc, trim($_POST['in_time']));
 		$containerCondition = mysqli_real_escape_string($dbc, trim($_POST['container_condition']));
 		$vehicleType = mysqli_real_escape_string($dbc, trim($_POST['vehicle_type']));
@@ -167,7 +167,7 @@
 		$containerNumberKey = $containerNumberData[1];
 		$containerNumber = $containerNumberData[2];
 
-		$query = "INSERT INTO bonded_igp_unloading (data_type, data_value, vehicle_number, driver_name, driving_license, seal_number, time_in, container_condition, vehicle_type, transporter_name, entry_date, sac_id, container_number) VALUES ('$dataType', '$dataValue', '$vehicleNumber', '$driverName', '$drivingLicense', '$sealNumber', '$timeIn', '$containerCondition', '$vehicleType', '$transporterName', '$entryDate', '$sacId', '$containerNumber')";
+		$query = "INSERT INTO bonded_igp_unloading (data_type, data_value, vehicle_number, driver_name, driving_license, time_in, container_condition, vehicle_type, transporter_name, entry_date, sac_id, container_number) VALUES ('$dataType', '$dataValue', '$vehicleNumber', '$driverName', '$drivingLicense', '$timeIn', '$containerCondition', '$vehicleType', '$transporterName', '$entryDate', '$sacId', '$containerNumber')";
 		if(mysqli_query($dbc, $query)){
 			$updatedContainerStatusJSON = getUpdatedContainerStatus($sacId, $containerNumberData);
 			$containerUpdateQuery = "UPDATE sac_container_info SET container_details='$updatedContainerStatusJSON' WHERE dimension='$containerDimension' AND id='$sacId'";
