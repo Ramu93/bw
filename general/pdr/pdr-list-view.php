@@ -25,6 +25,7 @@
                 <th>S. No.</th>
                 <th>PDR ID</th>
                 <th>PAR</th>
+                <th>CHA/Exporter Name</th>
                 <th>Client Web</th>
                 <th>Action</th>
               </tr>
@@ -41,6 +42,7 @@
                     echo "<td>".++$row_counter."</td>";
                     echo "<td>".$row['pdr_id']."</td>";
                     echo "<td>".$row['par_id']."</td>";
+                    echo "<td>".$row['cha_name']."</td>";
                     echo "<td>".$row['client_web']."</td>";
                     echo "<td><a href='pdr-edit.php?pdr_id=".$row['pdr_id']."'>View</a></td>";
                     echo "</tr>";

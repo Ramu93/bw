@@ -25,6 +25,7 @@
                 <th>S. No.</th>
                 <th>PDR ID</th>
                 <th>SAC</th>
+                <th>CHA/Exporter Name</th>
                 <th>Client Web</th>
                 <th>Action</th>
               </tr>
@@ -41,6 +42,7 @@
                     echo "<td>".++$row_counter."</td>";
                     echo "<td>".$row['pdr_id']."</td>";
                     echo "<td>".$row['sac_id']."</td>";
+                    echo "<td>".$row['cha_name']."</td>";
                     echo "<td>".$row['client_web']."</td>";
                     echo "<td><a href='pdr-approve-reject.php?pdr_id=".$row['pdr_id']."'>Approve/Reject</a></td>";
                     echo "</tr>";
