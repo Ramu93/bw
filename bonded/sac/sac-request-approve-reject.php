@@ -17,7 +17,8 @@
         $containerOutput[] = array (
          'dimension'=>$containerRow['dimension'],
          'container_count' => $containerRow['container_count'],
-         'container_details'=> $containerRow['container_details']
+         'container_details'=> $containerRow['container_details'],
+         'tonnage'=>$containerRow['tonnage']
          );
       }
     }

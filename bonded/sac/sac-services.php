@@ -66,7 +66,7 @@
     	return array("status"=>"Success","message"=>"Space Availability Certificate request created successfully.");
 	}
 
-	function addContainers($containerData, $lastInsertPARId){
+	function addContainers($containerData, $lastInsertSacId){
 		global $dbc,$form;
 		//cotainerData is of JSON type
 		$containerDataObj = json_decode($containerData);
@@ -80,9 +80,23 @@
 		for($i = 0; $i < count($containerData); $i++){
 			$containerJSON = array();
 			$dimension = $containerData[$i]['dimension'];
-			$containerCount = $containerData[$i]['container_count'];
-			$containerDetails = json_encode($containerData[$i]['container_detail'], JSON_FORCE_OBJECT);
-			$addContainerQuery = "INSERT INTO sac_container_info (id, igp_status, container_details, dimension, container_count) VALUES ('$lastInsertPARId', '".DEFAULT_IGP_STATUS."','$containerDetails', '$dimension', '$containerCount')";
+
+			switch($dimension){
+				case 'Break Bulk':
+				case 'LCL': 
+					$tonnage = $containerData[$i]['tonnage'];
+					$addContainerQuery = "INSERT INTO sac_container_info (id, igp_status, tonnage, dimension) VALUES ('$lastInsertSacId', '".DEFAULT_IGP_STATUS."', '$tonnage', '$dimension')";
+
+				break;
+				case '20 ft. Container':
+				case '40 ft. Container':
+				case 'ODC':
+					$containerCount = $containerData[$i]['container_count'];
+					$containerDetails = json_encode($containerData[$i]['container_detail'], JSON_FORCE_OBJECT);
+					$addContainerQuery = "INSERT INTO sac_container_info (id, igp_status, container_details, dimension, container_count) VALUES ('$lastInsertSacId', '".DEFAULT_IGP_STATUS."','$containerDetails', '$dimension', '$containerCount')";
+				break;
+			}
+
 			mysqli_query($dbc, $addContainerQuery);
 
 			//file_put_contents("formlog.log", print_r( $addContainerQuery, true ), FILE_APPEND | LOCK_EX);	

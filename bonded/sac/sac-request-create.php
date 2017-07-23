@@ -112,7 +112,7 @@
             </div><div class="row" id="licence_code_row">
               <div class="col-md-6"></div>
               <div class="col-md-6">
-                <label id="licence_code_label"></label> : 
+                <label id="licence_code_label"></label>
                 <label id="licence_code_value_label"></label>
               </div>
             </div>  
@@ -150,24 +150,28 @@
                     <select class="form-control required" id="dimension" name="dimension">
                       <option value="20 ft. Container">20 ft. Container</option>
                       <option value="40 ft. Container">40 ft. container</option>
-                      <option value="Break Bulk/ODC">Break Bulk/ODC</option>
+                      <option value="ODC">ODC</option>
+                      <option value="Break Bulk">Break Bulk</option>
                       <option value="LCL">LCL</option>
                     </select>
                   </div>
-                  <div class="col-md-4">
-                    <label for="container_detail">No. of Containers</label>
-                    <div class="form-group">
-                      <input type="text" class="form-control" name="container_count" id="container_count" placeholder="" value="1" />
-                    </div>
-                  </div>
-                  <div class="clearfix"></div>
-                  <div id="container_number_div">
+                  <div id="container_fields_div">
                     <div class="col-md-4">
+                      <label for="container_detail">No. of Containers</label>
                       <div class="form-group">
-                        <input type="text" class="form-control required" name="container_number_1" id="container_number_1" placeholder="Container Number" />
+                        <input type="text" class="form-control" name="container_count" id="container_count" placeholder="" value="1" />
+                      </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div id="container_number_div">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <input type="text" class="form-control required" name="container_number_1" id="container_number_1" placeholder="Container Number" />
+                        </div>
                       </div>
                     </div>
                   </div>
+                  
                   <div class="clearfix"></div>
                 </div>
                 <div class="col-sm-12" id="accordion_div_container">
@@ -218,6 +222,10 @@
         getLicenceData();
       });
 
+      $('#dimension').on('change', function(){
+        replaceFieldsForContainers();
+      });
+
     });
 
     function getLicenceData(){
@@ -229,7 +237,7 @@
         data:  data,
         dataType: 'json',
         success: function(data){
-          $('#licence_code_label').html(data.licence_key);
+          $('#licence_code_label').html(data.licence_key + ': ');
           $('#licence_code_value_label').html(data.licence_address);
         },
         error: function(){

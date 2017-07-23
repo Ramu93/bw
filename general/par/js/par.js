@@ -24,6 +24,42 @@ function disableClientInsuranceDeclararionFile(){
 	$("#client_insurance_declaration_file_div").hide();
 }
 
+function replaceFieldsForContainers(){
+	var dimension = $('#dimension').val();
+	var dp = '';
+	switch(dimension){
+		case 'Break Bulk':
+		case 'LCL':
+			dp += '<div class="col-md-6">\
+                      <label for="container_detail">No. of Packages/tonnage</label>\
+                      <div class="form-group">\
+                        <input type="text" class="form-control" name="tonnage" id="tonnage" placeholder="" />\
+                      </div>\
+                    </div>';
+		break;
+		case '20 ft. Container':
+		case '40 ft. Container':
+		case 'ODC':
+			dp += '<div class="col-md-4">\
+                      <label for="container_detail">No. of Containers</label>\
+                      <div class="form-group">\
+                        <input type="text" class="form-control" name="container_count" id="container_count" placeholder="" value="1" />\
+                      </div>\
+                    </div>\
+                    <div class="clearfix"></div>\
+                    <div id="container_number_div">\
+                      <div class="col-md-4">\
+                        <div class="form-group">\
+                          <input type="text" class="form-control required" name="container_number_1" id="container_number_1" placeholder="Container Number" />\
+                        </div>\
+                      </div>\
+                    </div>';
+		break;
+	}
+	$('#container_fields_div').html(dp);
+}
+
+
 function addContainerRow(rowcount){
 	var addrow = additem_template.replace('[trid]','itemtr_'+g_rowcount)
 								.replace('[sno]',g_snocount)
@@ -242,18 +278,29 @@ function addContainerItem(){
 		var containerItem = {};
 		var containerDetail = new Array;
 		dimension= $('#dimension').val().trim();
-		containerCount= $('#container_count').val().trim();
-		for(i = 1; i <= containerCount; i++){
-			containerDetail.push($('#container_number_'+i).val().trim());
-		}
 		containerItem.dimension = dimension;
-		containerItem.container_count = containerCount;
-		containerItem.container_detail = convertArrayToJSON(containerDetail);
-		gContainerList.push(containerItem);
 		
+		switch(dimension){
+			case 'Break Bulk':
+			case 'LCL':
+				containerItem.tonnage = $('#tonnage').val().trim();
+				gContainerList.push(containerItem);
+			break;
+			case '20 ft. Container':
+			case '40 ft. Container':
+			case 'ODC':
+				containerCount= $('#container_count').val().trim();
+				for(i = 1; i <= containerCount; i++){
+					containerDetail.push($('#container_number_'+i).val().trim());
+				}
+				containerItem.container_count = containerCount;
+				containerItem.container_detail = convertArrayToJSON(containerDetail);
+				gContainerList.push(containerItem);
+			break;
+		}
 		displayContainers();
 		$('#containerlist_form')[0].reset();
-		containerSpinner();	
+		containerSpinner();
 	}
 }
 
@@ -288,20 +335,31 @@ function displayContainers(){
 				'+gContainerList[q].dimension.replace('_',' to ')+' </a><span style<button</h4>\
 				<span style="float:right;"><a href="javascript:deleteContainerItem(\''+q+'\');"><i class="fa fa-trash"></i></a></span> </div>\
 				<div id="collapsetabc'+q+'" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingtabc'+q+'">\
-				<div class="panel-body">';
-			dp+= '<div class="col-sm-4">Container Count : '+gContainerList[q].container_count+'</div>';
-			//dp+= '<div class="col-sm-8">Container Numbers : '+gContainerList[q].container_detail.join(' , ')+'</div>';
-			dp+= '<div class="col-sm-4">Container Numbers : ';
+						<div class="panel-body">';
+			switch(gContainerList[q].dimension){
+				case 'Break Bulk':
+				case 'LCL':
+					dp+= '<div class="col-sm-7">No. of Packages/Tonnage : '+gContainerList[q].tonnage+'</div>';
+				break;
+				case '20 ft. Container':
+				case '40 ft. Container':
+				case 'ODC':
+					dp+= '<div class="col-sm-4">Container Count : '+gContainerList[q].container_count+'</div>';
+					//dp+= '<div class="col-sm-8">Container Numbers : '+gContainerList[q].container_detail.join(' , ')+'</div>';
+					dp+= '<div class="col-sm-4">Container Numbers : ';
 
-			gContainerList[q].container_detail.forEach( function(element, index) {
-				dp += element.container_number;
-				if(index !== gContainerList[q].container_detail.length - 1){
-					dp += ', ';
-				}
-			});
+					gContainerList[q].container_detail.forEach( function(element, index) {
+						dp += element.container_number;
+						if(index !== gContainerList[q].container_detail.length - 1){
+							dp += ', ';
+						}
+					});
 
-			dp += '</div>'
-			dp += '</div></div></div>';
+					dp += '</div>'
+					dp += '</div></div></div>';
+				break;
+			}
+			
 		}
 		$('#accordion_container').html(dp).show();
 	}else{
@@ -316,29 +374,43 @@ function displayContainersInEditMode(){
 		for(q in gContainerList){
 			dp += '<div class="panel panel-default"><div class="panel-heading" role="tab" id="headingtabc'+q+'"><h4 class="panel-title">\
 				<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapsetabc'+q+'" aria-expanded="false" aria-controls="collapseOne">\
-				'+gContainerList[q].dimension.replace('_',' to ')+' </a></div>\
+				'+gContainerList[q].dimension.replace('_',' to ')+' </a><span style<button</h4>\
+				<span style="float:right;"><a href="javascript:deleteContainerItem(\''+q+'\');"><i class="fa fa-trash"></i></a></span> </div>\
 				<div id="collapsetabc'+q+'" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingtabc'+q+'">\
-				<div class="panel-body">';
-			dp+= '<div class="col-sm-4">Container Count : '+gContainerList[q].container_count+'</div>';
-			//dp+= '<div class="col-sm-8">Container Numbers : '+gContainerList[q].container_detail.join(' , ')+'</div>';
-			dp+= '<div class="col-sm-4">Container Numbers : ';
+						<div class="panel-body">';
 
-			for(index = 0; index < Object.keys(gContainerList[q].container_details).length; index++){
-				dp += (gContainerList[q].container_details)[index].container_number;
-				if(index != Object.keys(gContainerList[q].container_details).length - 1){
-					dp += ', ';
-				}
+			switch(gContainerList[q].dimension){
+				case 'Break Bulk':
+				case 'LCL':
+					dp+= '<div class="col-sm-7">No. of Packages/Tonnage : '+gContainerList[q].tonnage+'</div>';
+				break;
+				case '20 ft. Container':
+				case '40 ft. Container':
+				case 'ODC':
+					dp+= '<div class="col-sm-4">Container Count : '+gContainerList[q].container_count+'</div>';
+
+					//dp+= '<div class="col-sm-8">Container Numbers : '+gContainerList[q].container_detail.join(' , ')+'</div>';
+					dp+= '<div class="col-sm-4">Container Numbers : ';
+
+					for(index = 0; index < Object.keys(gContainerList[q].container_details).length; index++){
+						dp += (gContainerList[q].container_details)[index].container_number;
+						if(index != Object.keys(gContainerList[q].container_details).length - 1){
+							dp += ', ';
+						}
+					}
+
+					dp += '</div>'
+					dp += '</div></div></div>';
+				break;
 			}
-
-			dp += '</div>'
-			dp += '</div></div></div>';
+			
+			
 		}
 		$('#accordion_container').html(dp).show();
 	}else{
 		$('#accordion_container').hide();
 	}
 }
-
 function deleteContainerItem(arrayindex){
 	bootbox.confirm('You sure you want to delete this detail?',function(result){
 		if(result){
