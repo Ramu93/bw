@@ -1,15 +1,16 @@
 <?php 
-	require('../dbconfig_pdo.php'); 
-	require('../dbwrapper.php');
+	//require('../dbconfig_pdo.php'); 
+	//require('../dbwrapper.php');
 	require('../formwrapper.php');
 	require('../dbconfig_delete_entries.php');
 	require('licence-code-map.php');
+	require('../dbwrapper_mysqli.php');
 
 	define('SAC_DEFAULT_STATUS','submitted');
 	define('ADDED_FROM', 'sac');
 	define('DEFAULT_IGP_STATUS', 'notgenerated');
 
-	$db = new DBWrapper($dbobj);
+	$db = new DBWrapper($dbc);
 	$form = new FormWrapper();
 	$finaloutput = array();
 	if(!$_POST) {
@@ -37,18 +38,6 @@
 
 	echo json_encode($finaloutput);
 
-	// function getLastSACRequestID(){
-	// 	global $dbc;
-	// 	$sacID = "";
-	// 	$query = "SELECT sac_id FROM sac_request ORDER BY created_date DESC LIMIT 1";
-	// 	$result = mysqli_query($dbc,$query);
-	// 	if(mysqli_num_rows($result) > 0) {
-	// 		$row = mysqli_fetch_assoc($result);
-	// 		$sacID = $row['sac_id'];
-	// 	}
-	// 	return $sacID;
-	// }
-
 	function createSACRequest(){
 		global $db,$form;
 		$containerData = $_POST['containerdata'];
@@ -56,14 +45,18 @@
 		$sacFormElementsArray = $form->getFormValues($sacFormElementsArray,$_POST);	
 		$sacFormElementsArray['status'] = SAC_DEFAULT_STATUS;
 		// file_put_contents("formlog.log", print_r( $sacFormElementsArray, true ));
-    	$db->insertOperation('sac_request',$sacFormElementsArray);
+    	$result = $db->insertOperation('sac_request',$sacFormElementsArray);
+ 		if($result['status'] == 'success'){
+ 			$lastInsertSACId = $result['last_insert_id']; 
+    		addContainers($containerData, $lastInsertSACId);
+    		$saclogarray = array("sac_id" => $sacId, "status_to" => 'Submitted', "remarks" => "Waiting for Approval");
+    		$db->insertOperation('sac_log',$saclogarray);
+    		return array("status"=>"Success","message"=>"Space Availability Certificate request created successfully.");
+ 		} else {
+ 			return array("status"=>"failure","message"=>"Space Availability Certificate request not created.");
+ 		}
 
-    	// $saclogarray = array("sac_id" => $sacId, "status_to" => 'Submitted', "remarks" => "Waiting for Approval");
-    	// $db->insertOperation('sac_log',$saclogarray);
-
-    	$lastInsertSACId = 1; //change the last insert id using the PDO's method
-    	addContainers($containerData, $lastInsertSACId);
-    	return array("status"=>"Success","message"=>"Space Availability Certificate request created successfully.");
+    	
 	}
 
 	function addContainers($containerData, $lastInsertSacId){

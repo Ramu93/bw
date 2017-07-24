@@ -3,6 +3,7 @@
 	require('../dbconfig_pdo.php'); 
 	require('../dbwrapper.php');
 	require('../formwrapper.php');
+	require('../dbwrapper_mysqli.php');
 
 	define('RAISE_EXCEPTION_STATUS', 'exception');
 	define('EXCEPTION_CLOSE_STATUS','exceptioncomplete');
@@ -12,7 +13,7 @@
 	define('IGP_JOB_ORDER_COMPLETE', 'joborder_completed');
 	define('EXCEPTION_FILE_COPY_PATH', 'exception_images/');
 
-	$db = new DBWrapper($dbobj);
+	$db = new DBWrapper($dbc);
 	$form = new FormWrapper();
 
 	$finaloutput = array();
@@ -58,10 +59,14 @@
 		$jobOrderUnloadingFormArray = array("sac_id"=>"sac_id", "weight"=>"weight", "no_of_packages"=>"no_of_packages", "description"=>"description", "supervisor_name"=>"supervisor_name", "unloading_type"=>"unloading_type", "equipment_ref_number"=>"equipment_ref_number", "no_of_labors"=>"no_of_labors", "unloading_time"=>"unloading_time", "dimension"=>"dimension");
 		$jobOrderUnloadingFormArray = $form->getFormValues($jobOrderUnloadingFormArray,$_POST);
 		//file_put_contents("formlog.log", print_r( $_POST, true ));
-    	$db->insertOperation('bonded_joborder_unloading',$jobOrderUnloadingFormArray);
+    	$result = $db->insertOperation('bonded_joborder_unloading',$jobOrderUnloadingFormArray);
     	// $parlogarray = array("par_id" => $parId, "status_to" => 'Submitted', "remarks" => "Waiting for Approval");
     	// $db->insertOperation('par_log',$parlogarray);
-    	return array("status"=>"Success","message"=>"Job order created successfully.");
+    	if($result['status'] == 'success'){
+    		return array("status"=>"Success","message"=>"Job order created successfully.", "last_id"=>$result['last_insert_id']);	
+    	} else {
+    		return array("status"=>"failure","message"=>"Job order not created.");	
+    	}
 	}
 
 	function raiseException(){
@@ -81,13 +86,19 @@
     		}
     	}
 
-	    $db->insertOperation('bonded_exception',$raiseExceptionFormArray);
+	    $result = $db->insertOperation('bonded_exception',$raiseExceptionFormArray);
 
-	    $wherearray = array('condition'=>'ju_id = :ju_id', 'param'=>':ju_id', 'value'=>$_POST['ju_id']);
-	    //change to last inser id for exception id
-	    $db->updateOperation('bonded_joborder_unloading',array('status'=>RAISE_EXCEPTION_STATUS, 'exception_id'=>'1'),$wherearray);
+	    if($result['status'] == 'success'){
+	    	$lastInsertExceptionId = $result['last_insert_id'];
+	    	$wherearray = array('condition'=>'ju_id = :ju_id', 'param'=>':ju_id', 'value'=>$_POST['ju_id']);
+	    	$db->updateOperation('bonded_joborder_unloading',array('status'=>RAISE_EXCEPTION_STATUS, 'exception_id'=>$lastInsertExceptionId),$wherearray);
+	    	return array("infocode"=>"RAISEEXCEPTIONSUCCESS","message"=>"Exception raised successfully");
 
-	    return array("infocode"=>"RAISEEXCEPTIONSUCCESS","message"=>"Exception raised successfully");
+	    } else {
+	    	return array("infocode"=>"RAISEEXCEPTIONFAILURE","message"=>"Exception raised not successfull.");
+
+	    }
+
 	}
 
 	function closeException(){

@@ -1,8 +1,9 @@
 <?php
 	require('../dbconfig.php'); 
-	require('../dbconfig_pdo.php'); 
-	require('../dbwrapper.php');
+	//require('../dbconfig_pdo.php'); 
+	//require('../dbwrapper.php');
 	require('../formwrapper.php');
+	require('../dbwrapper_mysqli.php');
 
 	//define('IGP_LOADING_DEFAULT_STATUS','created');
 	define('JOBORDER_CREATED_STATUS','created');
@@ -11,7 +12,7 @@
 	define('IGP_JOBORDER_COMPLETE_STATUS','joborder_completed');
 
 
-	$db = new DBWrapper($dbobj);
+	$db = new DBWrapper($dbc);
 	$form = new FormWrapper();
 
 	$finaloutput = array();
