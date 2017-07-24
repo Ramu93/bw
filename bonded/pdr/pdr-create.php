@@ -20,9 +20,17 @@
         <div class="box-body">
           <div class="row">
             <div class="form-group col-md-3">
-              <label for="bond_number">Bond Number</label>
-              <input type="text" class="form-control" id="bond_number" name="bond_number" placeholder="Bond Number">
+              <label id="fetch_by_label">Bond Number</label>
+              <input type="text" class="form-control" id="data_item_val" name="data_item_val" placeholder="Bond Number">
             </div>
+            <div class="col-md-3">
+            <label for="select_by_label">Choose By</label>
+            <select class="form-control" tabindex="2" id="select_by_type" name="select_by_type">
+              <option value="bond_number">Bond Number</option>
+              <option value="boe">BOE Number</option>
+              <option value="grn">GRN</option>
+            </select>
+          </div>
             <div class="col-md-3">
               <div class="clearfix">&nbsp;</div>
               <input type="button" tabindex="3" name="view_list_button" value="View List" class="btn btn-primary btn-block pull-left" onclick="getBondOrderList();">
@@ -124,7 +132,7 @@
                         <thead>
                             <tr>
                                 <th>S.No</th>
-                                <th>Bond Order ID</th>
+                                <th id="type_th"></th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -198,6 +206,10 @@
 
     $('#fields').hide();
     $('#create_pdr_btn').hide();
+
+    $('#select_by_type').on('change', function() {
+      changeLabelText();
+    })
 
   </script>
   <?php

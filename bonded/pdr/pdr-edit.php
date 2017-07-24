@@ -31,9 +31,9 @@
         <div class="box-body">
           <div class="row">
             <div class="form-group col-md-3">
-              <label for="bond_number">Bond Number</label>
+              <label for="bond_number">SAC ID</label>
               <div class="clearfix">&nbsp;</div>
-              <label><?php echo $out['bond_number'] ?></label>
+              <label><?php echo $out['sac_id'] ?></label>
             </div>
           </div>
           <form id="pdr_update_form" action="#" method="post" onsubmit="return false;">

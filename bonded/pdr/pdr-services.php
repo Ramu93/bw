@@ -48,7 +48,21 @@
 
 	function getBondOrderList(){
 		global $dbc;
-		$query = "SELECT bond_number, do_ver_id FROM bonded_dv_inward";
+
+		$type = $_POST['type'];
+
+		switch ($type) {
+			case 'bond_number':
+				$query = "SELECT dv.bond_number as 'data_item', dv.sac_id FROm bonded_dv_inward dv, sac_request sac WHERE dv.sac_id=sac.sac_id";
+			break;
+			case 'boe':
+				$query = "SELECT dv.sac_id, sac.boe_number as 'data_item' FROM bonded_dv_inward dv, sac_request sac WHERE dv.sac_id=sac.sac_id";
+			break;
+			case 'grn':
+				$query = "SELECT dv.sac_id, grn.grn_id as 'data_item' FROM bonded_dv_inward dv, bonded_good_receipt_note grn WHERE dv.sac_id=grn.sac_id";
+			break;
+		}
+
 		$result = mysqli_query($dbc,$query);
 		if(mysqli_num_rows($result) > 0) {
 			$out = array();
@@ -66,21 +80,12 @@
 
 	function getSelectedDataDetails(){
 		global $dbc;
-		$dvId = $_POST['dv_id'];
-
-		$query = "SELECT sac_id FROM bonded_dv_inward WHERE do_ver_id='$dvId'";
-		$output = array();
-		$result = mysqli_query($dbc,$query);
-		if(mysqli_num_rows($result) > 0) {
-			$row = mysqli_fetch_assoc($result);
-			$sacId = $row['sac_id'];
-			$innerQuery = "SELECT sac_id as 'id', 'sac' as 'table_name', importing_firm_name, licence_code, bol_awb_number, boe_number, material_name, material_nature, packing_nature FROM sac_request WHERE sac_id='$sacId'";
-			$innerResult = mysqli_query($dbc,$innerQuery);
-			if(mysqli_num_rows($innerResult) > 0){
-				$innerRow = mysqli_fetch_assoc($innerResult);
-				$output = array("infocode" => "DATADETAILFETCHSUCCESS", "data" => json_encode($innerRow));
-			}
-			
+		$sacId = $_POST['sac_id'];
+		$innerQuery = "SELECT sac_id as 'id', 'sac' as 'table_name', importing_firm_name, licence_code, bol_awb_number, boe_number, material_name, material_nature, packing_nature FROM sac_request WHERE sac_id='$sacId'";
+		$innerResult = mysqli_query($dbc,$innerQuery);
+		if(mysqli_num_rows($innerResult) > 0){
+			$innerRow = mysqli_fetch_assoc($innerResult);
+			$output = array("infocode" => "DATADETAILFETCHSUCCESS", "data" => json_encode($innerRow));
 		}
 		//file_put_contents("datalog.log", print_r($innerQuery, true ));
 		return $output;

@@ -49,7 +49,20 @@
 	function getBondOrderList(){
 		global $dbc;
 		$type = $_POST['type'];
-		$query = "SELECT bond_number, do_ver_id FROM general_dv_inward";
+
+		switch ($type) {
+			case 'boe':
+				$query = "SELECT dv.par_id, par.boe_number as 'data_item' FROM general_dv_inward dv, pre_arrival_request par WHERE dv.par_id=par.par_id";
+			break;
+			case 'grn':
+				$query = "SELECT dv.par_id, grn.grn_id as 'data_item' FROM general_dv_inward dv, general_good_receipt_note grn WHERE dv.par_id=grn.par_id";
+			break;
+			case 'invoice':
+				$query = "SELECT dv.par_id, par.bol_awb_number as 'data_item' FROM general_dv_inward dv, pre_arrival_request par WHERE dv.par_id=par.par_id";
+			break;
+		}
+
+		// $query = "SELECT dv.bond_number, dv.do_ver_id, dv.par_id FROM general_dv_inward dv, pre_arrival_request par, ";
 		$result = mysqli_query($dbc,$query);
 		if(mysqli_num_rows($result) > 0) {
 			$out = array();
@@ -67,21 +80,12 @@
 
 	function getSelectedDataDetails(){
 		global $dbc;
-		$dvId = $_POST['dv_id'];
-
-		$query = "SELECT par_id FROM general_dv_inward WHERE do_ver_id='$dvId'";
-		$output = array();
-		$result = mysqli_query($dbc,$query);
-		if(mysqli_num_rows($result) > 0) {
-			$row = mysqli_fetch_assoc($result);
-			$parId = $row['par_id'];
-			$innerQuery = "SELECT par_id as 'id', 'par' as 'table_name', importing_firm_name, bol_awb_number, boe_number, material_name, material_nature, packing_nature FROM pre_arrival_request WHERE par_id='$parId'";
-			$innerResult = mysqli_query($dbc,$innerQuery);
-			if(mysqli_num_rows($innerResult) > 0){
-				$innerRow = mysqli_fetch_assoc($innerResult);
-				$output = array("infocode" => "DATADETAILFETCHSUCCESS", "data" => json_encode($innerRow));
-			}
-			
+		$parId = $_POST['par_id'];
+		$innerQuery = "SELECT par_id as 'id', 'par' as 'table_name', importing_firm_name, bol_awb_number, boe_number, material_name, material_nature, packing_nature FROM pre_arrival_request WHERE par_id='$parId'";
+		$innerResult = mysqli_query($dbc,$innerQuery);
+		if(mysqli_num_rows($innerResult) > 0){
+			$innerRow = mysqli_fetch_assoc($innerResult);
+			$output = array("infocode" => "DATADETAILFETCHSUCCESS", "data" => json_encode($innerRow));
 		}
 		//file_put_contents("datalog.log", print_r($innerQuery, true ));
 		return $output;

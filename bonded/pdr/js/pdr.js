@@ -5,21 +5,22 @@ function changeLabelText(){
 	var selectType = $('#select_by_type').val();
 	switch (selectType) {
 		//for column name
-		case 'boe_number':
+		case 'bond_number':
+			$('#fetch_by_label').html('Bond Number');
+		break;
+		case 'boe':
 			$('#fetch_by_label').html('BOE Number');
 		break;
 		case 'grn':
 			$('#fetch_by_label').html('GRN');
-		break;
-		case 'invoice':
-			$('#fetch_by_label').html('Invoice');
 		break;
 	}
 }
 
 function getBondOrderList(){
 	$('#data_fetch_message').html('');
-	var data = "&action=get_bond_order_list";
+	var type = $('#select_by_type').val();
+	var data = "type=" + type + "&action=get_bond_order_list";
 	
 	$.ajax({
 		url: "pdr-services.php",
@@ -31,10 +32,21 @@ function getBondOrderList(){
 				var viewListData = result.data;
 				var dp = '';
 				for(c=0;c<viewListData.length;c++){
-					dp += '<tr><td>'+(c+1)+'</td><td>'+viewListData[c].bond_number+'</td><td><button class="btn btn-primary" type="button" onclick="getDataDetails(\''+viewListData[c].do_ver_id+'\',\''+viewListData[c].bond_number+'\');">Select</button></td></tr>';
+					dp += '<tr><td>'+(c+1)+'</td><td>'+viewListData[c].data_item+'</td><td><button class="btn btn-primary" type="button" onclick="getDataDetails(\''+viewListData[c].sac_id+'\',\''+viewListData[c].data_item+'\');">Select</button></td></tr>';
 				}
 				$('#datalist_tbody').html(dp);
 				$('#view_list_modal').modal('show');
+				switch(type){
+					case 'bond_number':
+						$('#type_th').html('Bond Number');
+					break;
+					case 'boe':
+						$('#type_th').html('BOE Number');
+					break;
+					case 'grn':
+						$('#type_th').html('GRN ID');
+					break;
+				}
 			}else{
 				$('#datalist_tbody').html('<tr><td colspan="3">There are no complted job orders waiting to be processed.</td></tr>');
 				$('#view_list_modal').modal('show');
@@ -44,14 +56,14 @@ function getBondOrderList(){
 	});
 }
 
-function getDataDetails(dvId, bondNumber){
+function getDataDetails(sacId, dataItemVal){
 	//alert('data req');
-	$('#bond_number').val(bondNumber);
+	$('#data_item_val').val(dataItemVal);
 	$('#view_list_modal').modal('hide');
 	$('#data_fetch_message').html('Data fetched successfully').fadeIn(400).fadeOut(2000);
-	$('#ju_id').val(dvId);
+	$('#ju_id').val(sacId);
 	var selectType = $('#select_by_type').val();
-	var data = 'dv_id=' + dvId + '&action=get_selected_data_details';
+	var data = 'sac_id=' + sacId + '&action=get_selected_data_details';
 	//alert(data)
 	$.ajax({
 		url: "pdr-services.php",
