@@ -22,7 +22,7 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="importing_firm_name">Name of the Importing Firm</label>
+                  <label for="importing_firm_name">Name of the Importer</label>
                   <input type="text" tabindex="1" class="form-control required" id="importing_firm_name" name="importing_firm_name" placeholder="Name of the importing firm">
                 </div>
                 <div class="form-group">
