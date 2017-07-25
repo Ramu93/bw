@@ -164,6 +164,11 @@
           </ul>
         </li>
         <li class="treeview">
+          <a href="<?php echo HOMEURL; ?>/gdn/gdn-list-view.php">
+            <i class="fa fa-support"></i> <span>GDN</span>
+          </a>
+        </li>
+        <li class="treeview">
           <a href="#">
             <i class="fa fa-truck"></i> <span>Gatepass Outward</span>
             <span class="pull-right-container">

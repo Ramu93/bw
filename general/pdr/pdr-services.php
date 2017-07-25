@@ -126,7 +126,7 @@
 
 	function createPDR(){
 		global $dbc;
-		$bondNumber = mysqli_real_escape_string($dbc, $_POST['bond_number']);
+		//$bondNumber = mysqli_real_escape_string($dbc, $_POST['bond_number']);
 		$parId = mysqli_real_escape_string($dbc, $_POST['par_id']);
 		//$clientWeb = mysqli_real_escape_string($dbc, $_POST['client_web']);
 		$chaName = mysqli_real_escape_string($dbc, $_POST['cha_name_exporter']);
@@ -144,7 +144,7 @@
   		$itemData = json_decode(json_encode($itemObject), True);
 		//file_put_contents("datalog.log", print_r($itemData, true ));
 
-  		$query = "INSERT INTO general_despatch_request (bond_number, par_id, cha_name, order_number, boe_number, exbond_be_number, exbond_be_date, customs_officer_name, number_of_packages, assessment_value, duty_value, transporter_name) VALUES ('$bondNumber', '$parId', '$chaName', '$orderNumber', '$boeNumber', '$exBondBeNumber', '$exBondBeDate', '$customsOfficerName', '$numberOfPackages', '$assessmentValue', '$dutyValue', '$transporterName')";
+  		$query = "INSERT INTO general_despatch_request (par_id, cha_name, order_number, boe_number, exbond_be_number, exbond_be_date, customs_officer_name, number_of_packages, assessment_value, duty_value, transporter_name) VALUES ('$parId', '$chaName', '$orderNumber', '$boeNumber', '$exBondBeNumber', '$exBondBeDate', '$customsOfficerName', '$numberOfPackages', '$assessmentValue', '$dutyValue', '$transporterName')";
 		// file_put_contents("querylog.log", print_r($query, true ));
   		if(mysqli_query($dbc, $query)){
   			$lastPdrId = mysqli_insert_id($dbc);
@@ -160,11 +160,19 @@
   					mysqli_query($dbc, $itemQuery);
   				}
   			}
+  			//ad entry in general_good_delivery_note
+  			addGDNEntry($lastPdrId);
   			$output = array("infocode" => "CREATEPDRSUCCESS", "message" => "PDR successfully created.");
   		} else {
   			$output = array("infocode" => "CREATEPDRFAILURE", "message" => "PDR not created successfully.");
   		}
   		return $output;
+	}
+
+	function addGDNEntry($pdrId){
+		global $dbc;
+		$query = "INSERT INTO general_good_delivery_note (pdr_id) VALUES ('$pdrId')";
+		mysqli_query($dbc, $query);
 	}
 
 	function updatePDR(){
