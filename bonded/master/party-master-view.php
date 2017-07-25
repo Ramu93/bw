@@ -21,7 +21,8 @@
           <table id="party_table" class="table table-bordered table-striped">
             <thead>
             <tr>
-              <th>Customer Name</th>
+              <th>Party Name</th>
+              <th>Party Type</th>
               <th>City</th>
               <th>State</th>
               <th>Primary Contact</th>
@@ -42,6 +43,7 @@
                   while ($row = mysqli_fetch_assoc($result)) {
                     echo '<tr>';
                       echo '<td>'.$row['pm_customerName'].'</td>';
+                      echo '<td>'.$row['pm_type'].'</td>';
                       echo '<td>'.$row['pm_cityTown'].'</td>';
                       echo '<td>'.$row['pm_state'].'</td>';
                       echo '<td>'.$row['pm_primaryContact'].'</td>';
