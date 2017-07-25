@@ -156,6 +156,7 @@ function addItem(){
 					getItems();
 					$('#item_name').val('');
 					$('#item_type').val('');
+					$('#item_added_message').html('Item added successfully').fadeIn(400).fadeOut(3000);
 				}
 			},
 			error: function(){

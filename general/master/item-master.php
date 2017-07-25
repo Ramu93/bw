@@ -23,6 +23,9 @@
               <div class="col-md-4 col-sm-4">
                 <input type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#add_item_modal" value="Add Item">
               </div>
+              <div class="col-md-4 col-sm-4">
+                <span id="item_added_message" style="color: red;"></span>
+              </div>
             </div>
           </form>
           <br />
