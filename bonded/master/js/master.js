@@ -342,19 +342,6 @@ function deleteTariff(tariffId){
 	});
 }
 
-function changePartyType(patryType){
-	if(patryType == 'serviceprovider'){
-		$('#sp_div').show();
-		$('#sp_div2').hide();
-	}else if(patryType == 'principalclient'){
-		$('#sp_div2').show();
-		$('#sp_div').hide();
-	}else{
-		$('#sp_div').hide();
-		$('#sp_div2').hide();
-	}
-}
-
 function addParty(){
 	if($('#add_party_form').valid()){
 		var data = $('#add_party_form').serialize() + '&action=add_party';
@@ -366,7 +353,9 @@ function addParty(){
 			dataType: 'json',
 			success: function(result){
 				if(result.infocode == 'INSERTSUCCESSFULLY'){
-					$('#add_party_form')[0].reset();
+					bootbox.alert('New party added successfully.', function(){
+						$('#add_party_form')[0].reset();
+					});
 				} else {
 					bootbox.alert(result.message);
 				}

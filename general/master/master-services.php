@@ -226,7 +226,7 @@
 		$pm_uuid = sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535)).'-'.time();
 		$pm_customerName = mysqli_real_escape_string($dbc, trim($_POST['pm_customerName']));
 		$pm_type = mysqli_real_escape_string($dbc, trim($_POST['partytype']));
-		$pm_subtype = mysqli_real_escape_string($dbc, trim($_POST['partytype_sp']));
+		//$pm_subtype = mysqli_real_escape_string($dbc, trim($_POST['partytype_sp']));
 		$pm_address1 = mysqli_real_escape_string($dbc,trim($_POST['pm_address1']));
 		$pm_address2 = mysqli_real_escape_string($dbc,trim($_POST['pm_address2']));
 		$pm_cityTown = mysqli_real_escape_string($dbc,trim($_POST['pm_cityTown']));
@@ -259,7 +259,7 @@
 		if(mysqli_num_rows($result1)>0){
 			$output = array("infocode" => "CUSTOMEREXIST", "message" => "Customer Name already exists, please choose a different name!");
 		}else{
-			$query = "INSERT INTO party_master(pm_uuid,pm_customerName,pm_type,pm_subtype,pm_address1,pm_address2,pm_cityTown,pm_state,pm_pin,pm_landline,pm_fax,pm_sales,pm_servicesTax,pm_licence,pm_tan,pm_pan,pm_inactive,pm_primaryContact,pm_primaryContactMobile,pm_primaryContactEmail,pm_secondaryContact,pm_secondaryContactMobile,pm_secondaryContactEmail,pm_tertiaryContact,pm_tertiaryContactMobile,pm_tertiaryContactEmail,pm_ccd,pm_ccLimit,pm_ccBalance) VALUES('$pm_uuid','$pm_customerName','$pm_type','$pm_subtype','$pm_address1','$pm_address2','$pm_cityTown','$pm_state','$pm_pin','$pm_landline','$pm_fax','$pm_sales','$pm_servicesTax','$pm_licence','$pm_tan','$pm_pan','$pm_inactive','$pm_primaryContact','$pm_primaryContactMobile','$pm_primaryContactEmail','$pm_secondaryContact','$pm_secondaryContactMobile','$pm_secondaryContactEmail','$pm_tertiaryContact','$pm_tertiaryContactMobile','$pm_tertiaryContactEmail','$pm_ccd','$pm_ccLimit','$pm_ccBalance')";
+			$query = "INSERT INTO party_master(pm_uuid,pm_customerName,pm_type,pm_address1,pm_address2,pm_cityTown,pm_state,pm_pin,pm_landline,pm_fax,pm_sales,pm_servicesTax,pm_licence,pm_tan,pm_pan,pm_inactive,pm_primaryContact,pm_primaryContactMobile,pm_primaryContactEmail,pm_secondaryContact,pm_secondaryContactMobile,pm_secondaryContactEmail,pm_tertiaryContact,pm_tertiaryContactMobile,pm_tertiaryContactEmail,pm_ccd,pm_ccLimit,pm_ccBalance) VALUES('$pm_uuid','$pm_customerName','$pm_type','$pm_address1','$pm_address2','$pm_cityTown','$pm_state','$pm_pin','$pm_landline','$pm_fax','$pm_sales','$pm_servicesTax','$pm_licence','$pm_tan','$pm_pan','$pm_inactive','$pm_primaryContact','$pm_primaryContactMobile','$pm_primaryContactEmail','$pm_secondaryContact','$pm_secondaryContactMobile','$pm_secondaryContactEmail','$pm_tertiaryContact','$pm_tertiaryContactMobile','$pm_tertiaryContactEmail','$pm_ccd','$pm_ccLimit','$pm_ccBalance')";
 			//file_put_contents("querylog.log", print_r(json_encode($query), true ));
 			$result = mysqli_query($dbc,$query);
 			if($result) {

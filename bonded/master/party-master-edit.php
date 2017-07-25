@@ -38,26 +38,10 @@
             <div class="form-group col-lg-6 col-md-6 col-sm-6">
                 <label for="im_type">Party Type : </label>
                   <div class="checkbox">
-                  <label><input type="radio" name="partytype" value="customer" checked="checked" onclick="changepartytype('customer');"> Customer</label>
+                  <label><input type="radio" name="partytype" value="customer" checked="checked"> Customer</label>
                 </div>
                 <div class="checkbox">
-                  <label><input type="radio" name="partytype" value="serviceprovider" onclick="changepartytype('serviceprovider');"> Service Provider</label>
-                </div>
-                <div id="sp_div" class="col-lg-12 col-md-12 col-sm-12 col-md-offset-1" style="display:none;">
-                  <div class="checkbox">
-                    <label><input type="radio" name="partytype_sp" value="chcagent" checked="checked"> Customs House Clearing Agent</label>
-                  </div>
-                  <div class="checkbox">
-                    <label><input type="radio" name="partytype_sp" value="generalagent"> General Agent</label>
-                  </div>
-                </div>
-                <div class="checkbox">
-                  <label><input type="radio" name="partytype" value="principalclient" onclick="changepartytype('principalclient');"> Principal Client</label>
-                </div>
-                <div id="sp_div2" class="col-lg-8 col-md-8 col-sm-6 col-md-offset-1" style="display:none;">
-                  <div class="checkbox">
-                    <label><input type="text" class="form-control required" id="customer_parent" name="customer_parent" placeholder="Parent Customer"></label>
-                  </div>
+                  <label><input type="radio" name="partytype" value="customer"> CHA</label>
                 </div>
               </div>
               <div class="form-group col-lg-6 col-md-6 col-sm-6">
@@ -214,7 +198,6 @@
       $('#edit_party_master').validate({
         errorClass: "my-error-class"
       });
-      $('#pm_form').validate();
       $('#pm_inactive').datepicker({dateFormat: 'yy-mm-dd'});
     });
   </script>
