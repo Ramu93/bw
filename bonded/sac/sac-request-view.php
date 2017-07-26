@@ -24,8 +24,8 @@
               <tr>
                 <th>S. No.</th>
                 <th>SAC ID</th>
-                <th>Importing Firm Name</th>
-                <th>Assessable Value</th>
+                <th>Importing Firm</th>
+                <th>CHA</th>
                 <th>Quantity in Units</th>
                 <th>Space Requirement</th>
                 <th>Expected Date of Warehousing</th>
@@ -44,7 +44,7 @@
                     echo "<td>".++$row_counter."</td>";
                     echo "<td>".$row['sac_id']."</td>";
                     echo "<td>".$row['importing_firm_name']."</td>";
-                    echo "<td>".$row['assessable_value']."</td>";
+                    echo "<td>".$row['cha_name']."</td>";
                     echo "<td>".$row['qty_units']."</td>";
                     echo "<td>".$row['space_requirement']."</td>";
                     echo "<td>".$row['expected_date']."</td>";

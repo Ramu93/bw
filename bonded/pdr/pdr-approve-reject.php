@@ -50,47 +50,47 @@
               </div>
               <div class="form-group col-md-4">
                 <label for="order_number">CHA Name/Exporter</label>
-                <input type="text" class="form-control" id="cha_name_exporter" name="cha_name_exporter" value="<?php echo $out['cha_name']; ?>" placeholder="CHA Name/Exporter">
+                <input type="text" class="form-control required autofillparty" id="cha_name_exporter" name="cha_name_exporter" value="<?php echo $out['cha_name']; ?>" placeholder="CHA Name/Exporter">
               </div>
               <div class="form-group col-md-4">
                 <label for="order_number">Order Number</label>
-                <input type="text" class="form-control" id="order_number" value="<?php echo $out['order_number']; ?>" name="order_number" placeholder="Order Number">
+                <input type="text" class="form-control required" id="order_number" value="<?php echo $out['order_number']; ?>" name="order_number" placeholder="Order Number">
               </div>
             </div>
             <div class="row">
               <div class="form-group col-md-3">
                 <label for="boe_number">Warehouse BOE Number</label>
-                <input type="text" value="<?php echo $out['boe_number']; ?>" class="form-control" id="boe_number" name="boe_number" placeholder="BOE Number">
+                <input type="text" value="<?php echo $out['boe_number']; ?>" class="form-control required" id="boe_number" name="boe_number" placeholder="BOE Number">
               </div>
               <div class="form-group col-md-3">
                 <label for="exbond_be_number">EXBond BE Number</label>
-                <input type="text" class="form-control" value="<?php echo $out['exbond_be_number']; ?>" id="exbond_be_number" name="exbond_be_number" placeholder="EXBond BE Number">
+                <input type="text" class="form-control required" value="<?php echo $out['exbond_be_number']; ?>" id="exbond_be_number" name="exbond_be_number" placeholder="EXBond BE Number">
               </div>
               <div class="form-group col-md-3">
                 <label for="exbond_be_date">EXBond BE Date</label>
-                <input type="text" class="form-control" id="exbond_be_date" value="<?php echo $out['exbond_be_date']; ?>" name="exbond_be_date" placeholder="EXBond BE Date">
+                <input type="text" class="form-control required" id="exbond_be_date" value="<?php echo $out['exbond_be_date']; ?>" name="exbond_be_date" placeholder="EXBond BE Date">
               </div>
               <div class="form-group col-md-3">
                 <label for="customs_officer_name">Customer Officer Name</label>
-                <input type="text" class="form-control" id="customs_officer_name" name="customs_officer_name" value="<?php echo $out['customs_officer_name']; ?>" placeholder="Customer Officer Name">
+                <input type="text" class="form-control required" id="customs_officer_name" name="customs_officer_name" value="<?php echo $out['customs_officer_name']; ?>" placeholder="Customer Officer Name">
               </div>
             </div>
             <div class="row">
               <div class="form-group col-md-3">
                 <label for="packages_number">Number of Packages</label>
-                <input type="text" class="form-control" id="packages_number" value="<?php echo $out['number_of_packages']; ?>" name="packages_number" placeholder="Number of Packages">
+                <input type="text" class="form-control required" id="packages_number" value="<?php echo $out['number_of_packages']; ?>" name="packages_number" placeholder="Number of Packages">
               </div>
               <div class="form-group col-md-3">
                 <label for="assessment_value">Assessment Value</label>
-                <input type="text" class="form-control" id="assessment_value" value="<?php echo $out['assessment_value']; ?>" name="assessment_value" placeholder="Assessment Value">
+                <input type="text" class="form-control required" id="assessment_value" value="<?php echo $out['assessment_value']; ?>" name="assessment_value" placeholder="Assessment Value">
               </div>
               <div class="form-group col-md-3">
                 <label for="duty_value">Duty Value</label>
-                <input type="text" class="form-control" value="<?php echo $out['duty_value']; ?>" id="duty_value" name="duty_value" placeholder="Duty Value">
+                <input type="text" class="form-control required" value="<?php echo $out['duty_value']; ?>" id="duty_value" name="duty_value" placeholder="Duty Value">
               </div>
               <div class="form-group col-md-3">
                 <label for="transporter_name">Transporter Name</label>
-                <input type="text" class="form-control" value="<?php echo $out['transporter_name']; ?>" id="transporter_name" name="transporter_name" placeholder="Transporter Name">
+                <input type="text" class="form-control required" value="<?php echo $out['transporter_name']; ?>" id="transporter_name" name="transporter_name" placeholder="Transporter Name">
               </div>
             </div>
             <div class="row">
@@ -177,6 +177,20 @@
     }
 
     var isEditPage = false;// used to redirect to pdr-apprvoe-reject-view.php when update method is called
+
+    $('.autofillparty').autocomplete({
+      source : "auto-complete-services.php?action=fetch_party_info",
+      minLength : 2,
+      select : function(event, ui) {
+              
+              if(ui.item.value == "No customers found"){
+                event.preventDefault();
+                // $('#customer_name').val('');
+                console.log('s');
+              }else{
+              }
+          },
+    });
 
   </script>
   <?php

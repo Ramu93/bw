@@ -23,7 +23,7 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="importing_firm_name">Name of the Importer</label>
-                  <input type="text" tabindex="1" class="form-control required" id="importing_firm_name" name="importing_firm_name" placeholder="Name of the importing firm">
+                  <input type="text" tabindex="1" class="form-control required autofillparty" id="importing_firm_name" name="importing_firm_name" placeholder="Name of the importing firm">
                 </div>
                 <div class="form-group">
                   <label for="bol_awb_no">BOL/AWB Number</label>
@@ -65,7 +65,7 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="importing_firm_name">Name of the CHA</label>
-                  <input type="text" tabindex="1" class="form-control required" id="cha_name" name="cha_name" placeholder="Name of the CHA">
+                  <input type="text" tabindex="1" class="form-control required autofillparty" id="cha_name" name="cha_name" placeholder="Name of the CHA">
                 </div>
                 
                 <div class="form-group">
@@ -269,6 +269,21 @@
               containerSpinner();
           }
     });
+
+    $('.autofillparty').autocomplete({
+      source : "auto-complete-services.php?action=fetch_party_info",
+      minLength : 2,
+      select : function(event, ui) {
+              
+              if(ui.item.value == "No customers found"){
+                event.preventDefault();
+                // $('#customer_name').val('');
+                console.log('s');
+              }else{
+              }
+          },
+    });
+
   </script>
   <?php
     include('../footer.php');
