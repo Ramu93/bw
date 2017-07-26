@@ -46,24 +46,5 @@ function fetchPartyInfo() {
 	return $output;
 }
 
-function fetchagentdetails() {
-    global $dbc;$output=array();
-    $searchterm = mysqli_real_escape_string($dbc, trim($_GET['term']));
-    $query = "SELECT * FROM wh_PartyMaster WHERE pm_customerName LIKE '%$searchterm%' AND pm_type = 'serviceprovider'";
-	$result = mysqli_query($dbc,$query);
-	if(mysqli_num_rows($result) > 0) {
-		$out = array();
-		while($row = mysqli_fetch_assoc($result)) {
-			$output[] = array( "uuid" => $row['pm_uuid'],
-							"value" => $row['pm_customerName'],
-							"label" => $row['pm_customerName']);
-		}
-		//$output = array("infocode" => "PARFETCHSUCCESS", "data" => $out);
-	}
-	else {
-		$output = array( "value" => "No Agents found");
-	}
-	return $output;
-}
 
 ?>
