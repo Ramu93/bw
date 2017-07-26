@@ -62,7 +62,7 @@
               </div> -->
               <div class="form-group col-md-4">
                 <label for="order_number">CHA Name/Exporter</label>
-                <input type="text" class="form-control" id="cha_name_exporter" name="cha_name_exporter" placeholder="CHA Name/Exporter">
+                <input type="text" class="form-control required autofillparty" id="cha_name_exporter" name="cha_name_exporter" placeholder="CHA Name/Exporter">
               </div>
               <div class="form-group col-md-4">
                 <label for="order_number">Order Number</label>
@@ -211,6 +211,20 @@
     $('#select_by_type').on('change', function() {
       changeLabelText();
     })
+
+    $('.autofillparty').autocomplete({
+      source : "auto-complete-services.php?action=fetch_party_info",
+      minLength : 2,
+      select : function(event, ui) {
+              
+              if(ui.item.value == "No customers found"){
+                event.preventDefault();
+                // $('#customer_name').val('');
+                console.log('s');
+              }else{
+              }
+          },
+    });
   </script>
   <?php
     include('../footer.php');
