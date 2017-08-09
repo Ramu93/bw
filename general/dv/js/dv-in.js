@@ -2,7 +2,7 @@ var g_rowcount=2;
 var g_snocount=2;
 var g_itemslist = new Array;
 var additem_template = '<tr id="[trid]"><td><span class="td_sno">[sno]</span></td>\
-							<td><input type="text" name="item_name[]" placeholder="" class="form-control auto-itemname" autocomplete="on" value=""></td>\
+							<td><input type="text" name="item_name[]" placeholder="" class="form-control autofillitem" value=""></td>\
 							<td><input type="text" name="item_qty[]" placeholder="" class="form-control" value=""></td>\
 							<td><input type="text" name="assessabe_value[]" placeholder="" class="form-control" value=""></td>\
 							<td><input type="text" name="duty_value[]" placeholder="" class="form-control" value=""></td>\
@@ -194,7 +194,7 @@ function refreshsnocount(){
 }
 
 function bindAutocomplete(classname){
-	$('.auto-itemname').autocomplete({
+	$('.autofillitem').autocomplete({
 		source : "auto-complete-services.php?action=fetch_item_details&type=itemname",
 		minLength : 2,
 		select : function(event, ui) {

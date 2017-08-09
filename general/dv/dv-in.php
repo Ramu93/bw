@@ -171,7 +171,7 @@
                         <tr id="itemtr_1">
                           <td><span class="td_sno">1</span></td>
 
-                          <td><input type="text" id="item_name" name="item_name[]" placeholder="" class="form-control auto-itemname" value="" autocomplete="on"></td>
+                          <td><input type="text" id="item_name" name="item_name[]" placeholder="" class="form-control autofillitem" value="" autocomplete="on"></td>
 
                           <td><input type="text" name="item_qty[]" placeholder="" class="form-control" value=""></td>
 
@@ -247,6 +247,24 @@
       autoclose: true,
       dateFormat: "yy-mm-dd",
     });
+
+    $('.autofillitem').autocomplete({
+      source : "auto-complete-services.php?action=fetch_item_details",
+      minLength : 2,
+      select : function(event, ui) {
+              
+            if(ui.item.value == "No items found"){
+              event.preventDefault();
+            }else{
+              var id = $(event.target).attr('id');
+              origid = id.split('_');
+              id = origid[1];
+              alert(id);
+              //$('#itemcode_'+id).val(ui.item.item_master_id);
+            }
+          },
+    });
+
   });
 </script>
 <?php
