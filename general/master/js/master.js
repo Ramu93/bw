@@ -249,10 +249,9 @@ function displayTariffs(tariffData){
 
 			dp += '<tr>';
 				dp += '<td>'+ (parseInt(index)+1) +'</td>';
-				dp += '<td>'+tariff.service_name+'</td>';
+				dp += '<td>'+tariff.unit+'</td>';
+				dp += '<td>'+tariff.price_per_unit+'</td>';
 				dp += '<td>'+tariff.service_type+'</td>';
-				dp += '<td>'+tariff.storage_unit+'</td>';
-				dp += '<td>'+tariff.base_tariff+'</td>';
 				dp += '<td><input type="button" onclick="openEditTariffModal('+index+')" class="btn btn-primary" value="Edit" /> <input type="button" onclick="deleteTariff('+tariff.tariff_master_id+')" class="btn btn-danger" value="Delete"/></td>'
 			dp += '</tr>';
 		});
@@ -274,7 +273,7 @@ function addTariff(){
 					//reset gTariff array
 					gTariff = new Array;
 					getTariffs();
-					$('#service_name').val('');
+					$('#unit').val('');
 					$('#service_type').val('');
 					$('#storage_unit').val('');
 					$('#rate').val('');
@@ -290,10 +289,9 @@ function addTariff(){
 function openEditTariffModal(index){
 	//var gTariff = JSON.parse(tariffString);
 	$('#tariff_id_hidden').val(gTariff[index].tariff_master_id);
-	$('#edit_service_name').val(gTariff[index].service_name);
+	$('#edit_unit').val(gTariff[index].unit);
 	$('#edit_service_type').val(gTariff[index].service_type);
-	$('#edit_storage_unit').val(gTariff[index].storage_unit);
-	$('#edit_rate').val(gTariff[index].base_tariff);
+	$('#edit_price_per_unit').val(gTariff[index].price_per_unit);
 	$('#edit_tariff_modal').modal();
 }
 

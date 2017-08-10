@@ -179,11 +179,10 @@
 
 	function addTariff(){
 		global $dbc;
-		$serviceName = mysqli_real_escape_string($dbc, trim($_POST['service_name']));
+		$unit = mysqli_real_escape_string($dbc, trim($_POST['unit']));
 		$serviceType = mysqli_real_escape_string($dbc, trim($_POST['service_type']));
-		$storageUnit = mysqli_real_escape_string($dbc, trim($_POST['storage_unit']));
-		$baseTariff = mysqli_real_escape_string($dbc, trim($_POST['rate']));
-		$query = "INSERT INTO tariff_master (service_name, service_type, storage_unit, base_tariff) VALUES ('$serviceName', '$serviceType', '$storageUnit', '$baseTariff')";
+		$pricePerUnit = mysqli_real_escape_string($dbc, trim($_POST['price_per_unit']));
+		$query = "INSERT INTO tariff_master (unit, service_type, price_per_unit) VALUES ('$unit', '$serviceType', '$pricePerUnit')";
 		//file_put_contents("querylog.log", print_r( $query, true ));
 
 		if(mysqli_query($dbc, $query)){
@@ -196,11 +195,10 @@
 	function editTariff(){
 		global $dbc;
 		$tariffMasterId = mysqli_real_escape_string($dbc, trim($_POST['tariff_id_hidden']));
-		$serviceName = mysqli_real_escape_string($dbc, trim($_POST['edit_service_name']));
+		$unit = mysqli_real_escape_string($dbc, trim($_POST['edit_unit']));
 		$serviceType = mysqli_real_escape_string($dbc, trim($_POST['edit_service_type']));
-		$storageUnit = mysqli_real_escape_string($dbc, trim($_POST['edit_storage_unit']));
-		$baseTariff = mysqli_real_escape_string($dbc, trim($_POST['edit_rate']));
-		$query = "UPDATE tariff_master SET service_name='$serviceName', service_type='$serviceType', storage_unit='$storageUnit', base_tariff='$baseTariff' WHERE tariff_master_id='$tariffMasterId'";
+		$pricePerUnit = mysqli_real_escape_string($dbc, trim($_POST['edit_price_per_unit']));
+		$query = "UPDATE tariff_master SET unit='$unit', service_type='$serviceType', price_per_unit='$pricePerUnit' WHERE tariff_master_id='$tariffMasterId'";
 		//file_put_contents("querylog.log", print_r( $query, true ));
 
 		if(mysqli_query($dbc, $query)){
