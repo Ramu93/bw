@@ -1,8 +1,8 @@
 <?php
 	require('../dbconfig.php'); 
-	require('../dbconfig_pdo.php'); 
-	require('../dbwrapper.php');
+	require('../dbconfig_pdo.php');
 	require('../formwrapper.php');
+	require('../dbwrapper_mysqli.php');
 
 	define('RAISE_EXCEPTION_STATUS', 'exception');
 	define('EXCEPTION_CLOSE_STATUS','exceptioncomplete');
@@ -12,7 +12,7 @@
 	define('IGP_JOB_ORDER_COMPLETE', 'joborder_completed');
 	define('EXCEPTION_FILE_COPY_PATH', 'exception_images/');
 
-	$db = new DBWrapper($dbobj);
+	$db = new DBWrapper($dbc);
 	$form = new FormWrapper();
 
 	$finaloutput = array();
@@ -57,14 +57,18 @@
 		$jobOrderUnloadingFormArray = array("par_id"=>"par_id", "weight"=>"weight", "no_of_packages"=>"no_of_packages", "description"=>"description", "supervisor_name"=>"supervisor_name", "unloading_type"=>"unloading_type", "equipment_ref_number"=>"equipment_ref_number", "no_of_labors"=>"no_of_labors", "unloading_time"=>"unloading_time", "dimension"=>"dimension");
 		$jobOrderUnloadingFormArray = $form->getFormValues($jobOrderUnloadingFormArray,$_POST);
 		//file_put_contents("formlog.log", print_r( $_POST, true ));
-    	$db->insertOperation('general_joborder_unloading',$jobOrderUnloadingFormArray);
+    	$result = $db->insertOperation('general_joborder_unloading',$jobOrderUnloadingFormArray);
     	// $parlogarray = array("par_id" => $parId, "status_to" => 'Submitted', "remarks" => "Waiting for Approval");
     	// $db->insertOperation('par_log',$parlogarray);
-    	return array("status"=>"Success","message"=>"Job order created successfully.");
+    	if($result['status'] == 'success'){
+    		return array("status"=>"Success","message"=>"Job order created successfully.");    	
+    	} else {
+    		return array("status"=>"failure","message"=>"Job order not created successfully.");
+    	}
 	}
 
 	function raiseException(){
-		global $db,$form;
+		global $db,$form, $dbc;
     	
     	$raiseExceptionFormArray = array("exception_subtype"=>"exception_subtype", "exception_remarks"=>"exception_remarks");
 	   	$raiseExceptionFormArray = $form->getFormValues($raiseExceptionFormArray,$_POST);
@@ -81,59 +85,88 @@
     	}
 
 	   	
-	    $db->insertOperation('general_exception',$raiseExceptionFormArray);
+	    $result = $db->insertOperation('general_exception',$raiseExceptionFormArray);
 
-	    $wherearray = array('condition'=>'ju_id = :ju_id', 'param'=>':ju_id', 'value'=>$_POST['ju_id']);
-	    //change to last inser id for exception id
-	    $db->updateOperation('general_joborder_unloading',array('status'=>RAISE_EXCEPTION_STATUS, 'exception_id'=>'1'),$wherearray);
+	    if($result['status'] == 'success'){
+	    	$lastInsertExceptionId = $result['last_insert_id'];
+	    	
+	    	$query = "UPDATE general_joborder_unloading SET status='".RAISE_EXCEPTION_STATUS."', exception_id='$lastInsertExceptionId' WHERE ju_id='".$_POST['ju_id']."'";
+	    	if(mysqli_query($dbc, $query)){
+	    		return array("infocode"=>"RAISEEXCEPTIONSUCCESS","message"=>"Exception raised successfully");	
+	    	}
+	    }
 
-	    return array("infocode"=>"RAISEEXCEPTIONSUCCESS","message"=>"Exception raised successfully");
+	    // $wherearray = array('condition'=>'ju_id = :ju_id', 'param'=>':ju_id', 'value'=>$_POST['ju_id']);
+	    // //change to last inser id for exception id
+	    // $db->updateOperation('general_joborder_unloading',array('status'=>RAISE_EXCEPTION_STATUS, 'exception_id'=>'1'),$wherearray);
+
+	    //return array("infocode"=>"RAISEEXCEPTIONSUCCESS","message"=>"Exception raised successfully");
 	}
 
 	function closeException(){
-		global $db;
+		global $dbc;
 		$exceptionId = $_POST['exception_id'];
 		$exceptionClosingRemarks = $_POST['exception_closingremarks'];
-		$wherearray = array('condition'=>'exception_id = :exception_id', 'param'=>':exception_id', 'value'=>$exceptionId);
-	    $db->updateOperation('general_exception',array('exception_closingremarks'=>$exceptionClosingRemarks, 'exception_status'=>CLOSE_EXCEPTION_STATUS, 'end_time'=>date("Y-m-d H:i:s")),$wherearray);
+		// $wherearray = array('condition'=>'exception_id = :exception_id', 'param'=>':exception_id', 'value'=>$exceptionId);
+	    // $db->updateOperation('general_exception',array('exception_closingremarks'=>$exceptionClosingRemarks, 'exception_status'=>CLOSE_EXCEPTION_STATUS, 'end_time'=>date("Y-m-d H:i:s")),$wherearray);
 
-	    $wherearray = array('condition'=>'ju_id = :ju_id', 'param'=>':ju_id', 'value'=>$_POST['ju_id']);
-	    $db->updateOperation('general_joborder_unloading',array('status'=>EXCEPTION_CLOSE_STATUS),$wherearray);
+	    // $wherearray = array('condition'=>'ju_id = :ju_id', 'param'=>':ju_id', 'value'=>$_POST['ju_id']);
+	    // $db->updateOperation('general_joborder_unloading',array('status'=>EXCEPTION_CLOSE_STATUS),$wherearray);
 
-	    return array("infocode"=>"CLOSEEXCEPTIONSUCCESS","message"=>"Exception closed successfully");
+	    // return array("infocode"=>"CLOSEEXCEPTIONSUCCESS","message"=>"Exception closed successfully");
+	    $query = "UPDATE general_exception SET exception_closingremarks='$exceptionClosingRemarks', exception_status='".CLOSE_EXCEPTION_STATUS."', end_time='".date("Y-m-d H:i:s")."' WHERE exception_id='$exceptionId'";
+		if(mysqli_query($dbc, $query)){
+			$query = "UPDATE general_joborder_unloading SET status='".EXCEPTION_CLOSE_STATUS."' WHERE ju_id='".$_POST['ju_id']."'";
+	    	if(mysqli_query($dbc, $query)){
+	    		return array("infocode"=>"CLOSEEXCEPTIONSUCCESS","message"=>"Exception closed successfully");	
+	    	} else {
+	    		return array("infocode"=>"CLOSEEXCEPTIONFAILURE","message"=>"Exception closing FAILURE");
+	    	}
+		}
 	}
 
 	function rejectJobOrder() {
-	    global $db,$form;
+	    global $dbc;
 	    
 	    $juId = $_POST['ju_id'];
 	    //TODO add exception type in where
 	    // $wherearray = array('condition'=>'par_uuid = :par_uuid', 'param'=>':par_uuid', 'value'=>$par_uuid);
 	    // $db->updateOperation('pre_arrival_request',array('par_status'=>'joborder_unloading_rejected'),$wherearray);
 
-	    $wherearray = array('condition'=>'ju_id = :ju_id', 'param'=>':ju_id', 'value'=>$juId);
-	    $db->updateOperation('general_joborder_unloading',array('status'=>JOB_ORDER_REJECT_STATUS),$wherearray);
+	    // $wherearray = array('condition'=>'ju_id = :ju_id', 'param'=>':ju_id', 'value'=>$juId);
+	    // $db->updateOperation('general_joborder_unloading',array('status'=>JOB_ORDER_REJECT_STATUS),$wherearray);
 
 
-	    return array("infocode"=>"JOBORDERREJECTED","message"=>"Job Order has been rejected");
+	    $query = "UPDATE general_joborder_unloading SET status='".JOB_ORDER_REJECT_STATUS."' WHERE ju_id='$juId'";
+	    if(mysqli_query($dbc, $query)){
+	    	return array("infocode"=>"JOBORDERREJECTED","message"=>"Job Order has been rejected");
+	    } else {
+	    	return array("infocode"=>"JOBORDERNOTREJECTED","message"=>"Job Order has not been rejected");
+	    }
 	}
 
 	function completeJobOrder(){
-		global $db,$form;
+		global $dbc;
 		$juId = $_POST['ju_id'];
 
 		// $wherearray = array('condition'=>'par_uuid = :par_uuid', 'param'=>':par_uuid', 'value'=>$par_uuid);
   		//$db->updateOperation('pre_arrival_request',array('par_status'=>'joborder_completed'),$wherearray);
 
-  		$wherearray = array('condition'=>'ju_id = :ju_id', 'param'=>':ju_id', 'value'=>$juId);
-	    $db->updateOperation('general_joborder_unloading',array('status'=>JOB_ORDER_COMPLETE_STATUS),$wherearray);
+  		// $wherearray = array('condition'=>'ju_id = :ju_id', 'param'=>':ju_id', 'value'=>$juId);
+	   //  $db->updateOperation('general_joborder_unloading',array('status'=>JOB_ORDER_COMPLETE_STATUS),$wherearray);
 
-	    //add OGP table entry
-	    addOGPEntry($juId);
-	    //change the status of IGP - unloading to joborder_complete
-	    changeIGPStatus($juId);
 
-	    return array("infocode"=>"JOBORDERCOMPLETED","message"=>"Job Order completed successfully");
+	    $query = "UPDATE general_joborder_unloading SET status='".JOB_ORDER_REJECT_STATUS."' WHERE ju_id='$juId'";
+	    if(mysqli_query($dbc, $query)){
+	    	//add OGP table entry
+		    addOGPEntry($juId);
+		    //change the status of IGP - unloading to joborder_complete
+		    changeIGPStatus($juId);
+
+		    return array("infocode"=>"JOBORDERCOMPLETED","message"=>"Job Order completed successfully");
+	    } else {
+	    	return array("infocode"=>"JOBORDERNOTCOMPLETED","message"=>"Job Order not completed successfully");
+	    }
 	}
 
 	function addOGPEntry($juId){
