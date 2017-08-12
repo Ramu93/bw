@@ -38,10 +38,10 @@
             <div class="form-group col-lg-6 col-md-6 col-sm-6">
                 <label for="im_type">Party Type : </label>
                   <div class="checkbox">
-                  <label><input type="radio" name="partytype" value="Customer" checked="checked"> Customer</label>
+                  <label><input type="radio" name="partytype" value="customer" checked="checked"> Customer</label>
                 </div>
                 <div class="checkbox">
-                  <label><input type="radio" name="partytype" value="CHA"> CHA</label>
+                  <label><input type="radio" name="partytype" value="customer"> CHA</label>
                 </div>
               </div>
               <div class="form-group col-lg-6 col-md-6 col-sm-6">

@@ -54,6 +54,15 @@
 	    case 'del_party':
 	    	$finaloutput = deleteParty();
 	    break;
+	    case 'get_party_details':
+	    	$finaloutput = getPartyDetails();
+	    break;
+	    case 'add_discount_tariff':
+	    	$finaloutput = addDiscountTariff();
+	    break;
+	    case 'update_discount_tariff':
+	    	$finaloutput = updateDiscountTariff();
+	    break;
 	    default:
 	        $finaloutput = array("infocode" => "INVALIDACTION", "message" => "Irrelevant action");
 	}
@@ -182,7 +191,8 @@
 		$unit = mysqli_real_escape_string($dbc, trim($_POST['unit']));
 		$serviceType = mysqli_real_escape_string($dbc, trim($_POST['service_type']));
 		$pricePerUnit = mysqli_real_escape_string($dbc, trim($_POST['price_per_unit']));
-		$query = "INSERT INTO tariff_master (unit, service_type, price_per_unit) VALUES ('$unit', '$serviceType', '$pricePerUnit')";
+		$minimumSlab = mysqli_real_escape_string($dbc, trim($_POST['minimum_slab']));
+		$query = "INSERT INTO tariff_master (unit, service_type, price_per_unit, minimum_slab) VALUES ('$unit', '$serviceType', '$pricePerUnit', '$minimumSlab')";
 		//file_put_contents("querylog.log", print_r( $query, true ));
 
 		if(mysqli_query($dbc, $query)){
@@ -198,7 +208,8 @@
 		$unit = mysqli_real_escape_string($dbc, trim($_POST['edit_unit']));
 		$serviceType = mysqli_real_escape_string($dbc, trim($_POST['edit_service_type']));
 		$pricePerUnit = mysqli_real_escape_string($dbc, trim($_POST['edit_price_per_unit']));
-		$query = "UPDATE tariff_master SET unit='$unit', service_type='$serviceType', price_per_unit='$pricePerUnit' WHERE tariff_master_id='$tariffMasterId'";
+		$minimumSlab = mysqli_real_escape_string($dbc, trim($_POST['edit_minimum_slab']));
+		$query = "UPDATE tariff_master SET unit='$unit', service_type='$serviceType', price_per_unit='$pricePerUnit', minimum_slab='$minimumSlab' WHERE tariff_master_id='$tariffMasterId'";
 		//file_put_contents("querylog.log", print_r( $query, true ));
 
 		if(mysqli_query($dbc, $query)){
@@ -327,6 +338,86 @@
 		else {
 			$output = array("infocode" => "UNSUCCESSFULL", "message" => "Something went worng");
 		}
+		return $output;
+	}
+
+	function  getPartyDetails(){
+		global $dbc;
+		$partyName = mysqli_real_escape_string($dbc, trim($_POST['party_name']));
+		$query = "SELECT * FROM party_master WHERE pm_customerName='$partyName'";
+		$result = mysqli_query($dbc, $query);
+		if(mysqli_num_rows($result) > 0){
+			$row = mysqli_fetch_assoc($result);
+			$output = array("infocode" => "SUCCESS", "data" => $row['pm_id']);
+		} else {
+			$output = array("infocode" => "NOTSUCCESS");
+		}
+
+		return $output;
+	}
+
+	function getBaseTariffMasterIDs(){
+		global $dbc;
+		$query = "SELECT tariff_master_id FROM tariff_master ORDER BY tariff_master_id";
+		$result = mysqli_query($dbc, $query);
+		$out = array();
+		if(mysqli_num_rows($result) > 0){
+			while($row = mysqli_fetch_assoc($result)){
+				$out[] = $row['tariff_master_id'];
+			}
+		}
+		return $out;
+	}
+
+	function addDiscountTariff(){
+		global $dbc;
+		$customerPartyId = mysqli_real_escape_string($dbc, trim($_POST['customer_id_hidden']));
+		$chaPartyId = mysqli_real_escape_string($dbc, trim($_POST['cha_id_hidden']));
+		$tariffMasterIDs = getBaseTariffMasterIDs();
+		$discountPercentages = $_POST['discount_percentage'];
+		for ($i = 0; $i < count($tariffMasterIDs); $i++){
+			if(!empty($discountPercentages[$i])){
+				$discountPercentage = $discountPercentages[$i];
+				$tariffMasterId = $tariffMasterIDs[$i];
+				$query = "INSERT INTO discount_master (customer_pm_id, cha_pm_id, tariff_master_id, discount_percentage) VALUES ('$customerPartyId', '$chaPartyId', '$tariffMasterId', '$discountPercentage')";
+				mysqli_query($dbc, $query);
+			}
+		}
+		$output = array("infocode" => "SUCCESS");
+		return $output;
+	}
+
+	function checkIfDiscountTariffExists($custPmId, $chaPmId, $tmId){
+		global $dbc;
+		$query = "SELECT * FROM discount_master WHERE customer_pm_id='$custPmId' AND cha_pm_id='$chaPmId' AND tariff_master_id='$tmId'";
+		$result = mysqli_query($dbc, $query);
+		if(mysqli_num_rows($result) > 0){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function updateDiscountTariff(){
+		global $dbc;
+		$customerPartyId = mysqli_real_escape_string($dbc, trim($_POST['customer_id_hidden']));
+		$chaPartyId = mysqli_real_escape_string($dbc, trim($_POST['cha_id_hidden']));
+		$tariffMasterIDs = getBaseTariffMasterIDs();
+		$discountPercentages = $_POST['discount_percentage'];
+		for ($i = 0; $i < count($tariffMasterIDs); $i++){
+			if(!empty($discountPercentages[$i])){
+				$tariffMasterId = $tariffMasterIDs[$i];
+				$discountPercentage = $discountPercentages[$i];
+				if(checkIfDiscountTariffExists($customerPartyId, $chaPartyId, $tariffMasterId)){
+					$query = "UPDATE discount_master SET discount_percentage='$discountPercentage' WHERE customer_pm_id='$customerPartyId' AND cha_pm_id='$chaPartyId' AND tariff_master_id='$tariffMasterId'";
+				} else {
+					$query = "INSERT INTO discount_master (customer_pm_id, cha_pm_id, tariff_master_id, discount_percentage) VALUES ('$customerPartyId', '$chaPartyId', '$tariffMasterId', '$discountPercentage')";
+				}
+        		//file_put_contents("testlog.log", print_r( $query, true ), FILE_APPEND | LOCK_EX);
+				mysqli_query($dbc, $query);
+			}
+		}
+		$output = array("infocode" => "SUCCESS");
 		return $output;
 	}
 

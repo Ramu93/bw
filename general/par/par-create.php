@@ -290,7 +290,6 @@
               if(ui.item.value == "No customers found"){
                 event.preventDefault();
                 // $('#customer_name').val('');
-                console.log('s');
               }else{
               }
           },

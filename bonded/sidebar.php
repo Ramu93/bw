@@ -47,6 +47,9 @@
             <li>
               <a href="<?php echo HOMEURL; ?>/master/tariff-master.php""><i class="fa fa-circle-o"></i> Tarrif Master</a>
             </li>
+            <li>
+              <a href="<?php echo HOMEURL; ?>/master/discount-master.php"><i class="fa fa-circle-o"></i> Discount Master</a>
+            </li>
           </ul>
         </li>
         <li class="treeview">

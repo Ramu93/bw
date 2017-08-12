@@ -249,10 +249,10 @@ function displayTariffs(tariffData){
 
 			dp += '<tr>';
 				dp += '<td>'+ (parseInt(index)+1) +'</td>';
-				dp += '<td>'+tariff.service_name+'</td>';
+				dp += '<td>'+tariff.unit+'</td>';
+				dp += '<td>'+tariff.price_per_unit+'</td>';
 				dp += '<td>'+tariff.service_type+'</td>';
-				dp += '<td>'+tariff.storage_unit+'</td>';
-				dp += '<td>'+tariff.base_tariff+'</td>';
+				dp += '<td>'+tariff.minimum_slab+'</td>';
 				dp += '<td><input type="button" onclick="openEditTariffModal('+index+')" class="btn btn-primary" value="Edit" /> <input type="button" onclick="deleteTariff('+tariff.tariff_master_id+')" class="btn btn-danger" value="Delete"/></td>'
 			dp += '</tr>';
 		});
@@ -274,7 +274,7 @@ function addTariff(){
 					//reset gTariff array
 					gTariff = new Array;
 					getTariffs();
-					$('#service_name').val('');
+					$('#unit').val('');
 					$('#service_type').val('');
 					$('#storage_unit').val('');
 					$('#rate').val('');
@@ -290,10 +290,10 @@ function addTariff(){
 function openEditTariffModal(index){
 	//var gTariff = JSON.parse(tariffString);
 	$('#tariff_id_hidden').val(gTariff[index].tariff_master_id);
-	$('#edit_service_name').val(gTariff[index].service_name);
+	$('#edit_unit').val(gTariff[index].unit);
 	$('#edit_service_type').val(gTariff[index].service_type);
-	$('#edit_storage_unit').val(gTariff[index].storage_unit);
-	$('#edit_rate').val(gTariff[index].base_tariff);
+	$('#edit_price_per_unit').val(gTariff[index].price_per_unit);
+	$('#edit_minimum_slab').val(gTariff[index].minimum_slab);
 	$('#edit_tariff_modal').modal();
 }
 
@@ -417,4 +417,99 @@ function deleteParty(pmId){
 			});
 		}
 	});
+}
+
+var gCheck = 0; // for checking if both the cha party id and customer party id are filled
+
+function getPartyDetails(type){
+	var partyName = '';
+	if(type === 'customer'){
+		partyName = $('#importing_firm_name').val();
+	} else {
+		partyName = $('#cha_name').val();
+	}
+
+	var data = 'party_name=' + partyName + '&action=get_party_details';
+	$.ajax({
+		url: "master-services.php",
+		type: "POST",
+		data:  data,
+		dataType: 'json',
+		success: function(result){
+			if(result.infocode == 'SUCCESS'){
+				if(type === 'customer'){
+					$('#customer_id_label').html(result.data);
+					$('#customer_id_hidden').val(result.data);
+					$('#customer_details_div').show();
+					gCheck += 1;
+				} else {
+					$('#cha_id_label').html(result.data);
+					$('#cha_id_hidden').val(result.data);
+					$('#cha_details_div').show();
+					gCheck += 1;
+				}
+
+				if(gCheck === 2){
+					$('#add_discount_tariff_btn').prop('disabled', '');
+					gCheck = 0;
+				}
+			}
+		},
+		error: function(){
+			bootbox.alert("failure");
+		} 	        
+	});
+}
+
+function changeDiscountRate(tmId){
+	rate = parseFloat($('#'+tmId+'_discount_rate').val().trim());
+	dp = parseFloat($('#'+tmId+'_discount_percentage').val().trim());
+	da = rate - (rate * (dp/100));
+	$('#'+tmId+'_discount_amount').val((isNaN(da)?'0.00':da.toFixed(2)));
+}
+
+function changeDiscountPercentage(tmId){
+	rate = parseFloat($('#'+tmId+'_discount_rate').val().trim());
+	da = parseFloat($('#'+tmId+'_discount_amount').val().trim());
+	dp = (rate - da) * (100/rate);
+	$('#'+tmId+'_discount_percentage').val((isNaN(dp)?'0.00':dp.toFixed(2)));
+}
+
+function addDiscountTariff(){
+	var data = $('#discount_tariff_form').serialize() + '&action=add_discount_tariff';
+	$.ajax({
+		url: "master-services.php",
+		type: "POST",
+		data:  data,
+		dataType: 'json',
+		success: function(result){
+			if(result.infocode == 'SUCCESS'){
+				$('#added_message').html('Discount tariff added successfully').fadeIn(400).fadeOut(3000);
+				$('#discount_tariff_form')[0].reset();
+				$('#customer_details_div').hide();
+				$('#cha_details_div').hide();
+			}
+		},
+		error: function(){
+			bootbox.alert("failure");
+		} 	        
+	});
+}
+
+function updateDiscountTariff(){
+	var data = $('#discount_tariff_form').serialize() + '&action=update_discount_tariff';
+	$.ajax({
+		url: "master-services.php",
+		type: "POST",
+		data:  data,
+		dataType: 'json',
+		success: function(result){
+			if(result.infocode == 'SUCCESS'){
+				$('#updated_message').html('Discount tariff updated successfully').fadeIn(400).fadeOut(3000);
+			}
+		},
+		error: function(){
+			bootbox.alert("failure");
+		} 	        
+	}); 
 }

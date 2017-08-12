@@ -38,7 +38,7 @@
 		global $db, $form, $dbc;
 		$sacId = $_POST['sac_id'];
 
-		$grnFormArray = array("sac_id"=>"sac_id", "ju_id"=>"ju_id", "space_occupied"=>"space_occupied", "location"=>"location", "validity"=>"validity");
+		$grnFormArray = array("sac_id"=>"sac_id", "ju_id"=>"ju_id", "no_of_units"=>"no_of_units", "unit"=>"unit", "location"=>"location", "validity"=>"validity");
 		$grnFormArray = $form->getFormValues($grnFormArray,$_POST);
 		//file_put_contents("formlog.log", print_r( $_POST, true ));
     	$db->insertOperation('bonded_good_receipt_note',$grnFormArray);

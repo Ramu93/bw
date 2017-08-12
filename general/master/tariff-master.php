@@ -31,6 +31,7 @@ include('../sidebar.php');
                 <th>Unit</th>
                 <th>Price per Unit</th>
                 <th>Service Type</th>
+                <th>Minimum Slab</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -82,6 +83,12 @@ include('../sidebar.php');
                 <input type="text" tabindex="1" class="form-control required" id="price_per_unit" name="price_per_unit" placeholder="Price per Unit">
               </div>
             </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="service_minimum_slabname">Minimum Slab</label>
+                <input type="text" tabindex="1" class="form-control required" id="minimum_slab" name="minimum_slab" placeholder="Minimum slab">
+              </div>
+            </div>
           </div>
         </div>
         <div class="clearfix"></div>
@@ -127,6 +134,12 @@ include('../sidebar.php');
               <div class="form-group">
                 <label for="service_name">Price per Unit</label>
                 <input type="text" tabindex="1" class="form-control required" id="edit_price_per_unit" name="edit_price_per_unit" placeholder="Price per Unit">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="service_minimum_slabname">Minimum Slab</label>
+                <input type="text" tabindex="1" class="form-control required" id="edit_minimum_slab" name="edit_minimum_slab" placeholder="Minimum slab">
               </div>
             </div>
           </div>

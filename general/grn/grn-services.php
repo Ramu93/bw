@@ -38,7 +38,7 @@
 		global $db, $form, $dbc;
 		$parId = $_POST['par_id'];
 
-		$grnFormArray = array("par_id"=>"par_id", "ju_id"=>"ju_id", "space_occupied"=>"space_occupied", "location"=>"location", "validity"=>"validity");
+		$grnFormArray = array("par_id"=>"par_id", "ju_id"=>"ju_id", "no_of_units"=>"no_of_units", "unit"=>"unit", "location"=>"location", "validity"=>"validity");
 		$grnFormArray = $form->getFormValues($grnFormArray,$_POST);
 		//file_put_contents("formlog.log", print_r( $_POST, true ));
     	$db->insertOperation('general_good_receipt_note',$grnFormArray);
@@ -80,7 +80,7 @@
 		if(mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_assoc($result);
 			$parId = $row['par_id'];
-			$innerQuery = "SELECT par_id as 'id', 'par' as 'table_name', importing_firm_name, licence_code, bol_awb_number, boe_number, material_name, material_nature, packing_nature FROM pre_arrival_request WHERE par_id='$parId'";
+			$innerQuery = "SELECT par_id as 'id', 'par' as 'table_name', importing_firm_name, bol_awb_number, boe_number, material_name, material_nature, packing_nature FROM pre_arrival_request WHERE par_id='$parId'";
 			$innerResult = mysqli_query($dbc,$innerQuery);
 			if(mysqli_num_rows($innerResult) > 0){
 				$innerRow = mysqli_fetch_assoc($innerResult);
@@ -88,7 +88,7 @@
 			}
 			
 		}
-		// file_put_contents("datalog.log", print_r($innerQuery, true ));
+		file_put_contents("datalog.log", print_r($innerQuery, true ));
 		return $output;
 	}
 ?>

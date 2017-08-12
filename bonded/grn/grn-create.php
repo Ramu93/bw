@@ -100,19 +100,30 @@
             </div>
             <div class="clearfix"></div>
             <div class="row" id="fields">
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <div class="form-group">
-                  <label for="space_occupied">Space Occupied</label>
-                  <input type="text" tabindex="2" class="form-control required" id="space_occupied" name="space_occupied" placeholder="Space occupied">
+                  <label for="space_occupied">No. of Units</label>
+                  <input type="text" tabindex="2" class="form-control required" id="no_of_units" name="no_of_units" placeholder="No. of units">
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="space_occupied">Unit</label>
+                  <select class="form-control required" id="unit" name="unit">
+                    <option value="" selected="selected">Select unit...</option>
+                    <option value="Sq. m.">Sq. m.</option>
+                    <option value="Sq. ft.">Sq. ft.</option>
+                    <option value="No. of Containers">No. of Containers</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-3">
                 <div class="form-group">
                   <label for="location">Location</label>
                   <input type="text" tabindex="3" class="form-control required" id="location" name="location" placeholder="Location">
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <div class="form-group">
                   <label for="validity">Validity</label>
                   <input type="text" tabindex="4" class="form-control required" id="validity" name="validity" placeholder="Validity">

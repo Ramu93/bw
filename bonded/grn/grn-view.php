@@ -103,9 +103,9 @@
             <div class="row" id="fields">
               <div class="col-md-4">
                 <div class="form-group">
-                  <label for="space_occupied">Space Occupied</label>
+                  <label for="space_occupied">No. of Units</label>
                   <div class="clearfix"></div>
-                  <label><?php echo $out['space_occupied']; ?></label>
+                  <label><?php echo $out['no_of_units'] . ' ' . $out['unit'] ; ?></label>
                 </div>
               </div>
               <div class="col-md-4">

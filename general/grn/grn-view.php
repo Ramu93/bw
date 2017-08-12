@@ -11,7 +11,7 @@
     $row = mysqli_fetch_array($query);
     $out = $row;
     $parId = $row['par_id'];
-    $innerQuery = "SELECT par_id as 'id', 'par' as 'table_name', importing_firm_name, licence_code, bol_awb_number, boe_number, material_name, material_nature, packing_nature FROM pre_arrival_request WHERE par_id='$parId'";
+    $innerQuery = "SELECT par_id as 'id', 'par' as 'table_name', importing_firm_name, bol_awb_number, boe_number, material_name, material_nature, packing_nature  FROM pre_arrival_request WHERE par_id='$parId'";
     $innerResult = mysqli_query($dbc,$innerQuery);
     if(mysqli_num_rows($innerResult) > 0){
       $innerRow = mysqli_fetch_assoc($innerResult);
@@ -66,11 +66,6 @@
             <div class="clearfix"></div>
             <div class="row">
               <div class="col-md-4">
-                <label id="licence_code_label">Licence Code:</label>
-                <div class="clearfix"></div>
-                <label id="licence_code"><?php echo $out['licence_code']; ?></label>
-              </div>
-              <div class="col-md-4">
                 <label id="bol_awb_number_label">BOL/AWB Number:</label>
                 <div class="clearfix"></div>
                 <label id="bol_awb_number"><?php echo $out['bol_awb_number']; ?></label>
@@ -103,9 +98,9 @@
             <div class="row" id="fields">
               <div class="col-md-4">
                 <div class="form-group">
-                  <label for="space_occupied">Space Occupied</label>
+                  <label for="space_occupied">No. of Units</label>
                   <div class="clearfix"></div>
-                  <label><?php echo $out['space_occupied']; ?></label>
+                  <label><?php echo $out['no_of_units'] . ' ' . $out['unit']; ?></label>
                 </div>
               </div>
               <div class="col-md-4">

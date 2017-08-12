@@ -38,14 +38,17 @@
                 <li><a href="<?php echo HOMEURL; ?>/master/party-master-view.php"><i class="fa fa-file"></i> View</a></li>
               </ul>
             </li>
-            <li>
+            <!-- <li>
               <a href="#"><i class="fa fa-circle-o"></i> Employee Master</a>
             </li>
             <li>
               <a href="#"><i class="fa fa-circle-o"></i> Role Master</a>
+            </li> -->
+            <li>
+              <a href="<?php echo HOMEURL; ?>/master/tariff-master.php"><i class="fa fa-circle-o"></i> Tarrif Master</a>
             </li>
             <li>
-              <a href="<?php echo HOMEURL; ?>/master/tariff-master.php""><i class="fa fa-circle-o"></i> Tarrif Master</a>
+              <a href="<?php echo HOMEURL; ?>/master/discount-master.php"><i class="fa fa-circle-o"></i> Discount Master</a>
             </li>
           </ul>
         </li>
