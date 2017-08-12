@@ -104,14 +104,36 @@
 	}
 
 	function updateSACRequest(){
-		global $db,$form;
-		$sac_id = $_POST['sac_id'];
-		$sacFormElementsArray = array("importing_firm_name"=>"importing_firm_name","bol_awb_number"=>"bol_awb_number","material_name"=>"material_name","packing_nature"=>"packing_nature","assessable_value"=>"assessable_value","material_nature"=>"material_nature","required_period"=>"required_period","licence_code"=>"licence_code","boe_number"=>"boe_number","qty_units"=>"qty_units","space_requirement"=>"space_requirement","duty_amount"=>"duty_amount","expected_date"=>"expected_date", "bol_awb_date"=>"bol_awb_date", "boe_date"=>"boe_date", "cha_name"=>"cha_name");
-		$sacFormElementsArray = $form->getFormValues($sacFormElementsArray,$_POST);
-		$wherearray = array('condition'=>'sac_id = :sac_id', 'param'=>':sac_id', 'value'=>$sac_id);
-	    $db->updateOperation('sac_request',$sacFormElementsArray,$wherearray);
+		global $dbc;
+		$sacId = $_POST['sac_id'];
+		$importingFirmName = mysqli_real_escape_string($dbc, trim($_POST['importing_firm_name']));
+		$bolAwbNumber = mysqli_real_escape_string($dbc, trim($_POST['bol_awb_number']));
+		$materialName = mysqli_real_escape_string($dbc, trim($_POST['material_name']));
+		$packingNature = mysqli_real_escape_string($dbc, trim($_POST['packing_nature']));
+		$materialNature = mysqli_real_escape_string($dbc, trim($_POST['material_nature']));
+		$requiredPeriod = mysqli_real_escape_string($dbc, trim($_POST['required_period']));
+		$assessableValue = mysqli_real_escape_string($dbc, trim($_POST['assessable_value']));
+		$licenceCode = mysqli_real_escape_string($dbc, trim($_POST['licence_code']));
+		$boeNumber = mysqli_real_escape_string($dbc, trim($_POST['boe_number']));
+		$qtyUnits = mysqli_real_escape_string($dbc, trim($_POST['qty_units']));
+		$spaceRequirement = mysqli_real_escape_string($dbc, trim($_POST['space_requirement']));
+		$dutyAmount = mysqli_real_escape_string($dbc, trim($_POST['duty_amount']));
+		$expectedDate = mysqli_real_escape_string($dbc, trim($_POST['expected_date']));
+		$bolAwbDate = mysqli_real_escape_string($dbc, trim($_POST['bol_awb_date']));
+		$boeDate = mysqli_real_escape_string($dbc, trim($_POST['boe_date']));
+		$chaName = mysqli_real_escape_string($dbc, trim($_POST['cha_name']));
+		$query = "UPDATE sac_request SET importing_firm_name='$importingFirmName', bol_awb_number='$bolAwbNumber', material_name='$materialName', packing_nature='$packingNature', material_nature='$materialNature', required_period='$requiredPeriod', assessable_value='$assessableValue', licence_code='$licenceCode', boe_number='$boeNumber', qty_units='$qtyUnits', space_requirement='$spaceRequirement', duty_amount='$dutyAmount', expected_date='$expectedDate', bol_awb_date='$bolAwbDate', boe_date='$boeDate', cha_name='$chaName' WHERE sac_id='$sacId'";
+
+		// $sacFormElementsArray = array("importing_firm_name"=>"importing_firm_name","bol_awb_number"=>"bol_awb_number","material_name"=>"material_name","packing_nature"=>"packing_nature","assessable_value"=>"assessable_value","material_nature"=>"material_nature","required_period"=>"required_period","licence_code"=>"licence_code","boe_number"=>"boe_number","qty_units"=>"qty_units","space_requirement"=>"space_requirement","duty_amount"=>"duty_amount","expected_date"=>"expected_date", "bol_awb_date"=>"bol_awb_date", "boe_date"=>"boe_date", "cha_name"=>"cha_name");
+		// $sacFormElementsArray = $form->getFormValues($sacFormElementsArray,$_POST);
+		// $wherearray = array('condition'=>'sac_id = :sac_id', 'param'=>':sac_id', 'value'=>$sac_id);
+	 //    $db->updateOperation('sac_request',$sacFormElementsArray,$wherearray);
 	    
-	    return array("status"=>"Success","message"=>"Space Availability Certificate request updated successfully.");
+	    if(mysqli_query($dbc, $query)){
+	    	return array("status"=>"Success","message"=>"Space Availability Certificate request updated successfully.");
+	    } else {
+	    	return array("status"=>"failure","message"=>"Space Availability Certificate request not updated successfully.");
+	    }
 	}
 
 	function SACRequestStatusChange(){
