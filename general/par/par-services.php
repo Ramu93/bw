@@ -1,8 +1,8 @@
 <?php 
-	require('../dbconfig_pdo.php'); 
-	require('../dbwrapper.php');
+	require('../dbconfig_pdo.php');
 	require('../formwrapper.php');
 	require('../dbconfig_delete_entries.php');
+	require('../dbwrapper_mysqli.php');
 
 	define('PAR_DEFAULT_STATUS','submitted');
 	define('CLIENT_INSURANCE_COPY_PATH', 'client-insurance-copy/');
@@ -11,7 +11,7 @@
 	define('DEFAULT_IGP_STATUS', 'notgenerated');
 
 
-	$db = new DBWrapper($dbobj);
+	$db = new DBWrapper($dbc);
 	$form = new FormWrapper();
 	
 	$finaloutput = array();
@@ -75,14 +75,16 @@
     		}
     	}
 
-    	$db->insertOperation('pre_arrival_request',$parFormElementsArray);
-
-    	// $parlogarray = array("par_id" => $parId, "status_to" => 'Submitted', "remarks" => "Waiting for Approval");
-    	// $db->insertOperation('par_log',$parlogarray);
-
-    	$lastInsertPARId = 1; //change the last insert id using the PDO's method
-    	addContainers($containerData, $lastInsertPARId);
-    	return array("status"=>"Success","message"=>"Pre Arrival Request created successfully.");
+    	$result = $db->insertOperation('pre_arrival_request',$parFormElementsArray);
+    	if($result['status'] == 'success'){
+    		$lastInsertPARId = $result['last_insert_id'];
+    		addContainers($containerData, $lastInsertPARId);
+    		$parlogarray = array("par_id" => $lastInsertPARId, "status_to" => 'Submitted', "remarks" => "Waiting for Approval");
+    		$db->insertOperation('par_log',$parlogarray);
+    		return array("status"=>"Success","message"=>"Pre Arrival Request created successfully.");
+    	} else {
+    		return array("status"=>"Success","message"=>"Pre Arrival Request not created successfully.");
+    	}
 	}
 
 	function addContainers($containerData, $lastInsertPARId){
@@ -130,11 +132,32 @@
 	}
 
 	function updatePAR(){
-		global $db,$form;
-		$containerData = $_POST['container_stringified'];
-		$parFormElementsArray = array("importing_firm_name"=>"importing_firm_name","bol_awb_number"=>"bol_awb_number","material_name"=>"material_name","packing_nature"=>"packing_nature","assessable_value"=>"assessable_value","material_nature"=>"material_nature","required_period"=>"required_period","cha_name"=>"cha_name","boe_number"=>"boe_number","qty_units"=>"qty_units","space_requirement"=>"space_requirement","duty_amount"=>"duty_amount","expected_date"=>"expected_date", "insurance_declaration"=>"insurance_declaration", "cargo_life"=>"cargo_life", "shelf_life"=>"shelf_life", "bol_awb_date"=>"bol_awb_date", "boe_date"=>"boe_date", "insurance_by"=>"insurance_by");
-		$parFormElementsArray = $form->getFormValues($parFormElementsArray,$_POST);
-		$par_id = $_POST['par_id'];
+		global $dbc;
+		$parId = $_POST['par_id'];
+		$importingFirmName = mysqli_real_escape_string($dbc, trim($_POST['importing_firm_name']));
+		$bolAwbNumber = mysqli_real_escape_string($dbc, trim($_POST['bol_awb_number']));
+		$materialName = mysqli_real_escape_string($dbc, trim($_POST['material_name']));
+		$packingNature = mysqli_real_escape_string($dbc, trim($_POST['packing_nature']));
+		$materialNature = mysqli_real_escape_string($dbc, trim($_POST['material_nature']));
+		$requiredPeriod = mysqli_real_escape_string($dbc, trim($_POST['required_period']));
+		$assessableValue = mysqli_real_escape_string($dbc, trim($_POST['assessable_value']));
+		$boeNumber = mysqli_real_escape_string($dbc, trim($_POST['boe_number']));
+		$qtyUnits = mysqli_real_escape_string($dbc, trim($_POST['qty_units']));
+		$spaceRequirement = mysqli_real_escape_string($dbc, trim($_POST['space_requirement']));
+		$dutyAmount = mysqli_real_escape_string($dbc, trim($_POST['duty_amount']));
+		$expectedDate = mysqli_real_escape_string($dbc, trim($_POST['expected_date']));
+		$bolAwbDate = mysqli_real_escape_string($dbc, trim($_POST['bol_awb_date']));
+		$boeDate = mysqli_real_escape_string($dbc, trim($_POST['boe_date']));
+		$chaName = mysqli_real_escape_string($dbc, trim($_POST['cha_name']));
+		$cargoLife = mysqli_real_escape_string($dbc, trim($_POST['cargo_life']));
+		$shelfLife = mysqli_real_escape_string($dbc, trim($_POST['shelf_life']));
+		$insuranceBy = mysqli_real_escape_string($dbc, trim($_POST['insurance_by']));
+		$query = "UPDATE pre_arrival_request SET importing_firm_name='$importingFirmName', bol_awb_number='$bolAwbNumber', material_name='$materialName', packing_nature='$packingNature', material_nature='$materialNature', required_period='$requiredPeriod', assessable_value='$assessableValue', boe_number='$boeNumber', qty_units='$qtyUnits', space_requirement='$spaceRequirement', duty_amount='$dutyAmount', expected_date='$expectedDate', bol_awb_date='$bolAwbDate', boe_date='$boeDate', cha_name='$chaName', cargo_life='$cargoLife', shelf_life='$shelfLife', insurance_by='$insuranceBy' WHERE par_id='$parId'";
+
+		// $containerData = $_POST['container_stringified'];
+		// $parFormElementsArray = array("importing_firm_name"=>"importing_firm_name","bol_awb_number"=>"bol_awb_number","material_name"=>"material_name","packing_nature"=>"packing_nature","assessable_value"=>"assessable_value","material_nature"=>"material_nature","required_period"=>"required_period","cha_name"=>"cha_name","boe_number"=>"boe_number","qty_units"=>"qty_units","space_requirement"=>"space_requirement","duty_amount"=>"duty_amount","expected_date"=>"expected_date", "insurance_declaration"=>"insurance_declaration", "cargo_life"=>"cargo_life", "shelf_life"=>"shelf_life", "bol_awb_date"=>"bol_awb_date", "boe_date"=>"boe_date", "insurance_by"=>"insurance_by");
+		// $parFormElementsArray = $form->getFormValues($parFormElementsArray,$_POST);
+		
 		////file_put_contents("formlog.log", print_r( $containerData, true ), FILE_APPEND | LOCK_EX);
 
 		if(isset($_FILES['client_insurance_file']['name'])){
@@ -154,9 +177,14 @@
     			$output = array("infocode" => "FILEUPLOADERR", "message" => "Unable to upload insurance declaration file copy, please try again!");
     		}
     	}
-		$wherearray = array('condition'=>'par_id = :par_id', 'param'=>':par_id', 'value'=>$par_id);
-	    $db->updateOperation('pre_arrival_request',$parFormElementsArray,$wherearray);
-	    return array("status"=>"Success","message"=>"Pre Arrival Request updated successfully.");
+		// $wherearray = array('condition'=>'par_id = :par_id', 'param'=>':par_id', 'value'=>$par_id);
+	 //    $db->updateOperation('pre_arrival_request',$parFormElementsArray,$wherearray);
+	    if(mysqli_query($dbc, $query)){
+	    	return array("status"=>"Success","message"=>"Pre Arrival Request updated successfully.");
+	    	
+	    } else {
+	    	return array("status"=>"failure","message"=>"Pre Arrival Request not updated successfully.");
+	    }
 	}
 
 	function PARStatusChange(){
