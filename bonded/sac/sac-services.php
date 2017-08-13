@@ -49,7 +49,7 @@
  		if($result['status'] == 'success'){
  			$lastInsertSACId = $result['last_insert_id']; 
     		addContainers($containerData, $lastInsertSACId);
-    		$saclogarray = array("sac_id" => $sacId, "status_to" => 'Submitted', "remarks" => "Waiting for Approval");
+    		$saclogarray = array("sac_id" => $lastInsertSACId, "status_to" => 'Submitted', "remarks" => "Waiting for Approval");
     		$db->insertOperation('sac_log',$saclogarray);
     		return array("status"=>"Success","message"=>"Space Availability Certificate request created successfully.");
  		} else {
