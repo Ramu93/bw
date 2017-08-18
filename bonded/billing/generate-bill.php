@@ -22,38 +22,21 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="importing_firm_name">Name of the Importer</label>
-                  <input type="text" tabindex="1" class="form-control required autofillparty" id="importing_firm_name" name="importing_firm_name" placeholder="Name of the importing firm">
+                  <label for="importing_firm_name">Select Customer/CHA</label>
+                  <input type="text" tabindex="1" class="form-control required autofillparty" id="party_name" name="party_name" placeholder="Customer/CHA">
                 </div>
               </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="importing_firm_name">Name of the CHA</label>
-                  <input type="text" tabindex="1" class="form-control required autofillparty" id="cha_name" name="cha_name" placeholder="Name of the CHA">
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-6">
-                <div class="form-group" id="customer_details_div">
-                  <label for="importing_firm_name">Party Master ID:</label>
-                  <div class="clearfix"></div>
-                  <label id="customer_id_label"></label>
-                  <input type="hidden" name="customer_id_hidden" id="customer_id_hidden">
-                </div>
-              </div>
-              <div class="col-sm-6">
-                <div class="form-group" id="cha_details_div">
-                  <label for="importing_firm_name">Party Master ID:</label>
-                  <div class="clearfix"></div>
-                  <label id="cha_id_label"></label>
-                  <input type="hidden" name="cha_id_hidden" id="cha_id_hidden">
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-4 col-sm-4">
+              <div class="col-md-3">
+                <div class="clearfix">&nbsp;</div>
                 <input type="button" class="btn btn-primary btn-block" onclick="getGRNList()" value="Get GRN List">
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group" id="party_details_div">
+                  <label for="importing_firm_name">Party Master ID:</label>
+                  <div class="clearfix"></div>
+                  <label id="party_id_label"></label>
+                  <input type="hidden" name="party_id_hidden" id="party_id_hidden">
+                </div>
               </div>
             </div>
             <div class="row" style="text-align: center; margin: 10px;">
@@ -71,6 +54,29 @@
                   
                 </tbody>
               </table>
+            </div>
+            <div class="row" id="previous_billing_div">
+              
+            </div>
+            <div class="row" id="billing_div">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="bol_awb_no">Bill Date:</label>
+                  <input type="text" tabindex="" class="form-control required" id="bill_date" name="bill_date" placeholder="Bill Date">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="bol_awb_no">From:</label>
+                  <input type="text" tabindex="" class="form-control required" id="from_date" name="from_date" placeholder="From Date">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="bol_awb_no">To:</label>
+                  <input type="text" tabindex="" class="form-control required" id="to_date" name="to_date" placeholder="To Date">
+                </div>
+              </div>
             </div>
           </form>
         </div>
@@ -95,22 +101,25 @@
         errorClass: "my-error-class" //error class defined in header file style tag
       });
 
-      $('#customer_details_div').hide();
-      $('#cha_details_div').hide();
+      $('#party_details_div').hide();
       $('#grn_table').hide();
+      $('#previous_billing_div').hide();
+      $('#billing_div').hide();
 
     });
 
     //Date picker
-    var startDate = new Date();
-    $('#boe_date').datepicker({
+    $('#bill_date').datepicker({
       autoclose: true,
       dateFormat: "yy-mm-dd"
     });
-    $('#expected_date').datepicker({
+    $('#from_date').datepicker({
       autoclose: true,
       dateFormat: "yy-mm-dd",
-      minDate: startDate
+    });
+    $('#to_date').datepicker({
+      autoclose: true,
+      dateFormat: "yy-mm-dd",
     });
 
     $('#container_count').spinner({
@@ -120,22 +129,16 @@
           }
     });
 
-    $('#importing_firm_name').on('change', function(){
-      getPartyDetails('customer');
-    });
-    $('#cha_name').on('change', function(){
-      getPartyDetails('cha');
+    $('#party_name').on('change', function(){
+      getPartyDetails();
+      getGRNList();
     });
 
     //for enter key press
-    $('#importing_firm_name').keypress(function(event){
+    $('#party_name').keypress(function(event){
       if(event.which == 13){
-        getPartyDetails('customer');
-      }
-    });
-    $('#cha_name').keypress(function(event){
-      if(event.which == 13){
-        getPartyDetails('cha');
+        getPartyDetails();
+        getGRNList();
       }
     });
 

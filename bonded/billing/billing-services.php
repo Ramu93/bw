@@ -21,6 +21,9 @@
 	    case 'get_grn_list':
 	    	$finaloutput = getGRNList();
 	    break;
+	    case 'get_previous_bill':
+	    	$finaloutput = getPreviousBill();
+	    break;
 	    default:
 	        $finaloutput = array("infocode" => "INVALIDACTION", "message" => "Irrelevant action");
 	}
@@ -44,9 +47,8 @@
 
 	function getGRNList(){
 		global $dbc;
-		$importingFirmName = mysqli_real_escape_string($dbc, trim($_POST['importing_firm_name']));
-		$chaName = mysqli_real_escape_string($dbc, trim($_POST['cha_name']));
-		$query = "SELECT sac.importing_firm_name, sac.cha_name, grn.grn_id FROM sac_request sac, bonded_good_receipt_note grn WHERE sac.importing_firm_name='$importingFirmName' AND sac.cha_name='$chaName' AND grn.sac_id=sac.sac_id";
+		$partyName = mysqli_real_escape_string($dbc, trim($_POST['party_name']));
+		$query = "SELECT sac.importing_firm_name, sac.cha_name, grn.grn_id FROM sac_request sac, bonded_good_receipt_note grn WHERE (sac.importing_firm_name='$partyName' OR sac.cha_name='$partyName') AND grn.sac_id=sac.sac_id";
 		$result = mysqli_query($dbc, $query);
 		$out = array();
 		if(mysqli_num_rows($result) > 0){
@@ -58,9 +60,28 @@
 		} else {
 			$output = array("infocode" => "failure", "message" => "No GRN available for selected details.");
 		}
-        file_put_contents("testlog.log",print_r($output, true), FILE_APPEND | LOCK_EX);
+        //file_put_contents("testlog.log",print_r($output, true), FILE_APPEND | LOCK_EX);
 
 		return $output;
+	}
+
+	function getPreviousBill(){
+		global $dbc;
+		$grnId = mysqli_real_escape_string($dbc, trim($_POST['grn_id']));
+		$query = "SELECT * FROM bonded_billing WHERE grn_id='$grnId' ORDER BY billing_date DESC LIMIT 1";
+		$result = mysqli_query($dbc, $query);
+		$out = array();
+		if(mysqli_num_rows($result) > 0){
+			while($row = mysqli_fetch_assoc($result)){
+				$out = $row;
+			}
+
+			$output = array("infocode" => "SUCCESS", "data" => $out);
+		} else {
+			$output = array("infocode" => "failure", "message" => "No GRN available for selected details.");
+		}
+        file_put_contents("testlog.log",print_r($output, true), FILE_APPEND | LOCK_EX);
+
 	}
 
 ?>

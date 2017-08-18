@@ -1,12 +1,5 @@
-var gCheck = 0; // for checking if both the cha party id and customer party id are filled
-
-function getPartyDetails(type){
+function getPartyDetails(){
 	var partyName = '';
-	if(type === 'customer'){
-		partyName = $('#importing_firm_name').val();
-	} else {
-		partyName = $('#cha_name').val();
-	}
 
 	var data = 'party_name=' + partyName + '&action=get_party_details';
 	$.ajax({
@@ -16,22 +9,9 @@ function getPartyDetails(type){
 		dataType: 'json',
 		success: function(result){
 			if(result.infocode == 'SUCCESS'){
-				if(type === 'customer'){
-					$('#customer_id_label').html(result.data);
-					$('#customer_id_hidden').val(result.data);
-					$('#customer_details_div').show();
-					gCheck += 1;
-				} else {
-					$('#cha_id_label').html(result.data);
-					$('#cha_id_hidden').val(result.data);
-					$('#cha_details_div').show();
-					gCheck += 1;
-				}
-
-				if(gCheck === 2){
-					$('#add_discount_tariff_btn').prop('disabled', '');
-					gCheck = 0;
-				}
+				$('#party_id_label').html(result.data);
+				$('#party_id_hidden').val(result.data);
+				$('#party_details_div').show();
 			}
 		},
 		error: function(){
@@ -41,9 +21,8 @@ function getPartyDetails(type){
 }
 
 function getGRNList(){
-	var importingFirmName = $('#importing_firm_name').val();
-	var chaName = $('#cha_name').val();
-	var data = 'importing_firm_name=' + importingFirmName + '&cha_name=' + chaName + '&action=get_grn_list';
+	var partyName = $('#party_name').val();
+	var data = 'party_name=' + partyName + '&action=get_grn_list';
 	$.ajax({
 		url: "billing-services.php",
 		type: "POST",
@@ -77,5 +56,21 @@ function displayGRNList(grnList){
 }
 
 function getBillingInfo(grnId){
-
+	var data = 'grn_id=' + grnId + '&action=get_previous_bill';
+	$.ajax({
+		url: "billing-services.php",
+		type: "POST",
+		data:  data,
+		dataType: 'json',
+		success: function(result){
+			if(result.infocode == 'SUCCESS'){
+				
+			}
+		},
+		error: function(){
+			bootbox.alert("failure");
+		} 	        
+	});
+	$('#previous_billing_div').show();
+	$('#billing_div').show();
 }
