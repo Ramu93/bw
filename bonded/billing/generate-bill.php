@@ -1,7 +1,7 @@
 <?php
   include('../header.php');
   include('../sidebar.php');
-  include('gst-config.php');
+  // include('gst-config.php');
 ?>
 
   <!-- Content Wrapper. Contains page content -->
@@ -79,27 +79,31 @@
                 </div>
               </div>
             </div>
-            <div class="well col-md-10" id="previous_billing_div">
-              <div class="row">
-                <div class="col-sm-4">
-                  <div class="form-group">
-                    <label for="">Last Bill Date:</label>
-                    <div class="clearfix"></div>
-                    <label id="previous_bill_date_label"></label>
-                  </div>
-                </div>
-                <div class="col-sm-4">
-                  <div class="form-group">
-                    <label for="">Last Bill Period:</label>
-                    <div class="clearfix"></div>
-                    <label id="previus_period_label"></label>
-                  </div>
-                </div>
-                <div class="col-sm-4">
-                  <div class="form-group">
-                    <label for="">Last Bill Amount:</label>
-                    <div class="clearfix"></div>
-                    <label id="last_bill_amount_label"></label>
+            <div class="row">
+              <div class="col-md-8">
+                <div class="well" id="previous_billing_div">
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label for="">Last Bill Date:</label>
+                        <div class="clearfix"></div>
+                        <label id="previous_bill_date_label"></label>
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label for="">Last Bill Period:</label>
+                        <div class="clearfix"></div>
+                        <label id="previus_period_label"></label>
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label for="">Last Bill Amount:</label>
+                        <div class="clearfix"></div>
+                        <label id="last_bill_amount_label"></label>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -125,36 +129,78 @@
               </div>
               <div class="col-md-3">
                 <label for="gst_type">GST Type:</label>
-                  <select class="form-control required" tabindex="7" id="gst_type" name="gst_type">
-                    <option value="">Select GST Type...</option>
-                    <?php 
-                      foreach ($gstTypes as $key => $value) {
-                        echo "<option value='$value'>$key</option>";
-                      }
-                    ?>
+                  <select class="form-control required" id="bill_gst_type" name="bill_gst_type">
                   </select>
               </div>
             </div>
-            <div class="row" id="bill_amount_div">
-              <div class="col-md-3">
-                <div class="form-group" >
-                  <label for="">Sub Total:</label>
-                  <div class="clearfix"></div>
-                  <label id="bill_amount_label"></label>
+            <div id="handling_charges_div">
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="">Handling Charges:</label>
+                  </div>
                 </div>
               </div>
-              <div class="col-md-3">
-                <div class="form-group" >
-                  <label for="">Total Taxes:</label>
-                  <div class="clearfix"></div>
-                  <label id="total_taxes_label"></label>
+              <div class="row">
+                <div class="col-md-10">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Sl.no</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>GST Type</th>
+                      </tr>
+                    </thead>
+                    <tbody id="additem_tbody">
+                        <tr id="itemtr_1">
+                          <td><span class="td_sno">1</span></td>
+
+                          <td><input type="text" id="description" name="description[]" placeholder="" class="form-control" value=""></td>
+
+                          <td><input type="text" name="amount[]" placeholder="" class="form-control" value=""></td>
+
+                          <td>
+                            <select class="form-control required" id="gst_type" name="gst_type[]">
+                            </select>
+                          </td>
+
+                          <td><input type="button" class="btn btn-warning" onclick="additemrow(1)" value="+"><!-- <button class="item_removebutton" style="display:none;" onclick="removeitemrow(1)">-</button> --></td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-1">
+              
                 </div>
               </div>
-              <div class="col-md-3">
-                <div class="form-group" >
-                  <label for="">Grand Total:</label>
-                  <div class="clearfix"></div>
-                  <label id="grand_total_label"></label>
+            </div>
+            <div class="row">
+              <div class="col-md-8">
+                <div class="well" id="bill_amount_div">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group" >
+                        <label for="">Sub Total:</label>
+                        <div class="clearfix"></div>
+                        <label id="bill_amount_label"></label>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group" >
+                        <label for="">Tax Payable:</label>
+                        <div class="clearfix"></div>
+                        <label id="total_taxes_label"></label>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group" >
+                        <label for="">Grand Total:</label>
+                        <div class="clearfix"></div>
+                        <label id="grand_total_label"></label>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -180,6 +226,7 @@
     include('../footer_imports.php');
   ?>
   <script type="text/javascript" src="<?php echo HOMEURL; ?>/billing/js/billing.js"></script>
+  <script type="text/javascript" src="<?php echo HOMEURL; ?>/billing/js/gst-config.js"></script>
   <script type="text/javascript">
 
     $(document).ready(function(){
@@ -187,15 +234,27 @@
         errorClass: "my-error-class" //error class defined in header file style tag
       });
 
+      loadGstCombo('bill_gst_type');
+      loadGstCombo('gst_type');
+
       $('#selected_grn_div').hide();
       $('#party_details_div').hide();
       $('#grn_table').hide();
       $('#previous_billing_div').hide();
       $('#billing_div').hide();
       $('#generate_bill_btn').hide();
+      $('#handling_charges_div').hide();
       $('#bill_amount_div').hide();
 
     });
+
+    function loadGstCombo(elementId){
+      var dp = '';
+      for(var gstType in gstTypes){
+        dp += '<option value="'+gstType+'">'+gstTypes[gstType]+'</option>';
+      }
+      $('#'+elementId).html(dp);
+    }
 
     //Date picker
     $('#bill_date').datepicker({

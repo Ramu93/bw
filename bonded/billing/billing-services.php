@@ -1,6 +1,5 @@
 <?php 
 	require('../dbconfig.php');
-	require('gst-config.php');
 	require('../dbwrapper_mysqli.php');
 
 	define('SAC_DEFAULT_STATUS','submitted');
@@ -167,13 +166,74 @@
 		return $discountDetails;
 	}
 
+	function generateHandlingChargesBill($invoiceId, $descriptions, $amounts, $gstTypes, $gstPercentages){
+		global $dbc;
+		$count = count($amounts);
+		$finalSubTotal = 0;
+		$finalTaxAmount = 0;
+		$finalTotalAmount = 0;
+        //file_put_contents("testlog.log", print_r($amounts, true), FILE_APPEND | LOCK_EX);
+		for($i = 0; $i < $count; $i++){
+			$description = $descriptions[$i];
+			$amount = $amounts[$i];
+			$gstType = $gstTypes[$i];
+			$query = '';
+			$totalAmount = 0;
+			$taxAmount = 0;
+			switch ($gstType) {
+				case 'same_state':
+					$sgst = $amount * (($gstPercentages['same_state']/2)/100);
+					$cgst = $amount * (($gstPercentages['same_state']/2)/100);
+					$taxAmount = $amount * ($gstPercentages['same_state']/100);
+					$totalAmount =  $amount + $taxAmount;
+					$query = "INSERT INTO bonded_billing_invoice_details (invoice_id, description, amount, sgst, cgst, tax_payable, total) VALUES ('$invoiceId', '$description', '$amount', '$sgst', '$cgst', '$taxAmount', '$totalAmount')";
+					break;
+				case 'other_state':
+					$igst = $amount * ($gstPercentages['other_state']/100);;
+					$taxAmount = $amount * ($gstPercentages['other_state']/100);
+					$totalAmount =  $amount + $taxAmount;
+					$query = "INSERT INTO bonded_billing_invoice_details (invoice_id, description, amount, igst, tax_payable, total) VALUES ('$invoiceId', '$description', '$amount', '$igst', '$taxAmount', '$totalAmount')";
+					break;
+				case 'union_teritory':
+					$ugst = $amount * ($gstPercentages['union_teritory']/100);
+					$taxAmount = $amount * ($gstPercentages['union_teritory']/100);
+					$totalAmount =  $amount + $taxAmount;
+					$query = "INSERT INTO bonded_billing_invoice_details (invoice_id, description, amount, igst, tax_payable, total) VALUES ('$invoiceId', '$description', '$amount', '$ugst', '$taxAmount', '$totalAmount')";
+					break;
+				case 'exempt':
+					$totalAmount =  $amount;
+					$query = "INSERT INTO bonded_billing_invoice_details (invoice_id, description, amount, igst, tax_payable, total) VALUES ('$invoiceId', '$description', '$amount', '$taxAmount', '$totalAmount')";
+					break;
+			}
+			mysqli_query($dbc, $query);
+			$finalSubTotal += $amount;
+			$finalTaxAmount += $taxAmount;
+			$finalTotalAmount += $totalAmount;
+        	//file_put_contents("testlog.log", print_r($query, true), FILE_APPEND | LOCK_EX);
+		}
+
+        //file_put_contents("testlog.log", print_r(array('sub_total' => $finalSubTotal, 'tax_amount' => $finalTaxAmount, 'total_amount' => $finalTotalAmount), true), FILE_APPEND | LOCK_EX);
+
+		return array('sub_total' => $finalSubTotal, 'tax_amount' => $finalTaxAmount, 'total_amount' => $finalTotalAmount);
+	}
+
 	function generateBill(){
 		global $dbc; 
 		$grnId = mysqli_real_escape_string($dbc, trim($_POST['grn_id']));
 		$billDate = mysqli_real_escape_string($dbc, trim($_POST['bill_date']));
 		$fromDateStr = mysqli_real_escape_string($dbc, trim($_POST['from_date']));
 		$toDateStr = mysqli_real_escape_string($dbc, trim($_POST['to_date']));
-		
+		$billGstType = mysqli_real_escape_string($dbc, trim($_POST['bill_gst_type']));
+		$handlingDescriptions = $_POST['description'];
+		$handlingAmounts = $_POST['amount'];
+		$handlingGSTTypes = $_POST['gst_type'];
+
+		$gstValues = json_decode($_POST['gst_values']);
+		$gstPercentages = array();
+  		$gstPercentages = json_decode(json_encode($gstValues), True);
+
+        //file_put_contents("testlog.log", print_r($gstPercentages, true), FILE_APPEND | LOCK_EX);
+
 		$unitDetails = getUnitDetails($grnId);
 		$partyNames = getPartyFromSAC($grnId);
 		
@@ -199,16 +259,51 @@
 		
 		if($discountDetails['row_count'] > 0){
 			//discounted price
-			$billAmount = $noOfDays * ($pricePerUnitPerDay - ($pricePerUnitPerDay * ($discountPercentage0/100))) * $noOfUnits;
+			$subTotal = $noOfDays * ($pricePerUnitPerDay - ($pricePerUnitPerDay * ($discountPercentage/100))) * $noOfUnits;
 		} else {
 			// base tariff
-			$billAmount = $noOfDays * $pricePerUnitPerDay * $noOfUnits;
+			$subTotal = $noOfDays * $pricePerUnitPerDay * $noOfUnits;
 		}
 
-		$query = "INSERT INTO bonded_billing_invoice (grn_id, billing_date, period_from, period_to, bill_amount) VALUES ('$grnId', '$billDate', '$fromDateStr', '$toDateStr', $billAmount)";
+		$taxAmount = 0;
+		$grandTotal = 0;
+		switch ($billGstType) { 
+			case 'same_state':
+				$cgst = $subTotal * (($gstPercentages['same_state']/2)/100);
+				$sgst = $subTotal * (($gstPercentages['same_state']/2)/100);
+				$taxAmount = $subTotal * ($gstPercentages['same_state']/100); 
+				$grandTotal = $subTotal + $taxAmount;
+				$query = "INSERT INTO bonded_billing_invoice (grn_id, billing_date, period_from, period_to, bill_amount, sgst, cgst, tax_payable, grand_total) VALUES ('$grnId', '$billDate', '$fromDateStr', '$toDateStr', '$subTotal', '$sgst', '$cgst', '$taxAmount', '$grandTotal')";
+				break;
+			case 'other_state':
+				$igst = $subTotal * ($gstPercentages['other_state']/100);
+				$taxAmount = $subTotal * ($gstPercentages['other_state']/100); 
+				$grandTotal = $subTotal + $taxAmount;
+				$query = "INSERT INTO bonded_billing_invoice (grn_id, billing_date, period_from, period_to, bill_amount, igst, tax_payable, grand_total) VALUES ('$grnId', '$billDate', '$fromDateStr', '$toDateStr', '$subTotal', '$igst', '$taxAmount', '$grandTotal')";
+				break;
+			case 'union_teritory':
+				$ugst = $subTotal * ($gstPercentages['union_teritory']/100);
+				$taxAmount = $subTotal * ($gstPercentages['union_teritory']/100); 
+				$grandTotal = $subTotal + $taxAmount;
+				$query = "INSERT INTO bonded_billing_invoice (grn_id, billing_date, period_from, period_to, bill_amount, ugst, tax_payable, grand_total) VALUES ('$grnId', '$billDate', '$fromDateStr', '$toDateStr', '$subTotal', '$ugst', '$taxAmount', '$grandTotal')";
+				break;
+			case 'exempt':
+				$grandTotal = $subTotal;
+				$query = "INSERT INTO bonded_billing_invoice (grn_id, billing_date, period_from, period_to, bill_amount, tax_payable, grand_total) VALUES ('$grnId', '$billDate', '$fromDateStr', '$toDateStr', '$subTotal', '$taxAmount', '$grandTotal')";
+				break;
+		}
 
+		//$handlingCharges = generateHandlingChargesBill('1',$handlingDescriptions, $handlingAmounts, $handlingGSTTypes, $gstPercentages);
+
+		$output = array();
 		if(mysqli_query($dbc, $query)){
-			$output = array('infocode' => 'SUCCESS', 'data' => $billAmount);
+			$lastInsertInvoiceId = mysqli_insert_id($dbc);
+			$handlingCharges = generateHandlingChargesBill($lastInsertInvoiceId, $handlingDescriptions, $handlingAmounts, $handlingGSTTypes, $gstPercentages);
+			$finalSubTotal = $subTotal + $handlingCharges['sub_total'];
+			$finalTaxPayable = $taxAmount + $handlingCharges['tax_amount'];
+			$finalGrandTotal = $grandTotal + $handlingCharges['total_amount'];
+
+			$output = array('infocode' => 'SUCCESS', 'sub_total' => $finalSubTotal, 'tax_payable' => $finalTaxPayable, 'grand_total' => $finalGrandTotal);
 		} else {
 			$output = array('infocode' => 'failure');
 		}

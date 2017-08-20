@@ -39,7 +39,6 @@ function getGRNList(){
 }
 
 function displayGRNList(grnList){
-	console.log(grnList);
 	var dp = '';
 	grnList.forEach( function(grn, index) {
 		dp += '<tr>\
@@ -93,6 +92,7 @@ function getBillingInfo(grnId){
 				$('#last_bill_amount_label').html('₹ ' + result.data.bill_amount);
 				$('#previous_billing_div').show();
 				$('#billing_div').show();
+			    $('#handling_charges_div').show();
 				$('#generate_bill_btn').show();
 			}
 		},
@@ -102,13 +102,60 @@ function getBillingInfo(grnId){
 	});	
 }
 
+var additem_template = '<tr id="[trid]"><td><span class="td_sno">[sno]</span></td>\
+							<td><input type="text" id="description" name="description[]" placeholder="" class="form-control" value=""></td>\
+							<td><input type="text" name="amount[]" placeholder="" class="form-control" value=""></td>\
+							<td><select class="form-control required" id="gst_type" name="gst_type[]">\
+								[gsttypes]\
+                        		</select>\
+                        	</td>\
+							<td><input type="button" class="btn btn-warning" onclick="additemrow([addcount]);" value="+"><input type="button" class="item_removebutton btn btn-danger" onclick="removeitemrow([removecount])" value="-"></td></tr>';
+
+
+var g_rowcount=2;
+var g_snocount=2;
+function additemrow(rowcount){
+	var gstTypeCombo = '';
+	for(var gstType in gstTypes){
+        gstTypeCombo += '<option value="'+gstType+'">'+gstTypes[gstType]+'</option>';
+    }
+	var addrow = additem_template.replace('[trid]','itemtr_'+g_rowcount)
+								.replace('[sno]',g_snocount)
+								.replace('[addcount]',g_rowcount)
+								.replace('[removecount]',g_rowcount)
+								.replace('[gsttypes]',gstTypeCombo);
+	$('#additem_tbody').append(addrow);
+	g_rowcount++;
+	g_snocount++;
+	$('.item_removebutton').show();
+}
+
+function removeitemrow(rowcount){
+	$('#itemtr_'+rowcount).remove();
+	refreshsnocount();
+}
+
+function refreshsnocount(){
+	var sillycount = 1;
+	$('.td_sno').each(function(d){
+		//console.log(d);
+		$(this).html(sillycount++);
+	});
+	g_snocount = sillycount;
+	if(sillycount<=2)
+		$('.item_removebutton').hide();
+}
+
+
 function generateBill(){
 	if($('#generate_bill_form').valid()){
 		var grnId = gGrnId;
 		var billDate = $('#bill_date').val();
 		var fromDate = $('#from_date').val();
 		var toDate = $('#to_date').val();
-		var data = 'grn_id=' + grnId + '&bill_date=' + billDate + '&from_date=' + fromDate + '&to_date=' + toDate + '&action=generate_bill'; 
+		//var data = 'grn_id=' + grnId + '&bill_date=' + billDate + '&from_date=' + fromDate + '&to_date=' + toDate + '&action=generate_bill'; 
+		var data = $('#generate_bill_form').serialize() + '&gst_values=' + JSON.stringify(gstValues) + '&grn_id=' + grnId + '&action=generate_bill';
+		//console.log(data);
 		$.ajax({
 		url: "billing-services.php",
 		type: "POST",
@@ -116,9 +163,9 @@ function generateBill(){
 		dataType: 'json',
 		success: function(result){
 			if(result.infocode == 'SUCCESS'){
-				$('#bill_amount_label').html('₹ ' + result.data); //sub-total 
-				$('#total_taxes_label').html();
-				$('#grand_total_label').html();
+				$('#bill_amount_label').html('₹ ' + result.sub_total); //sub-total 
+				$('#total_taxes_label').html('₹ ' + result.tax_payable);
+				$('#grand_total_label').html('₹ ' + result.grand_total);
 				$('#bill_amount_div').show();
 			}
 		},
