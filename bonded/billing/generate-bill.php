@@ -1,6 +1,7 @@
 <?php
   include('../header.php');
   include('../sidebar.php');
+  include('gst-config.php');
 ?>
 
   <!-- Content Wrapper. Contains page content -->
@@ -28,11 +29,11 @@
               </div>
               <div class="col-md-3">
                 <div class="clearfix">&nbsp;</div>
-                <input type="button" class="btn btn-primary btn-block" onclick="getGRNList()" value="Get GRN List">
+                <input type="button" class="btn btn-primary btn-block" onclick="getGRNList()" value="Get GRN List" >
               </div>
               <div class="col-sm-3">
                 <div class="form-group" id="party_details_div">
-                  <label for="importing_firm_name">Party Master ID:</label>
+                  <label for="">Party Master ID:</label>
                   <div class="clearfix"></div>
                   <label id="party_id_label"></label>
                   <input type="hidden" name="party_id_hidden" id="party_id_hidden">
@@ -55,8 +56,53 @@
                 </tbody>
               </table>
             </div>
-            <div class="row" id="previous_billing_div">
-              
+            <div class="row" id="selected_grn_div">
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="">Selected GRN ID:</label>
+                  <div class="clearfix"></div>
+                  <label id="grn_id_label"></label>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="">SAC ID:</label>
+                  <div class="clearfix"></div>
+                  <label id="sac_id_label"></label>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="">Job order - Unloading ID:</label>
+                  <div class="clearfix"></div>
+                  <label id="jul_id_label"></label>
+                </div>
+              </div>
+            </div>
+            <div class="well col-md-10" id="previous_billing_div">
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="">Last Bill Date:</label>
+                    <div class="clearfix"></div>
+                    <label id="previous_bill_date_label"></label>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="">Last Bill Period:</label>
+                    <div class="clearfix"></div>
+                    <label id="previus_period_label"></label>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="">Last Bill Amount:</label>
+                    <div class="clearfix"></div>
+                    <label id="last_bill_amount_label"></label>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="row" id="billing_div">
               <div class="col-md-3">
@@ -77,6 +123,48 @@
                   <input type="text" tabindex="" class="form-control required" id="to_date" name="to_date" placeholder="To Date">
                 </div>
               </div>
+              <div class="col-md-3">
+                <label for="gst_type">GST Type:</label>
+                  <select class="form-control required" tabindex="7" id="gst_type" name="gst_type">
+                    <option value="">Select GST Type...</option>
+                    <?php 
+                      foreach ($gstTypes as $key => $value) {
+                        echo "<option value='$value'>$key</option>";
+                      }
+                    ?>
+                  </select>
+              </div>
+            </div>
+            <div class="row" id="bill_amount_div">
+              <div class="col-md-3">
+                <div class="form-group" >
+                  <label for="">Sub Total:</label>
+                  <div class="clearfix"></div>
+                  <label id="bill_amount_label"></label>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group" >
+                  <label for="">Total Taxes:</label>
+                  <div class="clearfix"></div>
+                  <label id="total_taxes_label"></label>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group" >
+                  <label for="">Grand Total:</label>
+                  <div class="clearfix"></div>
+                  <label id="grand_total_label"></label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+              </div>
+              <div class="col-md-4">
+                <div class="clearfix">&nbsp;</div>
+                <input type="button" id="generate_bill_btn" class="btn btn-primary btn-block" onclick="generateBill()" value="Generate Bill">
+              </div>
             </div>
           </form>
         </div>
@@ -87,8 +175,6 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-
-
 
   <?php
     include('../footer_imports.php');
@@ -101,10 +187,13 @@
         errorClass: "my-error-class" //error class defined in header file style tag
       });
 
+      $('#selected_grn_div').hide();
       $('#party_details_div').hide();
       $('#grn_table').hide();
       $('#previous_billing_div').hide();
       $('#billing_div').hide();
+      $('#generate_bill_btn').hide();
+      $('#bill_amount_div').hide();
 
     });
 
@@ -130,14 +219,14 @@
     });
 
     $('#party_name').on('change', function(){
-      getPartyDetails();
+      getPartyDetails(this.value);
       getGRNList();
     });
 
     //for enter key press
     $('#party_name').keypress(function(event){
       if(event.which == 13){
-        getPartyDetails();
+        getPartyDetails(this.value);
         getGRNList();
       }
     });
