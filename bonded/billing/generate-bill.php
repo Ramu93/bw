@@ -127,11 +127,6 @@
                   <input type="text" tabindex="" class="form-control required" id="to_date" name="to_date" placeholder="To Date">
                 </div>
               </div>
-              <div class="col-md-3">
-                <label for="gst_type">GST Type:</label>
-                  <select class="form-control required" id="bill_gst_type" name="bill_gst_type">
-                  </select>
-              </div>
             </div>
             <div id="handling_charges_div">
               <div class="row">
@@ -149,7 +144,7 @@
                         <th>Sl.no</th>
                         <th>Description</th>
                         <th>Amount</th>
-                        <th>GST Type</th>
+                        <th>GST Slab</th>
                       </tr>
                     </thead>
                     <tbody id="additem_tbody">
@@ -161,7 +156,12 @@
                           <td><input type="text" name="amount[]" placeholder="" class="form-control" value=""></td>
 
                           <td>
-                            <select class="form-control required" id="gst_type" name="gst_type[]">
+                            <select class="form-control required" id="gst_slab" name="gst_slab[]">
+                              <option value="0">0</option>
+                              <option value="5">5</option>
+                              <option value="12">12</option>
+                              <option value="18">18</option>
+                              <option value="28">28</option>
                             </select>
                           </td>
 
@@ -175,28 +175,29 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-8">
-                <div class="well" id="bill_amount_div">
-                  <div class="row">
-                    <div class="col-md-4">
+            <div class="row" id="bill_amount_div">
+              <div class="col-md-4">
+              </div>
+              <div class="col-md-4">
+              </div>
+              <div class="col-md-4">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row">
                       <div class="form-group" >
                         <label for="">Sub Total:</label>
-                        <div class="clearfix"></div>
                         <label id="bill_amount_label"></label>
                       </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="row">
                       <div class="form-group" >
                         <label for="">Tax Payable:</label>
-                        <div class="clearfix"></div>
                         <label id="total_taxes_label"></label>
                       </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="row">
                       <div class="form-group" >
                         <label for="">Grand Total:</label>
-                        <div class="clearfix"></div>
                         <label id="grand_total_label"></label>
                       </div>
                     </div>
@@ -205,11 +206,15 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-3">
+              </div>
+              <div class="col-md-3">
+                <div class="clearfix">&nbsp;</div>
+                <input type="button" id="generate_bill_btn" class="btn btn-primary btn-block" onclick="generateBill()" value="Generate Bill">
               </div>
               <div class="col-md-4">
                 <div class="clearfix">&nbsp;</div>
-                <input type="button" id="generate_bill_btn" class="btn btn-primary btn-block" onclick="generateBill()" value="Generate Bill">
+                <input type="button" id="save_bill_btn" class="btn btn-primary btn-block" onclick="saveBill()" value="Save Bill">
               </div>
             </div>
           </form>
@@ -243,6 +248,7 @@
       $('#previous_billing_div').hide();
       $('#billing_div').hide();
       $('#generate_bill_btn').hide();
+      $('#save_bill_btn').hide();
       $('#handling_charges_div').hide();
       $('#bill_amount_div').hide();
 

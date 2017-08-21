@@ -94,6 +94,7 @@ function getBillingInfo(grnId){
 				$('#billing_div').show();
 			    $('#handling_charges_div').show();
 				$('#generate_bill_btn').show();
+				$('#save_bill_btn').show();
 			}
 		},
 		error: function(){
@@ -105,9 +106,13 @@ function getBillingInfo(grnId){
 var additem_template = '<tr id="[trid]"><td><span class="td_sno">[sno]</span></td>\
 							<td><input type="text" id="description" name="description[]" placeholder="" class="form-control" value=""></td>\
 							<td><input type="text" name="amount[]" placeholder="" class="form-control" value=""></td>\
-							<td><select class="form-control required" id="gst_type" name="gst_type[]">\
-								[gsttypes]\
-                        		</select>\
+							<td><select class="form-control required" id="gst_slab" name="gst_slab[]">\
+                              <option value="0">0</option>\
+                              <option value="5">5</option>\
+                              <option value="12">12</option>\
+                              <option value="18">18</option>\
+                              <option value="28">28</option>\
+                            </select>\
                         	</td>\
 							<td><input type="button" class="btn btn-warning" onclick="additemrow([addcount]);" value="+"><input type="button" class="item_removebutton btn btn-danger" onclick="removeitemrow([removecount])" value="-"></td></tr>';
 
@@ -155,6 +160,35 @@ function generateBill(){
 		var toDate = $('#to_date').val();
 		//var data = 'grn_id=' + grnId + '&bill_date=' + billDate + '&from_date=' + fromDate + '&to_date=' + toDate + '&action=generate_bill'; 
 		var data = $('#generate_bill_form').serialize() + '&gst_values=' + JSON.stringify(gstValues) + '&grn_id=' + grnId + '&action=generate_bill';
+		//console.log(data);
+		$.ajax({
+		url: "billing-services.php",
+		type: "POST",
+		data:  data,
+		dataType: 'json',
+		success: function(result){
+			if(result.infocode == 'SUCCESS'){
+				$('#bill_amount_label').html('₹ ' + result.sub_total); //sub-total 
+				$('#total_taxes_label').html('₹ ' + result.tax_payable);
+				$('#grand_total_label').html('₹ ' + result.grand_total);
+				$('#bill_amount_div').show();
+			}
+		},
+		error: function(){
+			bootbox.alert("failure");
+		} 	        
+	});	
+	}
+}
+
+function saveBill(){
+	if($('#generate_bill_form').valid()){
+		var grnId = gGrnId;
+		var billDate = $('#bill_date').val();
+		var fromDate = $('#from_date').val();
+		var toDate = $('#to_date').val();
+		//var data = 'grn_id=' + grnId + '&bill_date=' + billDate + '&from_date=' + fromDate + '&to_date=' + toDate + '&action=generate_bill'; 
+		var data = $('#generate_bill_form').serialize() + '&gst_values=' + JSON.stringify(gstValues) + '&grn_id=' + grnId + '&action=save_bill';
 		//console.log(data);
 		$.ajax({
 		url: "billing-services.php",
