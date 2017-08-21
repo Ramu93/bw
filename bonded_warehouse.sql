@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 26, 2017 at 04:47 AM
+-- Generation Time: Aug 21, 2017 at 05:04 AM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.1
 
@@ -19,6 +19,49 @@ SET time_zone = "+00:00";
 --
 -- Database: `bonded_warehouse`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bonded_billing_invoice`
+--
+
+CREATE TABLE `bonded_billing_invoice` (
+  `bill_id` int(11) NOT NULL,
+  `grn_id` int(11) NOT NULL,
+  `billing_date` date NOT NULL,
+  `period_from` date NOT NULL,
+  `period_to` date NOT NULL,
+  `bill_amount` varchar(200) NOT NULL COMMENT 'sub total',
+  `gst_type` varchar(50) NOT NULL,
+  `sgst` varchar(100) DEFAULT NULL,
+  `cgst` varchar(100) DEFAULT NULL,
+  `igst` varchar(100) DEFAULT NULL,
+  `ugst` varchar(100) DEFAULT NULL,
+  `tax_payable` varchar(100) NOT NULL,
+  `grand_total` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bonded_billing_invoice_details`
+--
+
+CREATE TABLE `bonded_billing_invoice_details` (
+  `invoice_details_id` int(11) NOT NULL,
+  `invoice_id` int(11) NOT NULL,
+  `service_type` varchar(10) NOT NULL,
+  `description` varchar(100) NOT NULL,
+  `amount` varchar(100) NOT NULL,
+  `gst_type` varchar(50) NOT NULL,
+  `sgst` varchar(100) DEFAULT NULL,
+  `cgst` varchar(100) DEFAULT NULL,
+  `igst` varchar(100) DEFAULT NULL,
+  `ugst` varchar(100) DEFAULT NULL,
+  `tax_payable` varchar(100) NOT NULL,
+  `total` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -163,7 +206,9 @@ INSERT INTO `bonded_exception` (`exception_id`, `exception_type`, `exception_sub
 (4, 'joborder_unloading', 'damage', '1223', '', '2017-07-23 13:56:21', NULL, 'exception_images/2_2017-07-23 13:56:21_1.jpeg', 'created', '2017-07-23 11:56:21'),
 (5, 'joborder_unloading', 'damage', '1233', '', '2017-07-24 05:01:40', NULL, 'exception_images/4_2017-07-24 05:01:40_2.jpeg', 'created', '2017-07-24 03:01:40'),
 (6, 'joborder_unloading', 'damage', '1233', '', '2017-07-24 05:01:40', NULL, 'exception_images/4_2017-07-24 05:01:40_2.jpeg', 'created', '2017-07-24 03:01:40'),
-(7, 'joborder_unloading', 'damage', '1233', '', '2017-07-24 05:01:45', NULL, 'exception_images/4_2017-07-24 05:01:45_2.jpeg', 'created', '2017-07-24 03:01:45');
+(7, 'joborder_unloading', 'damage', '1233', '', '2017-07-24 05:01:45', NULL, 'exception_images/4_2017-07-24 05:01:45_2.jpeg', 'created', '2017-07-24 03:01:45'),
+(8, 'joborder_unloading', 'damage', 'heavy', 'hy', '2017-08-12 05:24:49', '2017-08-12 05:35:13', NULL, 'complete', '2017-08-12 03:35:13'),
+(9, 'joborder_unloading', 'damage', '444', '', '2017-08-12 05:39:02', NULL, NULL, 'created', '2017-08-12 03:39:02');
 
 -- --------------------------------------------------------
 
@@ -193,7 +238,8 @@ CREATE TABLE `bonded_good_receipt_note` (
   `grn_id` int(11) NOT NULL,
   `ju_id` int(11) NOT NULL,
   `sac_id` int(11) NOT NULL,
-  `space_occupied` varchar(100) NOT NULL,
+  `no_of_units` varchar(100) NOT NULL,
+  `unit` varchar(100) NOT NULL,
   `location` varchar(100) NOT NULL,
   `validity` varchar(100) NOT NULL,
   `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -204,8 +250,10 @@ CREATE TABLE `bonded_good_receipt_note` (
 -- Dumping data for table `bonded_good_receipt_note`
 --
 
-INSERT INTO `bonded_good_receipt_note` (`grn_id`, `ju_id`, `sac_id`, `space_occupied`, `location`, `validity`, `created_date`, `status`) VALUES
-(1, 1, 1, '60', 'tnagar', '30', '2017-07-21 16:56:33', 'created');
+INSERT INTO `bonded_good_receipt_note` (`grn_id`, `ju_id`, `sac_id`, `no_of_units`, `unit`, `location`, `validity`, `created_date`, `status`) VALUES
+(1, 1, 1, '5', 'Sq. m.', 'tnagar', '30', '2017-08-19 18:32:48', 'created'),
+(2, 1, 4, '20', 'Sq. m.', 'tnagar', '5', '2017-08-18 01:28:03', 'created'),
+(3, 1, 3, '50', 'Sq. m.', 'tnagar', '30', '2017-08-18 01:29:33', 'created');
 
 -- --------------------------------------------------------
 
@@ -263,18 +311,18 @@ CREATE TABLE `bonded_igp_unloading` (
 
 INSERT INTO `bonded_igp_unloading` (`igp_un_id`, `sac_id`, `data_type`, `data_value`, `vehicle_number`, `driver_name`, `driving_license`, `container_number`, `num_tonnage`, `entry_date`, `time_in`, `container_condition`, `vehicle_type`, `transporter_name`, `status`) VALUES
 (1, 1, 'sac', '1', '12345', 'Ram', '1234', '44332', NULL, '21-07-2017', '21:57:39', 'Good', '20', 'rrttty', 'joborder_completed'),
-(2, 1, 'customer_name', 'Ram', '1', '1', '1', '1223', NULL, '23-07-2017', '9:51:31', 'Good', '20', '1', 'created'),
-(3, 1, 'customer_name', 'Ram', '1', '1', '1', '44332', NULL, '23-07-2017', '21:10:15', 'Good', '20', '1', 'created'),
-(4, 1, 'customer_name', 'Ram', '1', '1', '1', NULL, '5', '23-07-2017', '23:00:02', 'Good', 'LCL', '1', 'created'),
-(5, 1, 'customer_name', 'Ram', '1', '1', '1', '2345', NULL, '23-07-2017', '23:03:50', 'Good', '40', '1', 'created'),
-(6, 1, 'customer_name', 'Ram', '1', '1', '1', '2345', NULL, '23-07-2017', '23:08:37', 'Good', '20', '1', 'created'),
-(7, 1, 'customer_name', 'Ram', '1', '1', '1', NULL, '50', '23-07-2017', '23:23:41', 'Good', 'LCL', 'q', 'created'),
-(8, 1, 'customer_name', 'Ram', '9989989', 'y', 'y', '44332', NULL, '23-07-2017', '23:28:11', 'Good', '20', 'y', 'created'),
-(9, 1, 'customer_name', 'Ram', '678', 'u', 'u', NULL, '8', '23-07-2017', '23:29:16', 'Good', 'LCL', 'u', 'created'),
-(10, 1, 'customer_name', 'Ram', '678', 'u', 'u', NULL, '8', '23-07-2017', '23:29:16', 'Good', 'LCL', 'u', 'created'),
-(11, 1, 'customer_name', 'Ram', '678', 'u', 'u', NULL, '8', '23-07-2017', '23:29:16', 'Good', 'LCL', 'u', 'created'),
-(12, 1, 'customer_name', 'Ram', '678', 'u', 'u', NULL, '8', '23-07-2017', '23:29:16', 'Good', 'LCL', 'u', 'created'),
-(13, 1, 'customer_name', 'Ram', '678', 'u', 'u', NULL, '8', '23-07-2017', '23:29:16', 'Good', 'LCL', 'u', 'created');
+(2, 1, 'customer_name', 'Ram', '1', '1', '1', '1223', NULL, '23-07-2017', '9:51:31', 'Good', '20', '1', 'joborder_completed'),
+(3, 1, 'customer_name', 'Ram', '1', '1', '1', '44332', NULL, '23-07-2017', '21:10:15', 'Good', '20', '1', 'joborder_completed'),
+(4, 1, 'customer_name', 'Ram', '1', '1', '1', NULL, '5', '23-07-2017', '23:00:02', 'Good', 'LCL', '1', 'joborder_completed'),
+(5, 1, 'customer_name', 'Ram', '1', '1', '1', '2345', NULL, '23-07-2017', '23:03:50', 'Good', '40', '1', 'joborder_completed'),
+(6, 1, 'customer_name', 'Ram', '1', '1', '1', '2345', NULL, '23-07-2017', '23:08:37', 'Good', '20', '1', 'joborder_completed'),
+(7, 1, 'customer_name', 'Ram', '1', '1', '1', NULL, '50', '23-07-2017', '23:23:41', 'Good', 'LCL', 'q', 'joborder_completed'),
+(8, 1, 'customer_name', 'Ram', '9989989', 'y', 'y', '44332', NULL, '23-07-2017', '23:28:11', 'Good', '20', 'y', 'joborder_completed'),
+(9, 1, 'customer_name', 'Ram', '678', 'u', 'u', NULL, '8', '23-07-2017', '23:29:16', 'Good', 'LCL', 'u', 'joborder_completed'),
+(10, 1, 'customer_name', 'Ram', '678', 'u', 'u', NULL, '8', '23-07-2017', '23:29:16', 'Good', 'LCL', 'u', 'joborder_completed'),
+(11, 1, 'customer_name', 'Ram', '678', 'u', 'u', NULL, '8', '23-07-2017', '23:29:16', 'Good', 'LCL', 'u', 'joborder_completed'),
+(12, 1, 'customer_name', 'Ram', '678', 'u', 'u', NULL, '8', '23-07-2017', '23:29:16', 'Good', 'LCL', 'u', 'joborder_completed'),
+(13, 1, 'customer_name', 'Ram', '678', 'u', 'u', NULL, '8', '23-07-2017', '23:29:16', 'Good', 'LCL', 'u', 'joborder_completed');
 
 -- --------------------------------------------------------
 
@@ -329,8 +377,8 @@ CREATE TABLE `bonded_joborder_unloading` (
 
 INSERT INTO `bonded_joborder_unloading` (`ju_id`, `sac_id`, `weight`, `no_of_packages`, `description`, `supervisor_name`, `unloading_type`, `equipment_ref_number`, `no_of_labors`, `unloading_time`, `dimension`, `status`, `exception_id`) VALUES
 (1, 1, '50', '3', 'west', 'ram', 2, '334567', '3', '3', '20 ft. Container', 'completed', 1),
-(2, 1, '1', '2', '2', '1', 1, '1', '1', '1', '20 ft. Container', 'exceptioncomplete', 1),
-(3, 1, '1', '1', '1', '1', 1, '1', '1', '1', '20 ft. Container', 'created', 0),
+(2, 1, '1', '2', '2', '1', 1, '1', '1', '1', '20 ft. Container', 'rejected', 9),
+(3, 1, '1', '1', '1', '1', 1, '1', '1', '1', '20 ft. Container', 'rejected', 0),
 (4, 1, '1', '1', '1', '1', 1, '1', '1', '1', '20 ft. Container', 'created', 0);
 
 -- --------------------------------------------------------
@@ -371,7 +419,8 @@ CREATE TABLE `bonded_ogp_unloading` (
 --
 
 INSERT INTO `bonded_ogp_unloading` (`ogp_un_id`, `ju_id`, `exit_time`, `status`) VALUES
-(1, 1, '2017-07-21 22:12:04', 'completed');
+(1, 1, '2017-07-21 22:12:04', 'completed'),
+(2, 3, NULL, 'created');
 
 -- --------------------------------------------------------
 
@@ -398,6 +447,27 @@ INSERT INTO `bonded_pdr_items` (`pdr_item_id`, `pdr_id`, `dv_item_id`, `containe
 (2, 1, 2, '44332', 1, 'cd', '5'),
 (3, 2, 1, '1223', 1, 'ab', '10'),
 (4, 3, 2, '44332', 1, 'cd', '5');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `discount_master`
+--
+
+CREATE TABLE `discount_master` (
+  `discount_master_id` int(11) NOT NULL,
+  `customer_pm_id` int(11) NOT NULL,
+  `cha_pm_id` int(11) NOT NULL,
+  `tariff_master_id` int(11) NOT NULL,
+  `discount_percentage` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `discount_master`
+--
+
+INSERT INTO `discount_master` (`discount_master_id`, `customer_pm_id`, `cha_pm_id`, `tariff_master_id`, `discount_percentage`) VALUES
+(9, 13, 16, 1, 5);
 
 -- --------------------------------------------------------
 
@@ -539,7 +609,9 @@ CREATE TABLE `general_exception` (
 INSERT INTO `general_exception` (`exception_id`, `exception_type`, `exception_subtype`, `exception_remarks`, `exception_closingremarks`, `exception_status`, `image`, `start_time`, `end_time`, `exception_time`) VALUES
 (1, 'joborder_unloading', 'damage', 'heavy damage', '1234', 'complete', NULL, NULL, '2017-07-23 14:07:55', '2017-07-23 12:07:55'),
 (2, 'joborder_unloading', 'damage', 'heavy', 'res', 'complete', NULL, NULL, NULL, '2017-07-21 02:50:27'),
-(3, 'joborder_unloading', 'damage', '1123', '', 'created', 'exception_images/2_2017-07-23 14:04:35_1.jpeg', '2017-07-23 14:04:35', NULL, '2017-07-23 12:04:35');
+(3, 'joborder_unloading', 'damage', '1123', '', 'created', 'exception_images/2_2017-07-23 14:04:35_1.jpeg', '2017-07-23 14:04:35', NULL, '2017-07-23 12:04:35'),
+(4, 'joborder_unloading', 'damage', 'tttt', '', 'created', NULL, '2017-08-12 05:56:26', NULL, '2017-08-12 03:56:26'),
+(5, 'joborder_unloading', 'damage', 'tttt', 'rrr', 'complete', NULL, '2017-08-12 05:56:59', '2017-08-12 05:57:36', '2017-08-12 03:57:36');
 
 -- --------------------------------------------------------
 
@@ -569,7 +641,8 @@ CREATE TABLE `general_good_receipt_note` (
   `grn_id` int(11) NOT NULL,
   `ju_id` int(11) NOT NULL,
   `par_id` int(11) NOT NULL,
-  `space_occupied` varchar(100) NOT NULL,
+  `no_of_units` varchar(100) NOT NULL,
+  `unit` varchar(100) NOT NULL,
   `location` varchar(100) NOT NULL,
   `validity` varchar(100) NOT NULL,
   `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -580,11 +653,12 @@ CREATE TABLE `general_good_receipt_note` (
 -- Dumping data for table `general_good_receipt_note`
 --
 
-INSERT INTO `general_good_receipt_note` (`grn_id`, `ju_id`, `par_id`, `space_occupied`, `location`, `validity`, `created_date`, `status`) VALUES
-(6, 3, 1, '50', '2221', '11', '2017-07-08 20:30:53', 'created'),
-(7, 6, 2, '60', '2221', '11', '2017-07-08 20:30:59', 'created'),
-(9, 8, 44, '70', 'tnagar', '70', '2017-07-08 20:31:02', 'created'),
-(12, 2, 3, '50', 'tnagar', '30', '2017-07-20 02:52:29', 'created');
+INSERT INTO `general_good_receipt_note` (`grn_id`, `ju_id`, `par_id`, `no_of_units`, `unit`, `location`, `validity`, `created_date`, `status`) VALUES
+(6, 3, 1, '50', '', '2221', '11', '2017-07-08 20:30:53', 'created'),
+(7, 6, 2, '60', '', '2221', '11', '2017-07-08 20:30:59', 'created'),
+(9, 8, 44, '70', '', 'tnagar', '70', '2017-07-08 20:31:02', 'created'),
+(12, 2, 3, '50', '', 'tnagar', '30', '2017-07-20 02:52:29', 'created'),
+(13, 3, 1, '5', 'No. of Containers', 'tnagar', '8', '2017-08-12 02:55:38', 'created');
 
 -- --------------------------------------------------------
 
@@ -703,7 +777,7 @@ CREATE TABLE `general_joborder_unloading` (
 --
 
 INSERT INTO `general_joborder_unloading` (`ju_id`, `par_id`, `weight`, `no_of_packages`, `description`, `supervisor_name`, `unloading_type`, `equipment_ref_number`, `no_of_labors`, `unloading_time`, `dimension`, `status`, `exception_id`) VALUES
-(2, 3, '67', '12', 'jj', 'j', 1, '12', '12', '1', '40 ft. Container', 'exceptioncomplete', 1),
+(2, 3, '67', '12', 'jj', 'j', 1, '12', '12', '1', '40 ft. Container', 'rejected', 5),
 (3, 1, '500', '3', '11223', 'ram', 3, '1234', '3', '12', '20 ft. Container', 'completed', 2);
 
 -- --------------------------------------------------------
@@ -748,7 +822,8 @@ INSERT INTO `general_ogp_unloading` (`ogp_un_id`, `ju_id`, `exit_time`, `status`
 (1, 7, '2017-07-09 17:57:19', 'completed'),
 (3, 2, '2017-07-20 08:04:52', 'completed'),
 (4, 3, '2017-07-21 08:21:52', 'completed'),
-(5, 2, NULL, 'created');
+(5, 2, NULL, 'created'),
+(6, 2, NULL, 'created');
 
 -- --------------------------------------------------------
 
@@ -849,10 +924,10 @@ CREATE TABLE `party_master` (
 INSERT INTO `party_master` (`pm_id`, `pm_uuid`, `pm_customerName`, `pm_type`, `pm_address1`, `pm_address2`, `pm_cityTown`, `pm_state`, `pm_pin`, `pm_landline`, `pm_fax`, `pm_sales`, `pm_servicesTax`, `pm_licence`, `pm_tan`, `pm_pan`, `pm_doc`, `pm_sd`, `pm_inactive`, `pm_primaryContact`, `pm_primaryContactMobile`, `pm_primaryContactEmail`, `pm_secondaryContact`, `pm_secondaryContactMobile`, `pm_secondaryContactEmail`, `pm_tertiaryContact`, `pm_tertiaryContactMobile`, `pm_tertiaryContactEmail`, `pm_ccd`, `pm_ccLimit`, `pm_ccBalance`, `created_date`, `pm_active_status`) VALUES
 (13, '8496E4C0-9CA8-40BC-B563-26EDE633B240-1499823272', 'Rams Int', 'Customer', 'bbbb', 'ccccc', 'chennai', 'tamil nadu', 600097, '', '', '1', '1', '1', '1', '1', NULL, NULL, '2017-07-28', '1', '1', '1', '1', '1', '1', '1', '1', '1', '30', '100000', '500000', '2017-07-12 01:34:32', 'YES'),
 (14, 'F3AEDFC0-026A-4EA4-9DF1-374A9679B477-1500949728', 'one', 'CHA', '1', '1', 'chennai', 'tamil nadu', 1234, '8878788', '77737', '', '', '', '', '', NULL, NULL, '0000-00-00', '', '', '', '', '', '', '', '', '', '5', '5', '5', '2017-07-25 02:28:48', 'YES'),
-(15, 'EE535999-403C-476E-8D5B-9C0CA48F4F38-1500949750', '', 'Customer', '', '', '', '', 0, '', '', '', '', '', '', '', NULL, NULL, '0000-00-00', '', '', '', '', '', '', '', '', '', '', '', '', '2017-07-25 02:29:10', 'YES'),
-(16, '9253904E-93CB-4E2E-935D-4312B3872D64-1500950695', '1', 'Customer', '', '', '', '', 0, '', '', '', '', '', '', '', NULL, NULL, '0000-00-00', '', '', '', '', '', '', '', '', '', '', '', '', '2017-07-25 02:44:55', 'YES'),
-(17, '900301F0-14FB-4E3A-A063-04403013F156-1500950989', '2', 'CHA', '2', '2', '2222', '2', 2, '', '', '', '', '', '', '', NULL, NULL, '0000-00-00', '', '', '', '', '', '', '', '', '', '2', '2', '2', '2017-07-25 02:49:49', 'YES'),
-(18, '38148A90-5926-4137-A497-0B011539B88A-1500951449', 'e', 'Customer', '1', '1', '1', '1', 1, '1', '1', '', '', '', '', '', NULL, NULL, '2017-07-26', '', '', '', '', '', '', '', '', '', '1', '1', '1', '2017-07-25 02:57:29', 'YES');
+(15, 'EE535999-403C-476E-8D5B-9C0CA48F4F38-1500949750', 'five', 'Customer', '', '', '', '', 0, '', '', '', '', '', '', '', NULL, NULL, '0000-00-00', '', '', '', '', '', '', '', '', '', '', '', '', '2017-07-25 02:29:10', 'YES'),
+(16, '9253904E-93CB-4E2E-935D-4312B3872D64-1500950695', 'two', 'Customer', '', '', '', '', 0, '', '', '', '', '', '', '', NULL, NULL, '0000-00-00', '', '', '', '', '', '', '', '', '', '', '', '', '2017-07-25 02:44:55', 'YES'),
+(17, '900301F0-14FB-4E3A-A063-04403013F156-1500950989', 'three', 'CHA', '2', '2', '2222', '2', 2, '', '', '', '', '', '', '', NULL, NULL, '0000-00-00', '', '', '', '', '', '', '', '', '', '2', '2', '2', '2017-07-25 02:49:49', 'YES'),
+(18, '38148A90-5926-4137-A497-0B011539B88A-1500951449', 'four', 'Customer', '1', '1', '1', '1', 1, '1', '1', '', '', '', '', '', NULL, NULL, '2017-07-26', '', '', '', '', '', '', '', '', '', '1', '1', '1', '2017-07-25 02:57:29', 'YES');
 
 -- --------------------------------------------------------
 
@@ -886,7 +961,24 @@ INSERT INTO `par_container_info` (`container_info_id`, `dimension`, `has_contain
 (8, '40 ft. Container', 'yes', 2, '{\"0\":{\"container_number\":\"13\",\"status\":\"not_picked\"},\"1\":{\"container_number\":\"34\",\"status\":\"not_picked\"}}', 1, NULL, 'notgenerated'),
 (9, 'LCL', 'no', NULL, NULL, 1, '45', 'notgenerated'),
 (10, 'ODC', 'yes', 2, '{\"0\":{\"container_number\":\"123\",\"status\":\"not_picked\"},\"1\":{\"container_number\":\"3322\",\"status\":\"not_picked\"}}', 1, NULL, 'notgenerated'),
-(11, 'LCL', 'no', NULL, NULL, 1, '55', 'notgenerated');
+(11, 'LCL', 'no', NULL, NULL, 1, '55', 'notgenerated'),
+(12, '20 ft. Container', 'yes', 2, '{\"0\":{\"container_number\":\"11\",\"status\":\"not_picked\"},\"1\":{\"container_number\":\"22\",\"status\":\"not_picked\"}}', 10, NULL, 'notgenerated'),
+(13, 'ODC', 'yes', 1, '{\"0\":{\"container_number\":\"4\",\"status\":\"not_picked\"}}', 10, NULL, 'notgenerated'),
+(14, '20 ft. Container', 'yes', 2, '{\"0\":{\"container_number\":\"11\",\"status\":\"not_picked\"},\"1\":{\"container_number\":\"22\",\"status\":\"not_picked\"}}', 11, NULL, 'notgenerated'),
+(15, 'ODC', 'yes', 1, '{\"0\":{\"container_number\":\"4\",\"status\":\"not_picked\"}}', 11, NULL, 'notgenerated'),
+(16, '20 ft. Container', 'yes', 2, '{\"0\":{\"container_number\":\"11\",\"status\":\"not_picked\"},\"1\":{\"container_number\":\"22\",\"status\":\"not_picked\"}}', 12, NULL, 'notgenerated'),
+(17, 'ODC', 'yes', 1, '{\"0\":{\"container_number\":\"4\",\"status\":\"not_picked\"}}', 12, NULL, 'notgenerated'),
+(18, '20 ft. Container', 'yes', 2, '{\"0\":{\"container_number\":\"11\",\"status\":\"not_picked\"},\"1\":{\"container_number\":\"22\",\"status\":\"not_picked\"}}', 13, NULL, 'notgenerated'),
+(19, 'ODC', 'yes', 1, '{\"0\":{\"container_number\":\"4\",\"status\":\"not_picked\"}}', 13, NULL, 'notgenerated'),
+(20, '20 ft. Container', 'yes', 2, '{\"0\":{\"container_number\":\"11\",\"status\":\"not_picked\"},\"1\":{\"container_number\":\"22\",\"status\":\"not_picked\"}}', 14, NULL, 'notgenerated'),
+(21, 'ODC', 'yes', 1, '{\"0\":{\"container_number\":\"4\",\"status\":\"not_picked\"}}', 14, NULL, 'notgenerated'),
+(22, '20 ft. Container', 'yes', 1, '{\"0\":{\"container_number\":\"4532\",\"status\":\"not_picked\"}}', 15, NULL, 'notgenerated'),
+(23, '40 ft. Container', 'yes', 2, '{\"0\":{\"container_number\":\"1234\",\"status\":\"not_picked\"},\"1\":{\"container_number\":\"5678\",\"status\":\"not_picked\"}}', 15, NULL, 'notgenerated'),
+(24, '20 ft. Container', 'yes', 1, '{\"0\":{\"container_number\":\"4532\",\"status\":\"not_picked\"}}', 16, NULL, 'notgenerated'),
+(25, '40 ft. Container', 'yes', 2, '{\"0\":{\"container_number\":\"1234\",\"status\":\"not_picked\"},\"1\":{\"container_number\":\"5678\",\"status\":\"not_picked\"}}', 16, NULL, 'notgenerated'),
+(26, '20 ft. Container', 'yes', 2, '{\"0\":{\"container_number\":\"45\",\"status\":\"not_picked\"},\"1\":{\"container_number\":\"46\",\"status\":\"not_picked\"}}', 17, NULL, 'notgenerated'),
+(27, '20 ft. Container', 'yes', 1, '{\"0\":{\"container_number\":\"444\",\"status\":\"not_picked\"}}', 18, NULL, 'notgenerated'),
+(28, '20 ft. Container', 'yes', 1, '{\"0\":{\"container_number\":\"1234\",\"status\":\"not_picked\"}}', 19, NULL, 'notgenerated');
 
 -- --------------------------------------------------------
 
@@ -897,8 +989,8 @@ INSERT INTO `par_container_info` (`container_info_id`, `dimension`, `has_contain
 CREATE TABLE `par_log` (
   `par_log_id` int(11) NOT NULL,
   `par_id` int(11) NOT NULL,
-  `status_from` varchar(50) NOT NULL,
-  `status_to` int(50) NOT NULL,
+  `status_from` varchar(50) DEFAULT NULL,
+  `status_to` varchar(100) NOT NULL,
   `logged_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `remarks` varchar(300) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -908,25 +1000,26 @@ CREATE TABLE `par_log` (
 --
 
 INSERT INTO `par_log` (`par_log_id`, `par_id`, `status_from`, `status_to`, `logged_time`, `remarks`) VALUES
-(1, 3, 'Submitted', 0, '2017-04-29 11:56:51', 'PAR Approved'),
-(2, 4, 'Submitted', 0, '2017-04-29 11:57:02', 'PAR Rejected'),
-(3, 1, 'Submitted', 0, '2017-04-29 12:16:47', 'PAR Approved'),
-(4, 3, 'Submitted', 0, '2017-04-29 12:17:40', 'PAR Rejected'),
-(5, 3, 'Submitted', 0, '2017-04-29 12:18:10', 'PAR Approved'),
-(6, 5, 'Submitted', 0, '2017-04-29 12:19:50', 'PAR Approved'),
-(7, 2, 'Submitted', 0, '2017-04-30 09:49:04', 'PAR Approved'),
-(8, 2, 'Submitted', 0, '2017-04-30 09:49:32', 'PAR Rejected'),
-(9, 2, 'Submitted', 0, '2017-04-30 09:50:06', 'PAR Approved'),
-(10, 1, 'Submitted', 0, '2017-06-23 13:34:55', 'PAR Approved'),
-(11, 5, 'Submitted', 0, '2017-06-23 13:40:22', 'PAR Approved'),
-(12, 5, 'Submitted', 0, '2017-07-06 02:13:39', 'PAR Approved'),
-(13, 44, 'Submitted', 0, '2017-07-06 02:24:28', 'PAR Approved'),
-(14, 1, 'Submitted', 0, '2017-07-06 02:24:34', 'PAR Rejected'),
-(15, 44, 'Submitted', 0, '2017-07-08 15:05:49', 'PAR Approved'),
-(16, 3, 'Submitted', 0, '2017-07-19 17:52:18', 'PAR Rejected'),
-(17, 3, 'Submitted', 0, '2017-07-19 17:52:32', 'PAR Approved'),
-(18, 1, 'Submitted', 0, '2017-07-21 02:30:37', 'PAR Rejected'),
-(19, 1, 'Submitted', 0, '2017-07-21 02:30:55', 'PAR Approved');
+(1, 3, 'Submitted', '0', '2017-04-29 11:56:51', 'PAR Approved'),
+(2, 4, 'Submitted', '0', '2017-04-29 11:57:02', 'PAR Rejected'),
+(3, 1, 'Submitted', '0', '2017-04-29 12:16:47', 'PAR Approved'),
+(4, 3, 'Submitted', '0', '2017-04-29 12:17:40', 'PAR Rejected'),
+(5, 3, 'Submitted', '0', '2017-04-29 12:18:10', 'PAR Approved'),
+(6, 5, 'Submitted', '0', '2017-04-29 12:19:50', 'PAR Approved'),
+(7, 2, 'Submitted', '0', '2017-04-30 09:49:04', 'PAR Approved'),
+(8, 2, 'Submitted', '0', '2017-04-30 09:49:32', 'PAR Rejected'),
+(9, 2, 'Submitted', '0', '2017-04-30 09:50:06', 'PAR Approved'),
+(10, 1, 'Submitted', '0', '2017-06-23 13:34:55', 'PAR Approved'),
+(11, 5, 'Submitted', '0', '2017-06-23 13:40:22', 'PAR Approved'),
+(12, 5, 'Submitted', '0', '2017-07-06 02:13:39', 'PAR Approved'),
+(13, 44, 'Submitted', '0', '2017-07-06 02:24:28', 'PAR Approved'),
+(14, 1, 'Submitted', '0', '2017-07-06 02:24:34', 'PAR Rejected'),
+(15, 44, 'Submitted', '0', '2017-07-08 15:05:49', 'PAR Approved'),
+(16, 3, 'Submitted', '0', '2017-07-19 17:52:18', 'PAR Rejected'),
+(17, 3, 'Submitted', '0', '2017-07-19 17:52:32', 'PAR Approved'),
+(18, 1, 'Submitted', '0', '2017-07-21 02:30:37', 'PAR Rejected'),
+(19, 1, 'Submitted', '0', '2017-07-21 02:30:55', 'PAR Approved'),
+(20, 19, '', '0', '2017-08-13 03:14:02', 'Waiting for Approval');
 
 -- --------------------------------------------------------
 
@@ -967,7 +1060,7 @@ CREATE TABLE `pre_arrival_request` (
 --
 
 INSERT INTO `pre_arrival_request` (`par_id`, `importing_firm_name`, `bol_awb_number`, `bol_awb_date`, `material_name`, `packing_nature`, `assessable_value`, `material_nature`, `required_period`, `cha_name`, `boe_number`, `boe_date`, `qty_units`, `space_requirement`, `duty_amount`, `expected_date`, `cargo_life`, `shelf_life`, `insurance_by`, `client_insurance_copy`, `insurance_declaration`, `insurance_declaration_copy`, `status`, `document_verified`, `igp_created`) VALUES
-(1, 'dummy', '1', '2017-07-08', '1', 'Metal Drum', '1', 'Non Hazardous', '1', 'Rams Int', '1', '2017-07-19', '1', '1', '1', '2017-07-28', '2017-07-29', '2017-07-24', '', '', 'No', '', 'approved', 'no', 'yes'),
+(1, 'dummy', '1', '2017-07-08', '1', 'Metal Drum', '1', 'Non Hazardous', '1', 'Rams Int', '1', '2017-07-19', 'qqqq', '1', '1', '2017-07-28', '2017-07-29', '2017-07-24', '', '', 'No', '', 'grn_created', 'no', 'yes'),
 (2, 'qwerty123', '1112', '2017-07-14', '1112', 'Metal Drum', '11', 'Non Hazardous', '11233', '112', '1122', '2017-07-19', '1112', '111', '11', '2017-07-27', '2017-07-29', '2017-07-31', '', '', 'Yes', 'insurance_declaration_copy/', 'submitted', 'no', 'no'),
 (3, '1', '2', '0000-00-00', '1', 'Metal Drum', '1', 'Non Hazardous', '3', '1', '2', '0000-00-00', '1', '1', '1', '2017-07-24', '2017-06-30', '2017-06-26', '', '', 'Yes', 'insurance_declaration_copy/', 'submitted', 'no', 'no'),
 (4, '1', '3', '0000-00-00', '1', 'Metal Drum', '1', 'Non Hazardous', '12', '1', '3', '0000-00-00', '1', '1', '1', '2017-07-24', '2017-06-30', '2017-06-26', '', '', 'Yes', 'insurance_declaration_copy/', 'submitted', 'no', 'no'),
@@ -975,7 +1068,17 @@ INSERT INTO `pre_arrival_request` (`par_id`, `importing_firm_name`, `bol_awb_num
 (6, 'qq', 'q', '2017-07-13', 'q', 'Metal Drum', 'q', 'Non Hazardous', 'q', 'q', 'q', '2017-07-25', 'q', 'q', 'q', '2017-07-25', '2017-07-28', '2017-07-31', '', '', 'No', '', 'submitted', 'no', 'no'),
 (7, '1', '5', '2017-07-12', '1', 'Metal Drum', '1', 'Non Hazardous', '1', '1', '5', '2017-07-10', '1', '1', '1', '2017-07-30', '2017-07-29', '2017-07-31', 'Client', 'client-insurance-copy/1_client_insurance_copy_doc.pdf', 'Yes', 'insurance_declaration_copy/1_insurance_declaration_copy_doc.pdf', 'submitted', 'no', 'no'),
 (8, 'm', 'm', '2017-07-07', 'rr', 'Metal Drum', 'm', 'Non Hazardous', '1', 'm', 'm', '2017-07-17', 'm', 'm', '3444', '2017-06-27', '2017-06-30', '2017-06-26', 'TRLPL', NULL, 'No', NULL, 'submitted', 'no', 'no'),
-(9, '1', '6', '2017-07-19', '1', 'Metal Drum', '1', 'Non Hazardous', '1', '1', '1223', '2017-07-18', '1', '1', '1', '2017-07-31', '2017-07-29', '2017-07-31', 'TRLPL', NULL, 'No', NULL, 'submitted', 'no', 'no');
+(9, '1', '6', '2017-07-19', '1', 'Metal Drum', '1', 'Non Hazardous', '1', '1', '1223', '2017-07-18', '1', '1', '1', '2017-07-31', '2017-07-29', '2017-07-31', 'TRLPL', NULL, 'No', NULL, 'submitted', 'no', 'no'),
+(10, 'Rams Int', '566771', '2017-08-17', '1', 'Metal Drum', '1', 'Non Hazardous', '11', 'five', '1223', '2017-08-22', '1112', '1', '1', '2017-08-29', '2017-08-24', '2017-08-30', 'TRLPL', NULL, 'No', NULL, 'submitted', 'no', 'no'),
+(11, 'Rams Int', '1', '2017-08-17', '1', 'Metal Drum', '1', 'Non Hazardous', '11', 'five', '1223', '2017-08-22', '1112', '1', '1', '2017-08-29', '2017-08-24', '2017-08-30', 'TRLPL', NULL, 'No', NULL, 'submitted', 'no', 'no'),
+(12, 'Rams Int', '1', '2017-08-17', '1', 'Metal Drum', '1', 'Non Hazardous', '11', 'five', '1223', '2017-08-22', '1112', '1', '1', '2017-08-29', '2017-08-24', '2017-08-30', 'TRLPL', NULL, 'No', NULL, 'submitted', 'no', 'no'),
+(13, 'Rams Int', '1', '2017-08-17', '1', 'Metal Drum', '1', 'Non Hazardous', '11', 'five', '1223', '2017-08-22', '1112', '1', '1', '2017-08-29', '2017-08-24', '2017-08-30', 'TRLPL', NULL, 'No', NULL, 'submitted', 'no', 'no'),
+(14, 'Rams Int', '1', '2017-08-17', '1', 'Metal Drum', '1', 'Non Hazardous', '11', 'five', '1223', '2017-08-22', '1112', '1', '1', '2017-08-29', '2017-08-24', '2017-08-30', 'TRLPL', NULL, 'No', NULL, 'submitted', 'no', 'no'),
+(15, 'Rams Int', '1', '2017-08-17', '1', 'Metal Drum', '1', 'Non Hazardous', '11', 'five', '1223', '2017-08-22', '1112', '1', '1', '2017-08-29', '2017-08-24', '2017-08-30', 'TRLPL', NULL, 'No', NULL, 'submitted', 'no', 'no'),
+(16, 'three', '1', '2017-08-17', '1', 'Metal Drum', '1', 'Non Hazardous', '11', 'five', '1223', '2017-08-22', '1112', '1', '1', '2017-08-29', '2017-08-24', '2017-08-30', 'TRLPL', NULL, 'No', NULL, 'submitted', 'no', 'no'),
+(17, 'four', '999', '2017-08-25', 'rr', 'Fibre Drum', '12231', 'Non Hazardous', '77', 'three', '998', '2017-08-26', '25', '50', 'gh', '2017-08-30', '2017-08-26', '2017-08-28', 'TRLPL', NULL, 'No', NULL, 'submitted', 'no', 'no'),
+(18, 'two', 'r', '2017-08-04', 'ee', 'Wooden Crate Bags Cartons', '6788', 'Non Hazardous', '77', 'three', '1233', '2017-08-15', '1112', '2', '121', '2017-08-22', '2017-08-19', '2017-08-23', 'Client', 'client-insurance-copy/two_client_insurance_copy_Codevita Questions and Tips.pdf', 'Yes', 'insurance_declaration_copy/two_insurance_declaration_copy_Deep Dive in C.pages', 'submitted', 'no', 'no'),
+(19, 'five', '4', '2017-08-18', 't', 'Metal Drum', '45', 'Non Hazardous', '30', 'Rams Int', '4', '2017-08-14', '4', '50', '55', '2017-08-29', '2017-08-26', '2017-08-30', 'TRLPL', NULL, 'No', NULL, 'submitted', 'no', 'no');
 
 -- --------------------------------------------------------
 
@@ -1016,7 +1119,7 @@ INSERT INTO `sac_container_info` (`container_info_id`, `dimension`, `has_contain
 CREATE TABLE `sac_log` (
   `sac_log_id` int(11) NOT NULL,
   `sac_id` int(11) NOT NULL,
-  `status_from` varchar(50) NOT NULL,
+  `status_from` varchar(50) DEFAULT NULL,
   `status_to` varchar(50) NOT NULL,
   `logged_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `remarks` varchar(300) NOT NULL
@@ -1084,12 +1187,10 @@ CREATE TABLE `sac_request` (
 --
 
 INSERT INTO `sac_request` (`sac_id`, `importing_firm_name`, `cha_name`, `licence_code`, `bol_awb_number`, `bol_awb_date`, `boe_number`, `boe_date`, `material_name`, `qty_units`, `packing_nature`, `space_requirement`, `assessable_value`, `duty_amount`, `material_nature`, `expected_date`, `required_period`, `status`, `document_verified`, `igp_created`) VALUES
-(1, 'Ram', 'Rams', 'C-068', '1223', '2017-07-13', '1123', '2017-07-20', 'Ram', 123, 'Metal Drum', '12234', '123', '123', 'Non Hazardous', '2017-07-25', '1233', 'approved', 'yes', 'yes'),
-(2, '1', 'req', 'C-068', '1', '2017-07-14', '2017-07-11', '0000-00-00', '1', 1, 'Metal Drum', '1', '1', '1', 'Non Hazardous', '2017-07-25', '2017-07-25', 'submitted', 'no', 'no'),
-(3, '1', 'qwwer', 'C-069', '1', '2017-07-28', '2017-07-10', '0000-00-00', '1', 1, 'Metal Drum', '1', '1', '1', 'Non Hazardous', '2017-07-27', '2017-07-27', 'submitted', 'no', 'no'),
-(4, '11', '1', 'C-068', '1', '2017-07-06', '2', '2017-07-17', '1', 1, 'Metal Drum', '1', '1', '1', 'Non Hazardous', '2017-07-31', '1', 'submitted', 'no', 'no'),
-(5, '1', '1', 'C-068', '1', '2017-07-29', '3', '2017-07-10', '1', 1, 'Metal Drum', '1', '1', '1', 'Non Hazardous', '2017-07-25', '1', 'submitted', 'no', 'no'),
-(6, '1', '1', 'C-068', '1', '2017-07-21', '4', '2017-07-10', '1', 1, 'Metal Drum', '1', '1', '1', 'Non Hazardous', '2017-07-31', '1', 'submitted', 'no', 'no');
+(1, 'Rams Int', 'five', 'C-068', '1223', '2017-07-13', '1123', '2017-07-20', 'Ram', 123, 'Metal Drum', '12234', '123', '123', 'Non Hazardous', '2017-07-25', '1233', 'grn_created', 'yes', 'yes'),
+(2, 'four', 'two', 'C-068', '1', '2017-07-14', '2017-07-11', '0000-00-00', '1', 1, 'Metal Drum', '1', '1', '1', 'Non Hazardous', '2017-07-25', '2017-07-25', 'submitted', 'no', 'no'),
+(3, 'five', 'Rams Int', 'C-069', '1', '2017-07-28', '2017-07-10', '0000-00-00', '1', 1, 'Metal Drum', '1', '1', '1', 'Non Hazardous', '2017-07-27', '2017-07-27', 'submitted', 'no', 'no'),
+(4, 'Rams Int', 'one', 'C-068', '1', '2017-07-06', '2', '2017-07-17', '1', 1, 'Metal Drum', '1', '1', '1', 'Non Hazardous', '2017-07-31', '1', 'submitted', 'no', 'no');
 
 -- --------------------------------------------------------
 
@@ -1100,10 +1201,21 @@ INSERT INTO `sac_request` (`sac_id`, `importing_firm_name`, `cha_name`, `licence
 CREATE TABLE `tariff_master` (
   `tariff_master_id` int(11) NOT NULL,
   `service_type` varchar(100) NOT NULL,
-  `service_name` varchar(200) NOT NULL,
-  `base_tariff` float(10,2) NOT NULL,
-  `storage_unit` varchar(100) NOT NULL
+  `unit` varchar(200) NOT NULL,
+  `price_per_unit` varchar(100) DEFAULT NULL,
+  `minimum_slab` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `tariff_master`
+--
+
+INSERT INTO `tariff_master` (`tariff_master_id`, `service_type`, `unit`, `price_per_unit`, `minimum_slab`) VALUES
+(1, 'STORAGE', 'Sq. m.', '10', '10'),
+(2, 'STORAGE', 'Sq. ft.', '20', '15'),
+(4, 'STORAGE', 'No. of Containers', '30', '1'),
+(5, 'VAS', 'Mm', '50', '20'),
+(7, 'VAS', 'Q', '500', '10');
 
 -- --------------------------------------------------------
 
@@ -1126,6 +1238,18 @@ INSERT INTO `type_master` (`type_id`, `type_name`) VALUES
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `bonded_billing_invoice`
+--
+ALTER TABLE `bonded_billing_invoice`
+  ADD PRIMARY KEY (`bill_id`);
+
+--
+-- Indexes for table `bonded_billing_invoice_details`
+--
+ALTER TABLE `bonded_billing_invoice_details`
+  ADD PRIMARY KEY (`invoice_details_id`);
 
 --
 -- Indexes for table `bonded_despatch_request`
@@ -1210,6 +1334,12 @@ ALTER TABLE `bonded_ogp_unloading`
 --
 ALTER TABLE `bonded_pdr_items`
   ADD PRIMARY KEY (`pdr_item_id`);
+
+--
+-- Indexes for table `discount_master`
+--
+ALTER TABLE `discount_master`
+  ADD PRIMARY KEY (`discount_master_id`);
 
 --
 -- Indexes for table `general_despatch_request`
@@ -1360,6 +1490,16 @@ ALTER TABLE `type_master`
 --
 
 --
+-- AUTO_INCREMENT for table `bonded_billing_invoice`
+--
+ALTER TABLE `bonded_billing_invoice`
+  MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `bonded_billing_invoice_details`
+--
+ALTER TABLE `bonded_billing_invoice_details`
+  MODIFY `invoice_details_id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `bonded_despatch_request`
 --
 ALTER TABLE `bonded_despatch_request`
@@ -1368,7 +1508,7 @@ ALTER TABLE `bonded_despatch_request`
 -- AUTO_INCREMENT for table `bonded_dv_inward`
 --
 ALTER TABLE `bonded_dv_inward`
-  MODIFY `do_ver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `do_ver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `bonded_dv_items`
 --
@@ -1383,7 +1523,7 @@ ALTER TABLE `bonded_dv_outward`
 -- AUTO_INCREMENT for table `bonded_exception`
 --
 ALTER TABLE `bonded_exception`
-  MODIFY `exception_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `exception_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `bonded_good_delivery_note`
 --
@@ -1393,7 +1533,7 @@ ALTER TABLE `bonded_good_delivery_note`
 -- AUTO_INCREMENT for table `bonded_good_receipt_note`
 --
 ALTER TABLE `bonded_good_receipt_note`
-  MODIFY `grn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `grn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `bonded_igp_loading`
 --
@@ -1423,12 +1563,17 @@ ALTER TABLE `bonded_ogp_loading`
 -- AUTO_INCREMENT for table `bonded_ogp_unloading`
 --
 ALTER TABLE `bonded_ogp_unloading`
-  MODIFY `ogp_un_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ogp_un_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `bonded_pdr_items`
 --
 ALTER TABLE `bonded_pdr_items`
   MODIFY `pdr_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `discount_master`
+--
+ALTER TABLE `discount_master`
+  MODIFY `discount_master_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `general_despatch_request`
 --
@@ -1453,7 +1598,7 @@ ALTER TABLE `general_dv_outward`
 -- AUTO_INCREMENT for table `general_exception`
 --
 ALTER TABLE `general_exception`
-  MODIFY `exception_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `exception_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `general_good_delivery_note`
 --
@@ -1463,7 +1608,7 @@ ALTER TABLE `general_good_delivery_note`
 -- AUTO_INCREMENT for table `general_good_receipt_note`
 --
 ALTER TABLE `general_good_receipt_note`
-  MODIFY `grn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `grn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `general_igp_loading`
 --
@@ -1493,7 +1638,7 @@ ALTER TABLE `general_ogp_loading`
 -- AUTO_INCREMENT for table `general_ogp_unloading`
 --
 ALTER TABLE `general_ogp_unloading`
-  MODIFY `ogp_un_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ogp_un_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `general_pdr_items`
 --
@@ -1513,17 +1658,17 @@ ALTER TABLE `party_master`
 -- AUTO_INCREMENT for table `par_container_info`
 --
 ALTER TABLE `par_container_info`
-  MODIFY `container_info_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `container_info_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT for table `par_log`
 --
 ALTER TABLE `par_log`
-  MODIFY `par_log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `par_log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `pre_arrival_request`
 --
 ALTER TABLE `pre_arrival_request`
-  MODIFY `par_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `par_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `sac_container_info`
 --
@@ -1538,12 +1683,12 @@ ALTER TABLE `sac_log`
 -- AUTO_INCREMENT for table `sac_request`
 --
 ALTER TABLE `sac_request`
-  MODIFY `sac_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `sac_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `tariff_master`
 --
 ALTER TABLE `tariff_master`
-  MODIFY `tariff_master_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `tariff_master_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `type_master`
 --
