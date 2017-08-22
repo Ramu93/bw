@@ -93,9 +93,10 @@ function getBillingInfo(grnId){
 				$('#previous_billing_div').show();
 				$('#billing_div').show();
 			    $('#handling_charges_div').show();
-				$('#generate_bill_btn').show();
-				$('#save_bill_btn').show();
 			}
+			
+			$('#generate_bill_btn').show();
+			$('#save_bill_btn').show();
 		},
 		error: function(){
 			bootbox.alert("failure");

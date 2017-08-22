@@ -1,8 +1,8 @@
 <?php
 $host = "localhost";
-$user = "shreefas_bondusr";
-$pass = "TMTbond123$";
-$name = "shreefas_bonded";
+$user = "root";
+$pass = "root";
+$name = "bonded_warehouse";
 
 try
 {

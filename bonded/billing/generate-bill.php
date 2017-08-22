@@ -212,7 +212,7 @@
                 <div class="clearfix">&nbsp;</div>
                 <input type="button" id="generate_bill_btn" class="btn btn-primary btn-block" onclick="generateBill()" value="Generate Bill">
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <div class="clearfix">&nbsp;</div>
                 <input type="button" id="save_bill_btn" class="btn btn-primary btn-block" onclick="saveBill()" value="Save Bill">
               </div>
