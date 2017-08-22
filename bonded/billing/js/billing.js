@@ -91,10 +91,9 @@ function getBillingInfo(grnId){
 				$('#previus_period_label').html(result.data.period_from + ' to ' + result.data.period_to);
 				$('#last_bill_amount_label').html('₹ ' + result.data.bill_amount);
 				$('#previous_billing_div').show();
-				$('#billing_div').show();
-			    $('#handling_charges_div').show();
 			}
-			
+			$('#billing_div').show();
+		    $('#handling_charges_div').show();
 			$('#generate_bill_btn').show();
 			$('#save_bill_btn').show();
 		},
@@ -169,9 +168,7 @@ function generateBill(){
 		dataType: 'json',
 		success: function(result){
 			if(result.infocode == 'SUCCESS'){
-				$('#bill_amount_label').html('₹ ' + result.sub_total); //sub-total 
-				$('#total_taxes_label').html('₹ ' + result.tax_payable);
-				$('#grand_total_label').html('₹ ' + result.grand_total);
+				displayBill(result.data);
 				$('#bill_amount_div').show();
 			}
 		},
@@ -180,6 +177,18 @@ function generateBill(){
 		} 	        
 	});	
 	}
+}
+
+function displayBill(billData){
+	var dp = '';
+	billData.forEach( function(element, index) {
+		dp += '<div class="row">\
+	          <div class="form-group" >\
+	            <label>'+element+'</label>\
+	          </div>\
+	        </div>';
+	});
+	$('#bill_amount_div').html(dp);
 }
 
 function saveBill(){
