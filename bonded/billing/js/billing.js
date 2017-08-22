@@ -170,6 +170,8 @@ function generateBill(){
 			if(result.infocode == 'SUCCESS'){
 				displayBill(result.data);
 				$('#bill_amount_div').show();
+			} else {
+				bootbox.alert(result.message);
 			}
 		},
 		error: function(){
