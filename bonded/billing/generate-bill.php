@@ -175,32 +175,15 @@
                 </div>
               </div>
             </div>
-            <div class="row" id="bill_amount_div">
+            <div class="row" >
               <div class="col-md-4">
               </div>
               <div class="col-md-4">
               </div>
               <div class="col-md-4">
                 <div class="row">
-                  <div class="col-md-6">
-                    <div class="row">
-                      <div class="form-group" >
-                        <label for="">Sub Total:</label>
-                        <label id="bill_amount_label"></label>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group" >
-                        <label for="">Tax Payable:</label>
-                        <label id="total_taxes_label"></label>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group" >
-                        <label for="">Grand Total:</label>
-                        <label id="grand_total_label"></label>
-                      </div>
-                    </div>
+                  <div class="col-md-12" id="bill_amount_div">
+                                      
                   </div>
                 </div>
               </div>

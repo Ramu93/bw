@@ -169,7 +169,7 @@
 		return $discountDetails;
 	}
 
-	function generateHandlingChargesBill($descriptions, $amounts, $gstSlabs, $gstType){
+	function generateHandlingChargesBill($descriptions, $amounts, $gstSlabs, $gstType, $billArray){
 		global $dbc;
 		$count = count($amounts);
 		$finalSubTotal = 0;
@@ -177,6 +177,7 @@
 		$finalTotalAmount = 0;
 		$gstType = 'same_state';
         //file_put_contents("testlog.log", print_r($amounts, true), FILE_APPEND | LOCK_EX);
+
 		for($i = 0; $i < $count; $i++){
 			$description = $descriptions[$i];
 			$amount = $amounts[$i];
@@ -187,36 +188,17 @@
 			$taxAmount = $amount * ($gstSlabs[$i]/100);
 			$totalAmount = $amount + $taxAmount;
 
-			// switch ($gstType) {
-			// 	case 'same_state':
-			// 		$sgst = $amount * (($gstPercentages['same_state']/2)/100);
-			// 		$cgst = $amount * (($gstPercentages['same_state']/2)/100);
-			// 		$taxAmount = $amount * ($gstPercentages['same_state']/100);
-			// 		$totalAmount =  $amount + $taxAmount;
-			// 		break;
-			// 	case 'other_state':
-			// 		$igst = $amount * ($gstPercentages['other_state']/100);;
-			// 		$taxAmount = $amount * ($gstPercentages['other_state']/100);
-			// 		$totalAmount =  $amount + $taxAmount;
-			// 		break;
-			// 	case 'union_teritory':
-			// 		$ugst = $amount * ($gstPercentages['union_teritory']/100);
-			// 		$taxAmount = $amount * ($gstPercentages['union_teritory']/100);
-			// 		$totalAmount =  $amount + $taxAmount;
-			// 		break;
-			// 	case 'exempt':
-			// 		$totalAmount =  $amount;
-			// 		break;
-			// }
+			$billArray[] = $description . ' - ' . $gstSlabs[$i] . '% GST on ₹' . $amount . ': ₹' . $taxAmount;
+
 			$finalSubTotal += $amount;
 			$finalTaxAmount += $taxAmount;
 			$finalTotalAmount += $totalAmount;
         	//file_put_contents("testlog.log", print_r($query, true), FILE_APPEND | LOCK_EX);
 		}
 
-        //file_put_contents("testlog.log", print_r(array('sub_total' => $finalSubTotal, 'tax_amount' => $finalTaxAmount, 'total_amount' => $finalTotalAmount), true), FILE_APPEND | LOCK_EX);
+        //file_put_contents("testlog.log", print_r($billArray, true), FILE_APPEND | LOCK_EX);
 
-		return array('sub_total' => $finalSubTotal, 'tax_amount' => $finalTaxAmount, 'total_amount' => $finalTotalAmount);
+		return $billArray;
 	}
 
 	function generateBill(){
@@ -271,6 +253,7 @@
 			$subTotal = $noOfDays * $pricePerUnitPerDay * $noOfUnits;
 		}
 
+		$billArray = array();
 		$taxAmount = 0;
 		$grandTotal = 0;
 		switch ($billGstType) { 
@@ -279,16 +262,23 @@
 				$sgst = $subTotal * (($gstPercentages['same_state']/2)/100);
 				$taxAmount = $subTotal * ($gstPercentages['same_state']/100); 
 				$grandTotal = $subTotal + $taxAmount;
+				$gstPercentage = $gstPercentages['same_state']/2;
+				$billArray[] = "Storage - {$gstPercentage}% CGST on ₹{$subTotal}: ₹{$taxAmount}";
+				$billArray[] = "Storage - {$gstPercentage}% SGST on ₹{$subTotal}: ₹{$taxAmount}";
 				break;
 			case 'other_state':
 				$igst = $subTotal * ($gstPercentages['other_state']/100);
 				$taxAmount = $subTotal * ($gstPercentages['other_state']/100); 
 				$grandTotal = $subTotal + $taxAmount;
+				$gstPercentage = $gstPercentages['other_state'];
+				$billArray[] = "Storage - {$gstPercentage}% IGST on ₹{$subTotal}: ₹{$taxAmount}";
 				break;
 			case 'union_teritory':
 				$ugst = $subTotal * ($gstPercentages['union_teritory']/100);
 				$taxAmount = $subTotal * ($gstPercentages['union_teritory']/100); 
 				$grandTotal = $subTotal + $taxAmount;
+				$gstPercentage = $gstPercentages['union_teritory'];
+				$billArray[] = "Storage - {$gstPercentage}% UGST on ₹{$subTotal}: ₹{$taxAmount}";
 				break;
 			case 'exempt':
 				$grandTotal = $subTotal;
@@ -298,12 +288,12 @@
 		//$handlingCharges = generateHandlingChargesBill('1',$handlingDescriptions, $handlingAmounts, $handlingGSTTypes, $gstPercentages);
 
 		$output = array();
-		$handlingCharges = generateHandlingChargesBill($handlingDescriptions, $handlingAmounts, $handlingGSTSlabs, $billGstType);
-		$finalSubTotal = $subTotal + $handlingCharges['sub_total'];
-		$finalTaxPayable = $taxAmount + $handlingCharges['tax_amount'];
-		$finalGrandTotal = $grandTotal + $handlingCharges['total_amount'];
+		$finalBillArray = generateHandlingChargesBill($handlingDescriptions, $handlingAmounts, $handlingGSTSlabs, $billGstType, $billArray);
+		// $finalSubTotal = $subTotal + $handlingCharges['sub_total'];
+		// $finalTaxPayable = $taxAmount + $handlingCharges['tax_amount'];
+		// $finalGrandTotal = $grandTotal + $handlingCharges['total_amount'];
 
-		$output = array('infocode' => 'SUCCESS', 'sub_total' => $finalSubTotal, 'tax_payable' => $finalTaxPayable, 'grand_total' => $finalGrandTotal);
+		$output = array('infocode' => 'SUCCESS', 'data' => $finalBillArray);
 	
         //file_put_contents("testlog.log", $query, FILE_APPEND | LOCK_EX);
         return $output;
