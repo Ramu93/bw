@@ -27,8 +27,8 @@ include('../sidebar.php');
               </tr>
             </thead>
             <tbody>
-              <?php 
-                $query = "SELECT customer_pm_id, cha_pm_id FROM discount_master GROUP BY customer_pm_id, cha_pm_id";
+              <?php
+                $query = "SELECT customer_pm_id, cha_pm_id FROM bonded_discount_master GROUP BY customer_pm_id, cha_pm_id";
                 $result = mysqli_query($dbc, $query);
                 if(mysqli_num_rows($result) > 0){
                   $count = 0;
@@ -46,7 +46,7 @@ include('../sidebar.php');
 
                 function getPartyName($partyId){
                   global $dbc;
-                  $query = "SELECT pm_customerName FROM party_master WHERE pm_id='$partyId'";
+                  $query = "SELECT pm_customerName FROM bonded_party_master WHERE pm_id='$partyId'";
                   $result = mysqli_query($dbc, $query);
                   $out = '';
                   if(mysqli_num_rows($result) > 0){
@@ -59,7 +59,7 @@ include('../sidebar.php');
             </tbody>
           </table>
         </div>
-        
+
       </div>
     </div>
     <!-- /.box -->

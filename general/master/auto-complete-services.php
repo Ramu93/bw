@@ -29,7 +29,7 @@ function fetchPartyInfo() {
     global $dbc;
     $output=array();
     $searchterm = mysqli_real_escape_string($dbc, trim($_GET['term']));
-    $query = "SELECT * FROM party_master WHERE pm_customerName LIKE '%$searchterm%'";
+    $query = "SELECT * FROM general_party_master WHERE pm_customerName LIKE '%$searchterm%'";
 	$result = mysqli_query($dbc,$query);
 	if(mysqli_num_rows($result) > 0) {
 		$out = array();

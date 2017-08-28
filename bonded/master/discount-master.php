@@ -64,7 +64,7 @@ include('../sidebar.php');
               <tbody>
 
                   <?php
-                    $query = "SELECT * FROM tariff_master ORDER BY tariff_master_id";
+                    $query = "SELECT * FROM bonded_tariff_master ORDER BY tariff_master_id";
                     $result = mysqli_query($dbc, $query);
                     if(mysqli_num_rows($result) > 0){
                       $count = 0;
@@ -83,7 +83,7 @@ include('../sidebar.php');
                       }
                     }
                   ?>
-                
+
               </tbody>
             </table>
           </div>
@@ -98,7 +98,7 @@ include('../sidebar.php');
               <span id="added_message" style="color: red;"></span>
             </div>
           </div>
-        </form> 
+        </form>
       </div>
     </div>
     <!-- /.box -->
@@ -122,7 +122,7 @@ $('.autofillparty').autocomplete({
   source : "auto-complete-services.php?action=fetch_party_info",
   minLength : 2,
   select : function(event, ui) {
-          
+
           if(ui.item.value == "No customers found"){
             event.preventDefault();
             // $('#customer_name').val('');

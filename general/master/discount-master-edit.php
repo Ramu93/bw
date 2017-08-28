@@ -5,7 +5,7 @@ include('../sidebar.php');
 $customerPartyId = $_GET['customer_pm_id'];
 $chaPartyId = $_GET['cha_pm_id'];
 
-$query = "SELECT * FROM discount_master WHERE customer_pm_id='$customerPartyId' AND cha_pm_id='$chaPartyId'";
+$query = "SELECT * FROM general_discount_master WHERE customer_pm_id='$customerPartyId' AND cha_pm_id='$chaPartyId'";
 $result =  mysqli_query($dbc, $query);
 $out = array();
 while($row = mysqli_fetch_assoc($result)){
@@ -19,7 +19,7 @@ $chaPartyName = getPartyName($chaPartyId);
 
 function getPartyName($partyId){
   global $dbc;
-  $query = "SELECT pm_customerName FROM party_master WHERE pm_id='$partyId'";
+  $query = "SELECT pm_customerName FROM general_party_master WHERE pm_id='$partyId'";
   $result = mysqli_query($dbc, $query);
   $out = '';
   if(mysqli_num_rows($result) > 0){
@@ -92,7 +92,7 @@ function getPartyName($partyId){
               <tbody>
 
                   <?php
-                    $query = "SELECT * FROM tariff_master ORDER BY tariff_master_id";
+                    $query = "SELECT * FROM general_tariff_master ORDER BY tariff_master_id";
                     $result = mysqli_query($dbc, $query);
                     if(mysqli_num_rows($result) > 0){
                       $count = 0;
@@ -107,7 +107,7 @@ function getPartyName($partyId){
 
                         for($i = 0; $i < count($out); $i++){
                           if($out[$i]['tariff_master_id'] == $row['tariff_master_id']){
-                              echo $out[$i]['discount_percentage'];   
+                              echo $out[$i]['discount_percentage'];
                               break;
                           } else {
                               echo '';
@@ -120,11 +120,11 @@ function getPartyName($partyId){
                                   <input type="hidden" name="tariff_master_id_hidden[]" id="tariff_master_id_hidden" value="'.$row['tariff_master_id'].'" >
                                 </td>
                               </tr>';
-                        
+
                       }
                     }
                   ?>
-                
+
               </tbody>
             </table>
           </div>
@@ -139,7 +139,7 @@ function getPartyName($partyId){
               <span id="updated_message" style="color: red;"></span>
             </div>
           </div>
-        </form> 
+        </form>
       </div>
     </div>
     <!-- /.box -->
@@ -163,7 +163,7 @@ $('.autofillparty').autocomplete({
   source : "auto-complete-services.php?action=fetch_party_info",
   minLength : 2,
   select : function(event, ui) {
-          
+
           if(ui.item.value == "No customers found"){
             event.preventDefault();
             // $('#customer_name').val('');

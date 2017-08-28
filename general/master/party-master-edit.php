@@ -4,7 +4,7 @@
 
   $message ="";
   $pmId = $_GET['pm_id'];
-  $select = "SELECT * FROM party_master WHERE pm_id = '$pmId'";
+  $select = "SELECT * FROM general_party_master WHERE pm_id = '$pmId'";
   $query = mysqli_query($dbc,$select);
   if(mysqli_num_rows($query) > 0) {
     $row = mysqli_fetch_array($query);

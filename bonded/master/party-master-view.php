@@ -37,7 +37,7 @@
             </thead>
             <tbody>
               <?php 
-                $query = "SELECT * FROM party_master WHERE pm_active_status = 'yes'";
+                $query = "SELECT * FROM bonded_party_master WHERE pm_active_status = 'yes'";
                 $result = mysqli_query($dbc, $query);
                 if(mysqli_num_rows($result) > 0){
                   while ($row = mysqli_fetch_assoc($result)) {

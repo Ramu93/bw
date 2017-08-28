@@ -1,5 +1,5 @@
-<?php 
-	require('../dbconfig.php'); 
+<?php
+	require('../dbconfig.php');
 
 	$finaloutput = array();
 	if(!$_POST) {
@@ -71,7 +71,7 @@
 
 	function getTypes(){
 		global $dbc;
-		$query = "SELECT * FROM type_master";
+		$query = "SELECT * FROM general_type_master";
 		$result = mysqli_query($dbc, $query);
 		//file_put_contents("querylog.log", print_r( $row, true ));
 		$out = array();
@@ -88,7 +88,7 @@
 	function addType(){
 		global $dbc;
 		$typeName = mysqli_real_escape_string($dbc, trim($_POST['type_name']));
-		$query = "INSERT INTO type_master (type_name) VALUES ('$typeName')";
+		$query = "INSERT INTO general_type_master (type_name) VALUES ('$typeName')";
 		if(mysqli_query($dbc, $query)){
 			return array('infocode' => 'success');
 		} else {
@@ -100,7 +100,7 @@
 		global $dbc;
 		$typeName = mysqli_real_escape_string($dbc, trim($_POST['type_name']));
 		$typeId = mysqli_real_escape_string($dbc, trim($_POST['type_id']));
-		$query = "UPDATE type_master SET type_name='$typeName' WHERE type_id='$typeId'";
+		$query = "UPDATE general_type_master SET type_name='$typeName' WHERE type_id='$typeId'";
 		if(mysqli_query($dbc, $query)){
 			return array('infocode' => 'success');
 		} else {
@@ -111,7 +111,7 @@
 	function  deleteType(){
 		global $dbc;
 		$typeId = mysqli_real_escape_string($dbc, trim($_POST['type_id']));
-		$query = "DELETE FROM type_master WHERE type_id='$typeId'";
+		$query = "DELETE FROM general_type_master WHERE type_id='$typeId'";
 		if(mysqli_query($dbc, $query)){
 			return array('infocode' => 'success');
 		} else {
@@ -121,7 +121,7 @@
 
 	function getItems(){
 		global $dbc;
-		$query = "SELECT im.item_master_id, im.item_name, tm.type_name, tm.type_id FROM item_master im, type_master tm WHERE im.type_id=tm.type_id";
+		$query = "SELECT im.item_master_id, im.item_name, tm.type_name, tm.type_id FROM general_item_master im, general_type_master tm WHERE im.type_id=tm.type_id";
 		$result = mysqli_query($dbc, $query);
 		$out = array();
 		if(mysqli_num_rows($result) > 0) {
@@ -138,7 +138,7 @@
 		global $dbc;
 		$itemName = mysqli_real_escape_string($dbc, trim($_POST['item_name']));
 		$itemTypeId = mysqli_real_escape_string($dbc, trim($_POST['item_type']));
-		$query = "INSERT INTO item_master (item_name, type_id) VALUES ('$itemName', '$itemTypeId')";
+		$query = "INSERT INTO general_item_master (item_name, type_id) VALUES ('$itemName', '$itemTypeId')";
 		if(mysqli_query($dbc, $query)){
 			return array('infocode' => 'success');
 		} else {
@@ -151,7 +151,7 @@
 		$itemId = mysqli_real_escape_string($dbc, trim($_POST['item_id']));
 		$itemName = mysqli_real_escape_string($dbc, trim($_POST['item_name']));
 		$itemTypeId = mysqli_real_escape_string($dbc, trim($_POST['item_type']));
-		$query = "UPDATE item_master SET item_name='$itemName', type_id='$itemTypeId' WHERE item_master_id='$itemId'";
+		$query = "UPDATE general_item_master SET item_name='$itemName', type_id='$itemTypeId' WHERE item_master_id='$itemId'";
 		if(mysqli_query($dbc, $query)){
 			return array('infocode' => 'success');
 		} else {
@@ -162,7 +162,7 @@
 	function deleteItem(){
 		global $dbc;
 		$itemId = mysqli_real_escape_string($dbc, trim($_POST['item_id']));
-		$query = "DELETE FROM item_master WHERE item_master_id='$itemId'";
+		$query = "DELETE FROM general_item_master WHERE item_master_id='$itemId'";
 		if(mysqli_query($dbc, $query)){
 			return array('infocode' => 'success');
 		} else {
@@ -172,7 +172,7 @@
 
 	function getTariffs(){
 		global $dbc;
-		$query = "SELECT * FROM tariff_master";
+		$query = "SELECT * FROM general_tariff_master";
 		$result = mysqli_query($dbc, $query);
 		//file_put_contents("querylog.log", print_r( $row, true ));
 		$out = array();
@@ -192,7 +192,7 @@
 		$serviceType = mysqli_real_escape_string($dbc, trim($_POST['service_type']));
 		$pricePerUnit = mysqli_real_escape_string($dbc, trim($_POST['price_per_unit']));
 		$minimumSlab = mysqli_real_escape_string($dbc, trim($_POST['minimum_slab']));
-		$query = "INSERT INTO tariff_master (unit, service_type, price_per_unit, minimum_slab) VALUES ('$unit', '$serviceType', '$pricePerUnit', '$minimumSlab')";
+		$query = "INSERT INTO general_tariff_master (unit, service_type, price_per_unit, minimum_slab) VALUES ('$unit', '$serviceType', '$pricePerUnit', '$minimumSlab')";
 		//file_put_contents("querylog.log", print_r( $query, true ));
 
 		if(mysqli_query($dbc, $query)){
@@ -209,7 +209,7 @@
 		$serviceType = mysqli_real_escape_string($dbc, trim($_POST['edit_service_type']));
 		$pricePerUnit = mysqli_real_escape_string($dbc, trim($_POST['edit_price_per_unit']));
 		$minimumSlab = mysqli_real_escape_string($dbc, trim($_POST['edit_minimum_slab']));
-		$query = "UPDATE tariff_master SET unit='$unit', service_type='$serviceType', price_per_unit='$pricePerUnit', minimum_slab='$minimumSlab' WHERE tariff_master_id='$tariffMasterId'";
+		$query = "UPDATE general_tariff_master SET unit='$unit', service_type='$serviceType', price_per_unit='$pricePerUnit', minimum_slab='$minimumSlab' WHERE tariff_master_id='$tariffMasterId'";
 		//file_put_contents("querylog.log", print_r( $query, true ));
 
 		if(mysqli_query($dbc, $query)){
@@ -222,7 +222,7 @@
 	function deleteTariff(){
 		global $dbc;
 		$tariffMasterId = mysqli_real_escape_string($dbc, trim($_POST['tariff_id']));
-		$query = "DELETE FROM tariff_master WHERE tariff_master_id='$tariffMasterId'";
+		$query = "DELETE FROM general_tariff_master WHERE tariff_master_id='$tariffMasterId'";
 		if(mysqli_query($dbc, $query)){
 			return array('infocode' => 'success');
 		} else {
@@ -263,12 +263,12 @@
 		$pm_ccd = mysqli_real_escape_string($dbc,trim($_POST['pm_ccd']));
 		$pm_ccLimit = mysqli_real_escape_string($dbc,trim($_POST['pm_ccLimit']));
 		$pm_ccBalance = mysqli_real_escape_string($dbc,trim($_POST['pm_ccBalance']));
-		$query1 = "SELECT * FROM party_master WHERE pm_customerName = '$pm_customerName'";
+		$query1 = "SELECT * FROM general_party_master WHERE pm_customerName = '$pm_customerName'";
 		$result1 = mysqli_query($dbc,$query1);
 		if(mysqli_num_rows($result1)>0){
 			$output = array("infocode" => "CUSTOMEREXIST", "message" => "Customer Name already exists, please choose a different name!");
 		}else{
-			$query = "INSERT INTO party_master(pm_uuid,pm_customerName,pm_type,pm_address1,pm_address2,pm_cityTown,pm_state,pm_pin,pm_landline,pm_fax,pm_sales,pm_servicesTax,pm_licence,pm_tan,pm_pan,pm_inactive,pm_primaryContact,pm_primaryContactMobile,pm_primaryContactEmail,pm_secondaryContact,pm_secondaryContactMobile,pm_secondaryContactEmail,pm_tertiaryContact,pm_tertiaryContactMobile,pm_tertiaryContactEmail,pm_ccd,pm_ccLimit,pm_ccBalance) VALUES('$pm_uuid','$pm_customerName','$pm_type','$pm_address1','$pm_address2','$pm_cityTown','$pm_state','$pm_pin','$pm_landline','$pm_fax','$pm_sales','$pm_servicesTax','$pm_licence','$pm_tan','$pm_pan','$pm_inactive','$pm_primaryContact','$pm_primaryContactMobile','$pm_primaryContactEmail','$pm_secondaryContact','$pm_secondaryContactMobile','$pm_secondaryContactEmail','$pm_tertiaryContact','$pm_tertiaryContactMobile','$pm_tertiaryContactEmail','$pm_ccd','$pm_ccLimit','$pm_ccBalance')";
+			$query = "INSERT INTO general_party_master(pm_uuid,pm_customerName,pm_type,pm_address1,pm_address2,pm_cityTown,pm_state,pm_pin,pm_landline,pm_fax,pm_sales,pm_servicesTax,pm_licence,pm_tan,pm_pan,pm_inactive,pm_primaryContact,pm_primaryContactMobile,pm_primaryContactEmail,pm_secondaryContact,pm_secondaryContactMobile,pm_secondaryContactEmail,pm_tertiaryContact,pm_tertiaryContactMobile,pm_tertiaryContactEmail,pm_ccd,pm_ccLimit,pm_ccBalance) VALUES('$pm_uuid','$pm_customerName','$pm_type','$pm_address1','$pm_address2','$pm_cityTown','$pm_state','$pm_pin','$pm_landline','$pm_fax','$pm_sales','$pm_servicesTax','$pm_licence','$pm_tan','$pm_pan','$pm_inactive','$pm_primaryContact','$pm_primaryContactMobile','$pm_primaryContactEmail','$pm_secondaryContact','$pm_secondaryContactMobile','$pm_secondaryContactEmail','$pm_tertiaryContact','$pm_tertiaryContactMobile','$pm_tertiaryContactEmail','$pm_ccd','$pm_ccLimit','$pm_ccBalance')";
 			//file_put_contents("querylog.log", print_r(json_encode($query), true ));
 			$result = mysqli_query($dbc,$query);
 			if($result) {
@@ -315,7 +315,7 @@
 		$pm_ccBalance = mysqli_real_escape_string($dbc,trim($_POST['pm_ccBalance']));
 
 		//Query
-		$query = "UPDATE party_master SET pm_customerName = '$pm_customerName',pm_address1 = '$pm_address1',pm_address2 = '$pm_address2',pm_cityTown = '$pm_cityTown',pm_state = '$pm_state',pm_pin = '$pm_pin',pm_landline = '$pm_landline', pm_fax = '$pm_fax', pm_sales = '$pm_sales', pm_servicesTax = '$pm_servicesTax', pm_licence = '$pm_licence' , pm_tan = '$pm_tan' ,pm_pan = '$pm_pan', pm_inactive = '$pm_inactive', pm_primaryContact = '$pm_primaryContact',pm_primaryContactMobile = '$pm_primaryContactMobile', pm_primaryContactEmail = '$pm_primaryContactEmail',pm_secondaryContact = '$pm_secondaryContact', pm_secondaryContactMobile = '$pm_secondaryContactMobile',pm_secondaryContactEmail = '$pm_secondaryContactEmail', pm_tertiaryContact = '$pm_tertiaryContact',pm_tertiaryContactMobile = '$pm_tertiaryContactMobile', pm_tertiaryContactEmail = '$pm_tertiaryContactEmail', pm_ccd = '$pm_ccd', pm_ccLimit = '$pm_ccLimit', pm_ccBalance = '$pm_ccBalance' WHERE  pm_id = '$pmId'";
+		$query = "UPDATE general_party_master SET pm_customerName = '$pm_customerName',pm_address1 = '$pm_address1',pm_address2 = '$pm_address2',pm_cityTown = '$pm_cityTown',pm_state = '$pm_state',pm_pin = '$pm_pin',pm_landline = '$pm_landline', pm_fax = '$pm_fax', pm_sales = '$pm_sales', pm_servicesTax = '$pm_servicesTax', pm_licence = '$pm_licence' , pm_tan = '$pm_tan' ,pm_pan = '$pm_pan', pm_inactive = '$pm_inactive', pm_primaryContact = '$pm_primaryContact',pm_primaryContactMobile = '$pm_primaryContactMobile', pm_primaryContactEmail = '$pm_primaryContactEmail',pm_secondaryContact = '$pm_secondaryContact', pm_secondaryContactMobile = '$pm_secondaryContactMobile',pm_secondaryContactEmail = '$pm_secondaryContactEmail', pm_tertiaryContact = '$pm_tertiaryContact',pm_tertiaryContactMobile = '$pm_tertiaryContactMobile', pm_tertiaryContactEmail = '$pm_tertiaryContactEmail', pm_ccd = '$pm_ccd', pm_ccLimit = '$pm_ccLimit', pm_ccBalance = '$pm_ccBalance' WHERE  pm_id = '$pmId'";
 		$result = mysqli_query($dbc,$query);
 		if($result) {
 			$output = array("infocode" => "SUCCESS", "message" => "Updated Successfully");
@@ -330,7 +330,7 @@
 	function deleteParty() {
 	    global $dbc;
 	    $pmId = mysqli_real_escape_string($dbc, trim($_POST['pm_id']));
-	    $query = "UPDATE party_master SET pm_active_status = 'NO' WHERE pm_id = '$pmId'";
+	    $query = "UPDATE general_party_master SET pm_active_status = 'NO' WHERE pm_id = '$pmId'";
 	    $result = mysqli_query($dbc,$query);
 		if($result) {
 			$output = array("infocode" => "SUCCESS", "message" => "Deleted Successfully");
@@ -344,7 +344,7 @@
 	function  getPartyDetails(){
 		global $dbc;
 		$partyName = mysqli_real_escape_string($dbc, trim($_POST['party_name']));
-		$query = "SELECT * FROM party_master WHERE pm_customerName='$partyName'";
+		$query = "SELECT * FROM general_party_master WHERE pm_customerName='$partyName'";
 		$result = mysqli_query($dbc, $query);
 		if(mysqli_num_rows($result) > 0){
 			$row = mysqli_fetch_assoc($result);
@@ -358,7 +358,7 @@
 
 	function getBaseTariffMasterIDs(){
 		global $dbc;
-		$query = "SELECT tariff_master_id FROM tariff_master ORDER BY tariff_master_id";
+		$query = "SELECT tariff_master_id FROM general_tariff_master ORDER BY tariff_master_id";
 		$result = mysqli_query($dbc, $query);
 		$out = array();
 		if(mysqli_num_rows($result) > 0){
@@ -379,7 +379,7 @@
 			if(!empty($discountPercentages[$i])){
 				$discountPercentage = $discountPercentages[$i];
 				$tariffMasterId = $tariffMasterIDs[$i];
-				$query = "INSERT INTO discount_master (customer_pm_id, cha_pm_id, tariff_master_id, discount_percentage) VALUES ('$customerPartyId', '$chaPartyId', '$tariffMasterId', '$discountPercentage')";
+				$query = "INSERT INTO general_discount_master (customer_pm_id, cha_pm_id, tariff_master_id, discount_percentage) VALUES ('$customerPartyId', '$chaPartyId', '$tariffMasterId', '$discountPercentage')";
 				mysqli_query($dbc, $query);
 			}
 		}
@@ -389,7 +389,7 @@
 
 	function checkIfDiscountTariffExists($custPmId, $chaPmId, $tmId){
 		global $dbc;
-		$query = "SELECT * FROM discount_master WHERE customer_pm_id='$custPmId' AND cha_pm_id='$chaPmId' AND tariff_master_id='$tmId'";
+		$query = "SELECT * FROM general_discount_master WHERE customer_pm_id='$custPmId' AND cha_pm_id='$chaPmId' AND tariff_master_id='$tmId'";
 		$result = mysqli_query($dbc, $query);
 		if(mysqli_num_rows($result) > 0){
 			return true;
@@ -409,11 +409,11 @@
 				$tariffMasterId = $tariffMasterIDs[$i];
 				$discountPercentage = $discountPercentages[$i];
 				if(checkIfDiscountTariffExists($customerPartyId, $chaPartyId, $tariffMasterId)){
-					$query = "UPDATE discount_master SET discount_percentage='$discountPercentage' WHERE customer_pm_id='$customerPartyId' AND cha_pm_id='$chaPartyId' AND tariff_master_id='$tariffMasterId'";
+					$query = "UPDATE general_discount_master SET discount_percentage='$discountPercentage' WHERE customer_pm_id='$customerPartyId' AND cha_pm_id='$chaPartyId' AND tariff_master_id='$tariffMasterId'";
 				} else {
-					$query = "INSERT INTO discount_master (customer_pm_id, cha_pm_id, tariff_master_id, discount_percentage) VALUES ('$customerPartyId', '$chaPartyId', '$tariffMasterId', '$discountPercentage')";
+					$query = "INSERT INTO general_discount_master (customer_pm_id, cha_pm_id, tariff_master_id, discount_percentage) VALUES ('$customerPartyId', '$chaPartyId', '$tariffMasterId', '$discountPercentage')";
 				}
-        		//file_put_contents("testlog.log", print_r( $query, true ), FILE_APPEND | LOCK_EX);
+        		file_put_contents("testlog.log", print_r( $query, true ), FILE_APPEND | LOCK_EX);
 				mysqli_query($dbc, $query);
 			}
 		}

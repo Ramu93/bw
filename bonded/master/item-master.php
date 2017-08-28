@@ -78,7 +78,7 @@
                       <select id="item_type" name="item_type" class="form-control required">
                         <option value="" selected="selected" >Select type...</option>
                         <?php
-                          $query = "SELECT * FROM type_master";
+                          $query = "SELECT * FROM bonded_type_master";
                           $result = mysqli_query($dbc, $query);
                           if(mysqli_num_rows($result) > 0){
                             while ($row = mysqli_fetch_assoc($result)) {
@@ -125,7 +125,7 @@
                       <select id="edit_item_type" name="edit_item_type" class="form-control required">
                         <option value="">Select type...</option>
                         <?php
-                          $query = "SELECT * FROM type_master";
+                          $query = "SELECT * FROM bonded_type_master";
                           $result = mysqli_query($dbc, $query);
                           if(mysqli_num_rows($result) > 0){
                             while ($row = mysqli_fetch_assoc($result)) {
