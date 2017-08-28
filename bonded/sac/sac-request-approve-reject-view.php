@@ -34,7 +34,7 @@
             </thead>
             <tbody>
               <?php 
-                $select_query = "SELECT * FROM sac_request WHERE status<>'approved' AND status<>'rejected'";
+                $select_query = "SELECT * FROM sac_request WHERE status='submitted'";
                 $result = mysqli_query($dbc,$select_query);
                 $row_counter = 0;
                 if(mysqli_num_rows($result) > 0) {
