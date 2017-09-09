@@ -32,7 +32,7 @@
             </thead>
             <tbody>
               <?php 
-                $select_query = "SELECT * FROM general_despatch_request";
+                $select_query = "SELECT * FROM general_despatch_request WHERE status='created'";
                 $result = mysqli_query($dbc,$select_query);
                 $row_counter = 0;
                 if(mysqli_num_rows($result) > 0) {
