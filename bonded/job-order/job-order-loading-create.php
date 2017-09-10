@@ -110,12 +110,15 @@
               <div class="col-md-4">
                 <label for="unloading_type">Type of Loading</label>
                 <select class="form-control" tabindex="9" id="loading_type" name="loading_type">
-                  <option value="1">Manual 100%</option>
-                  <option value="2">75% Manual + 25% FLT</option>
-                  <option value="3">50% Manual + 50% FLT 25%-</option>
-                  <option value="4">Manual 75% + FLT FLT100%-</option>
-                  <option value="5">Crane + Manual Spl</option>
-                  <option value="6">Equipments + Manual</option>
+                  <option value="1">100% Manual</option>
+                  <option value="2">75% Manual + 25% Mechanical</option>
+                  <option value="3">50% Manual + 50% Mechanical</option>
+                  <option value="4">25% Manual + 75% Mechanical</option>
+                  <option value="5">100% Mechanical</option>
+                  <option value="6">Crane + Manual</option>
+                  <option value="7">Crane + Mechanical + Manual</option>
+                  <option value="8">Special Equipments</option>
+                  <option value="9">Others</option>
                 </select>
               </div>
               <div class="col-md-4">
@@ -129,7 +132,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="no_of_labors">Number of labors</label>
-                  <input type="text" tabindex="" class="form-control required" id="no_of_labors" name="no_of_labors" placeholder="Number of labors">
+                  <input type="text" tabindex="" class="form-control required number" id="no_of_labors" name="no_of_labors" placeholder="Number of labors">
                 </div>
               </div>
               <div class="col-md-4">
@@ -234,6 +237,10 @@
     $('#pdr_data').hide();
     $('#space_data').hide();
     $('#view_items_table').hide();
+
+    $('#supervisor_name').rules("add", { regex: "^[a-zA-Z ]+$" });
+    $('#equipment_ref_number').rules("add", { regex: "^(?=.*?[1-9])[0-9()-]+$" });
+
   </script>
   <?php
     include('../footer.php');
