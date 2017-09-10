@@ -121,6 +121,9 @@
       });
 
       getTypes();
+
+      $('#type_name').rules("add", { regex: "^[0-9a-zA-Z ]+$" });
+      $('#edit_type_name').rules("add", { regex: "^[0-9a-zA-Z ]+$" });
     });
   </script>
   <?php

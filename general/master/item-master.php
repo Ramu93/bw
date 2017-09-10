@@ -164,6 +164,10 @@
 
 
       getItems();
+
+      $('#item_name').rules("add", { regex: "^[0-9a-zA-Z ]+$" });
+      $('#edit_item_name').rules("add", { regex: "^[0-9a-zA-Z ]+$" });
+
     });
   </script>
   <?php

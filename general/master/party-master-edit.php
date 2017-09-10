@@ -89,15 +89,15 @@
                 <div class="clearfix"></div><hr>
                 <div class="form-group col-lg-4 col-md-4 col-sm-4">
                   <label for="pm_primaryContact">Primary Contact (Name & Designation)</label>
-                  <input type="text" class="form-control" id="pm_primaryContact required" name="pm_primaryContact" placeholder="Primary Contact" value="<?php echo $row['pm_primaryContact']; ?>">
+                  <input type="text" class="form-control required" id="pm_primaryContact" name="pm_primaryContact" placeholder="Primary Contact" value="<?php echo $row['pm_primaryContact']; ?>">
                 </div>
               <div class="form-group col-lg-4 col-md-4 col-sm-4">
                   <label for="pm_primaryContactMobile">Primary Contact Mobile</label>
-                  <input type="text" class="form-control" id="pm_primaryContactMobile required" name="pm_primaryContactMobile" placeholder="Primary Contact Mobile" value="<?php echo $row['pm_primaryContactMobile']; ?>">
+                  <input type="text" class="form-control required" id="pm_primaryContactMobile" name="pm_primaryContactMobile" placeholder="Primary Contact Mobile" value="<?php echo $row['pm_primaryContactMobile']; ?>">
                 </div>
               <div class="form-group col-lg-4 col-md-4 col-sm-4">
                   <label for="pm_primaryContactEmail">Primary Contact Email</label>
-                  <input type="text" class="form-control" id="pm_primaryContactEmail required email" name="pm_primaryContactEmail" placeholder="Primary Contact Email" value="<?php echo $row['pm_primaryContactEmail']; ?>">
+                  <input type="text" class="form-control required" id="pm_primaryContactEmail" name="pm_primaryContactEmail" placeholder="Primary Contact Email" value="<?php echo $row['pm_primaryContactEmail']; ?>">
                 </div>
               <div class="form-group col-lg-4 col-md-4 col-sm-4">
                   <label for="pm_secondaryContact">Secondary Contact (Name & Designation)</label>
@@ -199,6 +199,22 @@
         errorClass: "my-error-class"
       });
       $('#pm_inactive').datepicker({dateFormat: 'yy-mm-dd'});
+
+      $('#pm_cityTown').rules("add", { regex: "^[a-zA-Z ]+$" });
+      $('#pm_state').rules("add", { regex: "^[a-zA-Z ]+$" });
+      $('#pm_pin').rules("add", { regex: "^[0-9]{6}$" });
+      $('#pm_landline').rules("add", { regex: "^[0-9]*$" });
+      $('#pm_fax').rules("add", { regex: "^[0-9]*$" });
+      $('#pm_primaryContactMobile').rules("add", { regex: "^[0-9]*$" });
+      $('#pm_secondaryContactMobile').rules("add", { regex: "^[0-9]*$" });
+      $('#pm_tertiaryContactMobile').rules("add", { regex: "^[0-9]*$" });
+      $('#pm_tan').rules("add", { regex: "^[0-9a-zA-Z ]+$" });
+      $('#pm_pan').rules("add", { regex: "^[0-9a-zA-Z ]+$" });
+      $('#pm_sales').rules("add", { regex: "^[0-9a-zA-Z ]+$" });
+      $('#pm_servicesTax').rules("add", { regex: "^[0-9a-zA-Z ]+$" });
+      $('#pm_ccd').rules("add", { regex: "^[0-9a-zA-Z ]+$" });
+      $('#pm_ccLimit').rules("add", { regex: "^[0-9a-zA-Z ]+$" });
+      $('#pm_inactive').rules("add", { regex: "^[0-9]{4}[-][0-9]{2}[-][0-9]{2}$" });
     });
   </script>
   <?php
