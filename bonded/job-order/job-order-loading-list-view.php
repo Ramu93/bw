@@ -39,32 +39,32 @@
                   $dataTableFlag = true;
                   while($row = mysqli_fetch_array($result)) {
                     switch($row['loading_type']){
-                      case 1:
-                            echo 'Manual 100%';
+                          case 1:
+                            $loadingType = 'Manual 100%';
                           break;
                           case 2:
-                            echo '75% Manual + 25% Mechanical';
+                            $loadingType =  '75% Manual + 25% Mechanical';
                           break;
                           case 3:
-                            echo '50% Manual + 50% Mechanical';
+                            $loadingType =  '50% Manual + 50% Mechanical';
                           break;
                           case 4:
-                            echo '25% Manual + 75% Mechanical';
+                            $loadingType =  '25% Manual + 75% Mechanical';
                           break;
                           case 5:
-                            echo '100% Mechanical';
+                            $loadingType =  '100% Mechanical';
                           break;
                           case 6:
-                            echo 'Crane + Manual';
+                            $loadingType =  'Crane + Manual';
                           break;
                           case 7:
-                            echo 'Crane + Mechanical + Manual';
+                            $loadingType =  'Crane + Mechanical + Manual';
                           break;
                           case 8:
-                            echo 'Special Equipments';
+                            $loadingType =  'Special Equipments';
                           break;
                           case 9:
-                            echo 'Others';
+                            $loadingType =  'Others';
                           break;
                     }
 

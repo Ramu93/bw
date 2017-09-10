@@ -39,24 +39,33 @@
                   $dataTableFlag = true;
                   while($row = mysqli_fetch_array($result)) {
                     switch($row['unloading_type']){
-                      case 1:
-                        $unLoadingType = 'Manual 100%';
-                      break;
-                      case 2:
-                        $unLoadingType = '75% Manual + 25% FLT';
-                      break;
-                      case 3:
-                        $unLoadingType = '50% Manual + 50% FLT 25%-';
-                      break;
-                      case 4:
-                        $unLoadingType = 'Manual 75% + FLT FLT100%-';
-                      break;
-                      case 5:
-                        $unLoadingType = 'Crane + Manual Spl';
-                      break;
-                      case 6:
-                        $unLoadingType = 'Equipments + Manual';
-                      break;
+                          case 1:
+                            $unLoadingType = 'Manual 100%';
+                          break;
+                          case 2:
+                            $unLoadingType =  '75% Manual + 25% Mechanical';
+                          break;
+                          case 3:
+                            $unLoadingType =  '50% Manual + 50% Mechanical';
+                          break;
+                          case 4:
+                            $unLoadingType =  '25% Manual + 75% Mechanical';
+                          break;
+                          case 5:
+                            $unLoadingType =  '100% Mechanical';
+                          break;
+                          case 6:
+                            $unLoadingType =  'Crane + Manual';
+                          break;
+                          case 7:
+                            $unLoadingType =  'Crane + Mechanical + Manual';
+                          break;
+                          case 8:
+                            $unLoadingType =  'Special Equipments';
+                          break;
+                          case 9:
+                            $unLoadingType =  'Others';
+                          break;
                     }
                     echo "<tr>";
                     echo "<td>".++$row_counter."</td>";

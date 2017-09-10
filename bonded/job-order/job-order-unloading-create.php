@@ -62,8 +62,8 @@
             <div class="row">
               <div class="col-md-4">
                 <div class="form-group">
-                  <label for="weight">Weight</label>
-                  <input type="text" tabindex="5" class="form-control required" id="weight" name="weight" placeholder="Weight">
+                  <label for="weight">Weight in kgs</label>
+                  <input type="text" tabindex="5" class="form-control required number" id="weight" name="weight" placeholder="Weight">
                 </div>
               </div>
               <div class="col-md-4">
@@ -88,13 +88,16 @@
               </div>
               <div class="col-md-4">
                 <label for="unloading_type">Type of Unloading</label>
-                <select class="form-control" tabindex="9" id="unloading_type" name="unloading_type">
-                  <option value="1">Manual 100%</option>
-                  <option value="2">75% Manual + 25% FLT</option>
-                  <option value="3">50% Manual + 50% FLT 25%-</option>
-                  <option value="4">Manual 75% + FLT FLT100%-</option>
-                  <option value="5">Crane + Manual Spl</option>
-                  <option value="6">Equipments + Manual</option>
+                <select class="form-control" tabindex="9" id="loading_type" name="loading_type">
+                  <option value="1">100% Manual</option>
+                  <option value="2">75% Manual + 25% Mechanical</option>
+                  <option value="3">50% Manual + 50% Mechanical</option>
+                  <option value="4">25% Manual + 75% Mechanical</option>
+                  <option value="5">100% Mechanical</option>
+                  <option value="6">Crane + Manual</option>
+                  <option value="7">Crane + Mechanical + Manual</option>
+                  <option value="8">Special Equipments</option>
+                  <option value="9">Others</option>
                 </select>
               </div>
               <div class="col-md-4">
@@ -185,6 +188,23 @@
   <script type="text/javascript" src="<?php echo HOMEURL; ?>/job-order/js/job-order-unloading.js"></script>
   <script type="text/javascript">
 
+    $.validator.addMethod(
+        "regex",
+        function(value, element, regexp) {
+            var re = new RegExp(regexp);
+            return this.optional(element) || re.test(value);
+        },
+        "Please check your input."
+    );
+    
+    $('#job_order_unloading_form').validate({
+        errorClass: "my-error-class"
+    });
+
+    $('#supervisor_name').rules("add", { regex: "^[a-zA-Z ]+$" });
+    $('#no_of_packages').rules("add", { regex: "^[0-9a-zA-Z ]+$" });
+    $('#equipment_ref_number').rules("add", { regex: "^(?=.*?[1-9])[0-9()-]+$" });
+
     $('#unloading_type').on('change', function() {
       var unloadingType = $('#unloading_type').val();
       if(unloadingType == 1){
@@ -194,9 +214,7 @@
       }
     })
 
-    $('#job_order_unloading_form').validate({
-        errorClass: "my-error-class"
-    });
+   
 
     //initial value of label
     $('#fetch_by_label').html('Customer Name');
