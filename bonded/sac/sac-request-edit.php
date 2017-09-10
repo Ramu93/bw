@@ -251,8 +251,8 @@
         getLicenceData();
       });
 
-      $('#bol_awb_no').rules("add", { regex: "^[0-9a-zA-Z]+$" });
-      $('#qty_units').rules("add", { regex: "^[0-9a-zA-Z]+$" });
+      $('#bol_awb_no').rules("add", { regex: "^[0-9a-zA-Z ]+$" });
+      $('#qty_units').rules("add", { regex: "^[0-9a-zA-Z ]+$" });
       $('#boe_num').rules("add", { regex: "^[0-9]{1,8}$" });
       $('#bol_awb_date').rules("add", { regex: "^[0-9]{4}[-][0-9]{2}[-][0-9]{2}$" });
       $('#boe_date').rules("add", { regex: "^[0-9]{4}[-][0-9]{2}[-][0-9]{2}$" });
