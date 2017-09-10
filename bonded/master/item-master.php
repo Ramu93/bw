@@ -162,6 +162,8 @@
         errorClass: "my-error-class"
       });
 
+      $('#item_name').rules("add", { regex: "^[0-9a-zA-Z ]+$" });
+      $('#edit_item_name').rules("add", { regex: "^[0-9a-zA-Z ]+$" });
 
       getItems();
     });
