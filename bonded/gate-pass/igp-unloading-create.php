@@ -205,6 +205,11 @@
         replaceContainerTonnageFields();
       });
 
+      $('#driver_name').rules("add", { regex: "^[a-zA-Z ]+$" });
+      $('#driving_license').rules("add", { regex: "^[0-9a-zA-Z ]+$" });
+      $('#vehicle_number').rules("add", { regex: "^[0-9a-zA-Z ]{0,13}$" });
+      $('#transporter_name').rules("add", { regex: "^[a-zA-Z ]+$" });
+
     });
 
     
