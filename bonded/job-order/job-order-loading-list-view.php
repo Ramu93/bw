@@ -40,23 +40,32 @@
                   while($row = mysqli_fetch_array($result)) {
                     switch($row['loading_type']){
                       case 1:
-                        $loadingType = 'Manual 100%';
-                      break;
-                      case 2:
-                        $loadingType = '75% Manual + 25% FLT';
-                      break;
-                      case 3:
-                        $loadingType = '50% Manual + 50% FLT 25%-';
-                      break;
-                      case 4:
-                        $loadingType = 'Manual 75% + FLT FLT100%-';
-                      break;
-                      case 5:
-                        $loadingType = 'Crane + Manual Spl';
-                      break;
-                      case 6:
-                        $loadingType = 'Equipments + Manual';
-                      break;
+                            echo 'Manual 100%';
+                          break;
+                          case 2:
+                            echo '75% Manual + 25% Mechanical';
+                          break;
+                          case 3:
+                            echo '50% Manual + 50% Mechanical';
+                          break;
+                          case 4:
+                            echo '25% Manual + 75% Mechanical';
+                          break;
+                          case 5:
+                            echo '100% Mechanical';
+                          break;
+                          case 6:
+                            echo 'Crane + Manual';
+                          break;
+                          case 7:
+                            echo 'Crane + Mechanical + Manual';
+                          break;
+                          case 8:
+                            echo 'Special Equipments';
+                          break;
+                          case 9:
+                            echo 'Others';
+                          break;
                     }
 
                     echo "<tr>";
