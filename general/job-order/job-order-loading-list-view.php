@@ -40,23 +40,32 @@
                   while($row = mysqli_fetch_array($result)) {
                     switch($row['loading_type']){
                       case 1:
-                        $loadingType = 'Manual 100%';
-                      break;
-                      case 2:
-                        $loadingType = '75% Manual + 25% FLT';
-                      break;
-                      case 3:
-                        $loadingType = '50% Manual + 50% FLT 25%-';
-                      break;
-                      case 4:
-                        $loadingType = 'Manual 75% + FLT FLT100%-';
-                      break;
-                      case 5:
-                        $loadingType = 'Crane + Manual Spl';
-                      break;
-                      case 6:
-                        $loadingType = 'Equipments + Manual';
-                      break;
+                            $loadingType = 'Manual 100%';
+                          break;
+                          case 2:
+                            $loadingType =  '75% Manual + 25% Mechanical';
+                          break;
+                          case 3:
+                            $loadingType =  '50% Manual + 50% Mechanical';
+                          break;
+                          case 4:
+                            $loadingType =  '25% Manual + 75% Mechanical';
+                          break;
+                          case 5:
+                            $loadingType =  '100% Mechanical';
+                          break;
+                          case 6:
+                            $loadingType =  'Crane + Manual';
+                          break;
+                          case 7:
+                            $loadingType =  'Crane + Mechanical + Manual';
+                          break;
+                          case 8:
+                            $loadingType =  'Special Equipments';
+                          break;
+                          case 9:
+                            $loadingType =  'Others';
+                          break;
                     }
 
                     echo "<tr>";

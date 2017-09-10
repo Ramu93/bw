@@ -94,19 +94,28 @@
                             echo 'Manual 100%';
                           break;
                           case 2:
-                            echo '75% Manual + 25% FLT';
+                            echo '75% Manual + 25% Mechanical';
                           break;
                           case 3:
-                            echo '50% Manual + 50% FLT 25%-';
+                            echo '50% Manual + 50% Mechanical';
                           break;
                           case 4:
-                            echo 'Manual 75% + FLT FLT100%-';
+                            echo '25% Manual + 75% Mechanical';
                           break;
                           case 5:
-                            echo 'Crane + Manual Spl';
+                            echo '100% Mechanical';
                           break;
                           case 6:
-                            echo 'Equipments + Manual';
+                            echo 'Crane + Manual';
+                          break;
+                          case 7:
+                            echo 'Crane + Mechanical + Manual';
+                          break;
+                          case 8:
+                            echo 'Special Equipments';
+                          break;
+                          case 9:
+                            echo 'Others';
                           break;
                         }
                     ?> 
