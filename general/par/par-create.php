@@ -101,7 +101,21 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="expected_date">Required Period of Warehousing</label>
-                  <input type="text" tabindex="15" class="form-control required" id="required_period_of_warehousing" name="required_period" placeholder="Required Period of Warehousing">
+                  <select tabindex="13" class="form-control required" id="required_period_of_warehousing" name="required_period">
+                    <option value="">Select...</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                  </select>
                 </div>
               </div>
               <div class="col-md-2">
@@ -230,7 +244,17 @@
     include('../footer_imports.php');
   ?>
   <script type="text/javascript" src="<?php echo HOMEURL; ?>/par/js/par.js"></script>
+  <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
   <script type="text/javascript">
+
+    $.validator.addMethod(
+        "regex",
+        function(value, element, regexp) {
+            var re = new RegExp(regexp);
+            return this.optional(element) || re.test(value);
+        },
+        "Please check your input."
+    );
 
     $(document).ready(function(){
       $("#client_insurance_file_div").hide();
@@ -245,6 +269,15 @@
       $('#dimension').on('change', function(){
         replaceFieldsForContainers();
       });
+
+      $('#bol_awb_no').rules("add", { regex: "^[0-9a-zA-Z ]+$" });
+      $('#qty_units').rules("add", { regex: "^[0-9a-zA-Z ]+$" });
+      $('#boe_num').rules("add", { regex: "^[0-9]{1,8}$" });
+      $('#bol_awb_date').rules("add", { regex: "^[0-9]{4}[-][0-9]{2}[-][0-9]{2}$" });
+      $('#boe_date').rules("add", { regex: "^[0-9]{4}[-][0-9]{2}[-][0-9]{2}$" });
+      $('#expected_date').rules("add", { regex: "^[0-9]{4}[-][0-9]{2}[-][0-9]{2}$" });
+      $('#cargo_life').rules("add", { regex: "^[0-9]{4}[-][0-9]{2}[-][0-9]{2}$" });
+      $('#shelf_life').rules("add", { regex: "^[0-9]{4}[-][0-9]{2}[-][0-9]{2}$" });
 
     });
 
