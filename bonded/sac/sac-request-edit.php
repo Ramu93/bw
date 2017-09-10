@@ -82,7 +82,21 @@
                 </div>
                 <div class="form-group">
                   <label for="expected_date">Required Period of Warehousing</label>
-                  <input type="text" tabindex="13" class="form-control required" id="required_period_of_warehousing" name="required_period" placeholder="Required Period of Warehousing" value="<?php echo $row['required_period']; ?>">
+                  <select tabindex="13" class="form-control required" id="required_period_of_warehousing" name="required_period">
+                    <option value="">Select...</option>
+                    <option value="1" <?php echo (($row['required_period']=='1')?'selected="selected"':'');  ?> >1</option>
+                    <option value="2" <?php echo (($row['required_period']=='2')?'selected="selected"':'');  ?> >2</option>
+                    <option value="3" <?php echo (($row['required_period']=='3')?'selected="selected"':'');  ?> >3</option>
+                    <option value="4" <?php echo (($row['required_period']=='4')?'selected="selected"':'');  ?> >4</option>
+                    <option value="5" <?php echo (($row['required_period']=='5')?'selected="selected"':'');  ?> >5</option>
+                    <option value="6" <?php echo (($row['required_period']=='6')?'selected="selected"':'');  ?> >6</option>
+                    <option value="7" <?php echo (($row['required_period']=='7')?'selected="selected"':'');  ?> >7</option>
+                    <option value="8" <?php echo (($row['required_period']=='8')?'selected="selected"':'');  ?> >8</option>
+                    <option value="9" <?php echo (($row['required_period']=='9')?'selected="selected"':'');  ?> >9</option>
+                    <option value="10" <?php echo (($row['required_period']=='10')?'selected="selected"':'');  ?> >10</option>
+                    <option value="11" <?php echo (($row['required_period']=='11')?'selected="selected"':'');  ?> >11</option>
+                    <option value="12" <?php echo (($row['required_period']=='12')?'selected="selected"':'');  ?> >12</option>
+                  </select>
                 </div>
               </div>
               <div class="col-md-6">
@@ -236,6 +250,13 @@
       $('#licence_code').on('change', function() {
         getLicenceData();
       });
+
+      $('#bol_awb_no').rules("add", { regex: "^[0-9a-zA-Z]+$" });
+      $('#qty_units').rules("add", { regex: "^[0-9a-zA-Z]+$" });
+      $('#boe_num').rules("add", { regex: "^[0-9]{1,8}$" });
+      $('#bol_awb_date').rules("add", { regex: "^[0-9]{4}[-][0-9]{2}[-][0-9]{2}$" });
+      $('#boe_date').rules("add", { regex: "^[0-9]{4}[-][0-9]{2}[-][0-9]{2}$" });
+      $('#expected_date').rules("add", { regex: "^[0-9]{4}[-][0-9]{2}[-][0-9]{2}$" });
 
     });
 
