@@ -1,3 +1,22 @@
+$.validator.addMethod(
+        "regex",
+        function(value, element, regexp) {
+            var re = new RegExp(regexp);
+            return this.optional(element) || re.test(value);
+        },
+        "Please check your input."
+);
+
+$.validator.addMethod(
+        "assessableValue",
+        function(value, element) {
+        	var assessableValue = $('#assessable_value').val();
+        	var dutyAmount = $('#duty_amount').value();
+		  return this.optional( element ) || (dutyAmount >= assessableValue ? false : true);
+		},
+        "Duty amount cmust be lesser than assessable value."
+);
+
 var gContainerList = new Array;
 var g_rowcount=2;
 var g_snocount=2;
