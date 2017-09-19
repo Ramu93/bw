@@ -32,7 +32,7 @@
             </thead>
             <tbody>
               <?php 
-                $select_query = "SELECT * FROM bonded_despatch_request WHERE status='created'";
+                $select_query = "SELECT * FROM bonded_despatch_request";
                 $result = mysqli_query($dbc,$select_query);
                 $row_counter = 0;
                 if(mysqli_num_rows($result) > 0) {
@@ -44,7 +44,7 @@
                     echo "<td>".$row['sac_id']."</td>";
                     echo "<td>".$row['cha_name']."</td>";
                     echo "<td>".$row['client_web']."</td>";
-                    echo "<td><a href='pdr-approve-reject.php?pdr_id=".$row['pdr_id']."'>Approve/Reject</a></td>";
+                    echo "<td><a href='pdr-approve-reject.php?pdr_id=".$row['pdr_id']."'>View</a></td>";
                     echo "</tr>";
                   }
                 } else {

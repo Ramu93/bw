@@ -100,12 +100,14 @@
               <div class="col-md-3 col-sm-3">
                 <input type="submit" id="update_pdr_btn" name="submit" value="Update PDR" class="btn btn-primary btn-block pull-left" onclick="updatePDR()">
               </div>
-              <div class="col-md-3 col-sm-3">
-                <input type="submit" id="update_pdr_btn" name="submit" value="Approve PDR" class="btn btn-primary btn-block pull-left" onclick="approvePDR(<?php echo $out['pdr_id']; ?>)">
-              </div>
-              <div class="col-md-3 col-sm-3">
-                <input type="submit" id="update_pdr_btn" name="submit" value="Reject PDR" class="btn btn-primary btn-block pull-left" onclick="rejectPDR(<?php echo $out['pdr_id']; ?>)">
-              </div>
+              <?php if($out['status'] == 'created') {?>
+                <div class="col-md-3 col-sm-3">
+                  <input type="submit" id="update_pdr_btn" name="submit" value="Approve PDR" class="btn btn-primary btn-block pull-left" onclick="approvePDR(<?php echo $out['pdr_id']; ?>)">
+                </div>
+                <div class="col-md-3 col-sm-3">
+                  <input type="submit" id="update_pdr_btn" name="submit" value="Reject PDR" class="btn btn-primary btn-block pull-left" onclick="rejectPDR(<?php echo $out['pdr_id']; ?>)">
+                </div>
+              <?php } ?>
             </div>
           </form>
         </div>
