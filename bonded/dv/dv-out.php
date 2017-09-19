@@ -140,19 +140,13 @@
             <div class="row">
               <div class="col-md-2">
                 <div class="form-group">
-                  <input type="checkbox" name="exbond_original_check" id="exbond_original_check" value="yes"> Ex Bond Original
-                  <input type="hidden" name="exbond_original" id="exbond_original" value="">
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <input type="checkbox" name="exboe_original_check" id="exboe_original_check" value="yes"> Ex BOE Original
+                  <input type="checkbox" name="exboe_original_check" id="exboe_original_check" value="yes"> Ex Bond BOE
                   <input type="hidden" name="exboe_original" id="exboe_original" value="">
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="form-group">
-                  <input type="checkbox" name="order_number_check" id="order_number_check" value="yes"> Order Number
+                  <input type="checkbox" name="order_number_check" id="order_number_check" value="yes"> Release Order
                   <input type="hidden" name="order_number" id="order_number" value="">
                 </div>
               </div>

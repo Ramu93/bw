@@ -33,15 +33,14 @@
 	function submitVerification(){
 		global $dbc;
 		$pdrId = $_POST['pdr_id'];
-		$exbond = $_POST['exbond_original'];
 		$exboe = $_POST['exboe_original'];
 		$orderNumber = $_POST['order_number'];
 		$vehicleNumber = $_POST['vehicle_number'];
 		$licenseNumber = $_POST['license_number'];
 
-		$query = "INSERT INTO bonded_dv_outward (pdr_id, exbond_original, exboe_original, order_number, vehicle_number, license_number) VALUES ('$pdrId', '$exbond', '$exboe', '$orderNumber', '$vehicleNumber', '$licenseNumber')";
+		$query = "INSERT INTO bonded_dv_outward (pdr_id, exboe_original, order_number, vehicle_number, license_number) VALUES ('$pdrId', '$exboe', '$orderNumber', '$vehicleNumber', '$licenseNumber')";
 		if(mysqli_query($dbc, $query)){
-			if($exbond == 'yes' || $exboe == 'yes' || $orderNumber == 'yes' || $vehicleNumber == 'yes' || $licenseNumber == 'yes'){
+			if($exboe == 'yes' || $orderNumber == 'yes' || $vehicleNumber == 'yes' || $licenseNumber == 'yes'){
 				updateDocumentVerificationStatusInPDR();
 			}
 			return array("infocode"=>"DOCUMENTVERIFICATIONSUCCESS","message"=>"Document verification data saved successfully.");

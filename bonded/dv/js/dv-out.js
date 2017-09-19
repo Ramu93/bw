@@ -27,11 +27,6 @@ function submitDocumentVerification(pdrId){
 }
 
 function setValuesToCheckTextFields(){
-	if($('#exbond_original_check').is(":checked")){
-		$('#exbond_original').val('yes');
-	} else {
-		$('#exbond_original').val('no');
-	}
 	
 	if($('#exboe_original_check').is(":checked")){
 		$('#exboe_original').val('yes');
