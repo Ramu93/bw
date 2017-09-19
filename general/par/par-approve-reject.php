@@ -179,12 +179,14 @@
             <input type="hidden" id="status" name="status" value="">
             <input type="hidden" id="container_stringified" name="container_stringified" >
             <div class="row">
-              <div class="col-md-3 col-sm-3">
-                <input type="button" name="approve_par" value="Approve PAR" class="btn btn-primary btn-block pull-left" onclick="approvePAR();">
-              </div>
-              <div class="col-md-3 col-sm-3">
-                <input type="button" name="reject_par" value="Reject PAR" class="btn btn-primary btn-block pull-left" onclick="rejectPAR();">
-              </div>
+              <?php if($row['status'] == 'submitted') { ?>
+                <div class="col-md-3 col-sm-3">
+                  <input type="button" name="approve_par" value="Approve PAR" class="btn btn-primary btn-block pull-left" onclick="approvePAR();">
+                </div>
+                <div class="col-md-3 col-sm-3">
+                  <input type="button" name="reject_par" value="Reject PAR" class="btn btn-primary btn-block pull-left" onclick="rejectPAR();">
+                </div>
+              <?php } ?>
               <div class="col-md-3 col-sm-3">
                 <input type="submit" name="submit" value="Update PAR" class="btn btn-primary btn-block pull-left" onclick="updateClicked();updatePAR(<?php echo $parID; ?>);">
               </div>

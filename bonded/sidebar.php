@@ -60,10 +60,11 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="<?php echo HOMEURL; ?>/sac/sac-request-create.php"><i class="fa fa-plus"></i> Create</a></li>
-            <li><a href="<?php echo HOMEURL; ?>/sac/sac-request-view.php"><i class="fa fa-file"></i> View</a></li>
+            <!-- <li><a href="<?php //echo HOMEURL; ?>/sac/sac-request-view.php"><i class="fa fa-file"></i> View</a></li>
             <li>
-              <a href="<?php echo HOMEURL; ?>/sac/sac-request-approve-reject-view.php"><i class="fa fa-circle-o"></i> Approve/Reject</a>
-            </li>
+              <a href="<?php //echo HOMEURL; ?>/sac/sac-request-approve-reject-view.php"><i class="fa fa-circle-o"></i> Approve/Reject</a>
+            </li> -->
+            <li><a href="<?php echo HOMEURL; ?>/sac/sac-request-approve-reject-view.php"><i class="fa fa-file"></i> View</a></li>
           </ul>
         </li>
         <li class="treeview">

@@ -147,12 +147,14 @@
               </div>  
             </div>
             <div class="row">
-              <div class="col-md-3 col-sm-3">
-                <input type="button" name="approve_par" value="Approve SAC Request" class="btn btn-primary btn-block pull-left" onclick="approveSACRequest(<?php echo $sacID; ?>);">
-              </div>
-              <div class="col-md-3 col-sm-3">
-                <input type="button" name="reject_par" value="Reject SAC Request" class="btn btn-primary btn-block pull-left" onclick="rejectSACRequest(<?php echo $sacID; ?>);">
-              </div>
+              <?php if($row['status'] == 'submitted') { ?>
+                <div class="col-md-3 col-sm-3">
+                  <input type="button" name="approve_par" value="Approve SAC Request" class="btn btn-primary btn-block pull-left" onclick="approveSACRequest(<?php echo $sacID; ?>);">
+                </div>
+                <div class="col-md-3 col-sm-3">
+                  <input type="button" name="reject_par" value="Reject SAC Request" class="btn btn-primary btn-block pull-left" onclick="rejectSACRequest(<?php echo $sacID; ?>);">
+                </div>
+              <?php } ?>
               <div class="col-md-3 col-sm-3">
                 <input type="submit" name="submit" value="Update SAC Request" class="btn btn-primary btn-block pull-left" onclick="updateSACRequest(<?php echo $sacID; ?>);">
               </div>

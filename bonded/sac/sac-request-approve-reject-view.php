@@ -34,7 +34,7 @@
             </thead>
             <tbody>
               <?php 
-                $select_query = "SELECT * FROM sac_request WHERE status='submitted'";
+                $select_query = "SELECT * FROM sac_request";
                 $result = mysqli_query($dbc,$select_query);
                 $row_counter = 0;
                 if(mysqli_num_rows($result) > 0) {
@@ -48,7 +48,7 @@
                     echo "<td>".$row['qty_units']."</td>";
                     echo "<td>".$row['space_requirement']."</td>";
                     echo "<td>".$row['expected_date']."</td>";
-                    echo "<td><a href='sac-request-approve-reject.php?sac_id=".$row['sac_id']."'>Approve/Reject</a></td>";
+                    echo "<td><a href='sac-request-approve-reject.php?sac_id=".$row['sac_id']."'>View</a></td>";
                     echo "</tr>";
                   }
                 } else {
