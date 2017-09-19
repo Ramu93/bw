@@ -161,18 +161,12 @@
   				}
   			}
   			//ad entry in general_good_delivery_note
-  			addGDNEntry($lastPdrId);
+  			//addGDNEntry($lastPdrId);
   			$output = array("infocode" => "CREATEPDRSUCCESS", "message" => "PDR successfully created.");
   		} else {
   			$output = array("infocode" => "CREATEPDRFAILURE", "message" => "PDR not created successfully.");
   		}
   		return $output;
-	}
-
-	function addGDNEntry($pdrId){
-		global $dbc;
-		$query = "INSERT INTO general_good_delivery_note (pdr_id) VALUES ('$pdrId')";
-		mysqli_query($dbc, $query);
 	}
 
 	function updatePDR(){

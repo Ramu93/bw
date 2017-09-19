@@ -122,12 +122,19 @@
 			$updatePdrStatusQuery = "UPDATE general_despatch_request SET igp_created='yes' WHERE pdr_id='$pdrId'";
 			
 			if(mysqli_query($dbc, $updatePdrStatusQuery)){
+				addGDNEntry($pdrId);
 				return array("status"=>"Success","message"=>"Inward gate pass generated successfully.");
 			} else {
 				return array("status"=>"Failure","message"=>"Inward gate pass not generated successfully.");
 			}
 		}
 
+	}
+
+	function addGDNEntry($pdrId){
+		global $dbc;
+		$query = "INSERT INTO general_good_delivery_note (pdr_id) VALUES ('$pdrId')";
+		mysqli_query($dbc, $query);
 	}
 
 	function getPDRItemsCount(){
