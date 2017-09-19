@@ -32,7 +32,7 @@
             </thead>
             <tbody>
               <?php 
-                $select_query = "SELECT * FROM bonded_despatch_request WHERE document_verified='no' AND igp_created='yes'";
+                $select_query = "SELECT * FROM bonded_despatch_request WHERE document_verified='no' AND igp_created='yes' AND status='approved'";
                 $result = mysqli_query($dbc,$select_query);
                 $row_counter = 0;
                 if(mysqli_num_rows($result) > 0) {
