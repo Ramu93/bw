@@ -161,6 +161,8 @@
 		if(mysqli_query($dbc, $query)){
 			//add OGP-loading entry
 			addOGPEntry($jlId);
+			//add GDN entry
+			addGDNEntry(getPdrId($jlId));
 			//change the status of IGP - loading to joborder_complete
 			changeIGPStatus($jlId, IGP_JOBORDER_COMPLETE_STATUS);
 			$output = array("infocode"=>"JOBORDERCOMPLETED","message"=>"Job order completed successfully.");
@@ -173,6 +175,12 @@
 	function addOGPEntry($jlId){
 		global $dbc;
 		$query = "INSERT INTO general_ogp_loading (jl_id) VALUES ('$jlId')";
+		mysqli_query($dbc, $query);
+	}
+
+	function addGDNEntry($pdrId){
+		global $dbc;
+		$query = "INSERT INTO general_good_delivery_note (pdr_id) VALUES ('$pdrId')";
 		mysqli_query($dbc, $query);
 	}
 
