@@ -27,23 +27,29 @@
                 <th>Vehicle Number</th>
                 <th>Driver Name</th>
                 <th>Driving License</th>
+                <th>Vehicle Left</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
               <?php 
-                $select_query = "SELECT ol.ogp_lo_id, ol.jl_id, jl.pdr_id, il.vehicle_number, il.driver_name, il.driving_license FROM bonded_ogp_loading ol, bonded_joborder_loading jl, bonded_igp_loading il WHERE ol.jl_id=jl.jl_id AND jl.pdr_id=il.pdr_id AND ol.status='created'";
+                $select_query = "SELECT ol.ogp_lo_id, ol.jl_id, jl.pdr_id, il.vehicle_number, il.driver_name, il.driving_license, ol.status FROM bonded_ogp_loading ol, bonded_joborder_loading jl, bonded_igp_loading il WHERE ol.jl_id=jl.jl_id AND jl.pdr_id=il.pdr_id";
                 $result = mysqli_query($dbc,$select_query);
                 $row_counter = 0;
                 if(mysqli_num_rows($result) > 0) {
                   $dataTableFlag = true;
                   while($row = mysqli_fetch_array($result)) {
+                    $isVehicleLeft = 'No';
+                    if($row['status'] == 'completed'){
+                      $isVehicleLeft = 'Yes';
+                    }
                     echo "<tr>";
                     echo "<td>".++$row_counter."</td>";
                     echo "<td>".$row['ogp_lo_id']."</td>";
                     echo "<td>".$row['vehicle_number']."</td>";
                     echo "<td>".$row['driver_name']."</td>";
                     echo "<td>".$row['driving_license']."</td>";
+                    echo "<td>".$isVehicleLeft."</td>";
                     echo "<td><a href='ogp-loading-view.php?ogp_lo_id=".$row['ogp_lo_id']."'>View</a></td>";
                     echo "</tr>";
                   }

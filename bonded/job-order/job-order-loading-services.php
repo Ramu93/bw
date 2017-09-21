@@ -191,7 +191,7 @@
 		$query = "UPDATE bonded_igp_loading SET status='$status' WHERE pdr_id='$pdrId'";
 		// file_put_contents("querylog.log",$query, FILE_APPEND | LOCK_EX);
 		mysqli_query($dbc, $query);
-		updatePDRStatus($pdrId, $status);
+		//updatePDRStatus($pdrId, $status);
 	}
 
 	function getPdrId($jlId){

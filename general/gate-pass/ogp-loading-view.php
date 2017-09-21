@@ -5,7 +5,7 @@
 
   $out = array();
   $ogpId = $_GET['ogp_lo_id'];
-  $select = "SELECT ol.ogp_lo_id, ol.jl_id, jl.pdr_id, il.vehicle_number, il.driver_name, il.driving_license FROM general_ogp_loading ol, general_joborder_loading jl, general_igp_loading il WHERE ol.jl_id=jl.jl_id AND jl.pdr_id=il.pdr_id AND ogp_lo_id='$ogpId'";
+  $select = "SELECT ol.ogp_lo_id, ol.jl_id, jl.pdr_id, il.vehicle_number, il.driver_name, il.driving_license, ol.status FROM general_ogp_loading ol, general_joborder_loading jl, general_igp_loading il WHERE ol.jl_id=jl.jl_id AND jl.pdr_id=il.pdr_id AND ogp_lo_id='$ogpId'";
   $query = mysqli_query($dbc,$select);
   if(mysqli_num_rows($query) > 0) {
     $row = mysqli_fetch_array($query);
@@ -71,9 +71,11 @@
                     <label id="item_total_qty"></label>
                   </div>
                 </div>
-                <div class="col-md-4 col-sm-4">
-                  <input type="submit" name="submit" value="Vehicle Left" class="btn btn-primary btn-block pull-left" onclick="setVehicleLeftTimeStamp(<?php echo $ogpId; ?>)">
-                </div>
+                <?php if($out['status'] == 'created') { ?>
+                  <div class="col-md-4 col-sm-4">
+                    <input type="submit" name="submit" value="Vehicle Left" class="btn btn-primary btn-block pull-left" onclick="setVehicleLeftTimeStamp(<?php echo $ogpId; ?>)">
+                  </div>
+                <?php } ?>
               </div>
             </form>
           </div>

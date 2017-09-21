@@ -24,13 +24,13 @@
               <input type="text" class="form-control" id="data_item_val" name="data_item_val" placeholder="Bond Number">
             </div>
             <div class="col-md-3">
-            <label for="select_by_label">Choose By</label>
-            <select class="form-control" tabindex="2" id="select_by_type" name="select_by_type">
-              <option value="bond_number">Bond Number</option>
-              <option value="boe">BOE Number</option>
-              <option value="grn">GRN</option>
-            </select>
-          </div>
+              <label for="select_by_label">Choose By</label>
+              <select class="form-control" tabindex="2" id="select_by_type" name="select_by_type">
+                <option value="bond_number">Bond Number</option>
+                <option value="boe">BOE Number</option>
+                <option value="grn">GRN</option>
+              </select>
+            </div>
             <div class="col-md-3">
               <div class="clearfix">&nbsp;</div>
               <input type="button" tabindex="3" name="view_list_button" value="View List" class="btn btn-primary btn-block pull-left" onclick="getBondOrderList();">

@@ -334,3 +334,20 @@ function displayItemsListInViewMode(itemData){
 	});
 	$('#item_list_tbody').html(dp);
 }
+
+function loadPage(){
+	var status = $('#select_by_status').val();
+	var url = 'pdr-approve-reject-view.php?status=';
+	switch(status){
+		case 'created':
+			url += 'created';
+		break;
+		case 'approved':
+			url += 'approved';
+		break;
+		case 'rejected':
+			url += 'rejected';
+		break;
+	}
+	this.document.location.href = url;
+}
