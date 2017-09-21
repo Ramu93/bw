@@ -81,7 +81,7 @@
 	function getSelectedDataDetails(){
 		global $dbc;
 		$sacId = $_POST['sac_id'];
-		$innerQuery = "SELECT sac_id as 'id', 'sac' as 'table_name', importing_firm_name, licence_code, bol_awb_number, boe_number, material_name, material_nature, packing_nature FROM sac_request WHERE sac_id='$sacId'";
+		$innerQuery = "SELECT sac_id as 'id', 'sac' as 'table_name', importing_firm_name, licence_code, bol_awb_number, boe_number, material_name, material_nature, packing_nature, assessable_value, duty_amount FROM sac_request WHERE sac_id='$sacId'";
 		$innerResult = mysqli_query($dbc,$innerQuery);
 		if(mysqli_num_rows($innerResult) > 0){
 			$innerRow = mysqli_fetch_assoc($innerResult);

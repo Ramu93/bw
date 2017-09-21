@@ -81,7 +81,7 @@
 	function getSelectedDataDetails(){
 		global $dbc;
 		$parId = $_POST['par_id'];
-		$innerQuery = "SELECT par_id as 'id', 'par' as 'table_name', importing_firm_name, bol_awb_number, boe_number, material_name, material_nature, packing_nature FROM pre_arrival_request WHERE par_id='$parId'";
+		$innerQuery = "SELECT par_id as 'id', 'par' as 'table_name', importing_firm_name, bol_awb_number, boe_number, material_name, material_nature, packing_nature, assessable_value, duty_amount FROM pre_arrival_request WHERE par_id='$parId'";
 		$innerResult = mysqli_query($dbc,$innerQuery);
 		if(mysqli_num_rows($innerResult) > 0){
 			$innerRow = mysqli_fetch_assoc($innerResult);

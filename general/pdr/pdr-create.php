@@ -48,6 +48,14 @@
                 <label for="par_id" id="sac_par_table_label"></label>
                 <input type="text" class="form-control" id="par_id" name="par_id" readonly="true">
               </div>
+              <div class="form-group col-md-4">
+                <label for="sac_id">Assessable Value:</label>
+                <input type="text" class="form-control" id="assessable_value" name="assessable_value" readonly="true">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="sac_id">Duty Amount in Rupees:</label>
+                <input type="text" class="form-control" id="duty_amount" name="duty_amount" readonly="true">
+              </div>
             </div>
             <div class="row">
               <!-- <div class="form-group col-md-4">

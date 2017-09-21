@@ -90,6 +90,8 @@ function getDataDetails(parId, dataItemVal){
 
 				$('#sac_par_table_label').html(id_head);
 				$('#par_id').html(id);
+				$('#assessable_value').val(selectedData.assessable_value);
+				$('#duty_amount').val(selectedData.duty_amount);
 
 				$('#fields').show();
 				$('#create_pdr_btn').show();			}

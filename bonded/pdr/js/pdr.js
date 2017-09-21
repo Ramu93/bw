@@ -80,6 +80,8 @@ function getDataDetails(sacId, dataItemVal){
 				//var dimension = selectedData.dimension;
 				
 				$('#sac_id').val(id);
+				$('#assessable_value').val(selectedData.assessable_value);
+				$('#duty_amount').val(selectedData.duty_amount);
 
 				$('#fields').show();
 				$('#create_pdr_btn').show();			}
