@@ -168,7 +168,7 @@ function createJobOrder(){
 			success: function(data){
 				if(data.status == 'Success'){
 					bootbox.alert(data.message,function(){
-						window.location='job-order-unloading-view.php?ju_id='+sacParId;	//replace with last insert id
+						window.location='job-order-unloading-view.php?ju_id='+data.last_id;	//replace with last insert id
 					});
 				}
 				

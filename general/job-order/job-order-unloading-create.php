@@ -88,7 +88,7 @@
               </div>
               <div class="col-md-4">
                 <label for="unloading_type">Type of Unloading</label>
-                <select class="form-control" tabindex="9" id="loading_type" name="loading_type">
+                <select class="form-control" tabindex="9" id="unloading_type" name="unloading_type">
                   <option value="1">100% Manual</option>
                   <option value="2">75% Manual + 25% Mechanical</option>
                   <option value="3">50% Manual + 50% Mechanical</option>

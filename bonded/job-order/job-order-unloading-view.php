@@ -35,12 +35,29 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="igp_unloading_id">Job Order Unloading ID:</label>
+                  <label for="jo_unloading_id">Job Order Unloading ID:</label>
                   <div class="clearfix"></div>
                   <label><?php echo $out['ju_id']; ?></label>
                 </div>
               </div>
-              <!-- <div class="col-md-3">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="">Job Order Start Time:</label>
+                  <div class="clearfix"></div>
+                  <label><?php echo date("d-m-Y g:i A", strtotime($out['start_time'])); ?></label>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <?php if($out['status'] == 'completed'){ ?>
+                <div class="form-group">
+                  <label for="">Job Order Completed Time:</label>
+                  <div class="clearfix"></div>
+                  <label><?php echo date("d-m-Y g:i A", strtotime($out['end_time'])); ?></label>
+                </div>
+                <?php } ?>
+              </div>
+              <!-- <
+              div class="col-md-3">
                 <div class="form-group">
                   <label for="date">Date:</label>
                   <div class="clearfix"></div>

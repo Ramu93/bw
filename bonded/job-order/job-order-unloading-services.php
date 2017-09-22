@@ -56,6 +56,8 @@
 		global $db,$form;
 		$jobOrderUnloadingFormArray = array("sac_id"=>"sac_id", "weight"=>"weight", "no_of_packages"=>"no_of_packages", "description"=>"description", "supervisor_name"=>"supervisor_name", "unloading_type"=>"unloading_type", "equipment_ref_number"=>"equipment_ref_number", "no_of_labors"=>"no_of_labors", "unloading_time"=>"unloading_time", "dimension"=>"dimension");
 		$jobOrderUnloadingFormArray = $form->getFormValues($jobOrderUnloadingFormArray,$_POST);
+	   	$jobOrderUnloadingFormArray['start_time'] = date("Y-m-d H:i:s");
+		
 		//file_put_contents("formlog.log", print_r( $_POST, true ));
     	$result = $db->insertOperation('bonded_joborder_unloading',$jobOrderUnloadingFormArray);
     	// $parlogarray = array("par_id" => $parId, "status_to" => 'Submitted', "remarks" => "Waiting for Approval");
@@ -145,7 +147,7 @@
   		// $wherearray = array('condition'=>'ju_id = :ju_id', 'param'=>':ju_id', 'value'=>$juId);
 	   //  $db->updateOperation('bonded_joborder_unloading',array('status'=>JOB_ORDER_COMPLETE_STATUS),$wherearray);
 
-	    $query = "UPDATE bonded_joborder_unloading SET status='".JOB_ORDER_REJECT_STATUS."' WHERE ju_id='$juId'";
+	    $query = "UPDATE bonded_joborder_unloading SET status='".JOB_ORDER_COMPLETE_STATUS."', end_time='".date("Y-m-d H:i:s")."' WHERE ju_id='$juId'";
 	    if(mysqli_query($dbc, $query)){
 	    	//add OGP table entry
 		    addOGPEntry($juId);
@@ -156,6 +158,7 @@
 	    } else {
 	    	return array("infocode"=>"JOBORDERNOTCOMPLETED","message"=>"Job Order not completed successfully");
 	    }
+		file_put_contents("querylog.log", print_r( $query, true ));
 
 	    
 	}
