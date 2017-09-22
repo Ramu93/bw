@@ -89,7 +89,7 @@
 			}
 			
 		}
-		 file_put_contents("datalog.log", print_r($query, true ));
+		 // file_put_contents("datalog.log", print_r($query, true ));
 		return $output;
 	}
 ?>
