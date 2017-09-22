@@ -84,7 +84,7 @@
 			$innerResult = mysqli_query($dbc,$innerQuery);
 			if(mysqli_num_rows($innerResult) > 0){
 				$innerRow = mysqli_fetch_assoc($innerResult);
-				$innerRow['end_time'] = $row['end_time'];
+				$innerRow['end_time'] = date("d-m-Y g:i A", strtotime($row['end_time']));
 				$output = array("infocode" => "DATADETAILFETCHSUCCESS", "data" => json_encode($innerRow));
 			}
 			
