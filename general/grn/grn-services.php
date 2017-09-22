@@ -45,10 +45,10 @@
     	// $parlogarray = array("par_id" => $parId, "status_to" => 'Submitted', "remarks" => "Waiting for Approval");
     	// $db->insertOperation('par_log',$parlogarray);
 
-    	$updateSacParStatusQuery = "UPDATE pre_arrival_request SET status='" . GRN_CREATED_STATUS . "' WHERE par_id = '$parId'";
+    	//$updateSacParStatusQuery = "UPDATE pre_arrival_request SET status='" . GRN_CREATED_STATUS . "' WHERE par_id = '$parId'";
 		// file_put_contents("formlog.log", print_r( $updateSacParStatusQuery, true ));
 
-    	mysqli_query($dbc, $updateSacParStatusQuery);
+    	//mysqli_query($dbc, $updateSacParStatusQuery);
     	return array("status"=>"success","message"=>"GRN created successfully.");
 	}
 
