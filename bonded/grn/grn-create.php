@@ -51,7 +51,7 @@
             </div>
             <div class="clearfix"></div>
             <div class="row">
-              <div class="col-md-3">
+              <div class="col-md-2">
                 <label id="id_label"></label>
                 <div class="clearfix"></div>
                 <label id="id_value"></label>
@@ -65,6 +65,11 @@
                 <label id="bond_number_label"></label>
                 <div class="clearfix"></div>
                 <label id="bond_number_value"></label>
+              </div>
+              <div class="col-md-3">
+                <label id="end_time_label"></label>
+                <div class="clearfix"></div>
+                <label id="end_time_value"></label>
               </div>
             </div>
             <div class="clearfix"></div>

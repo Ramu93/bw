@@ -61,6 +61,11 @@
                 <div class="clearfix"></div>
                 <label id="customer_name_value"></label>
               </div>
+              <div class="col-md-3">
+                <label id="end_time_label"></label>
+                <div class="clearfix"></div>
+                <label id="end_time_value"></label>
+              </div>
             </div>
             <div class="clearfix"></div>
             <div class="row">

@@ -74,7 +74,7 @@
 		global $dbc;
 		$dataValue = $_POST['data_value'];
 
-		$query = "SELECT par_id FROM general_joborder_unloading WHERE ju_id='$dataValue'";
+		$query = "SELECT par_id, end_time FROM general_joborder_unloading WHERE ju_id='$dataValue'";
 		$output = array();
 		$result = mysqli_query($dbc,$query);
 		if(mysqli_num_rows($result) > 0) {
@@ -84,11 +84,12 @@
 			$innerResult = mysqli_query($dbc,$innerQuery);
 			if(mysqli_num_rows($innerResult) > 0){
 				$innerRow = mysqli_fetch_assoc($innerResult);
+				$innerRow['end_time'] = $row['end_time'];
 				$output = array("infocode" => "DATADETAILFETCHSUCCESS", "data" => json_encode($innerRow));
 			}
 			
 		}
-		file_put_contents("datalog.log", print_r($innerQuery, true ));
+		 file_put_contents("datalog.log", print_r($query, true ));
 		return $output;
 	}
 ?>

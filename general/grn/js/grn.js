@@ -46,6 +46,9 @@ function getDataDetails(dataItem){
 				var id = selectedData.id;
 				var tableName = selectedData.table_name;
 				var customerName = selectedData.importing_firm_name;
+				var joCompleteTime = selectedData.end_time;
+
+				joCompleteTime = getFormattedDate(new Date(joCompleteTime)) + ' ' + getFormatAMPM(new Date(joCompleteTime));
 				//var dimension = selectedData.dimension;
 				var id_head = '';
 				id_head = 'PAR ID:';
@@ -61,6 +64,8 @@ function getDataDetails(dataItem){
 					$('#customer_name_label').html('');
 					$('#customer_name_value').html('');
 				}
+				$('#end_time_label').html('Job Order Complete Time:');
+				$('#end_time_value').html(joCompleteTime);
 				$('#licence_code_label').html('Licence Code:');
 				$('#licence_code').html(selectedData.licence_code);
 				$('#bol_awb_number_label').html('BOL/AWB Number:');
@@ -81,6 +86,24 @@ function getDataDetails(dataItem){
 			alert('error');
 		} 	        
 	});
+}
+
+function getFormattedDate(date) {
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+    return day + "-" + month + "-" + year;
+}
+
+function getFormatAMPM(date) {
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  var strTime = hours + ':' + minutes + ' ' + ampm;
+  return strTime;
 }
 
 function createGRN(){
