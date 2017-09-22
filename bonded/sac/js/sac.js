@@ -380,3 +380,20 @@ function deleteContainerItem(arrayindex){
 		}
 	});
 }
+
+function loadPage(){
+	var status = $('#select_by_status').val();
+	var url = 'sac-request-approve-reject-view.php?status=';
+	switch(status){
+		case 'submitted':
+			url += 'submitted';
+		break;
+		case 'approved':
+			url += 'approved';
+		break;
+		case 'rejected':
+			url += 'rejected';
+		break;
+	}
+	this.document.location.href = url;
+}

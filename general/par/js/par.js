@@ -1,3 +1,21 @@
+(function($) {
+  $.fn.serializefiles = function() {
+      var obj = $(this);
+      /* ADD FILE TO PARAM AJAX */
+      var formData = new FormData();
+      $.each($(obj).find("input[type='file']"), function(i, tag) {
+          $.each($(tag)[0].files, function(i, file) {
+              formData.append(tag.name, file);
+          });
+      });
+      var params = $(obj).serializeArray();
+      $.each(params, function (i, val) {
+          formData.append(val.name, val.value);
+      });
+      return formData;
+  };
+})(jQuery);
+
 var gContainerList = new Array;
 var g_rowcount=2;
 var g_snocount=2;
@@ -93,24 +111,6 @@ function refreshSNoCount(){
 	if(sillycount<=2)
 		$('.item_removebutton').hide();
 }
-
-(function($) {
-  $.fn.serializefiles = function() {
-      var obj = $(this);
-      /* ADD FILE TO PARAM AJAX */
-      var formData = new FormData();
-      $.each($(obj).find("input[type='file']"), function(i, tag) {
-          $.each($(tag)[0].files, function(i, file) {
-              formData.append(tag.name, file);
-          });
-      });
-      var params = $(obj).serializeArray();
-      $.each(params, function (i, val) {
-          formData.append(val.name, val.value);
-      });
-      return formData;
-  };
-})(jQuery);
 
 function createPAR(){
 	if($("#par-form").valid()){
