@@ -46,6 +46,7 @@ function getDataDetails(dataItem){
 				var id = selectedData.id;
 				var tableName = selectedData.table_name;
 				var customerName = selectedData.importing_firm_name;
+				var bondNumber = selectedData.bond_number;
 				//var dimension = selectedData.dimension;
 				var id_head = '';
 				id_head = 'SAC ID:';
@@ -54,13 +55,11 @@ function getDataDetails(dataItem){
 
 				$('#id_label').html(id_head);
 				$('#id_value').html(id);
-				if(selectType != 'igp'){
-					$('#customer_name_label').html('Customer Name:');
-					$('#customer_name_value').html(customerName);
-				} else {
-					$('#customer_name_label').html('');
-					$('#customer_name_value').html('');
-				}
+				$('#customer_name_label').html('Customer Name:');
+				$('#customer_name_value').html(customerName);
+				
+				$('#bond_number_label').html('Bond Number:');
+				$('#bond_number_value').html(bondNumber);
 				$('#licence_code_label').html('Licence Code:');
 				$('#licence_code').html(selectedData.licence_code);
 				$('#bol_awb_number_label').html('BOL/AWB Number:');

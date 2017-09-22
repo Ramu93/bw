@@ -194,6 +194,7 @@ function getDataDetails(dataItem){
 				var id = selectedData.id;
 				var tableName = selectedData.table_name;
 				var customerName = selectedData.importing_firm_name;
+				var bondNumber = selectedData.bond_number;
 				var id_head = '';
 				if(tableName == 'sac'){
 					id_head = 'SAC ID:';
@@ -208,7 +209,8 @@ function getDataDetails(dataItem){
 				$('#id_value').html(id);
 				$('#customer_name_label').html('Customer Name:');
 				$('#customer_name_value').html(customerName);
-
+				$('#bond_number_label').html('Bond Number:');
+				$('#bond_number_value').html(bondNumber);
 				//load container numbers in form
 				getSelectedContainerData(id);
 			}
@@ -277,7 +279,7 @@ function displayContainerNumbers(containers){
 		dp += '<option value="' + element + '">' + (element.split('_'))[2] + '</option>';
 	});
 
-	console.log(containerNumberArray);
+	// console.log(containerNumberArray);
 
 	$('#container_number_select').html(dp);
 }

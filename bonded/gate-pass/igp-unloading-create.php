@@ -56,6 +56,11 @@
                 <div class="clearfix"></div>
                 <label id="customer_name_value"></label>
               </div>
+              <div class="col-md-3">
+                <label id="bond_number_label"></label>
+                <div class="clearfix"></div>
+                <label id="bond_number_value"></label>
+              </div>
             </div>
             <div class="row">
             <div class="col-md-4">

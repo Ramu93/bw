@@ -80,7 +80,7 @@
 		if(mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_assoc($result);
 			$sacId = $row['sac_id'];
-			$innerQuery = "SELECT sac_id as 'id', 'sac' as 'table_name', importing_firm_name, licence_code, bol_awb_number, boe_number, material_name, material_nature, packing_nature FROM sac_request WHERE sac_id='$sacId'";
+			$innerQuery = "SELECT sac.sac_id as 'id', 'sac' as 'table_name', sac.importing_firm_name, sac.licence_code, sac.bol_awb_number, sac.boe_number, sac.material_name, sac.material_nature, sac.packing_nature, dvin.bond_number FROM sac_request sac, bonded_dv_inward dvin WHERE sac.sac_id='$sacId'";
 			$innerResult = mysqli_query($dbc,$innerQuery);
 			if(mysqli_num_rows($innerResult) > 0){
 				$innerRow = mysqli_fetch_assoc($innerResult);

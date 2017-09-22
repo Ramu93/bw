@@ -125,10 +125,11 @@ function getDataDetails(dataItem){
 		success: function(result){			
 			if(result.infocode == 'DATADETAILFETCHSUCCESS'){
 				var selectedData = result.data;
-				selectedData = JSON.parse(selectedData)[0];
+				selectedData = JSON.parse(selectedData);
 				var id = selectedData.id;
 				var tableName = selectedData.table_name;
 				var customerName = selectedData.importing_firm_name;
+				var bondNumber = selectedData.bond_number;
 				//var dimension = selectedData.dimension;
 				var id_head = '';
 				if(tableName == 'sac'){
@@ -142,14 +143,12 @@ function getDataDetails(dataItem){
 
 				$('#id_label').html(id_head);
 				$('#id_value').html(id);
-				if(selectType != 'igp'){
-					$('#customer_name_label').html('Customer Name:');
-					$('#customer_name_value').html(customerName);
-				} else {
-					$('#customer_name_label').html('');
-					$('#customer_name_value').html('');
-				}
-				//$('#dimension').val(dimension);
+
+				$('#bond_number_label').html('Bond Number:');
+				$('#bond_number_value').html(bondNumber);
+
+				$('#customer_name_label').html('Customer Name:');
+				$('#customer_name_value').html(customerName);
 			}
 		},
 		error: function(){

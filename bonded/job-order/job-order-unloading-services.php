@@ -16,7 +16,6 @@
 	$form = new FormWrapper();
 
 	$finaloutput = array();
-		file_put_contents("post.log", print_r( $_POST, true ));
 
 	if(!$_POST) {
 		$action = $_GET['action'];
@@ -230,16 +229,16 @@
 		$query = "";
 		switch ($dataType) {
 			case 'customer_name':
-				$query = "SELECT sac_id as 'id', 'sac' as 'table_name', importing_firm_name FROM sac_request WHERE importing_firm_name='$dataValue' AND status='approved'";
+				$query = "SELECT sac.sac_id as 'id', 'sac' as 'table_name', sac.importing_firm_name, dvin.bond_number FROM sac_request sac, bonded_dv_inward dvin WHERE sac.importing_firm_name='$dataValue' AND sac.status='approved'";
 			break;
 			case 'boe_number':
-				$query = "SELECT sac_id as 'id', 'sac' as 'table_name', importing_firm_name FROM sac_request WHERE boe_number='$dataValue' AND status='approved'";
+				$query = "SELECT sac.sac_id as 'id', 'sac' as 'table_name', sac.importing_firm_name, dvin.bond_number FROM sac_request sac, bonded_dv_inward dvin WHERE sac.boe_number='$dataValue' AND sac.status='approved'";
 			break;
 			case 'sac':
-				$query = "SELECT sac_id as 'id', 'sac' as 'table_name', importing_firm_name FROM sac_request WHERE sac_id='$dataValue' AND status='approved'";
+				$query = "SELECT sac.sac_id as 'id', 'sac' as 'table_name', sac.importing_firm_name, dvin.bond_number FROM sac_request sac, bonded_dv_inward dvin WHERE sac.sac_id='$dataValue' AND sac.status='approved'";
 			break;
 			case 'igp':
-				$query = "SELECT sac_id as 'id', 'sac' as 'table_name' FROM bonded_igp_unloading WHERE igp_un_id='$dataValue'";
+				$query = "SELECT igp.sac_id as 'id', 'sac' as 'table_name', dvin.bond_number, sac.importing_firm_name FROM bonded_igp_unloading igp, bonded_dv_inward dvin, sac_request sac WHERE igp_un_id='$dataValue' AND sac.sac_id=igp.sac_id";
 			break;
 			default:
 			break;
@@ -249,11 +248,11 @@
 		if(mysqli_num_rows($result) > 0) {
 			$out = array();
 			while($row = mysqli_fetch_assoc($result)) {
-				$out[] = $row;
+				$out = $row;
 			}
 			$output = array("infocode" => "DATADETAILFETCHSUCCESS", "data" => json_encode($out));
 		}
-		//file_put_contents("datalog.log", print_r(json_encode($output), true ));
+		// file_put_contents("datalog.log", print_r(json_encode($output), true ));
 		return $output;
 	}
 ?>

@@ -82,13 +82,13 @@
 		$query = "";
 		switch ($dataType) {
 			case 'customer_name':
-				$query = "SELECT sac_id as 'id', 'sac' as 'table_name', importing_firm_name FROM sac_request WHERE importing_firm_name='$dataValue' AND status='approved'";
+				$query = "SELECT sac.sac_id as 'id', 'sac' as 'table_name', sac.importing_firm_name, dvin.bond_number FROM sac_request sac, bonded_dv_inward dvin WHERE sac.importing_firm_name='$dataValue' AND sac.status='approved'";
 			break;
 			case 'boe_number':
-				$query = "SELECT sac_id as 'id', 'sac' as 'table_name', importing_firm_name FROM sac_request WHERE boe_number='$dataValue' AND status='approved'";
+				$query = "SELECT sac.sac_id as 'id', 'sac' as 'table_name', sac.importing_firm_name, dvin.bond_number FROM sac_request sac, bonded_dv_inward dvin WHERE sac.boe_number='$dataValue' AND sac.status='approved'";
 			break;
 			case 'sac':
-				$query = "SELECT sac_id as 'id', 'sac' as 'table_name', importing_firm_name FROM sac_request WHERE sac_id='$dataValue' AND status='approved'";
+				$query = "SELECT sac.sac_id as 'id', 'sac' as 'table_name', sac.importing_firm_name, dvin.bond_number FROM sac_request sac, bonded_dv_inward dvin WHERE sac.sac_id='$dataValue' AND sac.status='approved'";
 			break;
 			default:
 			break;
