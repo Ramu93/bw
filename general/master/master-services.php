@@ -21,6 +21,18 @@
 	    case 'del_type':
 	    	$finaloutput = deleteType();
 	    break;
+	    case 'get_units':
+			$finaloutput = getUnits();
+		break;
+	    case 'add_unit':
+	        $finaloutput = addUnit();
+	    break;
+	    case 'edit_unit':
+	    	$finaloutput = editUnit();
+	    break;
+	    case 'del_unit':
+	    	$finaloutput = deleteUnit();
+	    break;
 	    case 'get_items':
 	    	$finaloutput = getItems();
 	    break;
@@ -112,6 +124,56 @@
 		global $dbc;
 		$typeId = mysqli_real_escape_string($dbc, trim($_POST['type_id']));
 		$query = "DELETE FROM general_type_master WHERE type_id='$typeId'";
+		if(mysqli_query($dbc, $query)){
+			return array('infocode' => 'success');
+		} else {
+			return array('infocode' => 'failure');
+		}
+	}
+
+	function getUnits(){
+		global $dbc;
+		$query = "SELECT * FROM general_unit_master";
+		$result = mysqli_query($dbc, $query);
+		//file_put_contents("querylog.log", print_r( $row, true ));
+		$out = array();
+		if(mysqli_num_rows($result) > 0) {
+			while($row = mysqli_fetch_assoc($result)){
+				$out[] = $row;
+			}
+			return array('infocode' => 'success', 'data' => $out);
+		} else {
+			return array('infocode' => 'failure');
+		}
+	}
+
+	function addUnit(){
+		global $dbc;
+		$unitName = mysqli_real_escape_string($dbc, trim($_POST['unit_name']));
+		$query = "INSERT INTO general_unit_master (unit_name) VALUES ('$unitName')";
+		if(mysqli_query($dbc, $query)){
+			return array('infocode' => 'success');
+		} else {
+			return array('infocode' => 'failure');
+		}
+	}
+
+	function editUnit(){
+		global $dbc;
+		$unitName = mysqli_real_escape_string($dbc, trim($_POST['unit_name']));
+		$unitId = mysqli_real_escape_string($dbc, trim($_POST['unit_id']));
+		$query = "UPDATE general_unit_master SET unit_name='$unitName' WHERE unit_id='$unitId'";
+		if(mysqli_query($dbc, $query)){
+			return array('infocode' => 'success');
+		} else {
+			return array('infocode' => 'failure');
+		}
+	}
+
+	function  deleteUnit(){
+		global $dbc;
+		$unitId = mysqli_real_escape_string($dbc, trim($_POST['unit_id']));
+		$query = "DELETE FROM general_unit_master WHERE unit_id='$unitId'";
 		if(mysqli_query($dbc, $query)){
 			return array('infocode' => 'success');
 		} else {

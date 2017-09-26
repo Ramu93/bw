@@ -114,6 +114,113 @@ function deleteType(typeId){
 	});
 }
 
+function getUnits(){
+	var data = 'action=get_units';
+	$.ajax({
+		url: "master-services.php",
+		type: "POST",
+		data:  data,
+		dataType: 'json',
+		success: function(result){
+			if(result.infocode == 'success'){
+				displayUnits(result.data);
+			} else {
+				displayUnits([]);
+			}
+		},
+		error: function(){
+			bootbox.alert("failure");
+		} 	        
+	});
+}
+
+function displayUnits(unitData){
+	var dp = '';
+	if(unitData.length !== 0){
+		unitData.forEach( function(unit, index) {
+			dp += '<tr>';
+				dp += '<td>'+ (parseInt(index)+1) +'</td>';
+				dp += '<td>'+unit.unit_name+'</td>';
+				dp += '<td><input type="button" onclick="openEditUnitModal('+unit.unit_id+',\''+unit.unit_name+'\')" class="btn btn-primary" value="Edit" /> <input type="button" onclick="deleteUnit('+unit.unit_id+')" class="btn btn-danger" value="Delete"/></td>'
+			dp += '</tr>';
+		});
+	}
+	$('#unit_table_body').html(dp);
+	$("#unit_table").DataTable();
+}
+
+function addUnit(){
+	if($('#add_unit_form').valid()){
+		var unitName = $('#unit_name').val();
+		var data = 'unit_name=' + unitName + '&action=add_unit';
+		$.ajax({
+			url: "master-services.php",
+			type: "POST",
+			data:  data,
+			dataType: 'json',
+			success: function(result){
+				if(result.infocode == 'success'){
+					getUnits();
+					$('#unit_name').val('');
+				}
+			},
+			error: function(){
+				bootbox.alert("failure");
+			} 	        
+		});
+	}
+}
+
+function openEditUnitModal(unitId, unitName){
+	$('#unit_id_hidden').val(unitId);
+	$('#edit_unit_name').val(unitName);
+	$('#edit_unit_modal').modal();
+}
+
+function editUnit(){
+	if($('#edit_unit_form').valid()){
+		var unitId = $('#unit_id_hidden').val();
+		var unitName = $('#edit_unit_name').val();
+		var data = 'unit_name=' + unitName + '&unit_id=' + unitId + '&action=edit_unit';
+		$.ajax({
+			url: "master-services.php",
+			type: "POST",
+			data:  data,
+			dataType: 'json',
+			success: function(result){
+				if(result.infocode == 'success'){
+					getUnits();
+				}
+			},
+			error: function(){
+				bootbox.alert("failure");
+			} 	        
+		});
+	}
+}
+
+function deleteUnit(unitId){
+	bootbox.confirm('You sure you want to delete this unit?',function(result){
+		if(result){
+			var data = 'unit_id=' + unitId + '&action=del_unit';
+			$.ajax({
+				url: "master-services.php",
+				type: "POST",
+				data:  data,
+				dataType: 'json',
+				success: function(result){
+					if(result.infocode == 'success'){
+						getUnits();
+					}
+				},
+				error: function(){
+					bootbox.alert("failure");
+				} 	        
+			});
+		}
+	});
+}
+
 function getItems(){
 	var data = 'action=get_items';
 	$.ajax({

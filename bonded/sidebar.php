@@ -24,6 +24,9 @@
               <a href="<?php echo HOMEURL; ?>/master/type-master.php"><i class="fa fa-circle-o"></i> Product Type Master</a>
             </li>
             <li>
+              <a href="<?php echo HOMEURL; ?>/master/unit-master.php"><i class="fa fa-circle-o"></i> Unit Master</a>
+            </li>
+            <li>
               <a href="<?php echo HOMEURL; ?>/master/item-master.php"><i class="fa fa-circle-o"></i> Item Master</a>
             </li>
             <li>

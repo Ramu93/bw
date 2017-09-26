@@ -63,11 +63,7 @@
                 </div>
                 <div class="form-group">
                   <label for="packing_nature">Nature of Packing</label>
-                  <select class="form-control" tabindex="7" id="packing_nature" name="packing_nature">
-                    <option value="Metal Drum" <?php echo (($row['packing_nature']=='Metal Drum')?'selected="selected"':''); ?> >Metal Drum</option>
-                    <option value="Fibre Drum" <?php echo (($row['packing_nature']=='Fibre Drum')?'selected="selected"':''); ?> >Fibre Drum</option>
-                    <option value="Wooden Crate Bags Cartons" <?php echo (($row['packing_nature']=='Wooden Crate Bags Cartons')?'selected="selected"':''); ?>>Wooden Crate Bags Cartons</option>
-                  </select>
+                  <input type="text" tabindex="1" class="form-control required autofillunit" id="packing_nature" name="packing_nature" placeholder="Nature of packing" value="<?php echo $row['packing_nature'] ?>">
                 </div>
                 <div class="form-group">
                   <label for="qty_units">Assessable Value</label>
@@ -338,6 +334,18 @@
                 event.preventDefault();
                 // $('#customer_name').val('');
                 console.log('s');
+              }else{
+              }
+          },
+    });
+
+    $('.autofillunit').autocomplete({
+      source : "auto-complete-services.php?action=fetch_unit_info",
+      minLength : 2,
+      select : function(event, ui) {
+              
+              if(ui.item.value == "No customers found"){
+                event.preventDefault();
               }else{
               }
           },

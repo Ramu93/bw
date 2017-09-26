@@ -39,11 +39,7 @@
                 </div>
                 <div class="form-group">
                   <label for="packing_nature">Nature of Packing</label>
-                  <select class="form-control" tabindex="7" id="packing_nature" name="packing_nature">
-                    <option value="Metal Drum">Metal Drum</option>
-                    <option value="Fibre Drum">Fibre Drum</option>
-                    <option value="Wooden Crate Bags Cartons">Wooden Crate Bags Cartons</option>
-                  </select>
+                  <input type="text" tabindex="1" class="form-control required autofillunit" id="packing_nature" name="packing_nature" placeholder="Nature of packing">
                 </div>
                 <div class="form-group">
                   <label for="qty_units">Assessable Value</label>
@@ -323,6 +319,18 @@
               if(ui.item.value == "No customers found"){
                 event.preventDefault();
                 // $('#customer_name').val('');
+              }else{
+              }
+          },
+    });
+
+    $('.autofillunit').autocomplete({
+      source : "auto-complete-services.php?action=fetch_unit_info",
+      minLength : 2,
+      select : function(event, ui) {
+              
+              if(ui.item.value == "No customers found"){
+                event.preventDefault();
               }else{
               }
           },
