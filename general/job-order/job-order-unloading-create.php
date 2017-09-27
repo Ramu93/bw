@@ -227,6 +227,10 @@
       $('#data_item').val('');
       changeLabelText();
     })
+
+    $('#igp_id').on('change', function(){
+        checkIfJobOrderExists();
+    });
   </script>
   <?php
     include('../footer.php');

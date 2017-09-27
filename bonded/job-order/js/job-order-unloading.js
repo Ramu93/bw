@@ -335,6 +335,26 @@ function completeJobOrder(juId){
 	
 }
 
+function checkIfJobOrderExists(){
+	var igpId = $('#igp_id').val().split('_')[0];
+	var data = 'igp_id=' + igpId + '&action=check_joborder_exists';
+	$.ajax({
+		url: "job-order-unloading-services.php",
+		type: "POST",
+		data:  data,
+		dataType: 'json',
+		success: function(result){
+			if(result.infocode == "EXISTS"){
+				$('input[type=submit]').attr('disabled', 'true');
+				bootbox.alert('Job order already created for the selected container.');
+			} else {
+				$('input[type=submit]').removeAttr('disabled');
+			}
+		},
+		error: function(){} 	        
+	});
+}
+
 function printJobOrder(divName) {
 	var printContents = $('#'+divName).html();
 	/*var originalContents = document.body.innerHTML;

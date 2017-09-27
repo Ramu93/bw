@@ -278,4 +278,16 @@
 		file_put_contents("formlog.log", print_r(json_encode($output), true ));
 		return $output;
 	}
+
+	function checkIfJobOrderExists(){
+		global $dbc;
+		$igpId = $_POST['igp_id'];
+		$query = 'SELECT * FROM general_joborder_unloading WHERE igp_id="'.$igpId.'"';
+		$result = mysqli_query($dbc,$query);
+		if(mysqli_num_rows($result) > 0){
+			return array("infocode" => "EXISTS");
+		} else {
+			return array("infocode" => "NOTEXISTS");
+		}
+	}
 ?>
