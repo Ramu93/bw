@@ -227,6 +227,7 @@
               </div>
               <div class="clearfix"></div>
               <div class="modal-footer">
+                  <span id="container_err_msg" style="color: red;"></span>
                   <button type="button" class="btn btn-success" onclick="addContainerItem();" >Add Detail</button>
                   <button type="button" data-dismiss="modal" class="btn btn-default" >Close</button>
               </div>

@@ -231,6 +231,7 @@ function confirmRejectSACRequest(sacID){
 	});
 }
 
+var gContainerNumbers = new Array;
 
 function addContainerItem(){
 	if($('#containerlist_form').valid()){
@@ -238,7 +239,7 @@ function addContainerItem(){
 		var containerDetail = new Array;
 		dimension= $('#dimension').val().trim();
 		containerItem.dimension = dimension;
-		
+		var isUnique = true;
 		switch(dimension){
 			case 'Break Bulk':
 			case 'LCL':
@@ -250,13 +251,29 @@ function addContainerItem(){
 			case 'ODC':
 				containerCount= $('#container_count').val().trim();
 				for(i = 1; i <= containerCount; i++){
-					containerDetail.push($('#container_number_'+i).val().trim());
+					var containerNumber = $('#container_number_'+i).val().trim();
+					if(gContainerNumbers.indexOf(containerNumber) == -1){
+						containerDetail.push(containerNumber);
+						gContainerNumbers.push(containerNumber);
+					} else {
+						isUnique = false;
+						//pop from containerNumbersList for removing added container number
+						for(var j = i; j > 1; j-- ){
+							gContainerNumbers.pop();
+						}
+						break;
+					}
 				}
-				containerItem.container_count = containerCount;
-				containerItem.container_detail = convertArrayToJSON(containerDetail);
-				gContainerList.push(containerItem);
+				if(isUnique){
+					containerItem.container_count = containerCount;
+					containerItem.container_detail = convertArrayToJSON(containerDetail);
+					gContainerList.push(containerItem);
+				} else {
+					$('#container_err_msg').html('Container number is repeated!').fadeIn(400).fadeOut(4000);
+				}
 			break;
 		}
+		//console.log(gContainerNumbers);
 		displayContainers();
 		$('#containerlist_form')[0].reset();
 		containerSpinner();
