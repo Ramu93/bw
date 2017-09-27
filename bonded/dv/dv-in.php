@@ -200,7 +200,7 @@
 
                           <td><input type="text" name="duty_value[]" placeholder="" class="form-control" value=""></td>
 
-                          <td><input type="text" name="insurance_value[]" placeholder="" class="form-control" value=""></td>
+                          <td><input type="text" name="insurance_value[]" placeholder="" class="form-control" value="" readonly></td>
 
                           <td>
                             <select name="container_number[]" id="container_number_select" class="form-control">
@@ -215,6 +215,7 @@
                 </div>
                 </div>
                 <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" onclick="computeInsuranceValue()">Calculate Insurance</button>
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
               </form>

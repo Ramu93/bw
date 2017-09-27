@@ -6,7 +6,7 @@ var additem_template = '<tr id="[trid]"><td><span class="td_sno">[sno]</span></t
 							<td><input type="text" name="item_qty[]" placeholder="" class="form-control" value=""></td>\
 							<td><input type="text" name="assessabe_value[]" placeholder="" class="form-control" value=""></td>\
 							<td><input type="text" name="duty_value[]" placeholder="" class="form-control" value=""></td>\
-							<td><input type="text" name="insurance_value[]" placeholder="" class="form-control" value=""></td>\
+							<td><input type="text" name="insurance_value[]" placeholder="" class="form-control" value="" readonly></td>\
 							<td>\
 							<select name="container_number[]" id="container_number_select" class="form-control">\
 							</select>\
@@ -123,7 +123,7 @@ function displayContainerNumbersInItemModal(containers){
 							<td><input type="text" name="item_qty[]" placeholder="" class="form-control" value=""></td>\
 							<td><input type="text" name="assessabe_value[]" placeholder="" class="form-control" value=""></td>\
 							<td><input type="text" name="duty_value[]" placeholder="" class="form-control" value=""></td>\
-							<td><input type="text" name="insurance_value[]" placeholder="" class="form-control" value=""></td>\
+							<td><input type="text" name="insurance_value[]" placeholder="" class="form-control" value="" readonly></td>\
 							<td>\
 							<select name="container_number[]" id="container_number_select" class="form-control">\
 							<option value="">Select container number...</option>';
@@ -210,4 +210,27 @@ function bindAutocomplete(classname){
         },
 	});
 	
+}
+
+function computeInsuranceValue(){
+	var assessableValues = new Array();
+	var dutyValues = new Array();
+	var insuranceValues = new Array();
+
+	$('input[name^="assessabe_value"]').each(function() {
+	    assessableValues.push($(this).val());
+	});
+	$('input[name^="duty_value"]').each(function() {
+	    dutyValues.push($(this).val());
+	});
+
+	$.each(assessableValues, function( index, assessableValue ) {
+	  insuranceValues.push(parseFloat(assessableValue) + parseFloat(dutyValues[index]));
+	});
+
+	var index = 0;
+	$('input[name^="insurance_value"]').each(function() {
+	    $(this).val(insuranceValues[index]);
+	    index++;
+	});
 }
