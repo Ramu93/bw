@@ -1,12 +1,12 @@
 <?php
 	require('../dbconfig.php'); 
 	require('../dbconfig_pdo.php'); 
-	require('../dbwrapper.php');
+	require('../dbwrapper_mysqli.php');
 	require('../formwrapper.php');
 
 	define('GRN_CREATED_STATUS','grn_created');
 
-	$db = new DBWrapper($dbobj);
+	$db = new DBWrapper($dbc);
 	$form = new FormWrapper();
 
 	$finaloutput = array();
@@ -28,6 +28,9 @@
 	    case 'create_grn':
 	    	$finaloutput = createGRN();
 	    break;
+	    case 'check_grn_exists':
+	    	$finaloutput = checkIfGRNExists();
+	    break;
 	    default:
 	        $finaloutput = array("infocode" => "INVALIDACTION", "message" => "Irrelevant action");
 	}
@@ -41,7 +44,8 @@
 		$grnFormArray = array("sac_id"=>"sac_id", "ju_id"=>"ju_id", "no_of_units"=>"no_of_units", "unit"=>"unit", "location"=>"location", "validity"=>"validity");
 		$grnFormArray = $form->getFormValues($grnFormArray,$_POST);
 		//file_put_contents("formlog.log", print_r( $_POST, true ));
-    	$db->insertOperation('bonded_good_receipt_note',$grnFormArray);
+    	$result = $db->insertOperation('bonded_good_receipt_note',$grnFormArray);
+    	$juId = $grnFormArray['ju_id'];
     	// $parlogarray = array("par_id" => $parId, "status_to" => 'Submitted', "remarks" => "Waiting for Approval");
     	// $db->insertOperation('par_log',$parlogarray);
 
@@ -49,7 +53,19 @@
 		// file_put_contents("formlog.log", print_r( $updateSacParStatusQuery, true ));
 
     	//mysqli_query($dbc, $updateSacParStatusQuery);
-    	return array("status"=>"success","message"=>"GRN created successfully.");
+    	if($result['status'] == 'success'){
+    		$lastInsertGRNId = $result['last_insert_id'];
+    		addIGPIdToJobOrder($lastInsertGRNId, $juId);
+    		return array("status"=>"success","message"=>"GRN created successfully.", "last_id" => $lastInsertGRNId);
+    	} else {
+    		return array("status"=>"failure","message"=>"GRN not created successfully.");
+    	}
+	}
+
+	function addIGPIdToJobOrder($lastInsertGRNId, $juId){
+		global $dbc;
+		$query = 'UPDATE bonded_joborder_unloading SET grn_id="'.$lastInsertGRNId.'", grn_created="yes" WHERE ju_id="'.$juId.'"';
+		mysqli_query($dbc, $query);
 	}
 
 	function getJobOrderList(){
@@ -91,5 +107,20 @@
 		}
 		// file_put_contents("datalog.log", print_r($innerQuery, true ));
 		return $output;
+	}
+
+	function checkIfGRNExists(){
+		global $dbc;
+		$juId = $_POST['ju_id'];
+		$query = 'SELECT * FROM bonded_joborder_unloading WHERE ju_id="'.$juId.'"';
+		$result = mysqli_query($dbc, $query);
+		if(mysqli_num_rows($result) > 0){
+			$row = mysqli_fetch_assoc($result);
+			if($row['grn_created'] == 'yes'){
+				return array('infocode' => 'EXISTS');
+			} else {
+				return array('infocode' => 'NOTEXISTS');
+			}
+		}
 	}
 ?>

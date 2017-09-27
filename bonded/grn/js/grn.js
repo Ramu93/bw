@@ -77,10 +77,35 @@ function getDataDetails(dataItem){
 				$('#packing_nature').html(selectedData.packing_nature);
 				$('#job_order_id').val(dataItem);
 				$('#fields').show();
-				$('#create_grn_button').show();			}
+				$('#create_grn_button').show();			
+			}
+
+			checkIfGRNExists();
 		},
 		error: function(){
 			alert('error');
+		} 	        
+	});
+}
+
+function checkIfGRNExists(){
+	var juId = $('#job_order_id').val();
+	var data = 'ju_id=' + juId + '&action=check_grn_exists';
+	$.ajax({
+		url: "grn-services.php",
+		type: "POST",
+		data:  data,
+		dataType: 'json',
+		success: function(data){
+			if(data.infocode == 'EXISTS'){
+				bootbox.alert('GRN Already created for the selected Job order.');
+				$('#create_grn_button').attr('disabled', 'true');
+			} else {
+				$('#create_grn_button').removeAttr('disabled')
+			}
+		},
+		error: function(){
+			bootbox.alert("failure");
 		} 	        
 	});
 }
@@ -97,7 +122,7 @@ function createGRN(){
 			success: function(data){
 				if(data.status == 'success'){
 					bootbox.alert(data.message,function(){
-						//window.location='job-order-unloading-view.php?ju_id='+sacParId;	//replace with last insert id
+						window.location='grn-view.php?grn_id='+data.last_id;
 					});
 				}
 				
