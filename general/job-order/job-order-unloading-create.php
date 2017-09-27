@@ -58,6 +58,11 @@
                 <div class="clearfix"></div>
                 <label id="customer_name_value"></label>
               </div>
+              <div class="col-md-3" id="select_container_div">
+                <label>Select Container:</label>
+                <select class="form-control" id="igp_id" name="igp_id">
+                </select>
+              </div>
             </div>
             <div class="row">
               <div class="col-md-4">
@@ -213,7 +218,8 @@
         $('#equipment_ref_number').attr('required','true');
       }
     });
-
+    
+    $('#select_container_div').hide();
     //initial value of label
     $('#fetch_by_label').html('Customer Name');
     //change label name according to selected value

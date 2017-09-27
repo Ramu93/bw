@@ -63,6 +63,11 @@
                 <div class="clearfix"></div>
                 <label id="bond_number_value"></label>
               </div>
+              <div class="col-md-3" id="select_container_div">
+                <label>Select Container:</label>
+                <select class="form-control" id="igp_id" name="igp_id">
+                </select>
+              </div>
             </div>
             <div class="row">
               <div class="col-md-4">
@@ -205,6 +210,8 @@
     $('#job_order_unloading_form').validate({
         errorClass: "my-error-class"
     });
+
+    $('#select_container_div').hide();
 
     $('#supervisor_name').rules("add", { regex: "^[a-zA-Z ]+$" });
     $('#no_of_packages').rules("add", { regex: "^[0-9a-zA-Z ]+$" });

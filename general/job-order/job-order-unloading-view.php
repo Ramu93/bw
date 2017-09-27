@@ -73,24 +73,29 @@
             </div>
             <div class="row">
               
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <div class="form-group">
                   <label for="weight">Weight:</label>
                   <div class="clearfix"></div>
                   <label><?php echo $out['weight']; ?></label>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <div class="form-group">
                   <label for="no_of_packages">No. of Packages:</label>
                   <div class="clearfix"></div>
                   <label><?php echo $out['no_of_packages']; ?></label>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <label for="description">Description:</label>
                 <div class="clearfix"></div>
                   <label><?php echo $out['description']; ?></label>
+              </div>
+              <div class="col-md-3">
+                <label for="description">Container Number:</label>
+                <div class="clearfix"></div>
+                  <label><?php echo $out['container_number']; ?></label>
               </div>
             </div>
             <div class="row">

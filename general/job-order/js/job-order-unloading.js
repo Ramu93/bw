@@ -136,6 +136,8 @@ function getDataDetails(dataItem){
 
 				$('#par_id').val(id);
 
+				getContainersList(id);
+
 				$('#id_label').html(id_head);
 				$('#id_value').html(id);
 				if(selectType != 'igp'){
@@ -152,6 +154,53 @@ function getDataDetails(dataItem){
 			alert('error');
 		} 	        
 	});
+}
+
+function getContainersList(parId){
+	var data = 'par_id=' + parId + '&action=get_containers_list';
+	$.ajax({
+		url: "job-order-unloading-services.php",
+		type: "POST",
+		data:  data,
+		dataType: 'json',
+		success: function(result){
+			if(result.infocode == 'CONTAINERDATAFETCHSUCCESS'){
+				displayContainersList(result.data);
+			}
+			
+		},
+		error: function(){
+			bootbox.alert("failure");
+		} 	        
+	});
+}
+
+function displayContainersList(containerData){
+	//parse the container data
+	containerData = JSON.parse(containerData);
+
+	//push all the container numbers (belonging to different dimensions) in one array.
+	var containerNumberArray = new Array;
+	for(var i=0; i < containerData.length; i++){
+		//parse the stringified container_details
+		containerData[i].container_details = JSON.parse(containerData[i].container_details);
+		for(index = 0; index < Object.keys(containerData[i].container_details).length; index++){
+			if('igp_id' in (containerData[i].container_details)[index]){
+				containerNumberArray.push( (containerData[i].container_details)[index].igp_id + '_' + (containerData[i].container_details)[index].container_number);
+			}
+		}
+	}
+
+	var dp = '';
+	dp += '<option value="">Select container number...</option>';
+	containerNumberArray.forEach( function(element, index) {
+		dp += '<option value="' + element + '">' + (element.split('_'))[1] + '</option>';
+	});
+
+	 //console.log(containerNumberArray);
+
+	$('#igp_id').html(dp);
+	$('#select_container_div').show();
 }
 
 function createJobOrder(){

@@ -28,6 +28,9 @@
 	    case 'get_list':
 	        $finaloutput = getDataList();
 	    break;
+	    case 'get_containers_list':
+	    	$finaloutput = getContainersList();
+	    break;
 	    case 'get_selected_data_details':
 	    	$finaloutput = getSelectedDataDetails();
 	    break;
@@ -54,9 +57,10 @@
 
 	function createJobOrder(){
 		global $db,$form;
-		$jobOrderUnloadingFormArray = array("par_id"=>"par_id", "weight"=>"weight", "no_of_packages"=>"no_of_packages", "description"=>"description", "supervisor_name"=>"supervisor_name", "unloading_type"=>"unloading_type", "equipment_ref_number"=>"equipment_ref_number", "no_of_labors"=>"no_of_labors", "unloading_time"=>"unloading_time", "dimension"=>"dimension");
+		$jobOrderUnloadingFormArray = array("par_id"=>"par_id", "weight"=>"weight", "no_of_packages"=>"no_of_packages", "description"=>"description", "supervisor_name"=>"supervisor_name", "unloading_type"=>"unloading_type", "equipment_ref_number"=>"equipment_ref_number", "no_of_labors"=>"no_of_labors", "unloading_time"=>"unloading_time", "dimension"=>"dimension", "igp_id"=>"igp_id");
 		$jobOrderUnloadingFormArray = $form->getFormValues($jobOrderUnloadingFormArray,$_POST);
 	   	$jobOrderUnloadingFormArray['start_time'] = date("Y-m-d H:i:s");
+	   	$jobOrderUnloadingFormArray['igp_id'] = explode("_",$jobOrderUnloadingFormArray['igp_id'])[0];
 		//file_put_contents("formlog.log", print_r( $_POST, true ));
     	$result = $db->insertOperation('general_joborder_unloading',$jobOrderUnloadingFormArray);
     	// $parlogarray = array("par_id" => $parId, "status_to" => 'Submitted', "remarks" => "Waiting for Approval");
@@ -202,13 +206,13 @@
 		$query = "";
 		switch ($dataType) {
 			case 'customer_name':
-				$query = "SELECT importing_firm_name as 'data_item' FROM pre_arrival_request WHERE status='approved' AND document_verified='yes'";
+				$query = "SELECT importing_firm_name as 'data_item' FROM pre_arrival_request WHERE status='approved' AND document_verified='yes' AND igp_created='yes'";
 			break;
 			case 'boe_number':
-				$query = "SELECT boe_number as 'data_item' FROM pre_arrival_request WHERE status='approved' AND document_verified='yes'";
+				$query = "SELECT boe_number as 'data_item' FROM pre_arrival_request WHERE status='approved' AND document_verified='yes' AND igp_created='yes'";
 			break;
 			case 'par':
-				$query = "SELECT par_id as 'data_item' FROM pre_arrival_request WHERE status='approved' AND document_verified='yes'";
+				$query = "SELECT par_id as 'data_item' FROM pre_arrival_request WHERE status='approved' AND document_verified='yes' AND igp_created='yes'";
 			break;
 			case 'igp':
 				$query = "SELECT igp_un_id as 'data_item' FROM general_igp_unloading";
@@ -263,6 +267,23 @@
 			$output = array("infocode" => "DATADETAILFETCHSUCCESS", "data" => json_encode($out));
 		}
 		//file_put_contents("datalog.log", print_r(json_encode($output), true ));
+		return $output;
+	}
+
+	function getContainersList(){
+		global $dbc;
+		$parId = $_POST['par_id'];
+		$query = "SELECT * FROM par_container_info WHERE id='" . $parId . "' AND has_containers='yes'";
+		$result = mysqli_query($dbc,$query);
+		if(mysqli_num_rows($result) > 0) {
+			while($containerRow = mysqli_fetch_assoc($result)){
+					$containerRows[] = $containerRow;
+			}
+			$output = array("infocode" => "CONTAINERDATAFETCHSUCCESS", "data" => json_encode($containerRows));
+		} else {
+			$output = array("infocode" => "NOCONTAINERDATAFOUND", "data" => "No container data available.");
+		}
+		file_put_contents("formlog.log", print_r(json_encode($output), true ));
 		return $output;
 	}
 ?>

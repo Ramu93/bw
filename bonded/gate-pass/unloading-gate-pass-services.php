@@ -185,9 +185,9 @@
 		}
 
 		if(mysqli_query($dbc, $query)){
-			
+			$lastInsertIGPId = mysqli_insert_id($dbc);
 			if($vehicleType != 'Break Bulk' && $vehicleType != 'LCL'){
-				$updatedContainerStatusJSON = getUpdatedContainerStatus($sacId, $containerNumberData);
+				$updatedContainerStatusJSON = getUpdatedContainerStatus($sacId, $containerNumberData, $lastInsertIGPId);
 				$containerUpdateQuery = "UPDATE sac_container_info SET container_details='$updatedContainerStatusJSON' WHERE dimension='$containerDimension' AND id='$sacId'";
 			} else {
 				$containerUpdateQuery = 'SELECT 0';
@@ -208,7 +208,7 @@
 		mysqli_query($dbc, $query);
 	}
 
-	function getUpdatedContainerStatus($sacId, $containerNumberData){
+	function getUpdatedContainerStatus($sacId, $containerNumberData, $lastInsertIGPId){
 		global $dbc;
 		$containerDimension = $containerNumberData[0];
 		$containerNumberKey = $containerNumberData[1];
@@ -224,6 +224,7 @@
 			foreach ($containerDetails as $value) {
 				if($containerNumberKey == $keyCount){
 					$value->status = 'picked';
+					$value->igp_id = $lastInsertIGPId;
 				}
 				$keyCount++;
 			}
