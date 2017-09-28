@@ -49,6 +49,9 @@
 	    case 'complete_joborder':
 	    	$finaloutput = completeJobOrder();
 	    break;
+	    case 'check_joborder_exists':
+	    	$finaloutput = checkIfJobOrderExists();
+	    break;
 	    default:
 	        $finaloutput = array("infocode" => "INVALIDACTION", "message" => "Irrelevant action");
 	}
@@ -275,18 +278,20 @@
 		} else {
 			$output = array("infocode" => "NOCONTAINERDATAFOUND", "data" => "No container data available.");
 		}
-		file_put_contents("formlog.log", print_r(json_encode($output), true ));
+		//file_put_contents("formlog.log", print_r(json_encode($output), true ));
 		return $output;
 	}
 
 	function checkIfJobOrderExists(){
 		global $dbc;
 		$igpId = $_POST['igp_id'];
-		$query = 'SELECT * FROM general_joborder_unloading WHERE igp_id="'.$igpId.'"';
+		$query = 'SELECT * FROM bonded_joborder_unloading WHERE igp_id="'.$igpId.'"';
 		$result = mysqli_query($dbc,$query);
 		if(mysqli_num_rows($result) > 0){
+			file_put_contents("formlog.log", 'YES');
 			return array("infocode" => "EXISTS");
 		} else {
+		 	file_put_contents("formlog.log", 'NO');
 			return array("infocode" => "NOTEXISTS");
 		}
 	}
