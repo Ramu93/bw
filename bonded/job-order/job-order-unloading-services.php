@@ -288,10 +288,8 @@
 		$query = 'SELECT * FROM bonded_joborder_unloading WHERE igp_id="'.$igpId.'"';
 		$result = mysqli_query($dbc,$query);
 		if(mysqli_num_rows($result) > 0){
-			file_put_contents("formlog.log", 'YES');
 			return array("infocode" => "EXISTS");
 		} else {
-		 	file_put_contents("formlog.log", 'NO');
 			return array("infocode" => "NOTEXISTS");
 		}
 	}
