@@ -233,6 +233,12 @@ function confirmRejectSACRequest(sacID){
 
 var gContainerNumbers = new Array;
 
+var gContainersCheckList = {
+	'ft20': false,
+	'ft40': false,
+	'odc': false,
+};
+
 function addContainerItem(){
 	if($('#containerlist_form').valid()){
 		var containerItem = {};
@@ -240,6 +246,8 @@ function addContainerItem(){
 		dimension= $('#dimension').val().trim();
 		containerItem.dimension = dimension;
 		var isUnique = true;
+		var chekListKeyValue = '';
+
 		switch(dimension){
 			case 'Break Bulk':
 			case 'LCL':
@@ -250,29 +258,84 @@ function addContainerItem(){
 			case '40 ft. Container':
 			case 'ODC':
 				containerCount= $('#container_count').val().trim();
-				for(i = 1; i <= containerCount; i++){
-					var containerNumber = $('#container_number_'+i).val().trim();
-					if(gContainerNumbers.indexOf(containerNumber) == -1){
-						containerDetail.push(containerNumber);
-						gContainerNumbers.push(containerNumber);
-					} else {
-						isUnique = false;
-						//pop from containerNumbersList for removing added container number
-						for(var j = i; j > 1; j-- ){
-							gContainerNumbers.pop();
-						}
-						break;
-					}
+
+				if(dimension == '20 ft. Container'){
+					checkListKeyValue = 'ft20';
+				} else if(dimension == '40 ft. Container'){
+					checkListKeyValue = 'ft40';
+				} else if(dimension == 'ODC'){
+					checkListKeyValue = 'odc';
 				}
-				if(isUnique){
-					containerItem.container_count = containerCount;
-					containerItem.container_detail = convertArrayToJSON(containerDetail);
-					gContainerList.push(containerItem);
+
+				if(gContainersCheckList[checkListKeyValue] == true){
+						for(i = 0; i < gContainerList.length; i++){
+							if(gContainerList[i].dimension == dimension){
+								prevContainerDetail = gContainerList[i].container_detail;
+								//console.log(prevContainerDetail);
+								for(j = 1; j <= containerCount; j++){
+									var containerNumber = $('#container_number_'+j).val().trim();
+									if(gContainerNumbers.indexOf(containerNumber) == -1){
+										containerDetail.push(containerNumber);
+										gContainerNumbers.push(containerNumber);
+									} else {
+										isUnique = false;
+										//pop from containerNumbersList for removing added container number
+										for(var j = i; j > 1; j-- ){
+											gContainerNumbers.pop();
+										}
+										break;
+									}
+								}
+								if(isUnique){
+									gContainerList[i].container_detail = prevContainerDetail.concat(convertArrayToJSON(containerDetail));
+								} else {
+									$('#container_err_msg').html('Container number is repeated!').fadeIn(400).fadeOut(4000);
+								}
+								break;
+							}
+						}
+					
+						
 				} else {
-					$('#container_err_msg').html('Container number is repeated!').fadeIn(400).fadeOut(4000);
+					for(i = 1; i <= containerCount; i++){
+						var containerNumber = $('#container_number_'+i).val().trim();
+						if(gContainerNumbers.indexOf(containerNumber) == -1){
+							containerDetail.push(containerNumber);
+							gContainerNumbers.push(containerNumber);
+						} else {
+							isUnique = false;
+							//pop from containerNumbersList for removing added container number
+							for(var j = i; j > 1; j-- ){
+								gContainerNumbers.pop();
+							}
+							break;
+						}
+					}
+					if(isUnique){
+						containerItem.container_count = containerCount;
+						containerItem.container_detail = convertArrayToJSON(containerDetail);
+						gContainerList.push(containerItem);
+					} else {
+						$('#container_err_msg').html('Container number is repeated!').fadeIn(400).fadeOut(4000);
+					}	
 				}
 			break;
 		}
+
+		//this switch will set the checklists to true if a container with a new dimension that is not present in the gContainerList already.
+		//if set to ture, new container (whose dimension is already available in the list) will be added to the same accordion and not as a new one.
+		switch (dimension) {
+			case '20 ft. Container':
+				gContainersCheckList['ft20'] = true;
+				break;
+			case '40 ft. Container':
+				gContainersCheckList['ft40'] = true;
+				break;
+			case 'ODC':
+				gContainersCheckList['odc'] = true;
+				break;
+		}
+
 		//console.log(gContainerNumbers);
 		displayContainers();
 		$('#containerlist_form')[0].reset();
@@ -333,9 +396,9 @@ function displayContainers(){
 					});
 
 					dp += '</div>'
-					dp += '</div></div></div>';
 				break;
 			}
+			dp += '</div></div></div>';
 			
 		}
 		$('#accordion_container').html(dp).show();
