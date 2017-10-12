@@ -121,7 +121,7 @@ function confirmCreateSACRequest(){
 			dataType: 'json',
 			success: function(data){
 				bootbox.alert(data.message,function(){
-					window.location='sac-request-view.php';	
+					window.location='sac-request-approve-reject-view.php';
 				});
 			},
 			error: function(){
@@ -158,11 +158,9 @@ function confirmUpdateSACRequest(sacID){
 		dataType: 'json',
 		success: function(data){
 			bootbox.alert(data.message,function(){
-				if(isEditPage){
-					window.location='sac-request-view.php';
-				} else {
-					window.location='sac-request-approve-reject-view.php';
-				}	
+				
+				window.location='sac-request-approve-reject-view.php';
+					
 			});
 		},
 		error: function(){

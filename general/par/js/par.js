@@ -139,7 +139,7 @@ function confirmCreatePAR(){
 		dataType: 'json',
 		success: function(data){
 			bootbox.alert(data.message,function(){
-				window.location='par-view.php';	
+				window.location='par-approve-reject-view.php';
 			});
 			
 		},
@@ -180,11 +180,9 @@ function confirmUpdatePAR(parID){
 		dataType: 'json',
 		success: function(data){
 			bootbox.alert(data.message,function(){
-				if(isEditPage){
-					window.location='par-view.php';
-				} else {
-					window.location='par-approve-reject-view.php';
-				}
+				
+				window.location='par-approve-reject-view.php';
+				
 			});
 			
 		},
