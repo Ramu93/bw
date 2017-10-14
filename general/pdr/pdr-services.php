@@ -173,7 +173,6 @@
 		global $dbc;
 		$pdrId = $_POST['pdr_id'];
 		
-		$clientWeb = mysqli_real_escape_string($dbc, $_POST['client_web']);
 		$chaName = mysqli_real_escape_string($dbc, $_POST['cha_name_exporter']);
 		$orderNumber = mysqli_real_escape_string($dbc, $_POST['order_number']);
 		$boeNumber = mysqli_real_escape_string($dbc, $_POST['boe_number']);
@@ -185,7 +184,7 @@
 		$dutyValue = mysqli_real_escape_string($dbc, $_POST['duty_value']);
 		$transporterName = mysqli_real_escape_string($dbc, $_POST['transporter_name']);
 
-		$query = "UPDATE general_despatch_request SET client_web='$clientWeb', cha_name='$chaName', order_number='$orderNumber', boe_number='$boeNumber', exbond_be_number='$exBondBeNumber', exbond_be_date='$exBondBeDate', customs_officer_name='$customsOfficerName', number_of_packages='$numberOfPackages', assessment_value='$assessmentValue', duty_value='$dutyValue', transporter_name='$transporterName' WHERE pdr_id='$pdrId'";
+		$query = "UPDATE general_despatch_request SET cha_name='$chaName', order_number='$orderNumber', boe_number='$boeNumber', exbond_be_number='$exBondBeNumber', exbond_be_date='$exBondBeDate', customs_officer_name='$customsOfficerName', number_of_packages='$numberOfPackages', assessment_value='$assessmentValue', duty_value='$dutyValue', transporter_name='$transporterName' WHERE pdr_id='$pdrId'";
 		if(mysqli_query($dbc, $query)){
 			$output = array("infocode" => "UPDATEPDRSUCCESS", "message" => "PDR updation successful.");
 		} else {
