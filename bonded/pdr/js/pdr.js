@@ -201,7 +201,7 @@ function confirmCreatePDR(){
 		success: function(result){
 			if(result.infocode == 'CREATEPDRSUCCESS'){
 				bootbox.alert(result.message, function(){
-					window.location = 'pdr-list-view.php';
+					window.location = 'pdr-approve-reject-view.php';
 				});
 			} else {
 				bootbox.alert(result.message);
@@ -223,7 +223,7 @@ function updatePDR(){
 				if(result.infocode == 'UPDATEPDRSUCCESS'){
 					bootbox.alert(result.message, function(){
 						if(isEditPage){
-							window.location = 'pdr-list-view.php';
+							window.location = 'pdr-approve-reject-view.php';
 						} else {
 							window.location = 'pdr-approve-reject-view.php';
 						}
