@@ -115,6 +115,8 @@ function getDataDetails(dataItem){
 				
 				//display items 
 				getPDRItems();
+			} else {
+				bootbox.alert(result.message);
 			}
 		},
 		error: function(){

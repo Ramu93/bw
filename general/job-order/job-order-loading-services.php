@@ -51,13 +51,13 @@
 		$query = "";
 		switch ($dataType) {
 			case 'pdr_id':
-				$query = "SELECT pdr_id as 'data_item' FROM general_despatch_request WHERE status='igp_created' AND document_verified='yes'";
+				$query = "SELECT pdr_id as 'data_item' FROM general_despatch_request WHERE status='approved' AND document_verified='yes' AND igp_created='yes'";
 			break;
 			case 'boe_number':
-				$query = "SELECT boe_number as 'data_item' FROM general_despatch_request WHERE status='igp_created' AND document_verified='yes'";
+				$query = "SELECT boe_number as 'data_item' FROM general_despatch_request WHERE status='approved' AND document_verified='yes' AND igp_created='yes'";
 			break;
 			case 'bond_number':
-				$query = "SELECT bond_number as 'data_item' FROM general_despatch_request WHERE status='igp_created' AND document_verified='yes'";
+				$query = "SELECT bond_number as 'data_item' FROM general_despatch_request WHERE status='approved' AND document_verified='yes' AND igp_created='yes'";
 			break;
 			default:
 			break;
@@ -100,12 +100,15 @@
 			$out = mysqli_fetch_assoc($result);
 
 			//fetched the space_occupied value from GRN table. This is the initial space occupied
-			$getSpaceQuery = 'SELECT space_occupied FROM general_good_receipt_note WHERE par_id=\'' .$out['par_id']. '\'';
+			$getSpaceQuery = 'SELECT no_of_units FROM general_good_receipt_note WHERE par_id=\'' .$out['par_id']. '\'';
+			file_put_contents("querylog.log", print_r($getSpaceQuery, true ));
 
 			$spaceResult = mysqli_query($dbc, $getSpaceQuery);
 			if(mysqli_num_rows($spaceResult) > 0){
 				$spaceRow = mysqli_fetch_assoc($spaceResult);
-				$out['space_occupied_before'] = $spaceRow['space_occupied']; 
+				$out['space_occupied_before'] = $spaceRow['no_of_units']; 
+			} else {
+				return array("infocode" => "DATADETAILFETCHSUCCESS", "message" => "No GRN data available.");
 			}
 
 			//file_put_contents("querylog.log", print_r($out, true ));

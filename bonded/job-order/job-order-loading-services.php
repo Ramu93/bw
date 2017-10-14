@@ -101,12 +101,14 @@
 			$out = mysqli_fetch_assoc($result);
 
 			//fetched the space_occupied value from GRN table. This is the initial space occupied
-			$getSpaceQuery = 'SELECT space_occupied FROM bonded_good_receipt_note WHERE sac_id=\'' .$out['sac_id']. '\'';
+			$getSpaceQuery = 'SELECT no_of_units FROM bonded_good_receipt_note WHERE sac_id=\'' .$out['sac_id']. '\'';
 
 			$spaceResult = mysqli_query($dbc, $getSpaceQuery);
 			if(mysqli_num_rows($spaceResult) > 0){
 				$spaceRow = mysqli_fetch_assoc($spaceResult);
-				$out['space_occupied_before'] = $spaceRow['space_occupied']; 
+				$out['space_occupied_before'] = $spaceRow['no_of_units']; 
+			} else {
+				return array("infocode" => "DATADETAILFETCHSUCCESS", "message" => "No GRN data available.");
 			}
 
 			//file_put_contents("querylog.log", print_r($out, true ));
