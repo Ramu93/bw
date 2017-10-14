@@ -1,7 +1,7 @@
 <?php 
-	require('../dbconfig_pdo.php');
+	//require('../dbconfig_pdo.php');
 	require('../formwrapper.php');
-	require('../dbconfig_delete_entries.php');
+	require('../dbconfig.php');
 	require('../dbwrapper_mysqli.php');
 
 	define('PAR_DEFAULT_STATUS','submitted');

@@ -1,6 +1,6 @@
 <?php
 	require('../dbconfig.php'); 
-	require('../dbconfig_pdo.php');
+	//require('../dbconfig_pdo.php');
 	require('../formwrapper.php');
 	require('../dbwrapper_mysqli.php');
 

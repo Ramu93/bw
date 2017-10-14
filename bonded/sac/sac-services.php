@@ -1,8 +1,8 @@
 <?php 
-	//require('../dbconfig_pdo.php'); 
+	require('../dbconfig.php'); 
 	//require('../dbwrapper.php');
 	require('../formwrapper.php');
-	require('../dbconfig_delete_entries.php');
+	//require('../dbconfig_delete_entries.php');
 	require('licence-code-map.php');
 	require('../dbwrapper_mysqli.php');
 
