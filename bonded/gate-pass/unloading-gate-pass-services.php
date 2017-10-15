@@ -48,13 +48,13 @@
 		$query = "";
 		switch ($dataType) {
 			case 'customer_name':
-				$query = "SELECT importing_firm_name as 'data_item' FROM sac_request WHERE status='approved'";
+				$query = "SELECT importing_firm_name as 'data_item', sac_id FROM sac_request WHERE status='approved'";
 			break;
 			case 'boe_number':
-				$query = "SELECT boe_number as 'data_item' FROM sac_request WHERE status='approved'";
+				$query = "SELECT boe_number as 'data_item', sac_id FROM sac_request WHERE status='approved'";
 			break;
 			case 'sac':
-				$query = "SELECT sac_id as 'data_item' FROM sac_request WHERE status='approved'";
+				$query = "SELECT sac_id as 'data_item', sac_id FROM sac_request WHERE status='approved'";
 			break;
 			default:
 			break;
@@ -77,23 +77,8 @@
 
 	function getSelectedDataDetails(){
 		global $dbc;
-		$dataType = $_POST['data_type'];
-		$dataValue = $_POST['data_value'];
-		$query = "";
-		switch ($dataType) {
-			case 'customer_name':
-				$query = "SELECT sac.sac_id as 'id', 'sac' as 'table_name', sac.importing_firm_name, dvin.bond_number FROM sac_request sac, bonded_dv_inward dvin WHERE sac.importing_firm_name='$dataValue' AND sac.status='approved'";
-			break;
-			case 'boe_number':
-				$query = "SELECT sac.sac_id as 'id', 'sac' as 'table_name', sac.importing_firm_name, dvin.bond_number FROM sac_request sac, bonded_dv_inward dvin WHERE sac.boe_number='$dataValue' AND sac.status='approved'";
-			break;
-			case 'sac':
-				$query = "SELECT sac.sac_id as 'id', 'sac' as 'table_name', sac.importing_firm_name, dvin.bond_number FROM sac_request sac, bonded_dv_inward dvin WHERE sac.sac_id='$dataValue' AND sac.status='approved'";
-			break;
-			default:
-			break;
-		}
-
+		$sacId = $_POST['sac_id'];
+		$query = "SELECT sac.sac_id as 'id', 'sac' as 'table_name', sac.importing_firm_name, dvin.bond_number FROM sac_request sac, bonded_dv_inward dvin WHERE sac.sac_id='$sacId' AND sac.status='approved'";
 		$result = mysqli_query($dbc,$query);
 		if(mysqli_num_rows($result) > 0) {
 			$out = array();
