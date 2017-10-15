@@ -397,7 +397,6 @@ function displayContainers(){
 				break;
 			}
 			dp += '</div></div></div>';
-			
 		}
 		$('#accordion_container').html(dp).show();
 	}else{
@@ -438,11 +437,9 @@ function displayContainersInEditMode(){
 					}
 
 					dp += '</div>'
-					dp += '</div></div></div>';
 				break;
 			}
-
-			
+			dp += '</div></div></div>';
 		}
 		$('#accordion_container').html(dp).show();
 	}else{
