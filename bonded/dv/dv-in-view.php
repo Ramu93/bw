@@ -34,7 +34,7 @@
             </thead>
             <tbody>
               <?php 
-                $select_query = "SELECT sac_id as 'id', 'sac' as 'table_name', importing_firm_name, licence_code, bol_awb_number, boe_number, cha_name FROM sac_request WHERE document_verified='no'"; //AND igp_created='yes'
+                $select_query = "SELECT sac_id as 'id', 'sac' as 'table_name', importing_firm_name, licence_code, bol_awb_number, boe_number, cha_name FROM sac_request WHERE document_verified='no' AND igp_created='yes'";
                 $result = mysqli_query($dbc,$select_query);
                 $row_counter = 0;
                 if(mysqli_num_rows($result) > 0) {
