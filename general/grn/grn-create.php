@@ -51,17 +51,17 @@
             </div>
             <div class="clearfix"></div>
             <div class="row">
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <label id="id_label"></label>
                 <div class="clearfix"></div>
                 <label id="id_value"></label>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <label id="customer_name_label"></label>
                 <div class="clearfix"></div>
                 <label id="customer_name_value"></label>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <label id="end_time_label"></label>
                 <div class="clearfix"></div>
                 <label id="end_time_value"></label>
@@ -69,11 +69,11 @@
             </div>
             <div class="clearfix"></div>
             <div class="row">
-              <div class="col-md-4">
+              <!-- <div class="col-md-4">
                 <label id="licence_code_label"></label>
                 <div class="clearfix"></div>
                 <label id="licence_code"></label>
-              </div>
+              </div> -->
               <div class="col-md-4">
                 <label id="bol_awb_number_label"></label>
                 <div class="clearfix"></div>
