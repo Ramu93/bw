@@ -201,16 +201,16 @@
 		$query = "";
 		switch ($dataType) {
 			case 'customer_name':
-				$query = "SELECT importing_firm_name as 'data_item' FROM sac_request WHERE status='approved'AND document_verified='yes' AND igp_created='yes'";
+				$query = "SELECT importing_firm_name as 'data_item', sac_id FROM sac_request WHERE status='approved'AND document_verified='yes' AND igp_created='yes'";
 			break;
 			case 'boe_number':
-				$query = "SELECT boe_number as 'data_item' FROM sac_request WHERE status='approved' AND document_verified='yes' AND igp_created='yes'";
+				$query = "SELECT boe_number as 'data_item', sac_id FROM sac_request WHERE status='approved' AND document_verified='yes' AND igp_created='yes'";
 			break;
 			case 'sac':
-				$query = "SELECT sac_id as 'data_item' FROM sac_request WHERE status='approved' AND document_verified='yes' AND igp_created='yes'";
+				$query = "SELECT sac_id as 'data_item', sac_id FROM sac_request WHERE status='approved' AND document_verified='yes' AND igp_created='yes'";
 			break;
 			case 'igp':
-				$query = "SELECT igp_un_id as 'data_item' FROM bonded_igp_unloading";
+				$query = "SELECT igpun.igp_un_id as 'data_item', sac.sac_id FROM bonded_igp_unloading igpun, sac_request sac WHERE sac.document_verified='yes'";
 			break;
 			default:
 			break;
@@ -233,26 +233,8 @@
 
 	function getSelectedDataDetails(){
 		global $dbc;
-		$dataType = $_POST['data_type'];
-		$dataValue = $_POST['data_value'];
-		$query = "";
-		switch ($dataType) {
-			case 'customer_name':
-				$query = "SELECT sac.sac_id as 'id', 'sac' as 'table_name', sac.importing_firm_name, dvin.bond_number FROM sac_request sac, bonded_dv_inward dvin WHERE sac.importing_firm_name='$dataValue' AND sac.status='approved'";
-			break;
-			case 'boe_number':
-				$query = "SELECT sac.sac_id as 'id', 'sac' as 'table_name', sac.importing_firm_name, dvin.bond_number FROM sac_request sac, bonded_dv_inward dvin WHERE sac.boe_number='$dataValue' AND sac.status='approved'";
-			break;
-			case 'sac':
-				$query = "SELECT sac.sac_id as 'id', 'sac' as 'table_name', sac.importing_firm_name, dvin.bond_number FROM sac_request sac, bonded_dv_inward dvin WHERE sac.sac_id='$dataValue' AND sac.status='approved'";
-			break;
-			case 'igp':
-				$query = "SELECT igp.sac_id as 'id', 'sac' as 'table_name', dvin.bond_number, sac.importing_firm_name FROM bonded_igp_unloading igp, bonded_dv_inward dvin, sac_request sac WHERE igp_un_id='$dataValue' AND sac.sac_id=igp.sac_id";
-			break;
-			default:
-			break;
-		}
-
+		$sacId = $_POST['sac_id'];
+		$query = "SELECT sac.sac_id as 'id', 'sac' as 'table_name', sac.importing_firm_name, dvin.bond_number FROM sac_request sac, bonded_dv_inward dvin WHERE sac.sac_id='$sacId' AND sac.status='approved'";
 		$result = mysqli_query($dbc,$query);
 		if(mysqli_num_rows($result) > 0) {
 			$out = array();
