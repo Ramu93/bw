@@ -104,8 +104,10 @@ function displayContainerNumbersInItemModal(containers){
 	for(var i=0; i < containers.length; i++){
 		//parse the stringified container_details
 		containers[i].container_details = JSON.parse(containers[i].container_details);
-		for(index = 0; index < Object.keys(containers[i].container_details).length; index++){
-			containerNumberArray.push((containers[i].container_details)[index].container_number);
+		if(containers[i].container_details != null){
+			for(index = 0; index < Object.keys(containers[i].container_details).length; index++){
+				containerNumberArray.push((containers[i].container_details)[index].container_number);
+			}
 		}
 	}
 
