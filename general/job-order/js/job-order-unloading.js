@@ -77,7 +77,7 @@ function getDataList(){
 				var viewListData = result.data;
 				var dp = '';
 				for(c=0;c<viewListData.length;c++){
-					dp += '<tr><td>'+(c+1)+'</td><td>'+viewListData[c].data_item+'</td><td><button class="btn btn-primary" type="button" onclick="getDataDetails(\''+viewListData[c].data_item+'\');">Select</button></td></tr>';
+					dp += '<tr><td>'+(c+1)+'</td><td>'+viewListData[c].data_item+'</td><td><button class="btn btn-primary" type="button" onclick="getDataDetails(\''+viewListData[c].par_id+'\',\''+viewListData[c].data_item+'\');">Select</button></td></tr>';
 				}
 				$('#datalist_tbody').html(dp);
 				$('#view_list_modal').modal('show');
@@ -90,32 +90,13 @@ function getDataList(){
 	});
 }
 
-function getDataDetails(dataItem){
+function getDataDetails(parId, dataItem){
 	//alert('data req');
 	$('#data_item').val(dataItem);
 	$('#view_list_modal').modal('hide');
 	$('#data_fetch_message').html('Data fetched successfully').fadeIn(400).fadeOut(2000);
 	var selectType = $('#select_by_type').val();
-	var data = '';
-	switch (selectType) {
-		//for column name
-		case 'customer_name':
-			data += 'data_type=customer_name';
-		break;
-		case 'boe_number':
-			data += 'data_type=boe_number';
-		break;
-		case 'par':
-			data += 'data_type=par';
-		break;
-		case 'sac':
-			data += 'data_type=sac';
-		break;
-		case 'igp':
-			data += 'data_type=igp';
-		break;
-	}
-	data += '&data_value=' + dataItem + '&action=get_selected_data_details';
+	var data = 'par_id=' + parId + '&action=get_selected_data_details';
 	//alert(data)
 	$.ajax({
 		url: "job-order-unloading-services.php",
@@ -132,21 +113,12 @@ function getDataDetails(dataItem){
 				//var dimension = selectedData.dimension;
 				var id_head = '';
 				id_head = 'PAR ID:';
-				
-
 				$('#par_id').val(id);
-
 				getContainersList(id);
-
 				$('#id_label').html(id_head);
 				$('#id_value').html(id);
-				if(selectType != 'igp'){
-					$('#customer_name_label').html('Customer Name:');
-					$('#customer_name_value').html(customerName);
-				} else {
-					$('#customer_name_label').html('');
-					$('#customer_name_value').html('');
-				}
+				$('#customer_name_label').html('Customer Name:');
+				$('#customer_name_value').html(customerName);	
 				//$('#dimension').val(dimension);
 			}
 		},

@@ -209,16 +209,16 @@
 		$query = "";
 		switch ($dataType) {
 			case 'customer_name':
-				$query = "SELECT importing_firm_name as 'data_item' FROM pre_arrival_request WHERE status='approved' AND document_verified='yes' AND igp_created='yes'";
+				$query = "SELECT importing_firm_name as 'data_item', par_id FROM pre_arrival_request WHERE status='approved' AND document_verified='yes' AND igp_created='yes'";
 			break;
 			case 'boe_number':
-				$query = "SELECT boe_number as 'data_item' FROM pre_arrival_request WHERE status='approved' AND document_verified='yes' AND igp_created='yes'";
+				$query = "SELECT boe_number as 'data_item', par_id FROM pre_arrival_request WHERE status='approved' AND document_verified='yes' AND igp_created='yes'";
 			break;
 			case 'par':
-				$query = "SELECT par_id as 'data_item' FROM pre_arrival_request WHERE status='approved' AND document_verified='yes' AND igp_created='yes'";
+				$query = "SELECT par_id as 'data_item', par_id FROM pre_arrival_request WHERE status='approved' AND document_verified='yes' AND igp_created='yes'";
 			break;
 			case 'igp':
-				$query = "SELECT igp_un_id as 'data_item' FROM general_igp_unloading";
+				$query = "SELECT igpun.igp_un_id as 'data_item', par.par_id FROM general_igp_unloading igpun, pre_arrival_request par WHERE igpun.par_id=par.par_id";
 			break;
 			default:
 			break;
@@ -241,25 +241,8 @@
 
 	function getSelectedDataDetails(){
 		global $dbc;
-		$dataType = $_POST['data_type'];
-		$dataValue = $_POST['data_value'];
-		$query = "";
-		switch ($dataType) {
-			case 'customer_name':
-				$query = "SELECT par_id as 'id', 'par' as 'table_name', importing_firm_name FROM pre_arrival_request WHERE importing_firm_name='$dataValue' AND status='approved'";
-			break;
-			case 'boe_number':
-				$query = "SELECT par_id as 'id', 'par' as 'table_name', importing_firm_name FROM pre_arrival_request WHERE boe_number='$dataValue' AND status='approved'";
-			break;
-			case 'par':
-				$query = "SELECT par_id as 'id', 'par' as 'table_name', importing_firm_name FROM pre_arrival_request WHERE par_id='$dataValue' AND status='approved'";
-			break;
-			case 'igp':
-				$query = "SELECT par_id as 'id', 'par' as 'table_name' FROM general_igp_unloading WHERE igp_un_id='$dataValue'";
-			break;
-			default:
-			break;
-		}
+		$parId = $_POST['par_id'];
+		$query = "SELECT par_id as 'id', 'par' as 'table_name', importing_firm_name FROM pre_arrival_request WHERE par_id='$parId' AND status='approved'";
 
 		$result = mysqli_query($dbc,$query);
 		if(mysqli_num_rows($result) > 0) {
