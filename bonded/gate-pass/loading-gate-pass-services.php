@@ -55,7 +55,7 @@
 				$query = "SELECT boe_number as 'data_item' FROM bonded_despatch_request WHERE status='approved'";
 			break;
 			case 'bond_number':
-				$query = "SELECT bond_number as 'data_item' FROM bonded_despatch_request WHERE status='approved'";
+				$query = "SELECT bond_number as 'data_item' FROM bonded_dv_inward";
 			break;
 			default:
 			break;
@@ -83,13 +83,13 @@
 		$query = "";
 		switch ($dataType) {
 			case 'pdr_id':
-				$query = "SELECT * FROM bonded_despatch_request WHERE pdr_id='$dataValue'";
+				$query = "SELECT pdr.pdr_id, dvin.bond_number, pdr.boe_number, pdr.client_web, pdr.cha_name, pdr.exbond_be_number, pdr.exbond_be_date FROM bonded_despatch_request pdr, bonded_dv_inward dvin WHERE pdr_id='$dataValue' AND pdr.sac_id=dvin.sac_id";
 			break;
 			case 'boe_number':
-				$query = "SELECT * FROM bonded_despatch_request WHERE boe_number='$dataValue'";
+				$query = "SELECT pdr.pdr_id, dvin.bond_number, pdr.boe_number, pdr.client_web, pdr.cha_name, pdr.exbond_be_number, pdr.exbond_be_date FROM bonded_despatch_request pdr, bonded_dv_inward dvin WHERE boe_number='$dataValue' AND pdr.sac_id=dvin.sac_id";
 			break;
 			case 'bond_number':
-				$query = "SELECT * FROM bonded_despatch_request WHERE bond_number='$dataValue'";
+				$query = "SELECT pdr.pdr_id, dvin.bond_number, pdr.boe_number, pdr.client_web, pdr.cha_name, pdr.exbond_be_number, pdr.exbond_be_date FROM bonded_despatch_request pdr, bonded_dv_inward dvin WHERE dvin.bond_number='$dataValue' AND pdr.sac_id=dvin.sac_id";
 			break;
 		}
 
