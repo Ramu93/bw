@@ -78,7 +78,7 @@
 	function getSelectedDataDetails(){
 		global $dbc;
 		$sacId = $_POST['sac_id'];
-		$query = "SELECT sac.sac_id as 'id', sac.importing_firm_name, dvin.bond_number FROM sac_request sac, bonded_dv_inward dvin WHERE sac.sac_id='$sacId' AND sac.status='approved'";
+		$query = "SELECT sac.sac_id as 'id', sac.importing_firm_name, dvin.bond_number FROM sac_request sac, bonded_dv_inward dvin WHERE sac.sac_id='$sacId' AND sac.status='approved' AND sac.sac_id=dvin.sac_id";
 		$result = mysqli_query($dbc,$query);
 		if(mysqli_num_rows($result) > 0) {
 			$out = array();
@@ -86,6 +86,16 @@
 				$out[] = $row;
 			}
 			$output = array("infocode" => "DATADETAILFETCHSUCCESS", "data" => json_encode($out));
+		} else {
+			$query = "SELECT sac_id as 'id', importing_firm_name FROM sac_request sac WHERE sac_id='$sacId';";
+			$result = mysqli_query($dbc,$query);
+			if(mysqli_num_rows($result) > 0) {
+				$out = array();
+				while($row = mysqli_fetch_assoc($result)) {
+					$out[] = $row;
+				}
+				$output = array("infocode" => "DATADETAILFETCHSUCCESS", "data" => json_encode($out));
+			}
 		}
 		//file_put_contents("datalog.log", print_r(json_encode($query), true ));
 		return $output;

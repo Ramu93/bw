@@ -101,9 +101,6 @@ function changeLabelText(){
 		case 'boe_number':
 			$('#fetch_by_label').html('BOE Number');
 		break;
-		case 'par':
-			$('#fetch_by_label').html('PAR ID');
-		break;
 		case 'sac':
 			$('#fetch_by_label').html('SAC ID');
 		break;
@@ -180,11 +177,7 @@ function getDataDetails(sacId, dataItem){
 				var customerName = selectedData.importing_firm_name;
 				var bondNumber = selectedData.bond_number;
 				var id_head = '';
-				if(tableName == 'sac'){
-					id_head = 'SAC ID:';
-				} else {
-					id_head = 'PAR ID:';
-				}
+				id_head = 'SAC ID:';
 
 				$('#sac_par_table').val(tableName);
 				$('#sac_par_id').val(id);
@@ -193,8 +186,15 @@ function getDataDetails(sacId, dataItem){
 				$('#id_value').html(id);
 				$('#customer_name_label').html('Customer Name:');
 				$('#customer_name_value').html(customerName);
-				$('#bond_number_label').html('Bond Number:');
-				$('#bond_number_value').html(bondNumber);
+				if(bondNumber !== undefined){
+					$('#bond_number_label').html('Bond Number:');
+					$('#bond_number_value').html(bondNumber);
+				} else {
+					// bond number will not be displayed for the first time as there will not be any document verification done for the given SAC
+					$('#bond_number_label').html('');
+					$('#bond_number_value').html('');
+				}
+				
 				//load container numbers in form
 				getSelectedContainerData(id);
 			}
