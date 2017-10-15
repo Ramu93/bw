@@ -52,13 +52,13 @@
 		$query = "";
 		switch ($dataType) {
 			case 'pdr_id':
-				$query = "SELECT pdr_id as 'data_item' FROM bonded_despatch_request WHERE status='igp_created' AND document_verified='yes'";
+				$query = "SELECT pdr_id as 'data_item' FROM bonded_despatch_request WHERE igp_created='yes' AND document_verified='yes'";
 			break;
 			case 'boe_number':
-				$query = "SELECT boe_number as 'data_item' FROM bonded_despatch_request WHERE status='igp_created' AND document_verified='yes'";
+				$query = "SELECT boe_number as 'data_item' FROM bonded_despatch_request WHERE igp_created='yes' AND document_verified='yes'";
 			break;
 			case 'bond_number':
-				$query = "SELECT bond_number as 'data_item' FROM bonded_despatch_request WHERE status='igp_created' AND document_verified='yes'";
+				$query = "SELECT bond_number as 'data_item' FROM bonded_despatch_request WHERE igp_created='yes' AND document_verified='yes'";
 			break;
 			default:
 			break;
