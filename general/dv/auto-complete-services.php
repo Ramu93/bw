@@ -29,7 +29,7 @@ function fetchItemDetails() {
     } else if($type == 'itemcode') {
     	$queryadd = "item_master_id LIKE '%$searchterm%'";
     }
-    $query = "SELECT * FROM item_master WHERE $queryadd";
+    $query = "SELECT * FROM general_item_master WHERE $queryadd";
 	$result = mysqli_query($dbc,$query);
 	if(mysqli_num_rows($result) > 0) {
 		$out = array();
