@@ -13,41 +13,76 @@ var additem_template = '<tr id="[trid]"><td><span class="td_sno">[sno]</span></t
 							</td>\
 							<td><button onclick="additemrow([addcount]);">+</button><button class="item_removebutton" style="display:none;" onclick="removeitemrow([removecount])">-</button></td></tr>';
 
+var g_compareBondDate = false;
+
 function submitDocumentVerification(){
-	
+	g_compareBondDate = false;
 	if($('#document_verification_form').valid()){
 		bootbox.confirm('Are you sure, you got all the documents?',function(result){
 			if(result){
-				setValueBasedOnCheckBox();
-				var data = $('#document_verification_form').serialize() + '&action=submit_verification';
-				//alert(data);
-				$.ajax({
-					url: "dv-in-services.php",
-					type: "POST",
-					data:  data,
-					dataType: 'json',
-					success: function(result){
-						if(result.infocode == 'DOCUMENTVERIFICATIONSUCCESS'){
-							bootbox.alert(result.message,function(){
-								window.location='dv-in-view.php';	
-							});
-						} else if(result.infocode == 'DOCUMENTNOTVERIFIED') {
-							bootbox.alert(result.message,function(){
-								window.location='dv-in-view.php';	
-							});
-						}		
-					},
-					error: function(){
-						bootbox.alert("failure");
-					} 	        
-				});
+				compareBondDateWithBoeDate();
+				if(g_compareBondDate){
+					setValueBasedOnCheckBox();
+					var data = $('#document_verification_form').serialize() + '&action=submit_verification';
+					//alert(data);
+					$.ajax({
+						url: "dv-in-services.php",
+						type: "POST",
+						data:  data,
+						dataType: 'json',
+						success: function(result){
+							if(result.infocode == 'DOCUMENTVERIFICATIONSUCCESS'){
+								bootbox.alert(result.message,function(){
+									window.location='dv-in-view.php';	
+								});
+							} else if(result.infocode == 'DOCUMENTNOTVERIFIED') {
+								bootbox.alert(result.message,function(){
+									window.location='dv-in-view.php';	
+								});
+							}		
+						},
+						error: function(){
+							bootbox.alert("failure");
+						} 	        
+					});
+				} else {
+					bootbox.alert("Bond date is lesser than BOE date. Please renter bond date.");
+				}
 			}
 		});
 	}
 }
 
-function setValueBasedOnCheckBox(){
+function compareBondDateWithBoeDate(){
+	var sacId = $('#sac_id').val();
+	var bondDate = $('#bond_date').val();
+	var data = 'sac_id=' + sacId + '&bond_date=' + bondDate + '&action=compare_bond_date';
+	var result;
+	$.ajax({
+		async: false, //if not use this line, method will return before the ajax response and value will be false always.
+		url: "dv-in-services.php",
+		type: "POST",
+		data:  data,
+		dataType: 'json',
+		success: function(result){
+			if(result.infocode == 'GREATER'){
+				setCompareVal(true);
+			} else if(result.infocode == 'LESSER') {
+				setCompareVal(false);
+			}		
+		},
+		error: function(){
+			bootbox.alert("failure");
+		} 	        
+	});
+	console.log(g_compareBondDate);
+}
 
+function setCompareVal(val){
+	g_compareBondDate = val;
+}
+
+function setValueBasedOnCheckBox(){
 
 	if($('#invoice_copy_check').is(":checked")){
 		$('#invoice_copy_text').val('yes');

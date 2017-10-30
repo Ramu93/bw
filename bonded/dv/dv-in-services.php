@@ -24,6 +24,9 @@
 	    case 'get_container_data':
 	    	$finaloutput = getContainerData();
 	    break;
+	    case 'compare_bond_date':
+	    	$finaloutput = compareBondDateWithBoeDate();
+	    break;
 	    default:
 	        $finaloutput = array("infocode" => "INVALIDACTION", "message" => "Irrelevant action");
 	}
@@ -34,15 +37,10 @@
 		global $db,$form;
 		$docVerificationArray = array("sac_id"=>"sac_id", "invoice_copy"=>"invoice_copy", "packing_list"=>"packing_list", "boe_copy"=>"boe_copy", "bond_order"=>"bond_order", "cfs_name"=>"cfs_name", "customs_officer_name"=>"customs_officer_name", "do_number"=>"do_number", "do_date"=>"do_date", "do_issued_by"=>"do_issued_by", "bond_number"=>"bond_number", "bond_date"=>"bond_date");
 		$docVerificationArray = $form->getFormValues($docVerificationArray,$_POST);	
-		if(true){
-			$db->insertOperation('bonded_dv_inward',$docVerificationArray);
-			addItemsToDVItems();
-			updateDocumentVerificationStatusInParSac();
-			return array("infocode"=>"DOCUMENTVERIFICATIONSUCCESS","message"=>"Document verification data saved successfully.");
-		} else {
-			return array("infocode"=>"DOCUMENTNOTVERIFIED","message"=>"Documents not verified.");
-		}
-		
+		$db->insertOperation('bonded_dv_inward',$docVerificationArray);
+		addItemsToDVItems();
+		updateDocumentVerificationStatusInParSac();
+		return array("infocode"=>"DOCUMENTVERIFICATIONSUCCESS","message"=>"Document verification data saved successfully.");	
 	}
 
 	function addItemsToDVItems(){
@@ -92,6 +90,27 @@
 			$output = array("infocode" => "NOCONTAINERDATAFOUND", "data" => "No container data available.");
 		}
 		//file_put_contents("formlog.log", print_r(json_encode($output), true ));
+		return $output;
+	}
+
+	function compareBondDateWithBoeDate(){
+		global $dbc;
+		$sacId = $_POST['sac_id'];
+		$bondDate = $_POST['bond_date'];
+		$query = "SELECT boe_date FROM sac_request WHERE sac_id='$sacId'";
+		$result = mysqli_query($dbc, $query);
+		if(mysqli_num_rows($result) > 0){
+			$row = mysqli_fetch_assoc($result);
+			$boeDate = strtotime($row['boe_date']);
+			$bondDate = strtotime($bondDate);
+			if($bondDate >= $boeDate){
+				$output = array("infocode" => "GREATER");
+			} else {
+				$output = array("infocode" => "LESSER");
+			}
+		} else {
+			$output = array("infocode" => "NODATA");
+		}
 		return $output;
 	}
 
