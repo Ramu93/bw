@@ -164,9 +164,7 @@
 	    } else {
 	    	return array("infocode"=>"JOBORDERNOTCOMPLETED","message"=>"Job Order not completed successfully");
 	    }
-		file_put_contents("querylog.log", print_r( $query, true ));
-
-	    
+		//file_put_contents("querylog.log", print_r( $query, true ));
 	}
 
 	function addOGPEntry($juId){
