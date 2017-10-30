@@ -5,7 +5,7 @@
 
   $out = array();
   $id = $_GET['id'];
-  $select = "SELECT sac_id as 'id', importing_firm_name, licence_code, bol_awb_number, boe_number FROM sac_request WHERE sac_id='$id'";
+  $select = "SELECT sac_id as 'id', importing_firm_name, cha_name, licence_code, bol_awb_number, boe_number FROM sac_request WHERE sac_id='$id'";
   $query = mysqli_query($dbc,$select);
   if(mysqli_num_rows($query) > 0) {
     $row = mysqli_fetch_array($query);
@@ -63,7 +63,9 @@
             </div>
             <div class="col-md-4">
               <div class="form-group">
-                
+                <label >CHA Name:</label>
+                <div class="clearfix"></div>
+                <label><?php echo $out['cha_name']; ?></label>
               </div>
             </div>
           </div>

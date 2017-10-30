@@ -111,6 +111,7 @@ function getDataDetails(sacId, dataItem){
 				var tableName = selectedData.table_name;
 				var customerName = selectedData.importing_firm_name;
 				var bondNumber = selectedData.bond_number;
+				var chaName = selectedData.cha_name;
 				//var dimension = selectedData.dimension;
 				var id_head = '';
 				if(tableName == 'sac'){
@@ -126,6 +127,9 @@ function getDataDetails(sacId, dataItem){
 				$('#id_value').html(id);
 
 				getContainersList(id);
+
+				$('#cha_name_label').html('CHA Name:');
+				$('#cha_name_value').html(chaName);
 
 				$('#bond_number_label').html('Bond Number:');
 				$('#bond_number_value').html(bondNumber);
