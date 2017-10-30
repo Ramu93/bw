@@ -265,7 +265,7 @@
     $('#do_date').datepicker({
       autoclose: true,
       dateFormat: "yy-mm-dd",
-      minDate: startDate
+      //minDate: startDate
     });
 
     $('#bond_date').datepicker({
