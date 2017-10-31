@@ -75,7 +75,6 @@ function compareBondDateWithBoeDate(){
 			bootbox.alert("failure");
 		} 	        
 	});
-	console.log(g_compareBondDate);
 }
 
 function setCompareVal(val){
