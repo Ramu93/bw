@@ -55,14 +55,14 @@
     	//mysqli_query($dbc, $updateSacParStatusQuery);
     	if($result['status'] == 'success'){
     		$lastInsertGRNId = $result['last_insert_id'];
-    		addIGPIdToJobOrder($lastInsertGRNId, $juId);
-    		return array("status"=>"success","message"=>"GRN created successfully.", "last_id" => $lastInsertGRNId);
+    		addGRNIdToJobOrder($lastInsertGRNId, $juId);
+    		return array("status"=>"success","message"=>"GRN No.:" . $lastInsertGRNId . " created successfully.", "last_id" => $lastInsertGRNId);
     	} else {
     		return array("status"=>"failure","message"=>"GRN not created successfully.");
     	}
 	}
 
-	function addIGPIdToJobOrder($lastInsertGRNId, $juId){
+	function addGRNIdToJobOrder($lastInsertGRNId, $juId){
 		global $dbc;
 		$query = 'UPDATE bonded_joborder_unloading SET grn_id="'.$lastInsertGRNId.'", grn_created="yes" WHERE ju_id="'.$juId.'"';
 		mysqli_query($dbc, $query);

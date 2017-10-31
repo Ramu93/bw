@@ -112,8 +112,8 @@
             <div class="row" id="fields">
               <div class="col-md-3">
                 <div class="form-group">
-                  <label for="space_occupied">No. of Units</label>
-                  <input type="text" tabindex="2" class="form-control required" id="no_of_units" name="no_of_units" placeholder="No. of units">
+                  <label for="space_occupied">Area Occupied</label>
+                  <input type="text" tabindex="2" class="form-control required" id="no_of_units" name="no_of_units" placeholder="Area occupied">
                 </div>
               </div>
               <div class="col-md-3">
@@ -123,7 +123,6 @@
                     <option value="" selected="selected">Select unit...</option>
                     <option value="Sq. m.">Sq. m.</option>
                     <option value="Sq. ft.">Sq. ft.</option>
-                    <option value="No. of Containers">No. of Containers</option>
                   </select>
                 </div>
               </div>
