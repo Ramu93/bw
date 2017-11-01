@@ -78,7 +78,13 @@
 	function getSelectedDataDetails(){
 		global $dbc;
 		$sacId = $_POST['sac_id'];
-		$query = "SELECT sac.sac_id as 'id', sac.importing_firm_name, dvin.bond_number FROM sac_request sac, bonded_dv_inward dvin WHERE sac.sac_id='$sacId' AND sac.status='approved' AND sac.sac_id=dvin.sac_id";
+
+		//this query fetched bond number along with sac information, since bond number details are entered only in document verification process, ELSE condition will be executed for the first time and once the document verification process is over then each time IF part will be executed
+
+		//this IF ELSE part is to fetch SAC data along with bond number that is available only in the document verification step. 
+
+		//on 01/11/2017 the bond number displayed in the UI part is replaced with BOE number and CHA name. But the following IF ELSE still exists for changes that may arise in the future.
+		$query = "SELECT sac.sac_id as 'id', sac.importing_firm_name, dvin.bond_number, sac.cha_name, sac.boe_number FROM sac_request sac, bonded_dv_inward dvin WHERE sac.sac_id='$sacId' AND sac.status='approved' AND sac.sac_id=dvin.sac_id";
 		$result = mysqli_query($dbc,$query);
 		if(mysqli_num_rows($result) > 0) {
 			$out = array();
@@ -87,7 +93,7 @@
 			}
 			$output = array("infocode" => "DATADETAILFETCHSUCCESS", "data" => json_encode($out));
 		} else {
-			$query = "SELECT sac_id as 'id', importing_firm_name FROM sac_request sac WHERE sac_id='$sacId';";
+			$query = "SELECT sac_id as 'id', importing_firm_name, cha_name, boe_number FROM sac_request sac WHERE sac_id='$sacId';";
 			$result = mysqli_query($dbc,$query);
 			if(mysqli_num_rows($result) > 0) {
 				$out = array();

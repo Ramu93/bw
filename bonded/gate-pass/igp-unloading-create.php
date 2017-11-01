@@ -56,10 +56,20 @@
                 <div class="clearfix"></div>
                 <label id="customer_name_value"></label>
               </div>
-              <div class="col-md-3">
+              <!-- <div class="col-md-3">
                 <label id="bond_number_label"></label>
                 <div class="clearfix"></div>
                 <label id="bond_number_value"></label>
+              </div> -->
+              <div class="col-md-3">
+                <label id="cha_name_label"></label>
+                <div class="clearfix"></div>
+                <label id="cha_name_value"></label>
+              </div>
+              <div class="col-md-3">
+                <label id="boe_number_label"></label>
+                <div class="clearfix"></div>
+                <label id="boe_number_value"></label>
               </div>
             </div>
             <div class="row">

@@ -176,6 +176,8 @@ function getDataDetails(sacId, dataItem){
 				var tableName = selectedData.table_name;
 				var customerName = selectedData.importing_firm_name;
 				var bondNumber = selectedData.bond_number;
+				var boeNumber = selectedData.boe_number;
+				var chaName = selectedData.cha_name;
 				var id_head = '';
 				id_head = 'SAC ID:';
 
@@ -186,14 +188,20 @@ function getDataDetails(sacId, dataItem){
 				$('#id_value').html(id);
 				$('#customer_name_label').html('Customer Name:');
 				$('#customer_name_value').html(customerName);
-				if(bondNumber !== undefined){
-					$('#bond_number_label').html('Bond Number:');
-					$('#bond_number_value').html(bondNumber);
-				} else {
-					// bond number will not be displayed for the first time as there will not be any document verification done for the given SAC
-					$('#bond_number_label').html('');
-					$('#bond_number_value').html('');
-				}
+				$('#cha_name_label').html('CHA Name:');
+				$('#cha_name_value').html(chaName);
+				$('#boe_number_label').html('BOE Number:');
+				$('#boe_number_value').html(boeNumber);
+				// if(bondNumber !== undefined){
+				// 	$('#bond_number_label').html('Bond Number:');
+				// 	$('#bond_number_value').html(bondNumber);
+				// } else {
+				// 	// bond number will not be displayed for the first time as there will not be any document verification done for the given SAC
+				// 	$('#bond_number_label').html('');
+				// 	$('#bond_number_value').html('');
+				// }
+
+
 				
 				//load container numbers in form
 				getSelectedContainerData(id);
