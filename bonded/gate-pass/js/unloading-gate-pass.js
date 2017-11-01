@@ -261,7 +261,12 @@ function displayContainerNumbers(containers){
 		//parse the stringified container_details
 		containers[i].container_details = JSON.parse(containers[i].container_details);
 		for(index = 0; index < Object.keys(containers[i].container_details).length; index++){
-			containerNumberArray.push( containers[i].dimension + '_' + index + '_' +(containers[i].container_details)[index].container_number);
+			if(!('igp_id' in (containers[i].container_details)[index])){
+				//this condition is to check if a container has already gate pass generated.
+				//if a getpass is generated, the container will have a key igp_id and status:picked
+				//if a container is already picked, then it must not be listed in the container number drop down
+				containerNumberArray.push( containers[i].dimension + '_' + index + '_' +(containers[i].container_details)[index].container_number);	
+			}
 		}
 	}
 
