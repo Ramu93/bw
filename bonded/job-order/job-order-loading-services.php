@@ -144,7 +144,7 @@
 		$noOfLabors = mysqli_real_escape_string($dbc, trim($_POST['no_of_labors']));
 		$loadingTime = mysqli_real_escape_string($dbc, trim($_POST['loading_time']));
 
-		$query = "INSERT INTO bonded_joborder_loading(pdr_id, space_occupied_after, supervisor_name, loading_type, equipment_ref_number, no_of_labors, loading_time) VALUES ('$pdrId', '$spaceOccupiedAfter', '$supervisorName', '$loadingType', '$equipmentRefNumber', '$noOfLabors', '$loadingTime')";
+		$query = "INSERT INTO bonded_joborder_loading(pdr_id, space_occupied_after, supervisor_name, loading_type, equipment_ref_number, no_of_labors, loading_time, created_date) VALUES ('$pdrId', '$spaceOccupiedAfter', '$supervisorName', '$loadingType', '$equipmentRefNumber', '$noOfLabors', '$loadingTime', '".date("Y-m-d")."')";
 		if(mysqli_query($dbc, $query)){
 			$lastInsertJobOrderId = mysqli_insert_id($dbc);
 			changeIGPStatus($lastInsertJobOrderId, IGP_JOBORDER_CREATE_STATUS);
