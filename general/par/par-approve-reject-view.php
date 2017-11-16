@@ -35,6 +35,14 @@
                 </select>
               </div>
               <div class="col-md-3 col-sm-3">
+                <label for="from_date_label">From date</label>
+                <input type="text" tabindex="" class="form-control" id="filter_from" name="filter_from" placeholder="" value="">
+              </div>
+              <div class="col-md-3 col-sm-3">
+                <label for="to_date_label">To date</label>
+                <input type="text" tabindex="" class="form-control" id="filter_to" name="filter_to" placeholder="" value="">
+              </div>
+              <div class="col-md-3 col-sm-3">
                 &nbsp;
                 <input type="button" name="select_items" value="Go" class="btn btn-primary btn-block pull-left" onclick="loadPage()">
               </div>
@@ -56,7 +64,7 @@
             </thead>
             <tbody>
               <?php 
-                $select_query = "SELECT * FROM pre_arrival_request WHERE status='$status'";
+                $select_query = "SELECT * FROM pre_arrival_request WHERE status='$status' AND created_date BETWEEN '$filterFrom' AND '$filterTo'";
                 $result = mysqli_query($dbc,$select_query);
                 $row_counter = 0;
                 if(mysqli_num_rows($result) > 0) {
@@ -100,8 +108,40 @@
       <?php } ?>
     });
 
+    $(document).ready(function(){
+      $('#filter_from').val(getCurrentDate());
+      $('#filter_to').val(getCurrentDate());
+    });
+
+    $('#filter_from').datepicker({
+      autoclose: true,
+      dateFormat: "yy-mm-dd",
+    });
+    $('#filter_to').datepicker({
+      autoclose: true,
+      dateFormat: "yy-mm-dd",
+    });
+
+    function getCurrentDate(){
+      var today = new Date();
+      var yy = today.getFullYear();
+      var mm = today.getMonth();
+      var dd = today.getDate();
+      mm += 1;
+      if(dd < 10){
+        dd = '0' + dd;
+      } 
+      if(mm < 10){
+        mm = '0' + mm;
+      }
+      var todayDate = yy + '-' + mm + '-' + dd;
+      return todayDate;
+    }
+
     function loadPage(){
       var status = $('#select_by_status').val();
+      var filterFrom = $('#filter_from').val();
+      var filterTo = $('#filter_to').val();
       var url = 'par-approve-reject-view.php?status=';
       switch(status){
         case 'submitted':
@@ -114,6 +154,7 @@
           url += 'rejected';
         break;
       }
+      url += '&filter_from=' + filterFrom + '&filter_to=' + filterTo;
       this.document.location.href = url;
     }
   </script>
