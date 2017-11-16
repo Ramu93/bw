@@ -7,6 +7,16 @@
   if(isset($_GET['status'])){
     $status = $_GET['status'];
   }
+  if(isset($_GET['filter_from'])){
+    $filterFrom = $_GET['filter_from'];
+  } else {
+    $filterFrom = date("Y-m-d");
+  }
+  if(isset($_GET['filter_to'])){
+    $filterTo = $_GET['filter_to'];
+  } else {
+    $filterTo = date("Y-m-d");
+  }
 ?>
 
   <!-- Content Wrapper. Contains page content -->
@@ -35,6 +45,14 @@
                 </select>
               </div>
               <div class="col-md-3 col-sm-3">
+                <label for="from_date_label">From date</label>
+                <input type="text" tabindex="" class="form-control" id="filter_from" name="filter_from" placeholder="" value="">
+              </div>
+              <div class="col-md-3 col-sm-3">
+                <label for="to_date_label">To date</label>
+                <input type="text" tabindex="" class="form-control" id="filter_to" name="filter_to" placeholder="" value="">
+              </div>
+              <div class="col-md-3 col-sm-3">
                 &nbsp;
                 <input type="button" name="select_items" value="Go" class="btn btn-primary btn-block pull-left" onclick="loadPage()">
               </div>
@@ -47,13 +65,14 @@
                 <th>S. No.</th>
                 <th>PDR ID</th>
                 <th>PAR</th>
+                <th>Created Date</th>
                 <th>CHA/Exporter Name</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
               <?php 
-                $select_query = "SELECT * FROM general_despatch_request WHERE status='$status'";
+                $select_query = "SELECT * FROM general_despatch_request WHERE status='$status' AND created_date BETWEEN '$filterFrom' AND '$filterTo'";
                 $result = mysqli_query($dbc,$select_query);
                 $row_counter = 0;
                 if(mysqli_num_rows($result) > 0) {
@@ -63,6 +82,7 @@
                     echo "<td>".++$row_counter."</td>";
                     echo "<td>".$row['pdr_id']."</td>";
                     echo "<td>".$row['par_id']."</td>";
+                    echo "<td>".$row['created_date']."</td>";
                     echo "<td>".$row['cha_name']."</td>";
                     echo "<td><a href='pdr-approve-reject.php?pdr_id=".$row['pdr_id']."'>View</a></td>";
                     echo "</tr>";
@@ -94,5 +114,19 @@
       <?php if($dataTableFlag) { ?>
         $("#pdr_table").DataTable();
       <?php } ?>
+    });
+
+    $(document).ready(function(){
+      $('#filter_from').val(getCurrentDate());
+      $('#filter_to').val(getCurrentDate());
+    });
+
+    $('#filter_from').datepicker({
+      autoclose: true,
+      dateFormat: "yy-mm-dd",
+    });
+    $('#filter_to').datepicker({
+      autoclose: true,
+      dateFormat: "yy-mm-dd",
     });
   </script>
