@@ -43,6 +43,7 @@
 
 		$grnFormArray = array("sac_id"=>"sac_id", "ju_id"=>"ju_id", "no_of_units"=>"no_of_units", "unit"=>"unit", "location"=>"location", "validity"=>"validity");
 		$grnFormArray = $form->getFormValues($grnFormArray,$_POST);
+		$grnFormArray['created_date'] = date("Y-m-d");
 		//file_put_contents("formlog.log", print_r( $_POST, true ));
     	$result = $db->insertOperation('bonded_good_receipt_note',$grnFormArray);
     	$juId = $grnFormArray['ju_id'];
