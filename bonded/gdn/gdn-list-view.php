@@ -45,6 +45,7 @@
                 <th>S. No.</th>
                 <th>GDN ID</th>
                 <th>PDR ID</th>
+                <th>Created Date</th>
                 <th>Bond Number</th>
                 <th>Importer</th>
                 <th>CHA</th>
@@ -64,6 +65,7 @@
                     echo "<td>".++$row_counter."</td>";
                     echo "<td>".$row['gdn_id']."</td>";
                     echo "<td>".$row['pdr_id']."</td>";
+                    echo "<td>".$row['created_date']."</td>";
                     echo "<td>".$row['bond_number']."</td>";
                     echo "<td>".$row['importing_firm_name']."</td>";
                     echo "<td>".$row['cha_name']."</td>";
