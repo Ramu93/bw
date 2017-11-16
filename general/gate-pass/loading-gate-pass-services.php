@@ -116,7 +116,7 @@
 		$timeIn = mysqli_real_escape_string($dbc, trim($_POST['in_time']));
 		$pdrId = mysqli_real_escape_string($dbc, trim($_POST['pdr_id_hidden']));
 
-		$query = "INSERT INTO general_igp_loading (pdr_id, data_type, data_value, vehicle_number, driver_name, driving_license,time_in, entry_date) VALUES ('$pdrId', '$dataType', '$dataValue', '$vehicleNumber', '$driverName', '$drivingLicense', '$timeIn', '".date("Y-m-d")."')";
+		$query = "INSERT INTO general_igp_loading (pdr_id, data_type, data_value, vehicle_number, driver_name, driving_license,time_in, entry_date, created_date) VALUES ('$pdrId', '$dataType', '$dataValue', '$vehicleNumber', '$driverName', '$drivingLicense', '$timeIn', '".date("Y-m-d")."', '".date("Y-m-d")."')";
 		//file_put_contents("testlog.log",$query, FILE_APPEND | LOCK_EX);
 		if(mysqli_query($dbc, $query)){
 			$updatePdrStatusQuery = "UPDATE general_despatch_request SET igp_created='yes' WHERE pdr_id='$pdrId'";
