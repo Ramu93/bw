@@ -66,6 +66,7 @@
               <tr>
                 <th>S. No.</th>
                 <th>Job Order ID</th>
+                <th>Created Date</th>
                 <th>No. of Packages</th>
                 <th>Type of Unloading</th>
                 <th>Supervisor Name</th>
@@ -112,6 +113,7 @@
                     echo "<tr>";
                     echo "<td>".++$row_counter."</td>";
                     echo "<td>".$row['ju_id']."</td>";
+                    echo "<td>".$row['created_date']."</td>";
                     echo "<td>".$row['no_of_packages']."</td>";
                     echo "<td>".$unLoadingType."</td>";
                     echo "<td>".$row['supervisor_name']."</td>";
