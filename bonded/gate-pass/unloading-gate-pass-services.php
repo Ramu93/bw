@@ -165,7 +165,7 @@
 			case 'Break Bulk':
 			case 'LCL': 
 				$numTonnage = mysqli_real_escape_string($dbc, trim($_POST['num_tonnage']));
-				$query = "INSERT INTO bonded_igp_unloading (data_type, data_value, vehicle_number, driver_name, driving_license, time_in, container_condition, vehicle_type, transporter_name, entry_date, sac_id, num_tonnage) VALUES ('$dataType', '$dataValue', '$vehicleNumber', '$driverName', '$drivingLicense', '$timeIn', '$containerCondition', '$vehicleType', '$transporterName', '$entryDate', '$sacId', '$numTonnage')";
+				$query = "INSERT INTO bonded_igp_unloading (data_type, data_value, vehicle_number, driver_name, driving_license, time_in, container_condition, vehicle_type, transporter_name, entry_date, sac_id, num_tonnage, created_date) VALUES ('$dataType', '$dataValue', '$vehicleNumber', '$driverName', '$drivingLicense', '$timeIn', '$containerCondition', '$vehicleType', '$transporterName', '$entryDate', '$sacId', '$numTonnage', '". date("Y-m-d") ."')";
 
     		//file_put_contents("formlog.log", print_r( $query, true ));
 			break;
