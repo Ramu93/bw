@@ -56,6 +56,7 @@
               <tr>
                 <th>S. No.</th>
                 <th>PAR ID</th>
+                <th>Created Date</th>
                 <th>Importing Firm Name</th>
                 <th>CHA</th>
                 <th>Quantity in Units</th>
@@ -75,6 +76,7 @@
                     echo "<tr>";
                     echo "<td>".++$row_counter."</td>";
                     echo "<td>".$row['par_id']."</td>";
+                    echo "<td>".$row['created_date']."</td>";
                     echo "<td>".$row['importing_firm_name']."</td>";
                     echo "<td>".$row['cha_name']."</td>";
                     echo "<td>".$row['qty_units']."</td>";
