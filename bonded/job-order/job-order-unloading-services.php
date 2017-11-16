@@ -64,6 +64,7 @@
 		$jobOrderUnloadingFormArray = $form->getFormValues($jobOrderUnloadingFormArray,$_POST);
 	   	$jobOrderUnloadingFormArray['start_time'] = date("Y-m-d H:i:s");
 		$jobOrderUnloadingFormArray['igp_id'] = explode("_",$jobOrderUnloadingFormArray['igp_id'])[0];
+		$jobOrderUnloadingFormArray['created_date'] = date("Y-m-d");
 		//file_put_contents("formlog.log", print_r( $_POST, true ));
     	$result = $db->insertOperation('bonded_joborder_unloading',$jobOrderUnloadingFormArray);
     	// $parlogarray = array("par_id" => $parId, "status_to" => 'Submitted', "remarks" => "Waiting for Approval");
