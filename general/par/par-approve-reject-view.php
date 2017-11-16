@@ -7,6 +7,8 @@
   if(isset($_GET['status'])){
     $status = $_GET['status'];
   }
+  $filterFrom = $_GET['filter_from'];
+  $filterTo = $_GET['filter_to'];
 ?>
 
   <!-- Content Wrapper. Contains page content -->
