@@ -7,8 +7,16 @@
   if(isset($_GET['status'])){
     $status = $_GET['status'];
   }
-  $filterFrom = $_GET['filter_from'];
-  $filterTo = $_GET['filter_to'];
+  if(isset($_GET['filter_from'])){
+    $filterFrom = $_GET['filter_from'];
+  } else {
+    $filterFrom = date("Y-m-d");
+  }
+  if(isset($_GET['filter_to'])){
+    $filterTo = $_GET['filter_to'];
+  } else {
+    $filterTo = date("Y-m-d");
+  }
 ?>
 
   <!-- Content Wrapper. Contains page content -->
