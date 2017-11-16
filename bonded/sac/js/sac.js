@@ -27,6 +27,22 @@ var additem_template = '<tr id="[trid]"><td><span class="td_sno">[sno]</span></t
 							<td><input type="text" name="vehicle_number[]" placeholder="" class="form-control"></td>\
 							<td><button onclick="addContainerRow([addcount])">+</button><button class="item_removebutton" onclick="removeContainerRow([removecount])">-</button></td></tr>';
 
+function getCurrentDate(){
+  var today = new Date();
+  var yy = today.getFullYear();
+  var mm = today.getMonth();
+  var dd = today.getDate();
+  mm += 1;
+  if(dd < 10){
+    dd = '0' + dd;
+  } 
+  if(mm < 10){
+    mm = '0' + mm;
+  }
+  var todayDate = yy + '-' + mm + '-' + dd;
+  return todayDate;
+}
+
 function replaceFieldsForContainers(){
 	var dimension = $('#dimension').val();
 	var dp = '';
@@ -458,6 +474,8 @@ function deleteContainerItem(arrayindex){
 
 function loadPage(){
 	var status = $('#select_by_status').val();
+	var filterFrom = $('#filter_from').val();
+	var filterTo = $('#filter_to').val();
 	var url = 'sac-request-approve-reject-view.php?status=';
 	switch(status){
 		case 'submitted':
@@ -470,5 +488,6 @@ function loadPage(){
 			url += 'rejected';
 		break;
 	}
+	url += '&filter_from=' + filterFrom + '&filter_to=' + filterTo;
 	this.document.location.href = url;
 }

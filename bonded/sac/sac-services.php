@@ -44,6 +44,7 @@
 		$sacFormElementsArray = array("importing_firm_name"=>"importing_firm_name","bol_awb_number"=>"bol_awb_number","material_name"=>"material_name","packing_nature"=>"packing_nature","assessable_value"=>"assessable_value","material_nature"=>"material_nature","required_period"=>"required_period","licence_code"=>"licence_code","boe_number"=>"boe_number","qty_units"=>"qty_units","space_requirement"=>"space_requirement","duty_amount"=>"duty_amount","expected_date"=>"expected_date", "bol_awb_date"=>"bol_awb_date", "boe_date"=>"boe_date", "cha_name"=>"cha_name");
 		$sacFormElementsArray = $form->getFormValues($sacFormElementsArray,$_POST);	
 		$sacFormElementsArray['status'] = SAC_DEFAULT_STATUS;
+		$sacFormElementsArray['created_date'] = date("Y-m-d");
 		// file_put_contents("formlog.log", print_r( $sacFormElementsArray, true ));
     	$result = $db->insertOperation('sac_request',$sacFormElementsArray);
  		if($result['status'] == 'success'){
