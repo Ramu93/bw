@@ -177,7 +177,7 @@
 
 	function addOGPEntry($jlId){
 		global $dbc;
-		$query = "INSERT INTO bonded_ogp_loading (jl_id) VALUES ('$jlId')";
+		$query = "INSERT INTO bonded_ogp_loading (jl_id, created_date) VALUES ('$jlId', '".date("Y-m-d")."')";
 		mysqli_query($dbc, $query);
 	}
 
