@@ -169,7 +169,7 @@
 
 	function addOGPEntry($juId){
 		global $dbc;
-		$query = "INSERT INTO bonded_ogp_unloading (ju_id) VALUES ($juId)";
+		$query = "INSERT INTO bonded_ogp_unloading (ju_id, created_date) VALUES ($juId, '".date("Y-m-d")."')";
 		mysqli_query($dbc, $query);
 	}
 
