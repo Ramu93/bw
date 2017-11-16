@@ -183,7 +183,7 @@
 
 	function addGDNEntry($pdrId){
 		global $dbc;
-		$query = "INSERT INTO bonded_good_delivery_note (pdr_id) VALUES ($pdrId)";
+		$query = "INSERT INTO bonded_good_delivery_note (pdr_id, created_date) VALUES ($pdrId, '".date("Y-m-d")."')";
 		mysqli_query($dbc, $query);
 	}
 
