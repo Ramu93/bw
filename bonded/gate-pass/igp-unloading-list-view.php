@@ -130,7 +130,6 @@
 
 
     function loadPage(){
-      var status = $('#select_by_status').val();
       var filterFrom = $('#filter_from').val();
       var filterTo = $('#filter_to').val();
       var url = 'igp-unloading-list-view.php?';
