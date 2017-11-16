@@ -92,6 +92,22 @@ function getDataDetails(sacId, dataItemVal){
 	});
 }
 
+function getCurrentDate(){
+  var today = new Date();
+  var yy = today.getFullYear();
+  var mm = today.getMonth();
+  var dd = today.getDate();
+  mm += 1;
+  if(dd < 10){
+    dd = '0' + dd;
+  } 
+  if(mm < 10){
+    mm = '0' + mm;
+  }
+  var todayDate = yy + '-' + mm + '-' + dd;
+  return todayDate;
+}
+
 function showItemsList(){
 	var sacID = $('#sac_id').val();
 
@@ -327,6 +343,8 @@ function displayItemsListInViewMode(itemData){
 
 function loadPage(){
 	var status = $('#select_by_status').val();
+	var filterFrom = $('#filter_from').val();
+	var filterTo = $('#filter_to').val();
 	var url = 'pdr-approve-reject-view.php?status=';
 	switch(status){
 		case 'created':
@@ -339,5 +357,6 @@ function loadPage(){
 			url += 'rejected';
 		break;
 	}
+	url += '&filter_from=' + filterFrom + '&filter_to=' + filterTo;
 	this.document.location.href = url;
 }

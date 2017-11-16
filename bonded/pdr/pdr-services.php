@@ -144,7 +144,7 @@
   		$itemData = json_decode(json_encode($itemObject), True);
 		//file_put_contents("datalog.log", print_r($itemData, true ));
 
-  		$query = "INSERT INTO bonded_despatch_request (sac_id, client_web, cha_name, order_number, boe_number, exbond_be_number, exbond_be_date, customs_officer_name, number_of_packages, assessment_value, duty_value, transporter_name) VALUES ('$sacId', '$clientWeb', '$chaName', '$orderNumber', '$boeNumber', '$exBondBeNumber', '$exBondBeDate', '$customsOfficerName', '$numberOfPackages', '$assessmentValue', '$dutyValue', '$transporterName')";
+  		$query = "INSERT INTO bonded_despatch_request (sac_id, client_web, cha_name, order_number, boe_number, exbond_be_number, exbond_be_date, customs_officer_name, number_of_packages, assessment_value, duty_value, transporter_name, created_date) VALUES ('$sacId', '$clientWeb', '$chaName', '$orderNumber', '$boeNumber', '$exBondBeNumber', '$exBondBeDate', '$customsOfficerName', '$numberOfPackages', '$assessmentValue', '$dutyValue', '$transporterName', '". date("Y-m-d") ."')";
 		// file_put_contents("querylog.log", print_r($query, true ));
   		if(mysqli_query($dbc, $query)){
   			$lastPdrId = mysqli_insert_id($dbc);
