@@ -42,7 +42,7 @@
 	function  getPartyDetails(){
 		global $dbc;
 		$partyName = mysqli_real_escape_string($dbc, trim($_POST['party_name']));
-		$query = "SELECT * FROM party_master WHERE pm_customerName='$partyName'";
+		$query = "SELECT * FROM bonded_party_master WHERE pm_customerName='$partyName'";
 		$result = mysqli_query($dbc, $query);
 		if(mysqli_num_rows($result) > 0){
 			$row = mysqli_fetch_assoc($result);
@@ -112,7 +112,7 @@
 
 	function getPartyId($partyName){
 		global $dbc;
-		$query = "SELECT * FROM party_master WHERE pm_customerName='$partyName'";
+		$query = "SELECT * FROM bonded_party_master WHERE pm_customerName='$partyName'";
 		$result = mysqli_query($dbc, $query);
 		$row = mysqli_fetch_assoc($result);
 		return $row['pm_id'];
@@ -139,7 +139,7 @@
 
 	function getTariffMasterId($unit){
 		global $dbc;
-		$query = "SELECT tariff_master_id FROM tariff_master WHERE unit='$unit'";
+		$query = "SELECT tariff_master_id FROM bonded_tariff_master WHERE unit='$unit'";
 		$result = mysqli_query($dbc, $query);
 		$row = mysqli_fetch_assoc($result);
 		$tariffMasterId = $row['tariff_master_id'];
@@ -148,7 +148,7 @@
 
 	function getBaseTariffData($tariffMasterId){
 		global $dbc;
-		$query = "SELECT * FROM tariff_master WHERE tariff_master_id='$tariffMasterId'";
+		$query = "SELECT * FROM bonded_tariff_master WHERE tariff_master_id='$tariffMasterId'";
 		$result = mysqli_query($dbc, $query);
 		$row = mysqli_fetch_assoc($result);
 		$tariff = array('price_per_unit' => $row['price_per_unit'], 'minimum_slab' => $row['minimum_slab']);
@@ -157,7 +157,7 @@
 
 	function getDiscountTariff($customerPartyId, $chaPartyId, $tariffMasterId){
 		global $dbc; 
-		$query = "SELECT * FROM discount_master WHERE customer_pm_id='$customerPartyId' AND cha_pm_id='$chaPartyId' AND tariff_master_id='$tariffMasterId'";
+		$query = "SELECT * FROM bonded_discount_master WHERE customer_pm_id='$customerPartyId' AND cha_pm_id='$chaPartyId' AND tariff_master_id='$tariffMasterId'";
 		$result = mysqli_query($dbc, $query);
 		$rowCount = mysqli_num_rows($result);
 		if($rowCount > 0){
