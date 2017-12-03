@@ -190,6 +190,7 @@
             </div>
             <div class="row">
               <div class="col-md-3">
+                <input type="hidden" name="is_billing_first" id="is_billing_first">
               </div>
               <div class="col-md-3">
                 <div class="clearfix">&nbsp;</div>
@@ -224,6 +225,8 @@
 
       loadGstCombo('bill_gst_type');
       loadGstCombo('gst_type');
+
+      $('#bill_date').val(setDate());
 
       $('#selected_grn_div').hide();
       $('#party_details_div').hide();

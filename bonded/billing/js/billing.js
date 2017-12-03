@@ -30,12 +30,27 @@ function getGRNList(){
 		success: function(result){
 			if(result.infocode == 'SUCCESS'){
 				displayGRNList(result.data);
+			} else {
+				bootbox.alert(result.message);
 			}
 		},
 		error: function(){
 			bootbox.alert("failure");
 		} 	        
 	});
+}
+
+function setDate(){
+	var date = new Date();
+	var day = date.getDate();
+	var month = date.getMonth() + 1;
+	var year = date.getFullYear();
+
+	if (month < 10) month = "0" + month;
+	if (day < 10) day = "0" + day;
+
+	var today = year + "-" + month + "-" + day;
+	return today;
 }
 
 function displayGRNList(grnList){
@@ -91,6 +106,9 @@ function getBillingInfo(grnId){
 				$('#previus_period_label').html(result.data.period_from + ' to ' + result.data.period_to);
 				$('#last_bill_amount_label').html('₹ ' + result.data.bill_amount);
 				$('#previous_billing_div').show();
+				$('#is_billing_first').val('false');
+			} else {
+				$('#is_billing_first').val('true');
 			}
 			$('#billing_div').show();
 		    $('#handling_charges_div').show();

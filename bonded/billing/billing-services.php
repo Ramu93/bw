@@ -207,6 +207,7 @@
 		$billDate = mysqli_real_escape_string($dbc, trim($_POST['bill_date']));
 		$fromDateStr = mysqli_real_escape_string($dbc, trim($_POST['from_date']));
 		$toDateStr = mysqli_real_escape_string($dbc, trim($_POST['to_date']));
+		$isBillingFirst = $_POST['is_billing_first'];
 		$billGstType = 'same_state';
 		$handlingDescriptions = $_POST['description'];
 		$handlingAmounts = $_POST['amount'];
@@ -244,6 +245,13 @@
 		$toDate = strtotime($toDateStr);
 		$noOfDays = $fromDate - $toDate;
 		$noOfDays = abs(floor($noOfDays / (60 * 60 * 24))) + 1;
+
+		//if billing first for the GRN then value is 30 else value is noOfDays
+		if($isBillingFirst == 'true'){
+			if($noOfDays < 30){
+				$noOfDays = 30;
+			}
+		}
 		
 		if($discountDetails['row_count'] > 0){
 			//discounted price
@@ -356,6 +364,7 @@
 		$billDate = mysqli_real_escape_string($dbc, trim($_POST['bill_date']));
 		$fromDateStr = mysqli_real_escape_string($dbc, trim($_POST['from_date']));
 		$toDateStr = mysqli_real_escape_string($dbc, trim($_POST['to_date']));
+		$isBillingFirst = $_POST['is_billing_first'];
 		$billGstType = 'same_state';
 		$handlingDescriptions = $_POST['description'];
 		$handlingAmounts = $_POST['amount'];
@@ -393,6 +402,13 @@
 		$toDate = strtotime($toDateStr);
 		$noOfDays = $fromDate - $toDate;
 		$noOfDays = abs(floor($noOfDays / (60 * 60 * 24))) + 1;
+
+		//if billing first for the GRN then value is 30 else value is noOfDays
+		if($isBillingFirst == 'true'){
+			if($noOfDays < 30){
+				$noOfDays = 30;
+			}
+		}
 		
 		if($discountDetails['row_count'] > 0){
 			//discounted price
