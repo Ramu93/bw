@@ -127,7 +127,7 @@
               </div>
               <div class="col-md-4">
                 <div class="form-group">
-                  <label for="dimension">Dimension per Unit and Weight</label>
+                  <label for="dimension">Container Type</label>
                     <select class="form-control required" id="dimension" name="dimension">
                       <option value="20 ft. Container">20 ft. Container</option>
                       <option value="40 ft. Container">40 ft. container</option>

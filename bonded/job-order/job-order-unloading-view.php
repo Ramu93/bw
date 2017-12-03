@@ -163,7 +163,7 @@
                 <label><?php echo $out['unloading_time']; ?></label>
               </div>
               <div class="col-md-3">
-                <label for="transporter_name">Dimension per Unit and Weight:</label>
+                <label for="transporter_name">Container Type:</label>
                 <div class="clearfix"></div>
                 <label><?php echo $out['dimension']; ?></label>
               </div>
