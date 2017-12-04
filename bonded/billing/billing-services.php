@@ -271,6 +271,7 @@
 				$taxAmount = $subTotal * ($gstPercentages['same_state']/100); 
 				$grandTotal = $subTotal + $taxAmount;
 				$gstPercentage = $gstPercentages['same_state']/2;
+				$taxAmount = $taxAmount / 2; // for displaying CGST & IGST seperately
 				$billArray[] = "Storage - {$gstPercentage}% CGST on ₹{$subTotal}: ₹{$taxAmount}";
 				$billArray[] = "Storage - {$gstPercentage}% SGST on ₹{$subTotal}: ₹{$taxAmount}";
 				break;
@@ -328,21 +329,21 @@
 					$sgst = $taxAmount/2;
 					$cgst = $taxAmount/2;
 					$totalAmount =  $amount + $taxAmount;
-					$query = "INSERT INTO bonded_billing_invoice_details (invoice_id, description, amount, gst_type, sgst, cgst, tax_payable, total) VALUES ('$invoiceId', '$description', '$amount', '$gstType', '$sgst', '$cgst', '$taxAmount', '$totalAmount')";
+					$query = "INSERT INTO bonded_billing_invoice_details (invoice_id, description, amount, gst_type, sgst, cgst, tax_payable, total, service_type) VALUES ('$invoiceId', '$description', '$amount', '$gstType', '$sgst', '$cgst', '$taxAmount', '$totalAmount', 'vas')";
 					break;
 				case 'other_state':
 					$igst = $taxAmount;
 					$totalAmount =  $amount + $taxAmount;
-					$query = "INSERT INTO bonded_billing_invoice_details (invoice_id, description, amount, gst_type, igst, tax_payable, total) VALUES ('$invoiceId', '$description', '$amount', '$gstType', '$igst', '$taxAmount', '$totalAmount')";
+					$query = "INSERT INTO bonded_billing_invoice_details (invoice_id, description, amount, gst_type, igst, tax_payable, total, service_type) VALUES ('$invoiceId', '$description', '$amount', '$gstType', '$igst', '$taxAmount', '$totalAmount', 'vas')";
 					break;
 				case 'union_teritory':
 					$ugst = $taxAmount;
 					$totalAmount =  $amount + $taxAmount;
-					$query = "INSERT INTO bonded_billing_invoice_details (invoice_id, description, amount, gst_type, ugst, tax_payable, total) VALUES ('$invoiceId', '$description', '$amount', '$gstType', '$ugst', '$taxAmount', '$totalAmount')";
+					$query = "INSERT INTO bonded_billing_invoice_details (invoice_id, description, amount, gst_type, ugst, tax_payable, total, service_type) VALUES ('$invoiceId', '$description', '$amount', '$gstType', '$ugst', '$taxAmount', '$totalAmount', 'vas')";
 					break;
 				case 'exempt':
 					$totalAmount =  $amount;
-					$query = "INSERT INTO bonded_billing_invoice_details (invoice_id, description, amount, gst_type, tax_payable, total) VALUES ('$invoiceId', '$description', '$amount', '$gstType','$taxAmount', '$totalAmount')";
+					$query = "INSERT INTO bonded_billing_invoice_details (invoice_id, description, amount, gst_type, tax_payable, total, service_type) VALUES ('$invoiceId', '$description', '$amount', '$gstType','$taxAmount', '$totalAmount', 'vas')";
 					break;
 			}
 			mysqli_query($dbc, $query);
@@ -355,6 +356,30 @@
         //file_put_contents("testlog.log", print_r(array('sub_total' => $finalSubTotal, 'tax_amount' => $finalTaxAmount, 'total_amount' => $finalTotalAmount), true), FILE_APPEND | LOCK_EX);
 
 		return array('sub_total' => $finalSubTotal, 'tax_amount' => $finalTaxAmount, 'total_amount' => $finalTotalAmount);
+	}
+
+	function saveStorageCharges($invoiceId, $storageDetails){
+		global $dbc; 
+		$amount = $storageDetails['amount'];
+		$gstType = $storageDetails['gst_type'];
+		$taxAmount = $storageDetails['tax_payable'];
+		$totalAmount = $storageDetails['total'];
+		switch ($gstType) {
+			case 'same_state':
+				$cgst = $storageDetails['cgst'];
+				$sgst = $storageDetails['sgst'];
+				$query = "INSERT INTO bonded_billing_invoice_details (invoice_id, amount, gst_type, sgst, cgst, tax_payable, total, service_type) VALUES ('$invoiceId', '$amount', '$gstType', '$sgst', '$cgst', '$taxAmount', '$totalAmount', 'storage')";
+				break;
+			case 'other_state':
+				$igst = $storageDetails['igst'];
+				break;$query = "INSERT INTO bonded_billing_invoice_details (invoice_id, amount, gst_type, igst, tax_payable, total, service_type) VALUES ('$invoiceId', '$amount', '$gstType', '$igst', '$taxAmount', '$totalAmount', 'storage')";
+			case 'union_teritory':
+				$ugst = $storageDetails['ugst'];
+				break;$query = "INSERT INTO bonded_billing_invoice_details (invoice_id, amount, gst_type, ugst, tax_payable, total, service_type) VALUES ('$invoiceId', '$amount', '$gstType', '$ugst', '$taxAmount', '$totalAmount', 'storage')";
+			case 'exempt':
+				break;$query = "INSERT INTO bonded_billing_invoice_details (invoice_id, amount, gst_type, tax_payable, total, service_type) VALUES ('$invoiceId', '$amount', '$gstType', '$taxAmount', '$totalAmount', 'storage')";
+		}
+		mysqli_query($dbc, $query);
 	}
 
 
@@ -451,7 +476,28 @@
 		$output = array();
 		if(mysqli_query($dbc, $query)){
 			$lastInsertInvoiceId = mysqli_insert_id($dbc);
+			$storageDetails = array();
+			$storageDetails['amount'] = $subTotal;
+			$storageDetails['gst_type'] = $billGstType;
+			$storageDetails['tax_payable'] = $taxAmount;
+			$storageDetails['total'] = $grandTotal;
+			switch ($billGstType) {
+				case 'same_state':
+					$storageDetails['sgst'] = $sgst;
+					$storageDetails['cgst'] = $cgst;
+					break;
+				case 'other_state':
+					$storageDetails['igst'] = $igst;
+					break;
+				case 'union_teritory':
+					$storageDetails['iugst'] = $ugst;
+					break;
+				case 'exempt':
+					break;
+			}
 			$handlingCharges = saveHandlingChargesBill($lastInsertInvoiceId, $handlingDescriptions, $handlingAmounts, $handlingGSTSlabs, $billGstType);
+			saveStorageCharges($lastInsertInvoiceId, $storageDetails);
+			updateTotalBillValues($lastInsertInvoiceId);
 			$finalSubTotal = $subTotal + $handlingCharges['sub_total'];
 			$finalTaxPayable = $taxAmount + $handlingCharges['tax_amount'];
 			$finalGrandTotal = $grandTotal + $handlingCharges['total_amount'];
@@ -460,8 +506,32 @@
 		} else {
 			$output = array('infocode' => 'failure');
 		}
-        file_put_contents("testlog.log", $query, FILE_APPEND | LOCK_EX);
+        //file_put_contents("testlog.log", $query, FILE_APPEND | LOCK_EX);
         return $output;
+	}
+
+	function getSumInvoiceDetailsSumValues($invoiceId){
+		global $dbc;
+		$query = "SELECT sum(amount) as 'amount', sum(sgst) as 'sgst', sum(cgst) as 'cgst', sum(igst) as'igst', sum(ugst) as 'ugst', sum(tax_payable) as 'tax_payable', sum(total) as 'total' FROM bonded_billing_invoice_details WHERE invoice_id='$invoiceId'";
+		$result = mysqli_query($dbc, $query);
+		$row = mysqli_fetch_assoc($result);
+        // file_put_contents("testlog.log", print_r($row, true), FILE_APPEND | LOCK_EX);
+		return $row;
+	}
+
+	function updateTotalBillValues($invoiceId){
+		global $dbc;
+		$invoiceSumValues = getSumInvoiceDetailsSumValues($invoiceId);
+		$amount = $invoiceSumValues['amount'];
+		$sgst = $invoiceSumValues['sgst'];
+		$cgst = $invoiceSumValues['cgst'];
+		$igst = $invoiceSumValues['igst'];
+		$ugst = $invoiceSumValues['ugst'];
+		$taxPayable = $invoiceSumValues['tax_payable'];
+		$total = $invoiceSumValues['total'];
+		$query = "UPDATE bonded_billing_invoice SET bill_amount='$amount', sgst='$sgst', cgst='$cgst', igst='$igst', ugst='$ugst', tax_payable='$taxPayable', grand_total='$total' WHERE bill_id='$invoiceId'";
+        // file_put_contents("testlog.log", $query, FILE_APPEND | LOCK_EX);
+		mysqli_query($dbc, $query);
 	}
 
 ?>
