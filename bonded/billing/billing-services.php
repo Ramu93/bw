@@ -128,9 +128,10 @@
 		return $partyNames;
 	}
 
-	function getUnitDetails($grnId){
+	function getUnitDetails($grnId, $fromDate){
 		global $dbc;
-		$query = "SELECT unit, no_of_units FROM bonded_good_receipt_note WHERE grn_id='$grnId'";
+		$query = "SELECT unit, no_of_units FROM bonded_grn_log WHERE grn_id='$grnId' and grn_date <= '$fromDate' ORDER BY grn_date DESC LIMIT 1";
+        // file_put_contents("testlog.log", $query, FILE_APPEND | LOCK_EX);
 		$result = mysqli_query($dbc, $query);
 		$row = mysqli_fetch_assoc($result);
 		$unitDetails = array('no_of_units' => $row['no_of_units'], 'unit' => $row['unit']);
@@ -219,7 +220,7 @@
 
         //file_put_contents("testlog.log", print_r($gstPercentages, true), FILE_APPEND | LOCK_EX);
 
-		$unitDetails = getUnitDetails($grnId);
+		$unitDetails = getUnitDetails($grnId, $fromDateStr);
 		$partyNames = getPartyFromSAC($grnId);
 		
 		$customerPartyId = getPartyId($partyNames['customer_name']);
@@ -401,7 +402,7 @@
 
         //file_put_contents("testlog.log", print_r($gstPercentages, true), FILE_APPEND | LOCK_EX);
 
-		$unitDetails = getUnitDetails($grnId);
+		$unitDetails = getUnitDetails($grnId, $fromDateStr);
 		$partyNames = getPartyFromSAC($grnId);
 		
 		$customerPartyId = getPartyId($partyNames['customer_name']);
