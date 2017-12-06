@@ -108,9 +108,9 @@ function getBillingInfo(grnId){
 				$('#previous_billing_div').show();
 				$('#is_billing_first').val('false');
 				//set current bill period "from date" as previous bill's "to" date plus 1.
-				var previousBillDate = new Date(result.data.billing_date);
-				var currentFromDate = new Date(previousBillDate);
-				currentFromDate.setDate(previousBillDate.getDate() + 1); 
+				var previousToDate = new Date(result.data.period_to);
+				var currentFromDate = new Date(previousToDate);
+				currentFromDate.setDate(previousToDate.getDate() + 1); 
 				var currentFromDateStr = currentFromDate.getFullYear() + '-' + (currentFromDate.getMonth() + 1) + '-' + currentFromDate.getDate();
 				$('#from_date').val(currentFromDateStr);
 			} else {
