@@ -202,6 +202,20 @@
 		return $billArray;
 	}
 
+	function isCurrentInvoiceDateGreaterThanOrEqualToPrevious($currentInvoiceDate){
+		global $dbc;
+		$query = "SELECT billing_date FROM bonded_billing_invoice ORDER BY bill_id DESC LIMIT 1";
+		$result = mysqli_query($dbc, $query);
+		$row = mysqli_fetch_assoc($result);
+		$previousBillDate = strtotime($row['billing_date']);
+		$currentBillingDate = strtotime($currentInvoiceDate);
+		if($currentBillingDate >= $previousBillDate){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	function generateBill(){
 		global $dbc; 
 		$grnId = mysqli_real_escape_string($dbc, trim($_POST['grn_id']));
@@ -303,7 +317,11 @@
 		// $finalTaxPayable = $taxAmount + $handlingCharges['tax_amount'];
 		// $finalGrandTotal = $grandTotal + $handlingCharges['total_amount'];
 
-		$output = array('infocode' => 'SUCCESS', 'data' => $finalBillArray);
+		if(isCurrentInvoiceDateGreaterThanOrEqualToPrevious($billDate)){
+			$output = array('infocode' => 'SUCCESS', 'data' => $finalBillArray);
+		} else {
+			$output = array('infocode' => 'FAILURE', 'message' => 'There exists an invoice whose date is greater than the entered one. Plrease try again!');
+		}
 	
         //file_put_contents("testlog.log", $query, FILE_APPEND | LOCK_EX);
         return $output;
@@ -475,38 +493,43 @@
 		//$handlingCharges = generateHandlingChargesBill('1',$handlingDescriptions, $handlingAmounts, $handlingGSTTypes, $gstPercentages);
 
 		$output = array();
-		if(mysqli_query($dbc, $query)){
-			$lastInsertInvoiceId = mysqli_insert_id($dbc);
-			$storageDetails = array();
-			$storageDetails['amount'] = $subTotal;
-			$storageDetails['gst_type'] = $billGstType;
-			$storageDetails['tax_payable'] = $taxAmount;
-			$storageDetails['total'] = $grandTotal;
-			switch ($billGstType) {
-				case 'same_state':
-					$storageDetails['sgst'] = $sgst;
-					$storageDetails['cgst'] = $cgst;
-					break;
-				case 'other_state':
-					$storageDetails['igst'] = $igst;
-					break;
-				case 'union_teritory':
-					$storageDetails['iugst'] = $ugst;
-					break;
-				case 'exempt':
-					break;
-			}
-			$handlingCharges = saveHandlingChargesBill($lastInsertInvoiceId, $handlingDescriptions, $handlingAmounts, $handlingGSTSlabs, $billGstType);
-			saveStorageCharges($lastInsertInvoiceId, $storageDetails);
-			updateTotalBillValues($lastInsertInvoiceId);
-			$finalSubTotal = $subTotal + $handlingCharges['sub_total'];
-			$finalTaxPayable = $taxAmount + $handlingCharges['tax_amount'];
-			$finalGrandTotal = $grandTotal + $handlingCharges['total_amount'];
+		if(isCurrentInvoiceDateGreaterThanOrEqualToPrevious($billDate)){
+			if(mysqli_query($dbc, $query)){
+				$lastInsertInvoiceId = mysqli_insert_id($dbc);
+				$storageDetails = array();
+				$storageDetails['amount'] = $subTotal;
+				$storageDetails['gst_type'] = $billGstType;
+				$storageDetails['tax_payable'] = $taxAmount;
+				$storageDetails['total'] = $grandTotal;
+				switch ($billGstType) {
+					case 'same_state':
+						$storageDetails['sgst'] = $sgst;
+						$storageDetails['cgst'] = $cgst;
+						break;
+					case 'other_state':
+						$storageDetails['igst'] = $igst;
+						break;
+					case 'union_teritory':
+						$storageDetails['iugst'] = $ugst;
+						break;
+					case 'exempt':
+						break;
+				}
+				$handlingCharges = saveHandlingChargesBill($lastInsertInvoiceId, $handlingDescriptions, $handlingAmounts, $handlingGSTSlabs, $billGstType);
+				saveStorageCharges($lastInsertInvoiceId, $storageDetails);
+				updateTotalBillValues($lastInsertInvoiceId);
+				$finalSubTotal = $subTotal + $handlingCharges['sub_total'];
+				$finalTaxPayable = $taxAmount + $handlingCharges['tax_amount'];
+				$finalGrandTotal = $grandTotal + $handlingCharges['total_amount'];
 
-			$output = array('infocode' => 'SUCCESS', 'sub_total' => $finalSubTotal, 'tax_payable' => $finalTaxPayable, 'grand_total' => $finalGrandTotal);
+				$output = array('infocode' => 'SUCCESS', 'sub_total' => $finalSubTotal, 'tax_payable' => $finalTaxPayable, 'grand_total' => $finalGrandTotal);
+			} else {
+				$output = array('infocode' => 'failure');
+			}
 		} else {
-			$output = array('infocode' => 'failure');
+			$output = array('infocode' => 'FAILURE', 'message' => 'There exists an invoice whose date is greater than the entered one. Plrease try again!');
 		}
+		
         //file_put_contents("testlog.log", $query, FILE_APPEND | LOCK_EX);
         return $output;
 	}

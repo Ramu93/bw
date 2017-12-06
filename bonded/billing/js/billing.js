@@ -239,6 +239,8 @@ function saveBill(){
 				$('#total_taxes_label').html('₹ ' + result.tax_payable);
 				$('#grand_total_label').html('₹ ' + result.grand_total);
 				$('#bill_amount_div').show();
+			} else {
+				bootbox.alert(result.message);
 			}
 		},
 		error: function(){
