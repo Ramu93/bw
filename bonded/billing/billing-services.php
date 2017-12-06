@@ -248,8 +248,8 @@
 
 		//if billing first for the GRN then value is 30 else value is noOfDays
 		if($isBillingFirst == 'true'){
-			if($noOfDays < 30){
-				$noOfDays = 30;
+			if($noOfDays < 28){
+				$noOfDays = 28;
 			}
 		}
 		
@@ -430,8 +430,8 @@
 
 		//if billing first for the GRN then value is 30 else value is noOfDays
 		if($isBillingFirst == 'true'){
-			if($noOfDays < 30){
-				$noOfDays = 30;
+			if($noOfDays < 28){
+				$noOfDays = 28;
 			}
 		}
 		

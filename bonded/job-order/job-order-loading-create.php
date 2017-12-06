@@ -96,6 +96,8 @@
               <div class="col-md-4">
                 <label>Space Occupied Before Loading</label>
                 <input type="text" tabindex="6" class="form-control required" id="space_occupied_before" name="space_occupied_before" readonly="true">
+                <input type="hidden" name="space_occupied_unit" id="space_occupied_unit">
+                <input type="hidden" name="grn_id_hidden" id="grn_id_hidden">
               </div>
               <div class="col-md-4">
                 <label>Space Occupied After Loading</label>

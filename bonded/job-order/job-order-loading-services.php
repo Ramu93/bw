@@ -101,12 +101,14 @@
 			$out = mysqli_fetch_assoc($result);
 
 			//fetched the space_occupied value from GRN table. This is the initial space occupied
-			$getSpaceQuery = 'SELECT no_of_units FROM bonded_good_receipt_note WHERE sac_id=\'' .$out['sac_id']. '\'';
+			$getSpaceQuery = 'SELECT no_of_units, unit, grn_id FROM bonded_good_receipt_note WHERE sac_id=\'' .$out['sac_id']. '\'';
 
 			$spaceResult = mysqli_query($dbc, $getSpaceQuery);
 			if(mysqli_num_rows($spaceResult) > 0){
 				$spaceRow = mysqli_fetch_assoc($spaceResult);
 				$out['space_occupied_before'] = $spaceRow['no_of_units']; 
+				$out['space_occupied_unit'] = $spaceRow['unit']; 
+				$out['grn_id'] = $spaceRow['grn_id']; 
 			} else {
 				return array("infocode" => "DATADETAILFETCHSUCCESS", "message" => "No GRN data available.");
 			}
@@ -138,6 +140,8 @@
 		global $dbc;
 		$pdrId = $_POST['pdr_id_hidden'];
 		$spaceOccupiedAfter = mysqli_real_escape_string($dbc, trim($_POST['space_occupied_after']));
+		$spaceOccupiedUnit = $_POST['space_occupied_unit'];
+		$grnIdHidden = $_POST['grn_id_hidden'];
 		$supervisorName = mysqli_real_escape_string($dbc, trim($_POST['supervisor_name']));
 		$loadingType = mysqli_real_escape_string($dbc, trim($_POST['loading_type']));
 		$equipmentRefNumber = mysqli_real_escape_string($dbc, trim($_POST['equipment_ref_number']));
@@ -148,12 +152,20 @@
 		if(mysqli_query($dbc, $query)){
 			$lastInsertJobOrderId = mysqli_insert_id($dbc);
 			changeIGPStatus($lastInsertJobOrderId, IGP_JOBORDER_CREATE_STATUS);
+			addGRNLog($grnIdHidden, $spaceOccupiedAfter, $spaceOccupiedUnit);
 			$output = array("infocode" => "JOBORDERCREATESUCCESS", "data" => $lastInsertJobOrderId, "message" => "Job order created successfully");
 		} else {
 			$output = array("infocode" => "JOBORDERCREATEFAILURE", "message" => "Job order not created.","data"=>"");
 		}
 
 		return $output;
+	}
+
+	function addGRNLog($grnId, $noOfUnits, $unit){
+		global $dbc; 
+		$date = date("Y-m-d H:i:s");
+		$query = "INSERT INTO bonded_grn_log (grn_id, no_of_units, unit, grn_date) VALUES ('$grnId', '$noOfUnits', '$unit', '$date')";
+		mysqli_query($dbc, $query);
 	}
 
 	function completeJobOrder(){

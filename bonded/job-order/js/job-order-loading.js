@@ -109,6 +109,8 @@ function getDataDetails(dataItem){
 				$('#exbond_be_date_label').html(selectedData.exbond_be_date);
 
 				$('#space_occupied_before').val(selectedData.space_occupied_before);
+				$('#space_occupied_unit').val(selectedData.space_occupied_unit);
+				$('#grn_id_hidden').val(selectedData.grn_id);
 
 				$('#pdr_data').show();
 				$('#space_data').show();

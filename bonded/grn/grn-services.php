@@ -57,6 +57,7 @@
     	if($result['status'] == 'success'){
     		$lastInsertGRNId = $result['last_insert_id'];
     		addGRNIdToJobOrder($lastInsertGRNId, $juId);
+    		addGRNLog($lastInsertGRNId,$grnFormArray['no_of_units'], $grnFormArray['unit']);
     		return array("status"=>"success","message"=>"GRN No.:" . $lastInsertGRNId . " created successfully.", "last_id" => $lastInsertGRNId);
     	} else {
     		return array("status"=>"failure","message"=>"GRN not created successfully.");
@@ -66,6 +67,13 @@
 	function addGRNIdToJobOrder($lastInsertGRNId, $juId){
 		global $dbc;
 		$query = 'UPDATE bonded_joborder_unloading SET grn_id="'.$lastInsertGRNId.'", grn_created="yes" WHERE ju_id="'.$juId.'"';
+		mysqli_query($dbc, $query);
+	}
+
+	function addGRNLog($lastInsertGRNId, $noOfUnits, $unit){
+		global $dbc; 
+		$date = date("Y-m-d H:i:s");
+		$query = "INSERT INTO bonded_grn_log (grn_id, no_of_units, unit, grn_date) VALUES ('$lastInsertGRNId', '$noOfUnits', '$unit', '$date')";
 		mysqli_query($dbc, $query);
 	}
 
