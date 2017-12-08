@@ -1,6 +1,7 @@
 <?php 
 	require('../dbconfig.php');
 	require('../dbwrapper_mysqli.php');
+	require('../../assets/fpdf/fpdf.php');
 
 	define('SAC_DEFAULT_STATUS','submitted');
 	define('ADDED_FROM', 'sac');
@@ -518,6 +519,7 @@
 				$handlingCharges = saveHandlingChargesBill($lastInsertInvoiceId, $handlingDescriptions, $handlingAmounts, $handlingGSTSlabs, $billGstType);
 				saveStorageCharges($lastInsertInvoiceId, $storageDetails);
 				updateTotalBillValues($lastInsertInvoiceId);
+				generatePdfBill($lastInsertInvoiceId);
 				$finalSubTotal = $subTotal + $handlingCharges['sub_total'];
 				$finalTaxPayable = $taxAmount + $handlingCharges['tax_amount'];
 				$finalGrandTotal = $grandTotal + $handlingCharges['total_amount'];
@@ -556,6 +558,158 @@
 		$query = "UPDATE bonded_billing_invoice SET bill_amount='$amount', sgst='$sgst', cgst='$cgst', igst='$igst', ugst='$ugst', tax_payable='$taxPayable', grand_total='$total' WHERE bill_id='$invoiceId'";
         // file_put_contents("testlog.log", $query, FILE_APPEND | LOCK_EX);
 		mysqli_query($dbc, $query);
+	}
+
+	function generatePdfBill($invoiceId){
+		global $dbc;
+		$invoiceQuery = "SELECT billing.bill_id, billing.billing_date, billing.period_from, billing.period_to, billing.bill_amount, billing.gst_type, billing.sgst, billing.cgst, billing.igst, billing.ugst, billing.grand_total, billing.tax_payable, sac.sac_id, sac.importing_firm_name, sac.cha_name, sac.bol_awb_number, sac.bol_awb_date, sac.boe_number, sac.boe_date, dv.bond_number, dv.bond_date, pdr.client_web, pdr.created_date as 'delivery_date', sac.qty_units, sac.material_name FROM bonded_billing_invoice billing, bonded_good_receipt_note grn, sac_request sac, bonded_dv_inward dv, bonded_despatch_request pdr, bonded_good_delivery_note gdn WHERE bill_id='$invoiceId' AND billing.grn_id=grn.grn_id AND grn.sac_id=sac.sac_id AND sac.sac_id=dv.sac_id AND sac.sac_id=pdr.sac_id AND pdr.pdr_id=gdn.pdr_id LIMIT 1";
+		$invoiceResult = mysqli_query($dbc, $invoiceQuery);
+		$invoiceRow = mysqli_fetch_assoc($invoiceResult);
+		$invoiceDetailsQuery = "SELECT * FROM bonded_billing_invoice_details WHERE invoice_id='$invoiceId'";
+		$invoiceDetailsResult = mysqli_query($dbc, $invoiceDetailsQuery);
+		$invoiceDetails = array();
+		while($invoiceDetailsRow = mysqli_fetch_assoc($invoiceDetailsResult)){
+			$invoiceDetails[] = $invoiceDetailsRow;
+		}
+
+		//format date
+		$invoiceRow['billing_date'] = date_format(date_create($invoiceRow['billing_date']), 'd-m-Y');
+		$invoiceRow['bond_date'] = date_format(date_create($invoiceRow['bond_date']), 'd-m-Y');
+		$invoiceRow['boe_date'] = date_format(date_create($invoiceRow['boe_date']), 'd-m-Y');
+		$invoiceRow['delivery_date'] = date_format(date_create($invoiceRow['delivery_date']), 'd-m-Y');
+
+
+        // file_put_contents("testlog.log", print_r($invoiceRow, true), FILE_APPEND | LOCK_EX);
+        // file_put_contents("testlog.log", print_r($invoiceDetails, true), FILE_APPEND | LOCK_EX);
+
+		$pdf = new FPDF();
+		$pdf->AddPage();
+		$x = $pdf->GetX();
+		$y = $pdf->GetY();
+		$pdf->SetMargins(1,1);
+		$pdf->SetLineWidth(0.5);
+		$pdf->Rect(10, 10, 190, 275, 'D');
+
+		$pdf->SetFont('Arial','B',16);
+		$pdf->Cell(190,10,"Thiru Rani Logistics Private Limitted",0,2,'C');
+		$pdf->SetFont('Arial','B',12);
+		$pdf->Cell(190,5,"Customs Public Bonded Warehouse - C068 / MAA1U013",0,2,'C');
+		$pdf->SetFont('Arial','B',9);
+		$pdf->Cell(190,5,"No 1, New North, 200 Ft Road, Madhavaram, Chennai - 600 110",0,2,'C');
+		$pdf->SetFont('Arial','B',9);
+		$pdf->Cell(95,5,"Phone No.: +91 98410 77558",0,0,'L');
+		$pdf->Cell(95,5,"Email: mktgbond@trlpl.com",0,1,'R');
+		$pdf->Cell(190,0,"",0,2);
+
+		$pdf->SetX(10);
+		$pdf->SetFont('Arial','B',16);
+		$pdf->Cell(190,10,"INVOICE",1,2,'C');
+		
+		//row
+		$pdf->SetX(10);
+		$pdf->SetFont('Arial','B',11);
+		$pdf->Cell(95,5,"To",0,0,'L');
+		$pdf->Cell(40,5,"Invoice No.",0,0,'L');
+		$pdf->Cell(5,5,":",0,0,'L');
+		$pdf->SetFont('Arial','',11);
+		$pdf->Cell(55,5,"TMT/".$invoiceId,0,1);
+
+		//row
+		$pdf->SetX(10);
+		$pdf->SetFont('Arial','',11);
+		$pdf->Cell(95,5,"Timescan Logistics India Private Limitted",0,0,'L');
+		$pdf->SetFont('Arial','B',11);
+		$pdf->Cell(40,5,"Invoice Date",0,0,'L');
+		$pdf->Cell(5,5,":",0,0,'L');
+		$pdf->SetFont('Arial','',11);
+		$pdf->Cell(55,5,$invoiceRow['billing_date'],0,1);
+
+		//row
+		$pdf->SetX(10);
+		$pdf->SetFont('Arial','',11);
+		$pdf->Cell(95,5,"Rajah Annamalai Building, Annexe 3rd Floor,",0,0,'L');
+		$pdf->SetFont('Arial','B',11);
+		$pdf->Cell(40,5,"Financial Year",0,0,'L');
+		$pdf->Cell(5,5,":",0,0,'L');
+		$pdf->SetFont('Arial','',11);
+		$pdf->Cell(55,5,"2017-18",0,1);
+
+		//row
+		$pdf->SetX(10);
+		$pdf->SetFont('Arial','',11);
+		$pdf->Cell(95,5,"18/3, Rukhmani Lakshmipathy Road, Egmore.",0,0,'L');
+		$pdf->SetFont('Arial','B',11);
+		$pdf->Cell(40,5,"Bond No. & Date",0,0,'L');
+		$pdf->Cell(5,5,":",0,0,'L');
+		$pdf->SetFont('Arial','',11);
+		$pdf->Cell(55,5,$invoiceRow['bond_number'].' & '.$invoiceRow['bond_date'],0,1);
+
+		//row
+		$pdf->SetX(10);
+		$pdf->SetFont('Arial','B',11);
+		$pdf->Cell(30,5,"GSTIN",0,0,'L');
+		$pdf->Cell(5,5,":",0,0,'L');
+		$pdf->SetFont('Arial','',11);
+		$pdf->Cell(60,5,"33AACCT5483F1ZD",0,0);
+		$pdf->SetFont('Arial','B',11);
+		$pdf->Cell(40,5,"BOE No. & Date",0,0,'L');
+		$pdf->Cell(5,5,":",0,0,'L');
+		$pdf->SetFont('Arial','',11);
+		$pdf->Cell(55,5,$invoiceRow['boe_number'].' & '.$invoiceRow['boe_date'],0,1);
+
+		//row
+		$pdf->SetX(10);
+		$pdf->SetFont('Arial','B',11);
+		$pdf->Cell(30,5,"TAN",0,0,'L');
+		$pdf->Cell(5,5,":",0,0,'L');
+		$pdf->SetFont('Arial','',11);
+		$pdf->Cell(60,5,"",0,0);
+		$pdf->SetFont('Arial','B',11);
+		$pdf->Cell(40,5,"WH Operation",0,0,'L');
+		$pdf->Cell(5,5,":",0,0,'L');
+		$pdf->SetFont('Arial','',11);
+		$pdf->Cell(55,5,$invoiceRow['client_web'],0,1);
+
+		//row
+		$pdf->SetX(10);
+		$pdf->SetFont('Arial','B',11);
+		$pdf->Cell(30,5,"Importer Name",0,0,'L');
+		$pdf->Cell(5,5,":",0,0,'L');
+		$pdf->SetFont('Arial','',11);
+		$pdf->Cell(60,5,$invoiceRow['importing_firm_name'],0,0);
+		$pdf->SetFont('Arial','B',11);
+		$pdf->Cell(40,5,"Delivery Date",0,0,'L');
+		$pdf->Cell(5,5,":",0,0,'L');
+		$pdf->SetFont('Arial','',11);
+		$pdf->Cell(55,5,$invoiceRow['delivery_date'],0,1);
+
+		//row
+		$pdf->SetX(10);
+		$pdf->SetFont('Arial','B',11);
+		$pdf->Cell(30,5,"Description",0,0,'L');
+		$pdf->Cell(5,5,":",0,0,'L');
+		$pdf->SetFont('Arial','',11);
+		$pdf->Cell(60,5,$invoiceRow['material_name'],0,0);
+		$pdf->SetFont('Arial','B',11);
+		$pdf->Cell(40,5,"",0,0,'L');
+		$pdf->Cell(5,5,"",0,0,'L');
+		$pdf->SetFont('Arial','',11);
+		$pdf->Cell(55,5,"",0,1);
+
+		//row
+		$pdf->SetX(10);
+		$pdf->SetFont('Arial','B',11);
+		$pdf->Cell(30,5,"Quantity",0,0,'L');
+		$pdf->Cell(5,5,":",0,0,'L');
+		$pdf->SetFont('Arial','',11);
+		$pdf->Cell(60,5,$invoiceRow['qty_units'],0,0);
+		$pdf->SetFont('Arial','B',11);
+		$pdf->Cell(40,5,"",0,0,'L');
+		$pdf->Cell(5,5,"",0,0,'L');
+		$pdf->SetFont('Arial','',11);
+		$pdf->Cell(55,5,"",0,1);
+
+		$pdf->Output("Invoice-.pdf", "F");
 	}
 
 ?>
