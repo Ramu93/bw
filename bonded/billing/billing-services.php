@@ -565,7 +565,7 @@
 		$invoiceQuery = "SELECT billing.bill_id, billing.billing_date, billing.period_from, billing.period_to, billing.bill_amount, billing.gst_type, billing.sgst, billing.cgst, billing.igst, billing.ugst, billing.grand_total, billing.tax_payable, sac.sac_id, sac.importing_firm_name, sac.cha_name, sac.bol_awb_number, sac.bol_awb_date, sac.boe_number, sac.boe_date, dv.bond_number, dv.bond_date, pdr.client_web, pdr.created_date as 'delivery_date', sac.qty_units, sac.material_name FROM bonded_billing_invoice billing, bonded_good_receipt_note grn, sac_request sac, bonded_dv_inward dv, bonded_despatch_request pdr, bonded_good_delivery_note gdn WHERE bill_id='$invoiceId' AND billing.grn_id=grn.grn_id AND grn.sac_id=sac.sac_id AND sac.sac_id=dv.sac_id AND sac.sac_id=pdr.sac_id AND pdr.pdr_id=gdn.pdr_id LIMIT 1";
 		$invoiceResult = mysqli_query($dbc, $invoiceQuery);
 		$invoiceRow = mysqli_fetch_assoc($invoiceResult);
-		$invoiceDetailsQuery = "SELECT * FROM bonded_billing_invoice_details WHERE invoice_id='$invoiceId'";
+		$invoiceDetailsQuery = "SELECT * FROM bonded_billing_invoice_details WHERE invoice_id='$invoiceId' ORDER BY service_type";
 		$invoiceDetailsResult = mysqli_query($dbc, $invoiceDetailsQuery);
 		$invoiceDetails = array();
 		while($invoiceDetailsRow = mysqli_fetch_assoc($invoiceDetailsResult)){
@@ -589,6 +589,7 @@
 		$pdf->SetMargins(1,1);
 		$pdf->SetLineWidth(0.5);
 		$pdf->Rect(10, 10, 190, 275, 'D');
+		$leftMarginStart = 10;
 
 		$pdf->SetFont('Arial','B',16);
 		$pdf->Cell(190,10,"Thiru Rani Logistics Private Limitted",0,2,'C');
@@ -601,124 +602,244 @@
 		$pdf->Cell(95,5,"Email: mktgbond@trlpl.com",0,1,'R');
 		$pdf->Cell(190,0,"",0,2);
 
-		$pdf->SetX(10);
+		$pdf->SetX($leftMarginStart);
 		$pdf->SetFont('Arial','B',16);
 		$pdf->Cell(190,10,"INVOICE",1,2,'C');
 		
 		//row
-		$pdf->SetX(10);
-		$pdf->SetFont('Arial','B',11);
+		$pdf->SetX($leftMarginStart);
+		$pdf->SetFont('Arial','B',10);
 		$pdf->Cell(95,5,"To",0,0,'L');
 		$pdf->Cell(40,5,"Invoice No.",0,0,'L');
 		$pdf->Cell(5,5,":",0,0,'L');
-		$pdf->SetFont('Arial','',11);
+		$pdf->SetFont('Arial','',10);
 		$pdf->Cell(55,5,"TMT/".$invoiceId,0,1);
 
 		//row
-		$pdf->SetX(10);
-		$pdf->SetFont('Arial','',11);
+		$pdf->SetX($leftMarginStart);
+		$pdf->SetFont('Arial','',10);
 		$pdf->Cell(95,5,"Timescan Logistics India Private Limitted",0,0,'L');
-		$pdf->SetFont('Arial','B',11);
+		$pdf->SetFont('Arial','B',10);
 		$pdf->Cell(40,5,"Invoice Date",0,0,'L');
 		$pdf->Cell(5,5,":",0,0,'L');
-		$pdf->SetFont('Arial','',11);
+		$pdf->SetFont('Arial','',10);
 		$pdf->Cell(55,5,$invoiceRow['billing_date'],0,1);
 
 		//row
-		$pdf->SetX(10);
-		$pdf->SetFont('Arial','',11);
+		$pdf->SetX($leftMarginStart);
+		$pdf->SetFont('Arial','',10);
 		$pdf->Cell(95,5,"Rajah Annamalai Building, Annexe 3rd Floor,",0,0,'L');
-		$pdf->SetFont('Arial','B',11);
+		$pdf->SetFont('Arial','B',10);
 		$pdf->Cell(40,5,"Financial Year",0,0,'L');
 		$pdf->Cell(5,5,":",0,0,'L');
-		$pdf->SetFont('Arial','',11);
+		$pdf->SetFont('Arial','',10);
 		$pdf->Cell(55,5,"2017-18",0,1);
 
 		//row
-		$pdf->SetX(10);
-		$pdf->SetFont('Arial','',11);
+		$pdf->SetX($leftMarginStart);
+		$pdf->SetFont('Arial','',10);
 		$pdf->Cell(95,5,"18/3, Rukhmani Lakshmipathy Road, Egmore.",0,0,'L');
-		$pdf->SetFont('Arial','B',11);
+		$pdf->SetFont('Arial','B',10);
 		$pdf->Cell(40,5,"Bond No. & Date",0,0,'L');
 		$pdf->Cell(5,5,":",0,0,'L');
-		$pdf->SetFont('Arial','',11);
+		$pdf->SetFont('Arial','',10);
 		$pdf->Cell(55,5,$invoiceRow['bond_number'].' & '.$invoiceRow['bond_date'],0,1);
 
 		//row
-		$pdf->SetX(10);
-		$pdf->SetFont('Arial','B',11);
+		$pdf->SetX($leftMarginStart);
+		$pdf->SetFont('Arial','B',10);
 		$pdf->Cell(30,5,"GSTIN",0,0,'L');
 		$pdf->Cell(5,5,":",0,0,'L');
-		$pdf->SetFont('Arial','',11);
+		$pdf->SetFont('Arial','',10);
 		$pdf->Cell(60,5,"33AACCT5483F1ZD",0,0);
-		$pdf->SetFont('Arial','B',11);
+		$pdf->SetFont('Arial','B',10);
 		$pdf->Cell(40,5,"BOE No. & Date",0,0,'L');
 		$pdf->Cell(5,5,":",0,0,'L');
-		$pdf->SetFont('Arial','',11);
+		$pdf->SetFont('Arial','',10);
 		$pdf->Cell(55,5,$invoiceRow['boe_number'].' & '.$invoiceRow['boe_date'],0,1);
 
 		//row
-		$pdf->SetX(10);
-		$pdf->SetFont('Arial','B',11);
+		$pdf->SetX($leftMarginStart);
+		$pdf->SetFont('Arial','B',10);
 		$pdf->Cell(30,5,"TAN",0,0,'L');
 		$pdf->Cell(5,5,":",0,0,'L');
-		$pdf->SetFont('Arial','',11);
+		$pdf->SetFont('Arial','',10);
 		$pdf->Cell(60,5,"",0,0);
-		$pdf->SetFont('Arial','B',11);
+		$pdf->SetFont('Arial','B',10);
 		$pdf->Cell(40,5,"WH Operation",0,0,'L');
 		$pdf->Cell(5,5,":",0,0,'L');
-		$pdf->SetFont('Arial','',11);
+		$pdf->SetFont('Arial','',10);
 		$pdf->Cell(55,5,$invoiceRow['client_web'],0,1);
 
 		//row
-		$pdf->SetX(10);
-		$pdf->SetFont('Arial','B',11);
+		$pdf->SetX($leftMarginStart);
+		$pdf->SetFont('Arial','B',10);
 		$pdf->Cell(30,5,"Importer Name",0,0,'L');
 		$pdf->Cell(5,5,":",0,0,'L');
-		$pdf->SetFont('Arial','',11);
+		$pdf->SetFont('Arial','',10);
 		$pdf->Cell(60,5,$invoiceRow['importing_firm_name'],0,0);
-		$pdf->SetFont('Arial','B',11);
+		$pdf->SetFont('Arial','B',10);
 		$pdf->Cell(40,5,"Delivery Date",0,0,'L');
 		$pdf->Cell(5,5,":",0,0,'L');
-		$pdf->SetFont('Arial','',11);
+		$pdf->SetFont('Arial','',10);
 		$pdf->Cell(55,5,$invoiceRow['delivery_date'],0,1);
 
 		//row
-		$pdf->SetX(10);
-		$pdf->SetFont('Arial','B',11);
+		$pdf->SetX($leftMarginStart);
+		$pdf->SetFont('Arial','B',10);
 		$pdf->Cell(30,5,"Description",0,0,'L');
 		$pdf->Cell(5,5,":",0,0,'L');
-		$pdf->SetFont('Arial','',11);
+		$pdf->SetFont('Arial','',10);
 		$pdf->Cell(60,5,$invoiceRow['material_name'],0,0);
-		$pdf->SetFont('Arial','B',11);
+		$pdf->SetFont('Arial','B',10);
 		$pdf->Cell(40,5,"",0,0,'L');
 		$pdf->Cell(5,5,"",0,0,'L');
-		$pdf->SetFont('Arial','',11);
+		$pdf->SetFont('Arial','',10);
 		$pdf->Cell(55,5,"",0,1);
 
 		//row
-		$pdf->SetX(10);
-		$pdf->SetFont('Arial','B',11);
+		$pdf->SetX($leftMarginStart);
+		$pdf->SetFont('Arial','B',10);
 		$pdf->Cell(30,5,"Quantity",0,0,'L');
 		$pdf->Cell(5,5,":",0,0,'L');
-		$pdf->SetFont('Arial','',11);
+		$pdf->SetFont('Arial','',10);
 		$pdf->Cell(60,5,$invoiceRow['qty_units'],0,0);
-		$pdf->SetFont('Arial','B',11);
+		$pdf->SetFont('Arial','B',10);
 		$pdf->Cell(40,5,"",0,0,'L');
 		$pdf->Cell(5,5,"",0,0,'L');
-		$pdf->SetFont('Arial','',11);
+		$pdf->SetFont('Arial','',10);
 		$pdf->Cell(55,5,"",0,1);
 
-		$pdf->SetX(10);
-		$pdf->SetFont('Arial','B',11);
-		$pdf->Cell(15,5,"S. No.",1,0,'C');
-		$pdf->Cell(80,5,"Particulars",1,0,'C');
-		$pdf->Cell(25,5,"Area / Value / Container",1,0,'C');
-		$pdf->Cell(25,5,"Rate(INR)",1,0,'C');
-		$pdf->Cell(25,5,"Period",1,0,'C');
-		$pdf->Cell(20,5,"Total(INR)",1,1,'C');
+
+		//these values also present in drawVerticalLine($y, $pdf) method
+		$sNoWidth = 15;
+		$particularsWidth = 74;
+		$areaWidth = 25;
+		$rateWidth = 28;
+		$periodWidth = 25;
+		$totalWidth = 23;
+		$cellHeight = 5;
+		$pageWidth = 190;
+
+		//heading
+		$pdf->SetX($leftMarginStart);
+		$y =  $pdf->GetY();
+		$pdf->SetFont('Arial','B',10);
+		$pdf->Cell($sNoWidth,10,"S. No.",1,0,'C');
+		$pdf->SetXY(25, $y);
+		$pdf->Cell($particularsWidth,10,"Particulars",1,0,'C');
+		$pdf->SetXY(99, $y);
+		$pdf->MultiCell(25,$cellHeight,"Area / Value / Container",1);
+		$pdf->SetXY(124, $y);
+		$pdf->Cell($rateWidth,10,"Rate(INR)",1,0,'C');
+		$pdf->SetXY(152, $y);
+		$pdf->Cell($periodWidth,10,"Period",1,0,'C');
+		$pdf->SetXY(177, $y);
+		$pdf->Cell($totalWidth,10,"Total(INR)",1,1,'C');
+		
+		$invoiceDetailsLength = count($invoiceDetails);
+		for($i = 0; $i < $invoiceDetailsLength; $i++){
+			$count = $i + 1;
+			$y += 10;
+			if($invoiceDetails[$i]['service_type'] == 'storage'){
+				//row
+				$pdf->SetXY($leftMarginStart, $y);
+				$pdf->SetFont('Arial','',10);
+				$pdf->Cell($sNoWidth,$cellHeight,$count,0,0,'C');
+				$pdf->SetFont('Arial','BU',10);
+				$pdf->Cell($particularsWidth,$cellHeight,"Storage Charges",0,0);
+				$pdf->SetFont('Arial','',10);
+				$pdf->Cell($areaWidth,$cellHeight,"",0,0,'C');
+				$pdf->Cell($rateWidth,$cellHeight,"",0,0,'C');
+				$pdf->Cell($periodWidth,$cellHeight,"",0,0,'C');
+				$pdf->Cell($totalWidth,$cellHeight,"",0,1,'C');
+				drawVerticalLine($y, $pdf);
+				
+				//row
+				$y += $cellHeight;
+				$pdf->SetXY($leftMarginStart, $y);
+				$pdf->SetFont('Arial','',10);
+				$pdf->Cell($sNoWidth,$cellHeight,"",0,0,'C');
+				$pdf->Cell($particularsWidth,$cellHeight,"Area Reserved: 20 Sq. mt.",0,0);
+				$pdf->SetFont('Arial','',10);
+				$pdf->Cell($areaWidth,$cellHeight,"20 Sq. mt.",0,0,'C');
+				$pdf->Cell($rateWidth,$cellHeight,"60 per Sq. mt.",0,0,'C');
+				$pdf->Cell($periodWidth,$cellHeight,"19 weeks",0,0,'C');
+				$pdf->Cell($totalWidth,$cellHeight,"22800.00",0,1,'C');
+				drawVerticalLine($y, $pdf);
+
+				//row
+				$y += $cellHeight;
+				$pdf->SetXY($leftMarginStart, $y);
+				$pdf->SetFont('Arial','',10);
+				$pdf->Cell($sNoWidth,$cellHeight,"",0,0,'C');
+				$pdf->Cell($particularsWidth,$cellHeight,"Claim upto - 20.07.2017",0,0);
+				$pdf->SetFont('Arial','',10);
+				$pdf->Cell($areaWidth,$cellHeight,"",0,0,'C');
+				$pdf->Cell($rateWidth,$cellHeight,"",0,0,'C');
+				$pdf->Cell($periodWidth,$cellHeight,"",0,0,'C');
+				$pdf->Cell($totalWidth,$cellHeight,"",0,1,'C');
+				drawVerticalLine($y, $pdf);
+
+				//row
+				$y += $cellHeight;
+				$pdf->SetXY($leftMarginStart, $y);
+				$pdf->SetFont('Arial','',10);
+				$pdf->Cell($sNoWidth,$cellHeight,"",0,0,'C');
+				$pdf->Cell($particularsWidth,$cellHeight,"(From 21-10-2017 to 30-10-2017)",0,0);
+				$pdf->SetFont('Arial','',10);
+				$pdf->Cell($areaWidth,$cellHeight,"",0,0,'C');
+				$pdf->Cell($rateWidth,$cellHeight,"",0,0,'C');
+				$pdf->Cell($periodWidth,$cellHeight,"",0,0,'C');
+				$pdf->Cell($totalWidth,$cellHeight,"",0,1,'C');
+				drawVerticalLine($y, $pdf);
+			}
+
+			//draw a horizontal line at the end
+			if($i == ($invoiceDetailsLength - 1)){
+				$pdf->Line($leftMarginStart, $y, 200, $y);
+			}
+		}
 
 		$pdf->Output("Invoice-.pdf", "F");
+		//$pdf->Output("Invoice-".$invoiceId.".pdf", "F");
+	}
+
+	function drawVerticalLine($y, $pdf){
+		$leftMarginStart = 10;
+		$sNoWidth = 15;
+		$particularsWidth = 74;
+		$areaWidth = 25;
+		$rateWidth = 28;
+		$periodWidth = 25;
+		$totalWidth = 23;
+		$cellHeight = 5;
+
+		$x1 = $leftMarginStart + $sNoWidth;
+		$x2 = $leftMarginStart + $sNoWidth;
+		$y1 = $y;
+		$y2 = $y + $cellHeight;
+		$pdf->Line($x1, $y1, $x2, $y2); 
+		$x1 = $leftMarginStart + $sNoWidth + $particularsWidth;
+		$x2 = $leftMarginStart + $sNoWidth + $particularsWidth;
+		$y1 = $y;
+		$y2 = $y + $cellHeight;
+		$pdf->Line($x1, $y1, $x2, $y2); 
+		$x1 = $leftMarginStart + $sNoWidth + $particularsWidth + $areaWidth;
+		$x2 = $leftMarginStart + $sNoWidth + $particularsWidth + $areaWidth;
+		$y1 = $y;
+		$y2 = $y + $cellHeight;
+		$pdf->Line($x1, $y1, $x2, $y2); 
+		$x1 = $leftMarginStart + $sNoWidth + $particularsWidth + $areaWidth + $rateWidth;
+		$x2 = $leftMarginStart + $sNoWidth + $particularsWidth + $areaWidth + $rateWidth;
+		$y1 = $y;
+		$y2 = $y + $cellHeight;
+		$pdf->Line($x1, $y1, $x2, $y2); 
+		$x1 = $leftMarginStart + $sNoWidth + $particularsWidth + $areaWidth + $rateWidth + $periodWidth;
+		$x2 = $leftMarginStart + $sNoWidth + $particularsWidth + $areaWidth + $rateWidth + $periodWidth;
+		$y1 = $y;
+		$y2 = $y + $cellHeight;
+		$pdf->Line($x1, $y1, $x2, $y2); 
 	}
 
 ?>
