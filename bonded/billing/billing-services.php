@@ -709,6 +709,15 @@
 		$pdf->SetFont('Arial','',11);
 		$pdf->Cell(55,5,"",0,1);
 
+		$pdf->SetX(10);
+		$pdf->SetFont('Arial','B',11);
+		$pdf->Cell(15,5,"S. No.",1,0,'C');
+		$pdf->Cell(80,5,"Particulars",1,0,'C');
+		$pdf->Cell(25,5,"Area / Value / Container",1,0,'C');
+		$pdf->Cell(25,5,"Rate(INR)",1,0,'C');
+		$pdf->Cell(25,5,"Period",1,0,'C');
+		$pdf->Cell(20,5,"Total(INR)",1,1,'C');
+
 		$pdf->Output("Invoice-.pdf", "F");
 	}
 
