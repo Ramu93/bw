@@ -562,7 +562,7 @@
 
 	function generatePdfBill($invoiceId){
 		global $dbc;
-		$invoiceQuery = "SELECT billing.bill_id, billing.billing_date, billing.period_from, billing.period_to, billing.bill_amount, billing.gst_type, billing.sgst, billing.cgst, billing.igst, billing.ugst, billing.grand_total, billing.tax_payable, sac.sac_id, sac.importing_firm_name, sac.cha_name, sac.bol_awb_number, sac.bol_awb_date, sac.boe_number, sac.boe_date, dv.bond_number, dv.bond_date, pdr.client_web, pdr.created_date as 'delivery_date', sac.qty_units, sac.material_name FROM bonded_billing_invoice billing, bonded_good_receipt_note grn, sac_request sac, bonded_dv_inward dv, bonded_despatch_request pdr, bonded_good_delivery_note gdn WHERE bill_id='$invoiceId' AND billing.grn_id=grn.grn_id AND grn.sac_id=sac.sac_id AND sac.sac_id=dv.sac_id AND sac.sac_id=pdr.sac_id AND pdr.pdr_id=gdn.pdr_id LIMIT 1";
+		$invoiceQuery = "SELECT billing.bill_id, billing.billing_date, billing.period_from, billing.period_to, billing.bill_amount, billing.gst_type, billing.sgst, billing.cgst, billing.igst, billing.ugst, billing.grand_total, billing.tax_payable, sac.sac_id, sac.importing_firm_name, sac.cha_name, sac.bol_awb_number, sac.bol_awb_date, sac.boe_number, sac.boe_date, dv.bond_number, dv.bond_date, pdr.client_web, pdr.created_date as 'delivery_date', sac.qty_units, sac.material_name, (SELECT grnlog.no_of_units FROM bonded_grn_log grnlog WHERE grnlog.grn_id=grn.grn_id ORDER BY grnlog.grn_date DESC LIMIT 1) as 'no_of_units', (SELECT grnlog.unit FROM bonded_grn_log grnlog WHERE grnlog.grn_id=grn.grn_id ORDER BY grnlog.grn_date DESC LIMIT 1) as 'unit_name' FROM bonded_billing_invoice billing, bonded_good_receipt_note grn, sac_request sac, bonded_dv_inward dv, bonded_despatch_request pdr, bonded_good_delivery_note gdn WHERE bill_id='$invoiceId' AND billing.grn_id=grn.grn_id AND grn.sac_id=sac.sac_id AND sac.sac_id=dv.sac_id AND sac.sac_id=pdr.sac_id AND pdr.pdr_id=gdn.pdr_id LIMIT 1";
 		$invoiceResult = mysqli_query($dbc, $invoiceQuery);
 		$invoiceRow = mysqli_fetch_assoc($invoiceResult);
 		$invoiceDetailsQuery = "SELECT * FROM bonded_billing_invoice_details WHERE invoice_id='$invoiceId' ORDER BY service_type";
@@ -578,9 +578,13 @@
 		$invoiceRow['boe_date'] = date_format(date_create($invoiceRow['boe_date']), 'd-m-Y');
 		$invoiceRow['delivery_date'] = date_format(date_create($invoiceRow['delivery_date']), 'd-m-Y');
 
+		$periodFrom = date_create($invoiceRow['period_from']);
+		$periodTo = date_create($invoiceRow['period_to']);
+		$invoiceRow['no_of_days'] = date_diff($periodTo, $periodFrom);
 
         // file_put_contents("testlog.log", print_r($invoiceRow, true), FILE_APPEND | LOCK_EX);
         // file_put_contents("testlog.log", print_r($invoiceDetails, true), FILE_APPEND | LOCK_EX);
+
 
 		$pdf = new FPDF();
 		$pdf->AddPage();
