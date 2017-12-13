@@ -524,7 +524,7 @@
 				$finalTaxPayable = $taxAmount + $handlingCharges['tax_amount'];
 				$finalGrandTotal = $grandTotal + $handlingCharges['total_amount'];
 
-				$output = array('infocode' => 'SUCCESS', 'sub_total' => $finalSubTotal, 'tax_payable' => $finalTaxPayable, 'grand_total' => $finalGrandTotal, 'file_name' => 'Invoice-'.$lastInsertInvoiceId);
+				$output = array('infocode' => 'SUCCESS', 'sub_total' => $finalSubTotal, 'tax_payable' => $finalTaxPayable, 'grand_total' => $finalGrandTotal, 'file_name' => 'invoice/Invoice-'.$lastInsertInvoiceId);
 			} else {
 				$output = array('infocode' => 'failure');
 			}
@@ -857,7 +857,7 @@
 		$pdf->Cell(10,5,":",0,0,'L');
 		$pdf->Cell(70,5,"157150350870009",0,0,'');
 		$pdf->SetFont('Arial','',10);
-		$pdf->Cell(35,5,"CGST @ ".($gstPercentages['same_state']/2),0,0,'L');
+		$pdf->Cell(35,5,"CGST @ ".($gstPercentages['same_state']/2)."%",0,0,'L');
 		$pdf->SetFont('Arial','B',10);
 		$pdf->Cell(40,5,$sgst,0,1,'R');
 
@@ -867,7 +867,7 @@
 		$pdf->Cell(10,5,":",0,0,'L');
 		$pdf->Cell(70,5,"Tamil Nadu Merchantile Bank",0,0,'');
 		$pdf->SetFont('Arial','',10);
-		$pdf->Cell(35,5,"SGST @ ".($gstPercentages['same_state']/2),0,0,'L');
+		$pdf->Cell(35,5,"SGST @ ".($gstPercentages['same_state']/2)."%",0,0,'L');
 		$pdf->SetFont('Arial','B',10);
 		$pdf->Cell(40,5,$sgst,0,1,'R');
 
@@ -877,7 +877,7 @@
 		$pdf->Cell(10,5,":",0,0,'L');
 		$pdf->Cell(70,5,"Perambur",0,0,'');
 		$pdf->SetFont('Arial','',10);
-		$pdf->Cell(35,5,"IGST @ ".$gstPercentages['other_state'],0,0,'L');
+		$pdf->Cell(35,5,"IGST @ ".$gstPercentages['other_state']."%",0,0,'L');
 		$pdf->SetFont('Arial','B',10);
 		$pdf->Cell(40,5,$igst,0,1,'R');
 
@@ -932,7 +932,7 @@
 		$pdf->Line($leftMarginStart, $y, 200, $y);
 
 		//$pdf->Output("Invoice-.pdf", "F");
-		$pdf->Output("Invoice-".$invoiceId.".pdf", "F");
+		$pdf->Output("invoice/Invoice-".$invoiceId.".pdf", "F");
 	}
 
 	function drawVerticalLine($y, $pdf){
