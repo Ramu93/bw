@@ -180,24 +180,26 @@
 		$gstType = 'same_state';
         //file_put_contents("testlog.log", print_r($amounts, true), FILE_APPEND | LOCK_EX);
 
-		for($i = 0; $i < $count; $i++){
+        for($i = 0; $i < $count; $i++){
 			$description = $descriptions[$i];
 			$amount = $amounts[$i];
 			$query = '';
 			$totalAmount = 0;
 			$taxAmount = 0;
+        	file_put_contents("testlog.log", print_r($gstSlabs[$i], true), FILE_APPEND | LOCK_EX);
 			
-			$taxAmount = $amount * ($gstSlabs[$i]/100);
-			$totalAmount = $amount + $taxAmount;
+			if($gstSlabs[$i] != 0){
+				$taxAmount = $amount * ($gstSlabs[$i]/100);
+				$totalAmount = $amount + $taxAmount;
 
-			$billArray[] = $description . ' - ' . $gstSlabs[$i] . '% GST on ₹' . $amount . ': ₹' . $taxAmount;
+				$billArray[] = $description . ' - ' . $gstSlabs[$i] . '% GST on ₹' . $amount . ': ₹' . $taxAmount;
 
-			$finalSubTotal += $amount;
-			$finalTaxAmount += $taxAmount;
-			$finalTotalAmount += $totalAmount;
-        	//file_put_contents("testlog.log", print_r($query, true), FILE_APPEND | LOCK_EX);
+				$finalSubTotal += $amount;
+				$finalTaxAmount += $taxAmount;
+				$finalTotalAmount += $totalAmount;
+			}
+			
 		}
-
         //file_put_contents("testlog.log", print_r($billArray, true), FILE_APPEND | LOCK_EX);
 
 		return $billArray;
@@ -341,35 +343,47 @@
 			$query = '';
 			$totalAmount = 0;
 			$taxAmount = 0;
-			
-			$taxAmount = $amount * ($gstSlabs[$i]/100);
-			$totalAmount = $amount + $taxAmount;
-			switch ($gstType) {
-				case 'same_state':
-					$sgst = $taxAmount/2;
-					$cgst = $taxAmount/2;
-					$totalAmount =  $amount + $taxAmount;
-					$query = "INSERT INTO bonded_billing_invoice_details (invoice_id, description, amount, gst_type, sgst, cgst, tax_payable, total, service_type) VALUES ('$invoiceId', '$description', '$amount', '$gstType', '$sgst', '$cgst', '$taxAmount', '$totalAmount', 'vas')";
-					break;
-				case 'other_state':
-					$igst = $taxAmount;
-					$totalAmount =  $amount + $taxAmount;
-					$query = "INSERT INTO bonded_billing_invoice_details (invoice_id, description, amount, gst_type, igst, tax_payable, total, service_type) VALUES ('$invoiceId', '$description', '$amount', '$gstType', '$igst', '$taxAmount', '$totalAmount', 'vas')";
-					break;
-				case 'union_teritory':
-					$ugst = $taxAmount;
-					$totalAmount =  $amount + $taxAmount;
-					$query = "INSERT INTO bonded_billing_invoice_details (invoice_id, description, amount, gst_type, ugst, tax_payable, total, service_type) VALUES ('$invoiceId', '$description', '$amount', '$gstType', '$ugst', '$taxAmount', '$totalAmount', 'vas')";
-					break;
-				case 'exempt':
-					$totalAmount =  $amount;
-					$query = "INSERT INTO bonded_billing_invoice_details (invoice_id, description, amount, gst_type, tax_payable, total, service_type) VALUES ('$invoiceId', '$description', '$amount', '$gstType','$taxAmount', '$totalAmount', 'vas')";
-					break;
+			// if($gstSlabs[$i] != 0){
+			// 	$taxAmount = $amount * ($gstSlabs[$i]/100);
+			// 	$totalAmount = $amount + $taxAmount;
+
+			// 	$billArray[] = $description . ' - ' . $gstSlabs[$i] . '% GST on ₹' . $amount . ': ₹' . $taxAmount;
+
+			// 	$finalSubTotal += $amount;
+			// 	$finalTaxAmount += $taxAmount;
+			// 	$finalTotalAmount += $totalAmount;
+			// }
+
+			if($gstSlabs[$i] != 0){
+				$taxAmount = $amount * ($gstSlabs[$i]/100);
+				$totalAmount = $amount + $taxAmount;
+				switch ($gstType) {
+					case 'same_state':
+						$sgst = $taxAmount/2;
+						$cgst = $taxAmount/2;
+						$totalAmount =  $amount + $taxAmount;
+						$query = "INSERT INTO bonded_billing_invoice_details (invoice_id, description, amount, gst_type, sgst, cgst, tax_payable, total, service_type) VALUES ('$invoiceId', '$description', '$amount', '$gstType', '$sgst', '$cgst', '$taxAmount', '$totalAmount', 'vas')";
+						break;
+					case 'other_state':
+						$igst = $taxAmount;
+						$totalAmount =  $amount + $taxAmount;
+						$query = "INSERT INTO bonded_billing_invoice_details (invoice_id, description, amount, gst_type, igst, tax_payable, total, service_type) VALUES ('$invoiceId', '$description', '$amount', '$gstType', '$igst', '$taxAmount', '$totalAmount', 'vas')";
+						break;
+					case 'union_teritory':
+						$ugst = $taxAmount;
+						$totalAmount =  $amount + $taxAmount;
+						$query = "INSERT INTO bonded_billing_invoice_details (invoice_id, description, amount, gst_type, ugst, tax_payable, total, service_type) VALUES ('$invoiceId', '$description', '$amount', '$gstType', '$ugst', '$taxAmount', '$totalAmount', 'vas')";
+						break;
+					case 'exempt':
+						$totalAmount =  $amount;
+						$query = "INSERT INTO bonded_billing_invoice_details (invoice_id, description, amount, gst_type, tax_payable, total, service_type) VALUES ('$invoiceId', '$description', '$amount', '$gstType','$taxAmount', '$totalAmount', 'vas')";
+						break;
+				}
+				mysqli_query($dbc, $query);
+				$finalSubTotal += $amount;
+				$finalTaxAmount += $taxAmount;
+				$finalTotalAmount += $totalAmount;
 			}
-			mysqli_query($dbc, $query);
-			$finalSubTotal += $amount;
-			$finalTaxAmount += $taxAmount;
-			$finalTotalAmount += $totalAmount;
         	//file_put_contents("testlog.log", print_r($query, true), FILE_APPEND | LOCK_EX);
 		}
 
