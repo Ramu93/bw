@@ -2,6 +2,7 @@
 	require('../dbconfig.php');
 	require('../dbwrapper_mysqli.php');
 	require('../../assets/fpdf/fpdf.php');
+	require('../../assets/plugins/currencyinwords/currencyinwords.php');
 
 	define('SAC_DEFAULT_STATUS','submitted');
 	define('ADDED_FROM', 'sac');
@@ -905,8 +906,7 @@
 		$pdf->SetFont('Arial','B',12);
 		$pdf->Cell(40,5,round($invoiceRow['grand_total']),0,1,'R');
 
-		$numberToWords = new NumberFormatter("en", NumberFormatter::SPELLOUT);
-		$grandTotalInWords = $numberToWords->format(round($invoiceRow['grand_total']));
+		$grandTotalInWords = getIndianCurrency(round($invoiceRow['grand_total']));
 		$grandTotalInWords = 'Total invoice amount in words: ' . ucfirst($grandTotalInWords) . ' only/-';
 		$pdf->SetX($leftMarginStart);
 		$pdf->SetFont('Arial','B',11);
