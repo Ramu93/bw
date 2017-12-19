@@ -75,7 +75,7 @@
             <div class="row">
             <div class="col-md-4">
                 <label for="vehicle_type">Vehicle Type</label>
-                <select class="form-control" tabindex="11" id="vehicle_type" name="vehicle_type">
+                <select class="form-control" tabindex="4" id="vehicle_type" name="vehicle_type">
                   <option value="20">20</option>
                   <option value="40">40</option>
                   <option value="ODC">ODC</option>
@@ -97,7 +97,7 @@
               <div class="col-md-4" id="container_tonnage_div">
                 <div class="form-group">
                   <label for="container_number">Container Number</label>
-                  <select name="container_number" id="container_number_select" class="form-control required">
+                  <select name="container_number" tabindex="7" id="container_number_select" class="form-control required">
                   </select>
                 </div>
               </div>
@@ -108,7 +108,7 @@
               <div class="col-md-4">
                 <label for="time_in">Time In</label>
                 <input type="hidden" tabindex="-1" class="form-control required" id="entry_date" name="entry_date" >
-                <input type="text" tabindex="-1" class="form-control required" id="time_in" name="in_time" placeholder="">
+                <input type="text" tabindex="8" class="form-control required" id="time_in" name="in_time" placeholder="">
               </div>
             </div>
             <div class="row">
@@ -124,7 +124,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="vehicle_number">Vehicle Number</label>
-                  <input type="text" tabindex="4" class="form-control required" id="vehicle_number" name="vehicle_number" placeholder="Vehicle number">
+                  <input type="text" tabindex="11" class="form-control required" id="vehicle_number" name="vehicle_number" placeholder="Vehicle number">
                 </div>
               </div>
               <div class="col-md-4">

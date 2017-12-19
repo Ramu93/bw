@@ -110,7 +110,7 @@
               <div class="col-md-3">
                 <label for="time_in">Time In</label>
                 <input type="hidden" tabindex="-1" class="form-control required" id="entry_date" name="entry_date" >
-                <input type="text" tabindex="-1" class="form-control required" id="time_in" name="in_time" placeholder="">
+                <input type="text" tabindex="7" class="form-control required" id="time_in" name="in_time" placeholder="">
               </div>
             </div>
             <!-- <div class="row">
@@ -163,7 +163,7 @@
                 
               </div>
               <div class="col-md-4 col-sm-4">
-                <input type="submit" name="submit" value="Generate Gate Pass" class="btn btn-primary btn-block pull-left" onclick="generateIGP();">
+                <input type="submit" name="submit" tabindex="8" value="Generate Gate Pass" class="btn btn-primary btn-block pull-left" onclick="generateIGP();">
               </div>
             </div>
           </form>

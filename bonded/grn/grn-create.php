@@ -40,7 +40,7 @@
               </div> -->
               <div class="col-md-3">
                 <div class="clearfix">&nbsp;</div>
-                <input type="button" tabindex="3" name="view_list_button" value="View List" class="btn btn-primary btn-block pull-left" onclick="getJobOrderList();">
+                <input type="button" tabindex="2" name="view_list_button" value="View List" class="btn btn-primary btn-block pull-left" onclick="getJobOrderList();">
               </div>
               <div class="col-md-3">
                 <div class="control-group">
@@ -113,13 +113,13 @@
               <div class="col-md-3">
                 <div class="form-group">
                   <label for="space_occupied">Area Occupied</label>
-                  <input type="text" tabindex="2" class="form-control required" id="no_of_units" name="no_of_units" placeholder="Area occupied">
+                  <input type="text" tabindex="3" class="form-control required" id="no_of_units" name="no_of_units" placeholder="Area occupied">
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="form-group">
                   <label for="space_occupied">Unit</label>
-                  <select class="form-control required" id="unit" name="unit">
+                  <select class="form-control required" tabindex="4" id="unit" name="unit">
                     <option value="" selected="selected">Select unit...</option>
                     <option value="Sq. m.">Sq. m.</option>
                     <option value="Sq. ft.">Sq. ft.</option>
@@ -129,13 +129,13 @@
               <div class="col-md-3">
                 <div class="form-group">
                   <label for="location">Location</label>
-                  <input type="text" tabindex="3" class="form-control required" id="location" name="location" placeholder="Location">
+                  <input type="text" tabindex="5" class="form-control required" id="location" name="location" placeholder="Location">
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="form-group">
                   <label for="validity">Validity</label>
-                  <input type="text" tabindex="4" class="form-control required" id="validity" name="validity" placeholder="Validity">
+                  <input type="text" tabindex="6" class="form-control required" id="validity" name="validity" placeholder="Validity">
                 </div>
               </div>
             </div>
@@ -144,7 +144,7 @@
                 
               </div>
               <div class="col-md-4 col-sm-4">
-                <input type="submit" name="submit" id="create_grn_button" value="Create GRN" class="btn btn-primary btn-block pull-left" onclick="createGRN();">
+                <input type="submit" name="submit" tabindex="7" id="create_grn_button" value="Create GRN" class="btn btn-primary btn-block pull-left" onclick="createGRN();">
               </div>
             </div>
           </form>

@@ -31,23 +31,23 @@
                 </div>   
                 <div class="form-group">
                   <label for="bol_awb_no">BOL/AWB Date</label>
-                  <input type="text" tabindex="" class="form-control required date-yyyymmdd" id="bol_awb_date" name="bol_awb_date" placeholder="BOL/AWB Date">
+                  <input type="text" tabindex="5" class="form-control required date-yyyymmdd" id="bol_awb_date" name="bol_awb_date" placeholder="BOL/AWB Date">
                 </div>
                 <div class="form-group">
                   <label for="material_name">Name of the Material</label>
-                  <input type="text" tabindex="5" class="form-control required" id="material_name" name="material_name" placeholder="Name of the Material">
+                  <input type="text" tabindex="7" class="form-control required" id="material_name" name="material_name" placeholder="Name of the Material">
                 </div>
                 <div class="form-group">
                   <label for="packing_nature">Nature of Packing</label>
-                  <input type="text" tabindex="1" class="form-control required autofillunit" id="packing_nature" name="packing_nature" placeholder="Nature of packing">
+                  <input type="text" tabindex="9" class="form-control required autofillunit" id="packing_nature" name="packing_nature" placeholder="Nature of packing">
                 </div>
                 <div class="form-group">
                   <label for="qty_units">Assessable Value</label>
-                  <input type="text" tabindex="9" class="form-control required number" id="assessable_value" name="assessable_value" placeholder="Assessable Value">
+                  <input type="text" tabindex="11" class="form-control required number" id="assessable_value" name="assessable_value" placeholder="Assessable Value">
                 </div>
                 <div class="form-group">
                   <label for="material_nature">Nature of Materials</label>
-                  <select class="form-control" tabindex="11" id="material_nature" name="material_nature" required="">
+                  <select class="form-control" tabindex="13" id="material_nature" name="material_nature" required="">
                     <option value="Non Hazardous">Non Hazardous</option>
                     <option value="Hazardous">Hazardous</option>
                     <option value="Chemcals Compositor">Chemcals Compositor</option>
@@ -55,7 +55,7 @@
                 </div>
                 <div class="form-group">
                   <label for="expected_date">Required Period of Warehousing</label>
-                  <select tabindex="13" class="form-control required" id="required_period_of_warehousing" name="required_period">
+                  <select tabindex="15" class="form-control required" id="required_period_of_warehousing" name="required_period">
                     <option value="">Select...</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -75,32 +75,32 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="importing_firm_name">Name of the CHA</label>
-                  <input type="text" tabindex="1" class="form-control required autofillparty" id="cha_name" name="cha_name" placeholder="Name of the CHA">
+                  <input type="text" tabindex="2" class="form-control required autofillparty" id="cha_name" name="cha_name" placeholder="Name of the CHA">
                 </div>
                 
                 <div class="form-group">
                   <label for="boe_num">BOE Number</label>
-                  <input type="text" class="form-control required" id="boe_num" name="boe_number" placeholder="BOE Number">
+                  <input type="text" tabindex="4" class="form-control required" id="boe_num" name="boe_number" placeholder="BOE Number">
                 </div>          
                 <div class="form-group">
                   <label for="bol_awb_no">BOE Date</label>
-                  <input type="text" tabindex="" class="form-control required date-yyyymmdd" id="boe_date" name="boe_date" placeholder="BOE Date">
+                  <input type="text" tabindex="6" class="form-control required date-yyyymmdd" id="boe_date" name="boe_date" placeholder="BOE Date">
                 </div>     
                 <div class="form-group">
                   <label for="qty_units">Quantity in Number of Units</label>
-                  <input type="text" tabindex="6" class="form-control required" id="qty_units" name="qty_units" placeholder="Quantity in No of units">
+                  <input type="text" tabindex="8" class="form-control required" id="qty_units" name="qty_units" placeholder="Quantity in No of units">
                 </div>
                 <div class="form-group">
                   <label for="qty_units">Requirement of Space</label>
-                  <input type="text" tabindex="8" class="form-control required" id="space_req" name="space_requirement" placeholder="Requirement of Space">
+                  <input type="text" tabindex="10" class="form-control required" id="space_req" name="space_requirement" placeholder="Requirement of Space">
                 </div>
                 <div class="form-group">
                   <label for="qty_units">Duty Amount in Rupees</label>
-                  <input type="text" tabindex="10" class="form-control required number" id="duty_amount" name="duty_amount" placeholder="Duty Amount in Rupees">
+                  <input type="text" tabindex="12" class="form-control required number" id="duty_amount" name="duty_amount" placeholder="Duty Amount in Rupees">
                 </div>
                 <div class="form-group">
                   <label for="expected_date">Expected Date of Warehousing</label>
-                  <input type="text" tabindex="12" class="form-control required date-yyyymmdd" id="expected_date" name="expected_date" placeholder="Expected Date of Warehousing">
+                  <input type="text" tabindex="14" class="form-control required date-yyyymmdd" id="expected_date" name="expected_date" placeholder="Expected Date of Warehousing">
                 </div>
                 <!-- <div class="form-group">
                   <label for="insurance_by">Insurance By</label>
@@ -111,7 +111,7 @@
                 </div> -->
                 <div class="form-group">
                   <label for="licence_code">Licence Code</label>
-                  <select name="licence_code" id="licence_code" class="form-control required">
+                  <select name="licence_code" tabindex="16" id="licence_code" class="form-control required">
                     <option selected="selected">Select licence code...</option>
                     <option value="C-068">C-068</option>
                     <option value="C-069">C-069</option>
