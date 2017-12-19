@@ -1,5 +1,8 @@
-<?php
-  //session_start();
+<?php session_start();
+  if(!isset($_SESSION['login'])){
+    header('Location: ../../index.php');
+    exit();
+  }
   include('dbconfig.php');
 
   //if(!$_SESSION['login']){
@@ -83,7 +86,7 @@
                 <!--li><a href="#"><i class="fa fa-gear fa-fw"></i>Settings</a>
                 </li-->
                 <li class="divider"></li>
-                <li><a href="<?php echo HOMEURL; ?>logout.php"><i class="fa fa-sign-out fa-fw"></i>Logout</a>
+                <li><a href="<?php echo BASEURL; ?>logout.php"><i class="fa fa-sign-out fa-fw"></i>Logout</a>
                 </li>
               </ul>
               <!-- end dropdown-user -->

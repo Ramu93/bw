@@ -4,6 +4,9 @@
 if(!defined('HOMEURL'))
 	define('HOMEURL', 'http://localhost:8888/bonded_warehouse/bonded');
 
+if(!defined('BASEURL'))
+	define('BASEURL', 'http://localhost:8888/bonded_warehouse/');
+
 if(!defined('HOMEURLGENERAL'))
 	define('HOMEURLGENERAL', 'http://localhost:8888/bonded_warehouse/general/');
 

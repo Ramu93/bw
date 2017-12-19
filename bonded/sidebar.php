@@ -1,5 +1,8 @@
+<?php 
+  
+  require('commonmethods.php');
 
-
+?>
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
@@ -51,6 +54,9 @@
             </li>
             <li>
               <a href="<?php echo HOMEURL; ?>/master/discount-master.php"><i class="fa fa-circle-o"></i> Discount Master</a>
+            </li>
+            <li>
+              <a href="<?php echo HOMEURL; ?>/master/role-master.php""><i class="fa fa-circle-o"></i> Role Master</a>
             </li>
           </ul>
         </li>
