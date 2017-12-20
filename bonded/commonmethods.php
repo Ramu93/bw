@@ -1,7 +1,7 @@
 <?php
 
 if(!defined('BASEURL'))
-	define('BASEURL', 'http://localhost:8888/bonded_warehouse/');
+	define('BASEURL', 'http://localhost:8888/bonded_warehouse');
 
 function hasPermission($rolename){
 	$roles = json_decode($_SESSION['role_permissions']);
