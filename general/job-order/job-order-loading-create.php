@@ -95,11 +95,11 @@
             <div class="row" id="space_data">
               <div class="col-md-4">
                 <label>Space Occupied Before Loading</label>
-                <input type="text" tabindex="6" class="form-control required" id="space_occupied_before" name="space_occupied_before" readonly="true">
+                <input type="text" tabindex="4" class="form-control required" id="space_occupied_before" name="space_occupied_before" readonly="true">
               </div>
               <div class="col-md-4">
                 <label>Space Occupied After Loading</label>
-                <input type="text" tabindex="6" class="form-control required" id="space_occupied_after" name="space_occupied_after" placeholder="Space Occupied After Loading">
+                <input type="text" tabindex="5" class="form-control required" id="space_occupied_after" name="space_occupied_after" placeholder="Space Occupied After Loading">
               </div>
             </div>
             <div class="row">
@@ -109,7 +109,7 @@
               </div>
               <div class="col-md-4">
                 <label for="unloading_type">Type of Loading</label>
-                <select class="form-control" tabindex="9" id="loading_type" name="loading_type">
+                <select class="form-control" tabindex="7" id="loading_type" name="loading_type">
                   <option value="1">100% Manual</option>
                   <option value="2">75% Manual + 25% Mechanical</option>
                   <option value="3">50% Manual + 50% Mechanical</option>
@@ -124,7 +124,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="equipment_ref_number">Equipment Reference Number</label>
-                  <input type="text" tabindex="10" class="form-control" id="equipment_ref_number" name="equipment_ref_number" placeholder="Equipment reference number">
+                  <input type="text" tabindex="8" class="form-control" id="equipment_ref_number" name="equipment_ref_number" placeholder="Equipment reference number">
                 </div>
               </div>
             </div>
@@ -132,13 +132,13 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="no_of_labors">Number of labors</label>
-                  <input type="text" tabindex="" class="form-control required number" id="no_of_labors" name="no_of_labors" placeholder="Number of labors">
+                  <input type="text" tabindex="9" class="form-control required number" id="no_of_labors" name="no_of_labors" placeholder="Number of labors">
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="unloading_time">Time for Loading</label>
-                  <input type="text" tabindex="" class="form-control required" id="loading_time" name="loading_time" placeholder="Time for loading">
+                  <input type="text" tabindex="10" class="form-control required" id="loading_time" name="loading_time" placeholder="Time for loading">
                 </div>
               </div>
             </div>

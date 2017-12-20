@@ -85,13 +85,13 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="name_of_cfs">Name of the CFS</label>
-                <input type="text" class="form-control required" id="cfs_name" name="cfs_name" placeholder="Name of the CFS">
+                <input type="text" tabindex="1" class="form-control required" id="cfs_name" name="cfs_name" placeholder="Name of the CFS">
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label for="customs_officer_name">Customs Officer Name</label>
-                <input type="text" class="form-control required" id="customs_officer_name" name="customs_officer_name" placeholder="Name of the Customs Officer">
+                <input type="text" tabindex="2" class="form-control required" id="customs_officer_name" name="customs_officer_name" placeholder="Name of the Customs Officer">
               </div>
             </div>
           </div>
@@ -99,44 +99,44 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label for="do_number">DO Number</label>
-                <input type="text" class="form-control required" id="do_number" name="do_number" placeholder="Document number">
+                <input type="text" tabindex="3" class="form-control required" id="do_number" name="do_number" placeholder="Document number">
               </div>
             </div>
             <div class="col-md-4">
               <div class="form-group">
                 <label for="document_date">DO Date</label>
-                <input type="text" class="form-control required" id="do_date" name="do_date" placeholder="Document date">
+                <input type="text" tabindex="4" class="form-control required" id="do_date" name="do_date" placeholder="Document date">
               </div>
             </div>
             <div class="col-md-4">
               <div class="form-group">
                 <label for="do_issued_by">DO Issued by</label>
-                <input type="text" class="form-control required" id="do_issued_by" name="do_issued_by" placeholder="Document issued by">
+                <input type="text" tabindex="5" class="form-control required" id="do_issued_by" name="do_issued_by" placeholder="Document issued by">
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-md-2">
               <div class="form-group">
-                <input type="checkbox" name="invoice_copy_check" id="invoice_copy_check" value="yes"> Invoice Copy
+                <input type="checkbox" tabindex="6" name="invoice_copy_check" id="invoice_copy_check" value="yes"> Invoice Copy
                 <input type="hidden" name="invoice_copy" id="invoice_copy_text" value="">
               </div>
             </div>
             <div class="col-md-2">
               <div class="form-group">
-                <input type="checkbox" name="packing_list_check" id="packing_list_check" value="yes"> Packing List
+                <input type="checkbox" tabindex="7" name="packing_list_check" id="packing_list_check" value="yes"> Packing List
                 <input type="hidden" name="packing_list" id="packing_list_text" value="">
               </div>
             </div>
             <div class="col-md-2">
               <div class="form-group">
-                <input type="checkbox" class="required" name="boe_copy_check" id="boe_copy_check" value="yes"> BOE Copy
+                <input type="checkbox" tabindex="8" class="required" name="boe_copy_check" id="boe_copy_check" value="yes"> BOE Copy
                 <input type="hidden" name="boe_copy" id="boe_copy_text" value="">
               </div>
             </div>
             <div class="col-md-2">
               <div class="form-group">
-                <input type="checkbox" class="required" name="bond_order_check" id="bond_order_check" value="yes"> Bond Order
+                <input type="checkbox" tabindex="9" class="required" name="bond_order_check" id="bond_order_check" value="yes"> Bond Order
                 <input type="hidden" name="bond_order" id="bond_order_text" value="">
               </div>
             </div>

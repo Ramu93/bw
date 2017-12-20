@@ -55,23 +55,23 @@
                 </div>
                 <div class="form-group">
                   <label for="bol_awb_no">BOL/Invoice Date</label>
-                  <input type="text" tabindex="3" class="form-control required" id="bol_awb_date" name="bol_awb_date" placeholder="BOL/Invoice Date" value="<?php echo $row['bol_awb_date']; ?>">
+                  <input type="text" tabindex="5" class="form-control required" id="bol_awb_date" name="bol_awb_date" placeholder="BOL/Invoice Date" value="<?php echo $row['bol_awb_date']; ?>">
                 </div>
                 <div class="form-group">
                   <label for="material_name">Name of the Material</label>
-                  <input type="text" tabindex="5" class="form-control required" id="material_name" name="material_name" placeholder="Name of the Material" value="<?php echo $row['material_name']; ?>">
+                  <input type="text" tabindex="7" class="form-control required" id="material_name" name="material_name" placeholder="Name of the Material" value="<?php echo $row['material_name']; ?>">
                 </div>
                 <div class="form-group">
                   <label for="packing_nature">Nature of Packing</label>
-                  <input type="text" tabindex="1" class="form-control required autofillunit" id="packing_nature" name="packing_nature" placeholder="Nature of packing" value="<?php echo $row['packing_nature'] ?>">
+                  <input type="text" tabindex="9" class="form-control required autofillunit" id="packing_nature" name="packing_nature" placeholder="Nature of packing" value="<?php echo $row['packing_nature'] ?>">
                 </div>
                 <div class="form-group">
                   <label for="qty_units">Assessable Value</label>
-                  <input type="text" tabindex="9" class="form-control required" id="assessable_value" name="assessable_value" placeholder="Assessable Value" value="<?php echo $row['assessable_value']; ?>">
+                  <input type="text" tabindex="11" class="form-control required" id="assessable_value" name="assessable_value" placeholder="Assessable Value" value="<?php echo $row['assessable_value']; ?>">
                 </div>
                 <div class="form-group">
                   <label for="material_nature">Nature of Materials</label>
-                  <select class="form-control" tabindex="11" id="material_nature" name="material_nature" required="">
+                  <select class="form-control" tabindex="13" id="material_nature" name="material_nature" required="">
                     <option value="Non Hazardous" <?php echo (($row['material_nature']=='Non Hazardous')?'selected="selected"':''); ?> >Non Hazardous</option>
                     <option value="Hazardous" <?php echo (($row['material_nature']=='Hazardous')?'selected="selected"':''); ?> >Hazardous</option>
                     <option value="Chemcals Compositor" <?php echo (($row['material_nature']=='Chemcals Compositor')?'selected="selected"':''); ?> >Chemcals Compositor</option>
@@ -79,13 +79,13 @@
                 </div>
                 <div class="form-group">
                   <label for="cargo_life">Cargo Life</label>
-                  <input type="text" tabindex="13" class="form-control required" id="cargo_life" name="cargo_life" placeholder="Cargo Life" value="<?php echo $row['cargo_life']; ?>" >
+                  <input type="text" tabindex="15" class="form-control required" id="cargo_life" name="cargo_life" placeholder="Cargo Life" value="<?php echo $row['cargo_life']; ?>" >
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="importing_firm_name">Name of the CHA</label>
-                  <input type="text" tabindex="1" class="form-control required autofillparty" id="cha_name" name="cha_name" placeholder="Name of the CHA" value="<?php echo $row['cha_name']; ?>">
+                  <input type="text" tabindex="2" class="form-control required autofillparty" id="cha_name" name="cha_name" placeholder="Name of the CHA" value="<?php echo $row['cha_name']; ?>">
                 </div>
                 <div class="form-group">
                   <label for="boe_num">BOE Number</label>
@@ -93,27 +93,27 @@
                 </div>     
                 <div class="form-group">
                   <label for="boe_num">BOE Date</label>
-                  <input type="text" tabindex="4" class="form-control required" id="boe_date" name="boe_date" placeholder="BOE Date" value="<?php echo $row['boe_date']; ?>">
+                  <input type="text" tabindex="6" class="form-control required" id="boe_date" name="boe_date" placeholder="BOE Date" value="<?php echo $row['boe_date']; ?>">
                 </div>       
                 <div class="form-group">
                   <label for="qty_units">Quantity in Number of Units</label>
-                  <input type="text" tabindex="6" class="form-control required" id="qty_units" name="qty_units" placeholder="Quantity in No of units" value="<?php echo $row['qty_units']; ?>">
+                  <input type="text" tabindex="8" class="form-control required" id="qty_units" name="qty_units" placeholder="Quantity in No of units" value="<?php echo $row['qty_units']; ?>">
                 </div>
                 <div class="form-group">
                   <label for="space_requirement">Requirement of Space</label>
-                  <input type="text" tabindex="8" class="form-control required" id="space_req" name="space_requirement" placeholder="Requirement of Space" value="<?php echo $row['space_requirement']; ?>">
+                  <input type="text" tabindex="10" class="form-control required" id="space_req" name="space_requirement" placeholder="Requirement of Space" value="<?php echo $row['space_requirement']; ?>">
                 </div>
                 <div class="form-group">
                   <label for="duty_amount">Duty Amount in Rupees</label>
-                  <input type="text" tabindex="10" class="form-control required" id="duty_amount" name="duty_amount" placeholder="Duty Amount in Rupees" value="<?php echo $row['duty_amount']; ?>">
+                  <input type="text" tabindex="12" class="form-control required" id="duty_amount" name="duty_amount" placeholder="Duty Amount in Rupees" value="<?php echo $row['duty_amount']; ?>">
                 </div>
                 <div class="form-group">
                   <label for="expected_date">Expected Date of Warehousing</label>
-                  <input type="text" tabindex="12" class="form-control required" id="expected_date" name="expected_date" placeholder="Expected Date of Warehousing" value="<?php echo $row['expected_date']; ?>">
+                  <input type="text" tabindex="14" class="form-control required" id="expected_date" name="expected_date" placeholder="Expected Date of Warehousing" value="<?php echo $row['expected_date']; ?>">
                 </div>
                 <div class="form-group">
                   <label for="shelf_life">Shelf Life</label>
-                  <input type="text" tabindex="14" class="form-control required" id="shelf_life" name="shelf_life" placeholder="Shelf Life" value="<?php echo $row['shelf_life']; ?>" >
+                  <input type="text" tabindex="16" class="form-control required" id="shelf_life" name="shelf_life" placeholder="Shelf Life" value="<?php echo $row['shelf_life']; ?>" >
                 </div>
               </div>
             </div>
@@ -121,7 +121,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="required_period">Required Period of Warehousing</label>
-                  <select tabindex="13" class="form-control required" id="required_period_of_warehousing" name="required_period">
+                  <select tabindex="17" class="form-control required" id="required_period_of_warehousing" name="required_period">
                     <option value="">Select...</option>
                     <option value="1" <?php echo (($row['required_period']=='1')?'selected="selected"':'');  ?> >1</option>
                     <option value="2" <?php echo (($row['required_period']=='2')?'selected="selected"':'');  ?> >2</option>
@@ -142,8 +142,8 @@
                 <div class="form-group">
                   <label for="insurance_by">Insurance By</label>
                   <div class="form-group">
-                    <input type="radio" tabindex="16" id="insurance_by" name="insurance_by" value="TRLPL" <?php echo (($row['insurance_by']=='TRLPL')?'checked':''); ?> onclick="disableClientInsuranceFile();"> TRLPL &nbsp;&nbsp;&nbsp;
-                    <input type="radio" tabindex="17" id="insurance_by" name="insurance_by" value="Client" <?php echo (($row['insurance_by']=='Client')?'checked':''); ?> onclick="enableClientInsuranceFile();"> Client
+                    <input type="radio" tabindex="18" id="insurance_by" name="insurance_by" value="TRLPL" <?php echo (($row['insurance_by']=='TRLPL')?'checked':''); ?> onclick="disableClientInsuranceFile();"> TRLPL &nbsp;&nbsp;&nbsp;
+                    <input type="radio" tabindex="19" id="insurance_by" name="insurance_by" value="Client" <?php echo (($row['insurance_by']=='Client')?'checked':''); ?> onclick="enableClientInsuranceFile();"> Client
                   </div>
                 </div>
               </div>
@@ -158,8 +158,8 @@
                 <div class="form-group">
                   <label for="insurance_declaration">Insurance Declaration</label>
                   <div class="form-group">
-                    <input type="radio" tabindex="18" id="insurance_declaration" name="insurance_declaration" value="Yes" <?php echo (($row['insurance_declaration']=='Yes')?'checked':''); ?> onclick="enableClientInsuranceDeclararionFile();"> Yes &nbsp;&nbsp;&nbsp;
-                    <input type="radio" tabindex="19" id="insurance_declaration" name="insurance_declaration" value="No" <?php echo (($row['insurance_declaration']=='No')?'checked':''); ?> onclick="disableClientInsuranceDeclararionFile();"> No
+                    <input type="radio" tabindex="20" id="insurance_declaration" name="insurance_declaration" value="Yes" <?php echo (($row['insurance_declaration']=='Yes')?'checked':''); ?> onclick="enableClientInsuranceDeclararionFile();"> Yes &nbsp;&nbsp;&nbsp;
+                    <input type="radio" tabindex="21" id="insurance_declaration" name="insurance_declaration" value="No" <?php echo (($row['insurance_declaration']=='No')?'checked':''); ?> onclick="disableClientInsuranceDeclararionFile();"> No
                   </div>
                 </div>
               </div>
@@ -177,10 +177,10 @@
             <div class="row">
               <?php if($row['status'] == 'submitted') { ?>
                 <div class="col-md-3 col-sm-3">
-                  <input type="button" name="approve_par" value="Approve PAR" class="btn btn-primary btn-block pull-left" onclick="approvePAR();">
+                  <input type="button" name="approve_par" value="Approve PAR" class="btn btn-primary btn-block pull-left" tabindex="23" onclick="approvePAR();">
                 </div>
                 <div class="col-md-3 col-sm-3">
-                  <input type="button" name="reject_par" value="Reject PAR" class="btn btn-primary btn-block pull-left" onclick="rejectPAR();">
+                  <input type="button" name="reject_par" tabindex="22" value="Reject PAR" class="btn btn-primary btn-block pull-left" onclick="rejectPAR();">
                 </div>
               <?php } ?>
               <div class="col-md-3 col-sm-3">
