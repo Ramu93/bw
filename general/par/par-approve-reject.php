@@ -182,10 +182,10 @@
                 <div class="col-md-3 col-sm-3">
                   <input type="button" name="reject_par" tabindex="22" value="Reject PAR" class="btn btn-primary btn-block pull-left" onclick="rejectPAR();">
                 </div>
+                <div class="col-md-3 col-sm-3">
+                  <input type="submit" name="submit" value="Update PAR" class="btn btn-primary btn-block pull-left" onclick="updateClicked();updatePAR(<?php echo $parID; ?>);">
+                </div>
               <?php } ?>
-              <div class="col-md-3 col-sm-3">
-                <input type="submit" name="submit" value="Update PAR" class="btn btn-primary btn-block pull-left" onclick="updateClicked();updatePAR(<?php echo $parID; ?>);">
-              </div>
               <div class="col-md-3 col-sm-3">
                 <input type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#containerlist_modal" value="View Containers">
               </div>
@@ -362,6 +362,10 @@
     displayContainersInEditMode();
 
     var isEditPage = false;// used to redirect to par-apprvoe-reject-view.php when update method is called
+
+    <?php if($row['status'] != 'submitted'){ ?>
+      $('.delete_btn_span').hide();
+    <?php } ?>
 
   </script>
   <?php
