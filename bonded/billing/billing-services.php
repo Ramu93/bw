@@ -187,13 +187,19 @@
 			$query = '';
 			$totalAmount = 0;
 			$taxAmount = 0;
-        	file_put_contents("testlog.log", print_r($gstSlabs[$i], true), FILE_APPEND | LOCK_EX);
+        	//file_put_contents("testlog.log", print_r($gstSlabs[$i], true), FILE_APPEND | LOCK_EX);
 			
 			if($gstSlabs[$i] != 0){
 				$taxAmount = $amount * ($gstSlabs[$i]/100);
 				$totalAmount = $amount + $taxAmount;
 
-				$billArray[] = $description . ' - ' . $gstSlabs[$i] . '% GST on ₹' . $amount . ': ₹' . $taxAmount;
+				//$billArray[] = $description . ' - ' . $gstSlabs[$i] . '% GST on ₹' . $amount . ': ₹' . $taxAmount;
+
+				$billArray['tax_amount'] += $taxAmount;
+				$billArray['grand_total'] += $totalAmount; 
+				$billArray['sub_total'] += $amount;
+
+				$billArray['grand_total'] = round($billArray['grand_total']);
 
 				$finalSubTotal += $amount;
 				$finalTaxAmount += $taxAmount;
@@ -291,22 +297,31 @@
 				$grandTotal = $subTotal + $taxAmount;
 				$gstPercentage = $gstPercentages['same_state']/2;
 				$taxAmount = $taxAmount / 2; // for displaying CGST & IGST seperately
-				$billArray[] = "Storage - {$gstPercentage}% CGST on ₹{$subTotal}: ₹{$taxAmount}";
-				$billArray[] = "Storage - {$gstPercentage}% SGST on ₹{$subTotal}: ₹{$taxAmount}";
+				//$billArray[] = "Storage - {$gstPercentage}% CGST on ₹{$subTotal}: ₹{$taxAmount}";
+				//$billArray[] = "Storage - {$gstPercentage}% SGST on ₹{$subTotal}: ₹{$taxAmount}";
+				$billArray['sub_total'] = $subTotal;
+				$billArray['tax_amount'] = $taxAmount * 2;
+				$billArray['grand_total'] = $grandTotal;
 				break;
 			case 'other_state':
 				$igst = $subTotal * ($gstPercentages['other_state']/100);
 				$taxAmount = $subTotal * ($gstPercentages['other_state']/100); 
 				$grandTotal = $subTotal + $taxAmount;
 				$gstPercentage = $gstPercentages['other_state'];
-				$billArray[] = "Storage - {$gstPercentage}% IGST on ₹{$subTotal}: ₹{$taxAmount}";
+				//$billArray[] = "Storage - {$gstPercentage}% IGST on ₹{$subTotal}: ₹{$taxAmount}";
+				$billArray['sub_total'] = $subTotal;
+				$billArray['tax_amount'] = $taxAmount;
+				$billArray['grand_total'] = $grandTotal;
 				break;
 			case 'union_teritory':
 				$ugst = $subTotal * ($gstPercentages['union_teritory']/100);
 				$taxAmount = $subTotal * ($gstPercentages['union_teritory']/100); 
 				$grandTotal = $subTotal + $taxAmount;
 				$gstPercentage = $gstPercentages['union_teritory'];
-				$billArray[] = "Storage - {$gstPercentage}% UGST on ₹{$subTotal}: ₹{$taxAmount}";
+				//$billArray[] = "Storage - {$gstPercentage}% UGST on ₹{$subTotal}: ₹{$taxAmount}";
+				$billArray['sub_total'] = $subTotal;
+				$billArray['tax_amount'] = $taxAmount;
+				$billArray['grand_total'] = $grandTotal;
 				break;
 			case 'exempt':
 				$grandTotal = $subTotal;
@@ -317,17 +332,37 @@
 
 		$output = array();
 		$finalBillArray = generateHandlingChargesBill($handlingDescriptions, $handlingAmounts, $handlingGSTSlabs, $billGstType, $billArray);
+
+		$finalBillArray['sub_total'] = 'Total: Rs. ' . $finalBillArray['sub_total'];
+		if($billGstType == 'same_state'){
+			$gst = $gstPercentages['same_state']/2;
+			$tax = $finalBillArray['tax_amount']/2;
+			$finalBillArray['tax_amount'] = 'CGST @ ' . $gst . '%: Rs. ' . $tax . "_" .'SGST @ ' . $gst . '%: Rs. ' . $tax;
+		} else if($billGstType == 'other_state'){
+			$gst = $gstPercentages['other_state'];
+			$tax = $finalBillArray['tax_amount'];
+			$finalBillArray['tax_amount'] = 'IGST @ ' . $gst . '%: Rs. ' . $tax;
+		}
+		$finalBillArray['grand_total'] = 'Grand Total: Rs. ' . $finalBillArray['grand_total'];
+
+
+		$taxSplit = explode("_", $finalBillArray['tax_amount']);
+		$toDisplayArray = array();
+		$toDisplayArray[0] = $finalBillArray['sub_total'];
+		$toDisplayArray[1] = $taxSplit[0];
+		$toDisplayArray[2] = $taxSplit[1];
+		$toDisplayArray[3] = $finalBillArray['grand_total'];
 		// $finalSubTotal = $subTotal + $handlingCharges['sub_total'];
 		// $finalTaxPayable = $taxAmount + $handlingCharges['tax_amount'];
 		// $finalGrandTotal = $grandTotal + $handlingCharges['total_amount'];
 
 		if(isCurrentInvoiceDateGreaterThanOrEqualToPrevious($billDate)){
-			$output = array('infocode' => 'SUCCESS', 'data' => $finalBillArray);
+			$output = array('infocode' => 'SUCCESS', 'data' => $toDisplayArray);
 		} else {
 			$output = array('infocode' => 'FAILURE', 'message' => 'There exists an invoice whose date is greater than the entered one. Plrease try again!');
 		}
 	
-        //file_put_contents("testlog.log", $query, FILE_APPEND | LOCK_EX);
+        //file_put_contents("testlog.log", print_r($finalBillArray, true), FILE_APPEND | LOCK_EX);
         return $output;
 	}
 
@@ -907,7 +942,7 @@
 		$pdf->Cell(40,5,round($invoiceRow['grand_total']),0,1,'R');
 
 		$grandTotalInWords = getIndianCurrency(round($invoiceRow['grand_total']));
-		$grandTotalInWords = 'Total invoice amount in words: ' . ucfirst($grandTotalInWords) . ' only/-';
+		$grandTotalInWords = 'Total in words: ' . ucfirst($grandTotalInWords) . 'Only/-';
 		$pdf->SetX($leftMarginStart);
 		$pdf->SetFont('Arial','B',11);
 		$pdf->Cell(190,10,$grandTotalInWords,1,2,'C');
