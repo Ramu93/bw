@@ -254,6 +254,10 @@ function computeInsuranceValue(){
 	var dutyValues = new Array();
 	var insuranceValues = new Array();
 
+	var sumAssessable = 0;
+	var sumDuty = 0;
+	var sacId = $('#sac_id').val();
+
 	$('input[name^="assessabe_value"]').each(function() {
 	    assessableValues.push($(this).val());
 	});
@@ -263,11 +267,39 @@ function computeInsuranceValue(){
 
 	$.each(assessableValues, function( index, assessableValue ) {
 	  insuranceValues.push(parseFloat(assessableValue) + parseFloat(dutyValues[index]));
+	  sumAssessable += parseFloat(assessableValue);
+	  sumDuty += parseFloat(dutyValues[index]);
 	});
 
 	var index = 0;
 	$('input[name^="insurance_value"]').each(function() {
 	    $(this).val(insuranceValues[index]);
 	    index++;
+	});
+
+	compareAssblAndDutyValues(sumAssessable, sumDuty, sacId);
+
+}
+
+function compareAssblAndDutyValues(sumAssable, sumDuty, sacId){
+	var data = "sac_id=" + sacId + '&action=get_assessable_and_duty_values';
+	//alert(data);
+	$.ajax({
+		url: "dv-in-services.php",
+		type: "POST",
+		data:  data,
+		dataType: 'json',
+		success: function(result){	
+			if(result.infocode == 'SUCCESS'){
+				var sacAssessable = result.data.assessable_value;
+				var sacDuty = result.data.duty_amount;
+				if(parseInt(sumAssable) != parseInt(sacAssessable)){
+					$('#error_message').html('Sum of assessable values not matching with SAC.').fadeIn(400).fadeOut(8000);
+				} else if(parseInt(sumDuty) != parseInt(sacDuty)){
+					$('#error_message').html('Sum of duty values not matching with SAC.').fadeIn(400).fadeOut(8000);
+				}
+			}
+		},
+		error: function(){} 	        
 	});
 }

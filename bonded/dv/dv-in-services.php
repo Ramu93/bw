@@ -27,6 +27,9 @@
 	    case 'compare_bond_date':
 	    	$finaloutput = compareBondDateWithBoeDate();
 	    break;
+	    case 'get_assessable_and_duty_values':
+	    	$finaloutput = getAssessableAndDutyValues();
+	    break;
 	    default:
 	        $finaloutput = array("infocode" => "INVALIDACTION", "message" => "Irrelevant action");
 	}
@@ -112,6 +115,19 @@
 			$output = array("infocode" => "NODATA");
 		}
 		return $output;
+	}
+
+	function getAssessableAndDutyValues(){
+		global $dbc;
+		$sacId = $_POST['sac_id'];
+		$query = "SELECT assessable_value, duty_amount FROM sac_request WHERE sac_id='$sacId'";
+		$result = mysqli_query($dbc, $query);
+		$out = array();
+		if(mysqli_num_rows($result) > 0){
+			$row = mysqli_fetch_assoc($result);
+			$out = $row;
+		}
+		return array('infocode' => 'SUCCESS', 'data' => $out);
 	}
 
 ?>
