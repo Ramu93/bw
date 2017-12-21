@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Nov 16, 2017 at 09:51 PM
+-- Generation Time: Dec 21, 2017 at 07:57 PM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.1
 
@@ -205,6 +205,20 @@ CREATE TABLE `bonded_good_receipt_note` (
   `created_date` date NOT NULL,
   `status` varchar(30) NOT NULL DEFAULT 'created'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bonded_grn_log`
+--
+
+CREATE TABLE `bonded_grn_log` (
+  `log_id` int(11) NOT NULL,
+  `grn_id` int(11) NOT NULL,
+  `grn_date` date NOT NULL,
+  `no_of_units` int(11) NOT NULL,
+  `unit` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -431,6 +445,22 @@ CREATE TABLE `bonded_unit_master` (
   `unit_id` int(11) NOT NULL,
   `unit_name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employee_master`
+--
+
+CREATE TABLE `employee_master` (
+  `em_id` int(11) NOT NULL,
+  `employee_name` varchar(100) NOT NULL,
+  `employee_id` varchar(50) NOT NULL,
+  `loginid` varchar(100) NOT NULL,
+  `password` varchar(500) NOT NULL,
+  `role_master_id` int(11) NOT NULL,
+  `employee_status` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -869,6 +899,18 @@ CREATE TABLE `pre_arrival_request` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `role_master`
+--
+
+CREATE TABLE `role_master` (
+  `role_master_id` int(11) NOT NULL,
+  `role_name` varchar(100) NOT NULL,
+  `role_permissions` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sac_container_info`
 --
 
@@ -993,6 +1035,12 @@ ALTER TABLE `bonded_good_receipt_note`
   ADD PRIMARY KEY (`grn_id`);
 
 --
+-- Indexes for table `bonded_grn_log`
+--
+ALTER TABLE `bonded_grn_log`
+  ADD PRIMARY KEY (`log_id`);
+
+--
 -- Indexes for table `bonded_igp_loading`
 --
 ALTER TABLE `bonded_igp_loading`
@@ -1063,6 +1111,13 @@ ALTER TABLE `bonded_type_master`
 --
 ALTER TABLE `bonded_unit_master`
   ADD PRIMARY KEY (`unit_id`);
+
+--
+-- Indexes for table `employee_master`
+--
+ALTER TABLE `employee_master`
+  ADD PRIMARY KEY (`em_id`),
+  ADD UNIQUE KEY `em_id` (`em_id`);
 
 --
 -- Indexes for table `general_despatch_request`
@@ -1203,6 +1258,13 @@ ALTER TABLE `pre_arrival_request`
   ADD PRIMARY KEY (`par_id`);
 
 --
+-- Indexes for table `role_master`
+--
+ALTER TABLE `role_master`
+  ADD PRIMARY KEY (`role_master_id`),
+  ADD UNIQUE KEY `role_master_id` (`role_master_id`);
+
+--
 -- Indexes for table `sac_container_info`
 --
 ALTER TABLE `sac_container_info`
@@ -1228,12 +1290,12 @@ ALTER TABLE `sac_request`
 -- AUTO_INCREMENT for table `bonded_billing_invoice`
 --
 ALTER TABLE `bonded_billing_invoice`
-  MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=262;
 --
 -- AUTO_INCREMENT for table `bonded_billing_invoice_details`
 --
 ALTER TABLE `bonded_billing_invoice_details`
-  MODIFY `invoice_details_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `invoice_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=547;
 --
 -- AUTO_INCREMENT for table `bonded_despatch_request`
 --
@@ -1268,12 +1330,17 @@ ALTER TABLE `bonded_exception`
 -- AUTO_INCREMENT for table `bonded_good_delivery_note`
 --
 ALTER TABLE `bonded_good_delivery_note`
-  MODIFY `gdn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `gdn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `bonded_good_receipt_note`
 --
 ALTER TABLE `bonded_good_receipt_note`
-  MODIFY `grn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `grn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `bonded_grn_log`
+--
+ALTER TABLE `bonded_grn_log`
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `bonded_igp_loading`
 --
@@ -1293,7 +1360,7 @@ ALTER TABLE `bonded_item_master`
 -- AUTO_INCREMENT for table `bonded_joborder_loading`
 --
 ALTER TABLE `bonded_joborder_loading`
-  MODIFY `jl_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `jl_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `bonded_joborder_unloading`
 --
@@ -1334,6 +1401,11 @@ ALTER TABLE `bonded_type_master`
 --
 ALTER TABLE `bonded_unit_master`
   MODIFY `unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT for table `employee_master`
+--
+ALTER TABLE `employee_master`
+  MODIFY `em_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `general_despatch_request`
 --
@@ -1450,6 +1522,11 @@ ALTER TABLE `par_log`
 ALTER TABLE `pre_arrival_request`
   MODIFY `par_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
+-- AUTO_INCREMENT for table `role_master`
+--
+ALTER TABLE `role_master`
+  MODIFY `role_master_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
 -- AUTO_INCREMENT for table `sac_container_info`
 --
 ALTER TABLE `sac_container_info`
@@ -1458,12 +1535,12 @@ ALTER TABLE `sac_container_info`
 -- AUTO_INCREMENT for table `sac_log`
 --
 ALTER TABLE `sac_log`
-  MODIFY `sac_log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `sac_log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `sac_request`
 --
 ALTER TABLE `sac_request`
-  MODIFY `sac_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `sac_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
