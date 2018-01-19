@@ -162,7 +162,7 @@ function setDefaultValuesForItemList(){
 		item.is_item_selected = 'false';
 		item.despatch_qty = 0;
 	});
-	console.log(gItemList);
+	//console.log(gItemList);
 }
 
 function selectItemsBindEvents(){
@@ -171,10 +171,10 @@ function selectItemsBindEvents(){
 	    var selectItemCheckBoxVal = $('#'+selectItemCheckBoxID).val();
 	    var selectItemCheckBoxIDArray = selectItemCheckBoxID.split('_'); 
 	    var idCountVal = selectItemCheckBoxIDArray[selectItemCheckBoxIDArray.length-1];
-	    console.log(idCountVal);
+	    // console.log(idCountVal);
 	    if ($('#'+selectItemCheckBoxID).is(':checked')){
 	      gItemList[idCountVal].is_item_selected = 'true'; 
-	      console.log(gItemList);
+	      // console.log(gItemList);
 
 	      //to validate selected item count
 	      gItemSelectedCount++;
@@ -192,17 +192,34 @@ function setDespatchQtyForItems(){
 			item.despatch_qty = $('#item_despatch_qty_' + index).val();
 		}
 	});
-	console.log(gItemList);
+	// console.log(gItemList);
 }
 
 function createPDR(){
 	if($('#pdr_create_form').valid()){
-		if(gItemSelectedCount > 0){
-			confirmCreatePDR();
-		} else {
-			bootbox.alert('No items selected. Please try again!');
+		if(compareAssessableAndDutyValues()){
+			if(gItemSelectedCount > 0){
+				confirmCreatePDR();
+			} else {
+				bootbox.alert('No items selected. Please try again!');
+			}
 		}
 	}
+}
+
+function compareAssessableAndDutyValues(){
+	var sacAssessableValue = $('#assessable_value').val();
+	var sacDutyValue = $('#duty_amount').val();
+	var pdrAssessableValue = $('#assessment_value').val();
+	var pdrDutyValue = $('#duty_value').val();
+	if(parseFloat(pdrAssessableValue) > parseFloat(sacAssessableValue)){
+		bootbox.alert('Assessable value is greater than that of SAC.');
+		return false;
+	} else if(parseFloat(pdrDutyValue) > parseFloat(sacDutyValue)){
+		bootbox.alert('Duty value is greater than that of SAC.');
+		return false;
+	}
+	return true;
 }
 
 function confirmCreatePDR(){
