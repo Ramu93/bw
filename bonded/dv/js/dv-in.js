@@ -14,37 +14,71 @@ var additem_template = '<tr id="[trid]"><td><span class="td_sno">[sno]</span></t
 							<td><button onclick="additemrow([addcount]);">+</button><button class="item_removebutton" style="display:none;" onclick="removeitemrow([removecount])">-</button></td></tr>';
 
 var g_compareBondDate = false;
+var g_bondNumberExists = false;
+
+function checkIfBondNumberExists(){
+	var bondNumber = $('#bond_number').val();
+	var data = 'bond_number=' + bondNumber + '&action=check_bond_number_exists';
+	//alert(data);
+	$.ajax({
+		async: false,
+		url: "dv-in-services.php",
+		type: "POST",
+		data:  data,
+		dataType: 'json',
+		success: function(result){
+			if(result.infocode == 'EXISTS'){
+				setBondNumberExists(true);
+			} else if(result.infocode == 'NOTEXISTS'){
+				setBondNumberExists(false);
+			}		 
+		},
+		error: function(){
+			bootbox.alert("failure");
+		} 	        
+	});
+}
+
+function setBondNumberExists(val){
+	g_bondNumberExists = val;
+}
 
 function submitDocumentVerification(){
 	g_compareBondDate = false;
+	g_bondNumberExists = false;
 	if($('#document_verification_form').valid()){
 		bootbox.confirm('Are you sure, you got all the documents?',function(result){
 			if(result){
 				compareBondDateWithBoeDate();
+				checkIfBondNumberExists();
 				if(g_compareBondDate){
-					setValueBasedOnCheckBox();
-					var data = $('#document_verification_form').serialize() + '&action=submit_verification';
-					//alert(data);
-					$.ajax({
-						url: "dv-in-services.php",
-						type: "POST",
-						data:  data,
-						dataType: 'json',
-						success: function(result){
-							if(result.infocode == 'DOCUMENTVERIFICATIONSUCCESS'){
-								bootbox.alert(result.message,function(){
-									window.location='dv-in-view.php';	
-								});
-							} else if(result.infocode == 'DOCUMENTNOTVERIFIED') {
-								bootbox.alert(result.message,function(){
-									window.location='dv-in-view.php';	
-								});
-							}		
-						},
-						error: function(){
-							bootbox.alert("failure");
-						} 	        
-					});
+					if(!g_bondNumberExists){
+						setValueBasedOnCheckBox();
+						var data = $('#document_verification_form').serialize() + '&action=submit_verification';
+						//alert(data);
+						$.ajax({
+							url: "dv-in-services.php",
+							type: "POST",
+							data:  data,
+							dataType: 'json',
+							success: function(result){
+								if(result.infocode == 'DOCUMENTVERIFICATIONSUCCESS'){
+									bootbox.alert(result.message,function(){
+										window.location='dv-in-view.php';	
+									});
+								} else if(result.infocode == 'DOCUMENTNOTVERIFIED') {
+									bootbox.alert(result.message,function(){
+										window.location='dv-in-view.php';	
+									});
+								}		
+							},
+							error: function(){
+								bootbox.alert("failure");
+							} 	        
+						});
+					} else {
+						bootbox.alert("Entered bond number already exists.");
+					}	
 				} else {
 					bootbox.alert("Bond date is lesser than BOE date. Please renter bond date.");
 				}
