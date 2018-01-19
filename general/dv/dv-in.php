@@ -194,6 +194,8 @@
                 </div>
                 </div>
                 <div class="modal-footer">
+                  <span id="error_message" style="color: red;"></span>
+                  <button type="button" class="btn btn-primary" onclick="validateQuantity()">Validate Quantity</button>
                   <button type="button" class="btn btn-primary" onclick="computeInsuranceValue()">Calculate Insurance</button>
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>

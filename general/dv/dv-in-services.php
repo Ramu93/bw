@@ -24,6 +24,9 @@
 	    case 'get_container_data':
 	    	$finaloutput = getContainerData();
 	    break;
+	    case 'get_qty_value':
+	    	$finaloutput = getQtyUnitsValue();
+	    break;
 	    default:
 	        $finaloutput = array("infocode" => "INVALIDACTION", "message" => "Irrelevant action");
 	}
@@ -93,6 +96,19 @@
 		}
 		//file_put_contents("formlog.log", print_r(json_encode($output), true ));
 		return $output;
+	}
+
+	function getQtyUnitsValue(){
+		global $dbc;
+		$parId = $_POST['par_id'];
+		$query = "SELECT qty_units FROM pre_arrival_request WHERE par_id='$parId'";
+		$result = mysqli_query($dbc, $query);
+		$out = array();
+		if(mysqli_num_rows($result) > 0){
+			$row = mysqli_fetch_assoc($result);
+			$out = $row;
+		}
+		return array('infocode' => 'SUCCESS', 'data' => $out);
 	}
 
 ?>

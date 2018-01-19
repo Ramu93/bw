@@ -30,6 +30,9 @@
 	    case 'get_assessable_and_duty_values':
 	    	$finaloutput = getAssessableAndDutyValues();
 	    break;
+	    case 'get_qty_value':
+	    	$finaloutput = getQtyUnitsValue();
+	    break;
 	    default:
 	        $finaloutput = array("infocode" => "INVALIDACTION", "message" => "Irrelevant action");
 	}
@@ -121,6 +124,19 @@
 		global $dbc;
 		$sacId = $_POST['sac_id'];
 		$query = "SELECT assessable_value, duty_amount FROM sac_request WHERE sac_id='$sacId'";
+		$result = mysqli_query($dbc, $query);
+		$out = array();
+		if(mysqli_num_rows($result) > 0){
+			$row = mysqli_fetch_assoc($result);
+			$out = $row;
+		}
+		return array('infocode' => 'SUCCESS', 'data' => $out);
+	}
+
+	function getQtyUnitsValue(){
+		global $dbc;
+		$sacId = $_POST['sac_id'];
+		$query = "SELECT qty_units FROM sac_request WHERE sac_id='$sacId'";
 		$result = mysqli_query($dbc, $query);
 		$out = array();
 		if(mysqli_num_rows($result) > 0){
