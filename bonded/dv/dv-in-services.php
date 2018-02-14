@@ -30,12 +30,6 @@
 	    case 'get_assessable_and_duty_values':
 	    	$finaloutput = getAssessableAndDutyValues();
 	    break;
-	    case 'get_qty_value':
-	    	$finaloutput = getQtyUnitsValue();
-	    break;
-	    case 'check_bond_number_exists':
-	    	$finaloutput = checkIfBondNumberExists();
-	    break;
 	    default:
 	        $finaloutput = array("infocode" => "INVALIDACTION", "message" => "Irrelevant action");
 	}
@@ -134,33 +128,6 @@
 			$out = $row;
 		}
 		return array('infocode' => 'SUCCESS', 'data' => $out);
-	}
-
-	function getQtyUnitsValue(){
-		global $dbc;
-		$sacId = $_POST['sac_id'];
-		$query = "SELECT qty_units FROM sac_request WHERE sac_id='$sacId'";
-		$result = mysqli_query($dbc, $query);
-		$out = array();
-		if(mysqli_num_rows($result) > 0){
-			$row = mysqli_fetch_assoc($result);
-			$out = $row;
-		}
-		return array('infocode' => 'SUCCESS', 'data' => $out);
-	}
-
-	function checkIfBondNumberExists(){
-		global $dbc;
-		$bondNumber = $_POST['bond_number'];
-		$query = "SELECT * FROM bonded_dv_inward WHERE bond_number='$bondNumber'";
-		$result = mysqli_query($dbc, $query);
-		if(mysqli_num_rows($result) > 0){
-			$output = array('infocode' => 'EXISTS');
-		} else {
-			$output = array('infocode' => 'NOTEXISTS');
-		}
-		// file_put_contents("formlog.log", print_r(json_encode($output), true ));
-		return $output;
 	}
 
 ?>

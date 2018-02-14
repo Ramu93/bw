@@ -25,6 +25,8 @@ if(isset($_POST['login_button'])){
                 $_SESSION['role_permissions'] = $r2['role_permissions']; 
             //file_put_contents("testlog.log", print_r($_SESSION['login'], true), FILE_APPEND | LOCK_EX);
                // echo "<script>window.location.href='bonded/sac/sac-request-create.php';</script>";
+                header('Location: index.php');
+                exit();
             }else{
                 $errmsg = "Failed to load user permissions";
                 unset($_SESSION);
@@ -53,7 +55,7 @@ if(isset($_POST['login_button'])){
 
 </head>
 
-<body class="body-Login-back">
+<body class="body-Login-back" style="background-color: #dd4b39;">
 
     <div class="container">
        

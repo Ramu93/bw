@@ -214,41 +214,6 @@ function bindAutocomplete(classname){
 	
 }
 
-function validateQuantity(){
-	var dvItemQtys = new Array();
-	var sumDvItemQtys = 0;
-	var parId = $('#par_id').val();
-
-	$('input[name^="item_qty"]').each(function() {
-	    dvItemQtys.push($(this).val());
-	});
-
-	$.each(dvItemQtys, function( index, itemQty ){
-		sumDvItemQtys += parseInt(itemQty);
-	});
-	compareTotalItemQtyValuWithPar(sumDvItemQtys, parId);
-}
-
-function compareTotalItemQtyValuWithPar(totalQty, parId){
-	var data = "par_id=" + parId + '&action=get_qty_value';
-	//alert(data);
-	$.ajax({
-		url: "dv-in-services.php",
-		type: "POST",
-		data:  data,
-		dataType: 'json',
-		success: function(result){	
-			if(result.infocode == 'SUCCESS'){
-				var parQtyUnits = result.data.qty_units;
-				if(parseInt(parQtyUnits) < parseInt(totalQty)){
-					$('#error_message').html('Sum of item quantity not matching with PAR.').fadeIn(400).fadeOut(8000);
-				}
-			}
-		},
-		error: function(){} 	        
-	});
-}
-
 function computeInsuranceValue(){
 	var assessableValues = new Array();
 	var dutyValues = new Array();
