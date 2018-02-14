@@ -180,7 +180,7 @@
 				$containerNumberKey = $containerNumberData[1];
 				$containerNumber = $containerNumberData[2];
 
-				$query = "INSERT INTO bonded_igp_unloading (data_type, data_value, vehicle_number, driver_name, driving_license, time_in, container_condition, vehicle_type, transporter_name, entry_date, sac_id, container_number) VALUES ('$dataType', '$dataValue', '$vehicleNumber', '$driverName', '$drivingLicense', '$timeIn', '$containerCondition', '$vehicleType', '$transporterName', '$entryDate', '$sacId', '$containerNumber')";
+				$query = "INSERT INTO bonded_igp_unloading (data_type, data_value, vehicle_number, driver_name, driving_license, time_in, container_condition, vehicle_type, transporter_name, entry_date, sac_id, container_number, created_date) VALUES ('$dataType', '$dataValue', '$vehicleNumber', '$driverName', '$drivingLicense', '$timeIn', '$containerCondition', '$vehicleType', '$transporterName', '$entryDate', '$sacId', '$containerNumber', '". date("Y-m-d") ."')";
     		//file_put_contents("formlog.log", print_r( $query, true ));
 			break;
 		}

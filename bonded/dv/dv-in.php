@@ -169,7 +169,7 @@
           </div>
       <!--Add Item Modal Div -->
       <div class="modal fade" id="view_list_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content" >
               <form  id="item_list_form" name="item_list_modal" method="post" class="validator-form1" action="" onsubmit="return false;">
                 <div class="modal-header">
