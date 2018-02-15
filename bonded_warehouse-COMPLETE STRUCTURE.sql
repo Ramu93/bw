@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Dec 21, 2017 at 07:57 PM
+-- Generation Time: Feb 15, 2018 at 08:20 PM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.1
 
@@ -74,8 +74,11 @@ CREATE TABLE `bonded_despatch_request` (
   `sac_id` int(11) NOT NULL,
   `created_date` date NOT NULL,
   `client_web` varchar(20) NOT NULL,
+  `importing_firm_name` varchar(100) NOT NULL,
   `cha_name` varchar(50) NOT NULL,
+  `qty_units` int(11) NOT NULL COMMENT 'no of packages',
   `order_number` varchar(50) NOT NULL,
+  `bond_number` varchar(100) NOT NULL,
   `boe_number` varchar(50) NOT NULL,
   `exbond_be_number` varchar(50) NOT NULL,
   `exbond_be_date` date NOT NULL,
@@ -1300,7 +1303,7 @@ ALTER TABLE `bonded_billing_invoice_details`
 -- AUTO_INCREMENT for table `bonded_despatch_request`
 --
 ALTER TABLE `bonded_despatch_request`
-  MODIFY `pdr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `pdr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `bonded_discount_master`
 --
@@ -1310,17 +1313,17 @@ ALTER TABLE `bonded_discount_master`
 -- AUTO_INCREMENT for table `bonded_dv_inward`
 --
 ALTER TABLE `bonded_dv_inward`
-  MODIFY `do_ver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `do_ver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `bonded_dv_items`
 --
 ALTER TABLE `bonded_dv_items`
-  MODIFY `dv_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `dv_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `bonded_dv_outward`
 --
 ALTER TABLE `bonded_dv_outward`
-  MODIFY `dv_ver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `dv_ver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `bonded_exception`
 --
@@ -1330,7 +1333,7 @@ ALTER TABLE `bonded_exception`
 -- AUTO_INCREMENT for table `bonded_good_delivery_note`
 --
 ALTER TABLE `bonded_good_delivery_note`
-  MODIFY `gdn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `gdn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `bonded_good_receipt_note`
 --
@@ -1340,7 +1343,7 @@ ALTER TABLE `bonded_good_receipt_note`
 -- AUTO_INCREMENT for table `bonded_grn_log`
 --
 ALTER TABLE `bonded_grn_log`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `bonded_igp_loading`
 --
@@ -1350,7 +1353,7 @@ ALTER TABLE `bonded_igp_loading`
 -- AUTO_INCREMENT for table `bonded_igp_unloading`
 --
 ALTER TABLE `bonded_igp_unloading`
-  MODIFY `igp_un_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `igp_un_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `bonded_item_master`
 --
@@ -1360,7 +1363,7 @@ ALTER TABLE `bonded_item_master`
 -- AUTO_INCREMENT for table `bonded_joborder_loading`
 --
 ALTER TABLE `bonded_joborder_loading`
-  MODIFY `jl_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `jl_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `bonded_joborder_unloading`
 --
@@ -1370,7 +1373,7 @@ ALTER TABLE `bonded_joborder_unloading`
 -- AUTO_INCREMENT for table `bonded_ogp_loading`
 --
 ALTER TABLE `bonded_ogp_loading`
-  MODIFY `ogp_lo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ogp_lo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `bonded_ogp_unloading`
 --
@@ -1385,7 +1388,7 @@ ALTER TABLE `bonded_party_master`
 -- AUTO_INCREMENT for table `bonded_pdr_items`
 --
 ALTER TABLE `bonded_pdr_items`
-  MODIFY `pdr_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `pdr_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `bonded_tariff_master`
 --
@@ -1530,17 +1533,17 @@ ALTER TABLE `role_master`
 -- AUTO_INCREMENT for table `sac_container_info`
 --
 ALTER TABLE `sac_container_info`
-  MODIFY `container_info_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `container_info_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `sac_log`
 --
 ALTER TABLE `sac_log`
-  MODIFY `sac_log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `sac_log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `sac_request`
 --
 ALTER TABLE `sac_request`
-  MODIFY `sac_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `sac_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
