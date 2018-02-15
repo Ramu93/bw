@@ -197,7 +197,9 @@
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" onclick="setDespatchQtyForItems()" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <span id="save_msg" style="color: red;"></span>
+                  <button type="button" onclick="setDespatchQtyForItems()" class="btn btn-success">Save</button>
+                  <button type="button" onclick="" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
               </form>
             </div>

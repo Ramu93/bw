@@ -201,6 +201,7 @@ function setDespatchQtyForItems(){
 		}
 	});
 	// console.log(gItemList);
+	$('#save_msg').html('Saved!').fadeIn(400).fadeOut(4000);
 }
 
 function createPDR(){
