@@ -102,7 +102,8 @@
                 </div>
                 <div class="form-group">
                   <label for="boe_num">BOE Number</label>
-                  <input type="text" tabindex="4" class="form-control required" id="boe_num" name="boe_number" placeholder="BOE Number" value="<?php echo $row['boe_number']; ?>">
+                  <input type="text" tabindex="4" class="form-control required" id="boe_num" name="boe_number" placeholder="BOE Number" value="<?php echo $row['boe_number']; ?>" onkeyup="checkBOENumberUniqueness();">
+                  <span id="boe_err_msg" style="color: red;"></span>
                 </div>
                 <div class="form-group">
                   <label for="boe_num">BOE Date</label>
@@ -151,7 +152,7 @@
                   <input type="button" name="reject_par" value="Reject SAC Request" class="btn btn-primary btn-block pull-left" onclick="rejectSACRequest(<?php echo $sacID; ?>);">
                 </div>
                 <div class="col-md-3 col-sm-3">
-                  <input type="submit" name="submit" value="Update SAC Request" class="btn btn-primary btn-block pull-left" onclick="updateSACRequest(<?php echo $sacID; ?>);">
+                  <input id="update_sac_btn" type="submit" name="submit" value="Update SAC Request" class="btn btn-primary btn-block pull-left" onclick="updateSACRequest(<?php echo $sacID; ?>);">
                 </div>
               <?php } ?>
               <div class="col-md-3 col-sm-3">

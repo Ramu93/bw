@@ -113,6 +113,34 @@ function refreshSNoCount(){
 		$('.item_removebutton').hide();
 }
 
+function checkBOENumberUniqueness(){
+	var boeNum = $('#boe_num').val();
+	var data = 'boe_num=' + boeNum + '&action=check_if_boe_exists';
+	$.ajax({
+		url: "sac-services.php",
+		type: "POST",
+		data:  data,
+		dataType: 'json',
+		success: function(response){
+			if(response.infocode == 'BOEEXISTS'){
+				var boeErrMsg = 'Entered BOE number already exists.';
+				$('#boe_err_msg').css('display', '');
+				$('#boe_err_msg').html(boeErrMsg);
+				$('#create_sac_btn').attr('disabled', '');
+				$('#update_sac_btn').attr('disabled', '');
+			} else {
+				$('#boe_err_msg').css('display', 'none');
+				$('#boe_err_msg').html('');
+				$('#create_sac_btn').removeAttr('disabled');
+				$('#update_sac_btn').removeAttr('disabled');
+			}
+		},
+		error: function(){
+			bootbox.alert("failure");
+		} 	        
+	});
+}
+
 function createSACRequest(){
 	if($("#sac-req-form").valid()){
 		if (gContainerList.length == 0){

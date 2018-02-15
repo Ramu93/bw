@@ -32,6 +32,9 @@
 	    case 'get_licence_data':
 	    	$finaloutput = getLicenceCodeData();
 	    break;
+	    case 'check_if_boe_exists':
+	    	$finaloutput = checkBoeNumExists();
+	    	break;
 	    default:
 	        $finaloutput = array("infocode" => "INVALIDACTION", "message" => "Irrelevant action");
 	}
@@ -173,6 +176,17 @@
 		// file_put_contents("licence.log", print_r( $licenceCode . ' ' . $licenceAddress, true ));
 
 		return array("licence_key" => $licenceKey, "licence_address" => $licenceAddress);
+	}
+
+	function checkBoeNumExists(){
+		global $dbc;
+		$boeNum = mysqli_real_escape_string($dbc, trim($_POST['boe_num']));
+		$query = "SELECT * FROM sac_request WHERE boe_number='$boeNum'";
+		$result = mysqli_query($dbc, $query);
+		if(mysqli_num_rows($result) > 0){
+			return array('infocode' => 'BOEEXISTS');
+		}
+		return array('infocode' => 'BOENOTEXISTS');
 	}
 
 ?>

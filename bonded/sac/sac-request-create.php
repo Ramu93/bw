@@ -80,7 +80,8 @@
                 
                 <div class="form-group">
                   <label for="boe_num">BOE Number</label>
-                  <input type="text" tabindex="4" class="form-control required" id="boe_num" name="boe_number" placeholder="BOE Number">
+                  <input type="text" tabindex="4" class="form-control required" id="boe_num" name="boe_number" placeholder="BOE Number" onkeyup="checkBOENumberUniqueness();">
+                  <span id="boe_err_msg" style="color: red;"></span>
                 </div>          
                 <div class="form-group">
                   <label for="bol_awb_no">BOE Date</label>
@@ -128,7 +129,7 @@
             </div>  
             <div class="row">
               <div class="col-md-6 col-sm-6">
-                <input type="submit" name="submit" value="Create SAC Request" class="btn btn-primary btn-block pull-left" onclick="createSACRequest();">
+                <input type="submit" id="create_sac_btn" name="submit" value="Create SAC Request" class="btn btn-primary btn-block pull-left" onclick="createSACRequest();">
               </div>
               <div class="col-md-6 col-sm-6">
                 <input type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#containerlist_modal" value="Add Container">
