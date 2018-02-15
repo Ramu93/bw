@@ -1,9 +1,9 @@
 function submitDocumentVerification(pdrId){
 	//set values for checked checkboxes
 	setValuesToCheckTextFields();
-
-	var data = $('#document_verification_form').serialize() + '&action=submit_verification';
-	//alert(data);
+	if($('#document_verification_form').valid()){
+		var data = $('#document_verification_form').serialize() + '&action=submit_verification';
+		//alert(data);
 		$.ajax({
 			url: "dv-out-services.php",
 			type: "POST",
@@ -24,6 +24,7 @@ function submitDocumentVerification(pdrId){
 				bootbox.alert("failure");
 			} 	        
 		});
+	}
 }
 
 function setValuesToCheckTextFields(){

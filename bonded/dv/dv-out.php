@@ -146,7 +146,7 @@
               </div>
               <div class="col-md-2">
                 <div class="form-group">
-                  <input type="checkbox" name="order_number_check" id="order_number_check" value="yes"> Release Order
+                  <input type="checkbox" name="order_number_check" id="order_number_check" value="yes" class="required"> Release Order
                   <input type="hidden" name="order_number" id="order_number" value="">
                 </div>
               </div>
