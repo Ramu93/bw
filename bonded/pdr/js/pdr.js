@@ -78,12 +78,18 @@ function getDataDetails(sacId, dataItemVal){
 				var tableName = selectedData.table_name;
 				var customerName = selectedData.importing_firm_name;
 				var bondNumber = selectedData.bond_number;
+				var importingFirmName = selectedData.importing_firm_name;
+				var noOfPackages = selectedData.qty_units;
+				var chaName = selectedData.cha_name;
 				//var dimension = selectedData.dimension;
 				
 				$('#sac_id').val(id);
 				$('#bond_number').val(bondNumber);
 				$('#assessable_value').val(selectedData.assessable_value);
 				$('#duty_amount').val(selectedData.duty_amount);
+				$('#importing_firm_name').val(importingFirmName);
+				$('#cha_name_exporter').val(chaName);
+				$('#no_of_packages').val(noOfPackages);
 
 				$('#fields').show();
 				$('#create_pdr_btn').show();			}

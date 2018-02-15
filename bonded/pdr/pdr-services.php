@@ -81,7 +81,7 @@
 	function getSelectedDataDetails(){
 		global $dbc;
 		$sacId = $_POST['sac_id'];
-		$innerQuery = "SELECT sac_id as 'id', 'sac' as 'table_name', importing_firm_name, licence_code, bol_awb_number, boe_number, material_name, material_nature, packing_nature, assessable_value, duty_amount FROM sac_request WHERE sac_id='$sacId'";
+		$innerQuery = "SELECT sac_id as 'id', 'sac' as 'table_name', importing_firm_name, licence_code, bol_awb_number, boe_number, material_name, material_nature, packing_nature, assessable_value, duty_amount, cha_name, qty_units FROM sac_request WHERE sac_id='$sacId'";
 		$innerResult = mysqli_query($dbc,$innerQuery);
 		if(mysqli_num_rows($innerResult) > 0){
 			$innerRow = mysqli_fetch_assoc($innerResult);
@@ -147,9 +147,11 @@
 		$itemData = array();
   		$itemData = json_decode(json_encode($itemObject), True);
   		$bondNumber = mysqli_real_escape_string($dbc, $_POST['bond_number']);
+  		$importinFirmName = mysqli_real_escape_string($dbc, $_POST['importing_firm_name']);
+  		$noOfPackages = mysqli_real_escape_string($dbc, $_POST['no_of_packages']);
 		//file_put_contents("datalog.log", print_r($itemData, true ));
 
-  		$query = "INSERT INTO bonded_despatch_request (sac_id, client_web, cha_name, order_number, boe_number, exbond_be_number, exbond_be_date, customs_officer_name, number_of_packages, assessment_value, duty_value, transporter_name, created_date, bond_number) VALUES ('$sacId', '$clientWeb', '$chaName', '$orderNumber', '$boeNumber', '$exBondBeNumber', '$exBondBeDate', '$customsOfficerName', '$numberOfPackages', '$assessmentValue', '$dutyValue', '$transporterName', '". date("Y-m-d") ."', '$bondNumber')";
+  		$query = "INSERT INTO bonded_despatch_request (sac_id, client_web, cha_name, order_number, boe_number, exbond_be_number, exbond_be_date, customs_officer_name, number_of_packages, assessment_value, duty_value, transporter_name, created_date, bond_number, importing_firm_name, qty_units) VALUES ('$sacId', '$clientWeb', '$chaName', '$orderNumber', '$boeNumber', '$exBondBeNumber', '$exBondBeDate', '$customsOfficerName', '$numberOfPackages', '$assessmentValue', '$dutyValue', '$transporterName', '". date("Y-m-d") ."', '$bondNumber', '$importinFirmName', '$noOfPackages')";
 		// file_put_contents("querylog.log", print_r($query, true ));
   		if(mysqli_query($dbc, $query)){
   			$lastPdrId = mysqli_insert_id($dbc);

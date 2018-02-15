@@ -60,6 +60,16 @@
             </div>
             <div class="row">
               <div class="form-group col-md-4">
+                <label for="sac_id">Importing Firm Name:</label>
+                <input type="text" class="form-control" tabindex="5" id="importing_firm_name" name="importing_firm_name">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="sac_id">No. of Packages:</label>
+                <input type="text" class="form-control" tabindex="6" id="no_of_packages" name="no_of_packages">
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
                 <label for="client_web">Client Web</label>
                 <select class="form-control" id="client_web" tabindex="7" name="client_web" class="client-web" required="">
                   <option value="">Select client web...</option>
