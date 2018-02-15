@@ -47,6 +47,7 @@
               <div class="form-group col-md-4">
                 <label for="sac_id">SAC ID:</label>
                 <input type="text" class="form-control" tabindex="4" id="sac_id" name="sac_id" readonly="true">
+                <input type="hidden" name="bond_number" id="bond_number">
               </div>
               <div class="form-group col-md-4">
                 <label for="sac_id">Assessable Value:</label>

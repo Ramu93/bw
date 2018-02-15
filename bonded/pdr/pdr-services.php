@@ -85,6 +85,10 @@
 		$innerResult = mysqli_query($dbc,$innerQuery);
 		if(mysqli_num_rows($innerResult) > 0){
 			$innerRow = mysqli_fetch_assoc($innerResult);
+			$query2 = "SELECT * FROM bonded_dv_inward WHERE sac_id='$sacId'";
+			$result2 = mysqli_query($dbc, $query2);
+			$row2 = mysqli_fetch_assoc($result2);
+			$innerRow['bond_number'] = $row2['bond_number'];
 			$output = array("infocode" => "DATADETAILFETCHSUCCESS", "data" => json_encode($innerRow));
 		}
 		//file_put_contents("datalog.log", print_r($innerQuery, true ));
@@ -142,9 +146,10 @@
 		$itemObject = json_decode($_POST['item_data']);
 		$itemData = array();
   		$itemData = json_decode(json_encode($itemObject), True);
+  		$bondNumber = mysqli_real_escape_string($dbc, $_POST['bond_number']);
 		//file_put_contents("datalog.log", print_r($itemData, true ));
 
-  		$query = "INSERT INTO bonded_despatch_request (sac_id, client_web, cha_name, order_number, boe_number, exbond_be_number, exbond_be_date, customs_officer_name, number_of_packages, assessment_value, duty_value, transporter_name, created_date) VALUES ('$sacId', '$clientWeb', '$chaName', '$orderNumber', '$boeNumber', '$exBondBeNumber', '$exBondBeDate', '$customsOfficerName', '$numberOfPackages', '$assessmentValue', '$dutyValue', '$transporterName', '". date("Y-m-d") ."')";
+  		$query = "INSERT INTO bonded_despatch_request (sac_id, client_web, cha_name, order_number, boe_number, exbond_be_number, exbond_be_date, customs_officer_name, number_of_packages, assessment_value, duty_value, transporter_name, created_date, bond_number) VALUES ('$sacId', '$clientWeb', '$chaName', '$orderNumber', '$boeNumber', '$exBondBeNumber', '$exBondBeDate', '$customsOfficerName', '$numberOfPackages', '$assessmentValue', '$dutyValue', '$transporterName', '". date("Y-m-d") ."', '$bondNumber')";
 		// file_put_contents("querylog.log", print_r($query, true ));
   		if(mysqli_query($dbc, $query)){
   			$lastPdrId = mysqli_insert_id($dbc);

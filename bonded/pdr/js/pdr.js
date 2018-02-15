@@ -77,9 +77,11 @@ function getDataDetails(sacId, dataItemVal){
 				var id = selectedData.id;
 				var tableName = selectedData.table_name;
 				var customerName = selectedData.importing_firm_name;
+				var bondNumber = selectedData.bond_number;
 				//var dimension = selectedData.dimension;
 				
 				$('#sac_id').val(id);
+				$('#bond_number').val(bondNumber);
 				$('#assessable_value').val(selectedData.assessable_value);
 				$('#duty_amount').val(selectedData.duty_amount);
 
