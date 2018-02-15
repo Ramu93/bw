@@ -320,7 +320,9 @@ function addContainerItem(){
 								//console.log(prevContainerDetail);
 								for(j = 1; j <= containerCount; j++){
 									var containerNumber = $('#container_number_'+j).val().trim();
-									if(gContainerNumbers.indexOf(containerNumber) == -1){
+									var containerNumberLC = containerNumber.toLowerCase();
+									var containerNumberUC = containerNumber.toUpperCase();
+									if(gContainerNumbers.indexOf(containerNumberLC) == -1 && gContainerNumbers.indexOf(containerNumberUC) == -1){
 										containerDetail.push(containerNumber);
 										gContainerNumbers.push(containerNumber);
 									} else {
@@ -345,7 +347,9 @@ function addContainerItem(){
 				} else {
 					for(i = 1; i <= containerCount; i++){
 						var containerNumber = $('#container_number_'+i).val().trim();
-						if(gContainerNumbers.indexOf(containerNumber) == -1){
+						var containerNumberLC = containerNumber.toLowerCase();
+									var containerNumberUC = containerNumber.toUpperCase();
+									if(gContainerNumbers.indexOf(containerNumberLC) == -1 && gContainerNumbers.indexOf(containerNumberUC) == -1){
 							containerDetail.push(containerNumber);
 							gContainerNumbers.push(containerNumber);
 						} else {
