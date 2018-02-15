@@ -5,7 +5,7 @@
       <ul class="sidebar-menu">
         <!-- <li class="header">MAIN NAVIGATION</li> -->
         <li class="treeview">
-          <a href="<?php echo HOMEURL; ?>/dashboard/dashboard.php">
+          <a href="<?php echo HOMEURL; ?>/dashboard.php">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>   
           </a>
         </li>
